@@ -3,6 +3,9 @@
 
 #include "Point.h"
 
+
+namespace gr
+{
 class Segment : public Plot
 {
 private:
@@ -12,12 +15,17 @@ private:
 public:
     Segment() = default;
     Segment(const Point& ogn, const Point& dst);
-    Segment(const Point_coordinate& ogn_x, const Point_coordinate& ogn_y,
-            const Point_coordinate& dst_x, const Point_coordinate& dst_y);
+    Segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
+            const Coordinate& dst_x, const Coordinate& dst_y);
     Segment(const Segment& other);
 
     Point get_origin() const;
     Point get_destination() const;
+
+    Coordinate get_min_abscissa() const override;
+    Coordinate get_max_abscissa() const override;
+    Coordinate get_min_ordinate() const override;
+    Coordinate get_max_ordinate() const override;
 
     friend std::istream& operator>>(std::istream& is, Segment& segment);
 };
@@ -28,8 +36,8 @@ Segment::Segment(const Point& ogn, const Point& dst)
     destination = Point(dst);
 }
 
-Segment::Segment(const Point_coordinate& ogn_x, const Point_coordinate& ogn_y,
-                 const Point_coordinate& dst_x, const Point_coordinate& dst_y)
+Segment::Segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
+                 const Coordinate& dst_x, const Coordinate& dst_y)
 {
     origin = Point(ogn_x, ogn_y);
     destination = Point(dst_x, dst_y);
@@ -48,6 +56,30 @@ Point Segment::get_destination() const {
     return destination;
 }
 
+Coordinate Segment::get_min_abscissa() const
+{
+    return std::min(origin.get_min_abscissa(),
+                    destination.get_min_abscissa());
+}
+
+Coordinate Segment::get_max_abscissa() const
+{
+    return std::max(origin.get_max_abscissa(),
+                    destination.get_max_abscissa());
+}
+
+Coordinate Segment::get_min_ordinate() const
+{
+    return std::min(origin.get_min_ordinate(),
+                    destination.get_min_ordinate());
+}
+
+Coordinate Segment::get_max_ordinate() const
+{
+    return std::max(origin.get_max_ordinate(),
+                    destination.get_max_ordinate());
+}
+
 std::ostream& operator<<(std::ostream& os, const Segment& segment)
 {
     os << SEGMENT_NAME << " " << segment.get_origin()
@@ -63,6 +95,7 @@ std::istream& operator>>(std::istream& is, Segment& segment)
     is >> dummy;
     is >> segment.destination;
     return is;
+}
 }
 
 

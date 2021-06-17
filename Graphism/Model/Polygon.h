@@ -4,6 +4,9 @@
 #include "Point.h"
 #include <vector>
 
+
+namespace gr
+{
 class Polygon : public Plot
 {
 private:
@@ -19,6 +22,11 @@ public:
     unsigned size() const;
     Point& operator[](unsigned i);
     const Point& operator[](unsigned i) const;
+
+    Coordinate get_min_abscissa() const override;
+    Coordinate get_max_abscissa() const override;
+    Coordinate get_min_ordinate() const override;
+    Coordinate get_max_ordinate() const override;
 
     friend std::istream& operator>>(std::istream& is, Polygon& polygon);
 };
@@ -53,6 +61,46 @@ const Point& Polygon::operator[](unsigned int i) const
     return vertices[i];
 }
 
+Coordinate Polygon::get_min_abscissa() const
+{
+    Coordinate res = vertices[0].get_min_abscissa();
+    for(unsigned i = 1; i < size(); ++i)
+    {
+        res = std::min(res, vertices[i].get_min_abscissa());
+    }
+    return res;
+}
+
+Coordinate Polygon::get_max_abscissa() const
+{
+    Coordinate res = vertices[0].get_max_abscissa();
+    for(unsigned i = 1; i < size(); ++i)
+    {
+        res = std::max(res, vertices[i].get_max_abscissa());
+    }
+    return res;
+}
+
+Coordinate Polygon::get_min_ordinate() const
+{
+    Coordinate res = vertices[0].get_min_ordinate();
+    for(unsigned i = 1; i < size(); ++i)
+    {
+        res = std::min(res, vertices[i].get_min_ordinate());
+    }
+    return res;
+}
+
+Coordinate Polygon::get_max_ordinate() const
+{
+    Coordinate res = vertices[0].get_max_ordinate();
+    for(unsigned i = 1; i < size(); ++i)
+    {
+        res = std::max(res, vertices[i].get_max_ordinate());
+    }
+    return res;
+}
+
 std::ostream& operator<<(std::ostream& os, const Polygon& polygon)
 {
     os << POLYGON_NAME << " " << polygon.size() << " ";
@@ -79,6 +127,7 @@ std::istream& operator>>(std::istream& is, Polygon& polygon)
         polygon.push_back(tmp);
     }
     return is;
+}
 }
 
 
