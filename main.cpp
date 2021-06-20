@@ -5,11 +5,11 @@
 
 int main()
 {
-    gr::Point a(100, 300);
-    gr::Point b(200, 300);
-    gr::Point c(300, 200);
-    gr::Point d(300, 100);
-    gr::Point e(100, 200);
+    gr::Point a(100, 100);
+    gr::Point b(200, 200);
+    gr::Point c(180, 180);
+    gr::Point d(180, 200);
+    gr::Point e(150, 150);
     gr::Polygon P({a, b, c, d, e});
 
     gr::Figure figure;

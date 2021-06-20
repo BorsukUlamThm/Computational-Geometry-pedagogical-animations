@@ -8,6 +8,7 @@ class Point
 private:
     Coordinate abscissa{};
     Coordinate ordinate{};
+    float radius = 3;
 
 public:
     Point() = default;
@@ -17,6 +18,7 @@ public:
 
     Coordinate get_abscissa() const;
     Coordinate get_ordinate() const;
+    float get_radius() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -48,6 +50,11 @@ Coordinate Point::get_ordinate() const {
 Coordinate Point::get_min_abscissa() const
 {
     return abscissa;
+}
+
+float Point::get_radius() const
+{
+    return radius;
 }
 
 Coordinate Point::get_max_abscissa() const

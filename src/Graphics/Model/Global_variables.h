@@ -7,10 +7,10 @@
 namespace gr
 {
 /// Some types for the objects coordinates
-typedef double Coordinate;
+typedef float Coordinate;
 
-#define MIN_COORDINATE std::numeric_limits<double>::min()
-#define MAX_COORDINATE std::numeric_limits<double>::max()
+#define MIN_COORDINATE std::numeric_limits<Coordinate>::min()
+#define MAX_COORDINATE std::numeric_limits<Coordinate>::max()
 
 
 /// Class names for serialization

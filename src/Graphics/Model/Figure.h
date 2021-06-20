@@ -21,6 +21,12 @@ public:
     Figure() = default;
     ~Figure() = default;
 
+    Bounding_box get_bounding_box() const;
+    Coordinate get_min_abscissa() const;
+    Coordinate get_max_abscissa() const;
+    Coordinate get_min_ordinate() const;
+    Coordinate get_max_ordinate() const;
+
     void add_point(const Point& point);
     void add_segment(const Segment& segment);
     void add_polygon(const Polygon& polygon);
@@ -29,6 +35,31 @@ public:
     unsigned nb_plots() const;
     const Plot& operator[](unsigned i) const;
 };
+
+Bounding_box Figure::get_bounding_box() const
+{
+    return bounding_box;
+}
+
+Coordinate Figure::get_min_abscissa() const
+{
+    return bounding_box.get_min_abscissa();
+}
+
+Coordinate Figure::get_max_abscissa() const
+{
+    return bounding_box.get_max_abscissa();
+}
+
+Coordinate Figure::get_min_ordinate() const
+{
+    return bounding_box.get_min_ordinate();
+}
+
+Coordinate Figure::get_max_ordinate() const
+{
+    return bounding_box.get_max_ordinate();
+}
 
 void Figure::add_point(const Point& point)
 {
