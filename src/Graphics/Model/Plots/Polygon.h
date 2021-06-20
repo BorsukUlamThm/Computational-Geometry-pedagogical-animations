@@ -7,7 +7,7 @@
 
 namespace gr
 {
-class Polygon : public Plot
+class Polygon
 {
 private:
     std::vector<Point> vertices;
@@ -15,6 +15,7 @@ private:
 public:
     Polygon() = default;
     explicit Polygon(const std::vector<Point>& vertices);
+    Polygon(const Polygon& other);
 
     void push_back(const Point& vertex);
     void push_back(const Coordinate& x, const Coordinate& y);
@@ -23,10 +24,10 @@ public:
     Point& operator[](unsigned i);
     const Point& operator[](unsigned i) const;
 
-    Coordinate get_min_abscissa() const override;
-    Coordinate get_max_abscissa() const override;
-    Coordinate get_min_ordinate() const override;
-    Coordinate get_max_ordinate() const override;
+    Coordinate get_min_abscissa() const;
+    Coordinate get_max_abscissa() const;
+    Coordinate get_min_ordinate() const;
+    Coordinate get_max_ordinate() const;
 
     friend std::istream& operator>>(std::istream& is, Polygon& polygon);
 };
@@ -34,6 +35,14 @@ public:
 Polygon::Polygon(const std::vector<Point>& vertices)
 {
     this->vertices = std::vector<Point>(vertices);
+}
+
+Polygon::Polygon(const Polygon& other)
+{
+    for(unsigned i = 0; i < other.size(); ++i)
+    {
+        vertices.emplace_back(other[i]);
+    }
 }
 
 void Polygon::push_back(const Point& vertex)

@@ -1,12 +1,9 @@
 #ifndef ALPHA_POINT_H
 #define ALPHA_POINT_H
 
-#include "Plot.h"
-
-
 namespace gr
 {
-class Point : public Plot
+class Point
 {
 private:
     Coordinate abscissa{};
@@ -16,15 +13,15 @@ public:
     Point() = default;
     Point(const Coordinate& x, const Coordinate& y);
     Point(const Point& other);
-    ~Point() override = default;
+    ~Point() = default;
 
     Coordinate get_abscissa() const;
     Coordinate get_ordinate() const;
 
-    Coordinate get_min_abscissa() const override;
-    Coordinate get_max_abscissa() const override;
-    Coordinate get_min_ordinate() const override;
-    Coordinate get_max_ordinate() const override;
+    Coordinate get_min_abscissa() const;
+    Coordinate get_max_abscissa() const;
+    Coordinate get_min_ordinate() const;
+    Coordinate get_max_ordinate() const;
 
     friend std::istream& operator>>(std::istream& is, Point& point);
 };

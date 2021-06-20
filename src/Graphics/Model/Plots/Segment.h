@@ -6,7 +6,7 @@
 
 namespace gr
 {
-class Segment : public Plot
+class Segment
 {
 private:
     Point origin;
@@ -22,10 +22,10 @@ public:
     Point get_origin() const;
     Point get_destination() const;
 
-    Coordinate get_min_abscissa() const override;
-    Coordinate get_max_abscissa() const override;
-    Coordinate get_min_ordinate() const override;
-    Coordinate get_max_ordinate() const override;
+    Coordinate get_min_abscissa() const;
+    Coordinate get_max_abscissa() const;
+    Coordinate get_min_ordinate() const;
+    Coordinate get_max_ordinate() const;
 
     friend std::istream& operator>>(std::istream& is, Segment& segment);
 };
