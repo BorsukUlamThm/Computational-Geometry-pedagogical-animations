@@ -17,6 +17,11 @@ typedef float Coordinate;
 #define POINT_NAME "Point"
 #define SEGMENT_NAME "Segment"
 #define POLYGON_NAME "Polygon"
+
+
+/// Colors
+#define DEFAULT_BACKGROUND_COLOR sf::Color::White
+#define DEFAULT_PLOT_COLOR sf::Color::Black
 }
 
 #endif //ALPHA_GLOBAL_VARIABLES_H

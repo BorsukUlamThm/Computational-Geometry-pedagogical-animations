@@ -1,6 +1,9 @@
 #ifndef ALPHA_POINT_H
 #define ALPHA_POINT_H
 
+#include <SFML/Graphics.hpp>
+
+
 namespace gr
 {
 class Point
@@ -8,16 +11,19 @@ class Point
 private:
     Coordinate abscissa{};
     Coordinate ordinate{};
+    sf::Color color = DEFAULT_PLOT_COLOR;
     float radius = 3;
 
 public:
     Point() = default;
-    Point(const Coordinate& x, const Coordinate& y);
+    Point(const Coordinate& x, const Coordinate& y,
+          const sf::Color& col = DEFAULT_PLOT_COLOR, float rad = 3);
     Point(const Point& other);
     ~Point() = default;
 
     Coordinate get_abscissa() const;
     Coordinate get_ordinate() const;
+    sf::Color get_color() const;
     float get_radius() const;
 
     Coordinate get_min_abscissa() const;
@@ -28,28 +34,40 @@ public:
     friend std::istream& operator>>(std::istream& is, Point& point);
 };
 
-Point::Point(const Coordinate &x, const Coordinate &y)
+Point::Point(const Coordinate &x, const Coordinate &y,
+             const sf::Color& col, float rad)
 {
     abscissa = Coordinate(x);
     ordinate = Coordinate(y);
+    color = col;
+    radius = rad;
 }
 
-Point::Point(const Point& other) {
-    abscissa = Coordinate(other.get_abscissa());
-    ordinate = Coordinate(other.get_ordinate());
+Point::Point(const Point& other)
+{
+    abscissa = Coordinate(other.abscissa);
+    ordinate = Coordinate(other.ordinate);
+    color = other.color;
 }
 
-Coordinate Point::get_abscissa() const {
+Coordinate Point::get_abscissa() const
+{
     return abscissa;
 }
 
-Coordinate Point::get_ordinate() const {
+Coordinate Point::get_ordinate() const
+{
     return ordinate;
 }
 
 Coordinate Point::get_min_abscissa() const
 {
     return abscissa;
+}
+
+sf::Color Point::get_color() const
+{
+    return color;
 }
 
 float Point::get_radius() const

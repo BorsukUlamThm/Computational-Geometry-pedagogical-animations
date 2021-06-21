@@ -11,10 +11,13 @@ class Polygon
 {
 private:
     std::vector<Point> vertices;
+    sf::Color lines_color = DEFAULT_PLOT_COLOR;
 
 public:
     Polygon() = default;
-    explicit Polygon(const std::vector<Point>& vertices);
+    explicit Polygon(const sf::Color& lines_col);
+    explicit Polygon(const std::vector<Point>& vertices,
+                     const sf::Color& lines_col = DEFAULT_PLOT_COLOR);
     Polygon(const Polygon& other);
 
     void push_back(const Point& vertex);
@@ -23,6 +26,7 @@ public:
     unsigned size() const;
     Point& operator[](unsigned i);
     const Point& operator[](unsigned i) const;
+    sf::Color get_lines_color() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -32,9 +36,15 @@ public:
     friend std::istream& operator>>(std::istream& is, Polygon& polygon);
 };
 
-Polygon::Polygon(const std::vector<Point>& vertices)
+Polygon::Polygon(const sf::Color& lines_col)
+{
+    lines_color = lines_col;
+}
+
+Polygon::Polygon(const std::vector<Point>& vertices, const sf::Color& lines_col)
 {
     this->vertices = std::vector<Point>(vertices);
+    lines_color = lines_col;
 }
 
 Polygon::Polygon(const Polygon& other)
@@ -43,6 +53,7 @@ Polygon::Polygon(const Polygon& other)
     {
         vertices.emplace_back(other[i]);
     }
+    lines_color = other.lines_color;
 }
 
 void Polygon::push_back(const Point& vertex)
@@ -68,6 +79,11 @@ Point& Polygon::operator[](unsigned int i)
 const Point& Polygon::operator[](unsigned int i) const
 {
     return vertices[i];
+}
+
+sf::Color Polygon::get_lines_color() const
+{
+    return lines_color;
 }
 
 Coordinate Polygon::get_min_abscissa() const

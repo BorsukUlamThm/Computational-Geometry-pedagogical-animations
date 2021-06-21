@@ -6,6 +6,20 @@
 
 int main()
 {
+    gr::Point a(100, 100);
+    gr::Point b(200, 200);
+    gr::Point c(180, 180);
+    gr::Point d(180, 200);
+    gr::Point e(150, 150);
+    gr::Polygon P({a, b, c, d, e}, sf::Color::Green);
+
+    gr::Figure figure;
+    figure.add_polygon(P);
+    gr::Canvas canvas;
+    canvas.display_figure(figure);
+}
+
+/*
     gr::Point a (0, 0);
     gr::Point b (0, 1);
     gr::Point c (1, 0);
@@ -28,9 +42,9 @@ int main()
     canvas.display_slide_show(slide_show);
 
     return 0;
-}
 
-/*
+    ******************************************************
+
     gr::Point a(100, 100);
     gr::Point b(200, 200);
     gr::Point c(180, 180);
