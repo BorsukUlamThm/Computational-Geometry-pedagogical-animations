@@ -2,6 +2,7 @@
 #define ALPHA_POINT_H
 
 #include <SFML/Graphics.hpp>
+#include "../Global_variables.h"
 
 
 namespace gr
@@ -99,8 +100,7 @@ std::ostream& operator<<(std::ostream& os, const Point& point)
 
 std::istream& operator>>(std::istream& is, Point& point)
 {
-    is >> point.abscissa;
-    is >> point.ordinate;
+    is >> point.abscissa >> point.ordinate;
     return is;
 }
 }

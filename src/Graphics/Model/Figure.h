@@ -39,6 +39,9 @@ public:
     void add_polygon(const Polygon& polygon);
     void add_polygon(const std::vector<Point>& vertices,
                      const sf::Color& lines_col = DEFAULT_PLOT_COLOR);
+    void add_circle(const Circle& circle);
+    void add_circle(const Coordinate& x, const Coordinate& y, const Coordinate& rad,
+                    const sf::Color& col = DEFAULT_PLOT_COLOR);
 
     void pop_last_plot();
     void pol_last_n_plots(unsigned n);
@@ -116,6 +119,19 @@ void Figure::add_polygon(const std::vector<Point>& vertices,
     add_polygon(polygon);
 }
 
+void Figure::add_circle(const Circle& circle)
+{
+    plots.emplace_back(circle);
+    bounding_box.extend(circle);
+}
+
+void Figure::add_circle(const Coordinate& x, const Coordinate& y,
+                        const Coordinate& rad, const sf::Color& col)
+{
+    Circle circle(x, y, rad, col);
+    add_circle(circle);
+}
+
 void Figure::pop_last_plot()
 {
     if(is_empty())
@@ -168,6 +184,9 @@ void Figure::make_bounding_box()
                 case POLYGON:
                     bounding_box.extend(plots[i].polygon());
                     break;
+                case CIRCLE:
+                    bounding_box.extend(plots[i].circle());
+                    break;
             }
         }
     }
@@ -201,6 +220,7 @@ std::istream& operator>>(std::istream& is, Figure& figure)
     Point point;
     Segment segment;
     Polygon polygon;
+    Circle circle;
 
     while(!is.eof())
     {
@@ -219,6 +239,11 @@ std::istream& operator>>(std::istream& is, Figure& figure)
         {
             is >> polygon;
             figure.add_polygon(polygon);
+        }
+        else if(plot_name == CIRCLE_NAME)
+        {
+            is >> circle;
+            figure.add_circle(circle);
         }
         plot_name = "";
     }

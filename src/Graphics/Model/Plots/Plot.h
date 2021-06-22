@@ -8,18 +8,20 @@
 #include "Point.h"
 #include "Segment.h"
 #include "Polygon.h"
+#include "Circle.h"
 
 
 namespace gr
 {
 
-enum Plot_type {POINT, SEGMENT, POLYGON};
+enum Plot_type {POINT, SEGMENT, POLYGON, CIRCLE};
 
 union Plot_value
 {
     Point point;
     Segment segment;
     Polygon polygon;
+    Circle circle;
 
     Plot_value(){};
     ~Plot_value(){};
@@ -36,12 +38,14 @@ public:
     Plot(const Point& point);
     Plot(const Segment& segment);
     Plot(const Polygon& polygon);
+    Plot(const Circle& circle);
     Plot(const Plot& other);
 
     Plot_type type() const;
     Point point() const;
     Segment segment() const;
     Polygon polygon() const;
+    Circle circle() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -67,6 +71,12 @@ Plot::Plot(const Polygon& polygon)
     plot_value.polygon = Polygon(polygon);
 }
 
+Plot::Plot(const Circle& circle)
+{
+    plot_type = CIRCLE;
+    plot_value.circle = Circle(circle);
+}
+
 Plot::Plot(const Plot& other)
 {
     plot_type = other.plot_type;
@@ -81,6 +91,8 @@ Plot::Plot(const Plot& other)
         case POLYGON:
             plot_value.polygon = other.plot_value.polygon;
             break;
+        case CIRCLE:
+            plot_value.circle = other.plot_value.circle;
     }
 }
 
@@ -104,6 +116,11 @@ Polygon Plot::polygon() const
     return plot_value.polygon;
 }
 
+Circle Plot::circle() const
+{
+    return plot_value.circle;
+}
+
 Coordinate Plot::get_min_abscissa() const
 {
     switch(plot_type)
@@ -114,6 +131,8 @@ Coordinate Plot::get_min_abscissa() const
             return plot_value.segment.get_min_abscissa();
         case POLYGON:
             return plot_value.polygon.get_min_abscissa();
+            case CIRCLE:
+                return plot_value.circle.get_min_abscissa();
     }
     return 0;
 }
@@ -128,6 +147,8 @@ Coordinate Plot::get_max_abscissa() const
             return plot_value.segment.get_max_abscissa();
         case POLYGON:
             return plot_value.polygon.get_max_abscissa();
+            case CIRCLE:
+                return plot_value.circle.get_max_abscissa();
     }
     return 0;
 }
@@ -142,6 +163,8 @@ Coordinate Plot::get_min_ordinate() const
             return plot_value.segment.get_min_ordinate();
         case POLYGON:
             return plot_value.polygon.get_min_ordinate();
+            case CIRCLE:
+                return plot_value.circle.get_min_ordinate();
     }
     return 0;
 }
@@ -156,6 +179,8 @@ Coordinate Plot::get_max_ordinate() const
             return plot_value.segment.get_max_ordinate();
         case POLYGON:
             return plot_value.polygon.get_max_ordinate();
+        case CIRCLE:
+            return plot_value.circle.get_max_ordinate();
     }
     return 0;
 }

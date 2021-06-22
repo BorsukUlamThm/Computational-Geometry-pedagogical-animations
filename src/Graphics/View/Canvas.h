@@ -58,6 +58,7 @@ private:
     void draw_point(const Point& point);
     void draw_segment(const Segment& segment);
     void draw_polygon(const Polygon& polygon);
+    void draw_circle(const Circle& circle);
 };
 
 void Canvas::display_figure(const Figure& figure)
