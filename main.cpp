@@ -1,8 +1,7 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "src/Graphics/View/Canvas.h"
-#include "src/Graphics/View/Handle_events.h"
+#include "src/Graphics/View/View.h"
 
 int main()
 {
