@@ -42,6 +42,19 @@ public:
     void add_circle(const Circle& circle);
     void add_circle(const Coordinate& x, const Coordinate& y, const Coordinate& rad,
                     const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_line(const Line& line);
+    void add_line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
+                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_line(const Segment& segment, sf::Color col = DEFAULT_PLOT_COLOR);
+    void add_line(const Point& point1, const Point& point2,
+                  sf::Color col = DEFAULT_PLOT_COLOR);
+    void add_line(const Coordinate& x1, const Coordinate& y1,
+                  const Coordinate& x2, const Coordinate& y2,
+                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_vertical_line(const Coordinate& x,
+                           const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_horizontal_line(const Coordinate& y,
+                             const sf::Color& col = DEFAULT_PLOT_COLOR);
 
     void pop_last_plot();
     void pol_last_n_plots(unsigned n);
@@ -132,6 +145,51 @@ void Figure::add_circle(const Coordinate& x, const Coordinate& y,
     add_circle(circle);
 }
 
+void Figure::add_line(const Line& line)
+{
+    plots.emplace_back(line);
+    bounding_box.extend(line);
+}
+
+void Figure::add_line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
+                      const sf::Color& col)
+{
+    Line line(a, b, c, col);
+    add_line(line);
+}
+
+void Figure::add_line(const Segment& segment, sf::Color col)
+{
+    Line line(segment, col);
+    add_line(line);
+}
+
+void Figure::add_line(const Point& point1, const Point& point2, sf::Color col)
+{
+    Line line(point1, point2, col);
+    add_line(line);
+}
+
+void Figure::add_line(const Coordinate& x1, const Coordinate& y1,
+                      const Coordinate& x2, const Coordinate& y2,
+                      const sf::Color& col)
+{
+    Line line(x1, y1, x2, y2, col);
+    add_line(line);
+}
+
+void Figure::add_vertical_line(const Coordinate& x, const sf::Color& col)
+{
+    Line line(1, 0, -x, col);
+    add_line(line);
+}
+
+void Figure::add_horizontal_line(const Coordinate& y, const sf::Color& col)
+{
+    Line line(0, 1, -y, col);
+    add_line(line);
+}
+
 void Figure::pop_last_plot()
 {
     if(is_empty())
@@ -187,6 +245,10 @@ void Figure::make_bounding_box()
                 case CIRCLE:
                     bounding_box.extend(plots[i].circle());
                     break;
+                case LINE:
+                    /* nothing to do but i let it in a comment just in case
+                    bounding_box.extend(plots[i].line());*/
+                    break;
             }
         }
     }
@@ -221,6 +283,7 @@ std::istream& operator>>(std::istream& is, Figure& figure)
     Segment segment;
     Polygon polygon;
     Circle circle;
+    Line line;
 
     while(!is.eof())
     {
@@ -244,6 +307,11 @@ std::istream& operator>>(std::istream& is, Figure& figure)
         {
             is >> circle;
             figure.add_circle(circle);
+        }
+        else if(plot_name == LINE_NAME)
+        {
+            is >> line;
+            figure.add_line(line);
         }
         plot_name = "";
     }

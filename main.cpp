@@ -6,6 +6,26 @@
 int main()
 {
     gr::Figure figure;
+    for(unsigned i = 0; i <= 5; ++i)
+    {
+        for(unsigned j = 0; j <= 5; ++j)
+        {
+            figure.add_point(i, j);
+        }
+    }
+
+    figure.add_line(0, 0, 2, 3, sf::Color::Red);
+    figure.add_line(3, 1, 0, 4, sf::Color::Blue);
+    figure.add_line(6, 0, 7, 2, sf::Color::Cyan);
+    figure.add_vertical_line(1, sf::Color::Green);
+    figure.add_horizontal_line(2, sf::Color::Magenta);
+
+    gr::Canvas canvas;
+    canvas.display_figure(figure);
+}
+
+/*
+    gr::Figure figure;
     gr::Circle circle(3, 4, 1);
     figure.add_circle(circle);
     gr::Point a (0, 0);
@@ -19,9 +39,9 @@ int main()
     canvas.display_figure(figure);
 
     return 0;
-}
 
-/*
+    ******************************************************
+
     gr::Point a (0, 0);
     gr::Point b (0, 1);
     gr::Point c (1, 0);

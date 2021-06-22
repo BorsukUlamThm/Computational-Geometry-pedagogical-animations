@@ -18,6 +18,7 @@ typedef float Coordinate;
 #define SEGMENT_NAME "Segment"
 #define POLYGON_NAME "Polygon"
 #define CIRCLE_NAME "Circle"
+#define LINE_NAME "Line"
 
 
 /// Colors

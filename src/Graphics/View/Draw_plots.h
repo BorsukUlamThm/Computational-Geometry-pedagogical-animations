@@ -26,6 +26,9 @@ void Canvas::draw_figure(const Figure& figure)
             case CIRCLE:
                 draw_circle(figure[i].circle());
                 break;
+            case LINE:
+                draw_line(figure[i].line());
+                break;
         }
     }
 }
@@ -93,6 +96,35 @@ void Canvas::draw_circle(const Circle& circle)
     {
         shape[i].color = circle.get_color();
     }
+    window.draw(shape);
+}
+
+void Canvas::draw_line(const Line& line)
+{
+    float x1, y1, x2, y2;
+    Coordinate a = line.get_a();
+    Coordinate b = line.get_b();
+    Coordinate c = line.get_c();
+    if(line.get_b() == 0)
+    {
+        x1 = - c / a;
+        x2 = - c / a;
+        y1 = - view.getCenter().y + view.getSize().y / 2;
+        y2 = - view.getCenter().y - view.getSize().y / 2;
+    }
+    else
+    {
+        x1 = view.getCenter().x - view.getSize().x / 2;
+        x2 = view.getCenter().x + view.getSize().x / 2;
+        y1 = -(a * x1 + c) / b;
+        y2 = -(a * x2 + c) / b;
+    }
+
+    sf::VertexArray shape(sf::LineStrip, 2);
+    shape[0].position = sf::Vector2f(x1, -y1);
+    shape[1].position = sf::Vector2f(x2, -y2);
+    shape[0].color = line.get_color();
+    shape[1].color = line.get_color();
     window.draw(shape);
 }
 }
