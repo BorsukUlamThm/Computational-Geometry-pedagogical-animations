@@ -97,6 +97,7 @@ std::ostream& operator<<(std::ostream& os, const Circle& circle)
     os << CIRCLE_NAME << " " << circle.get_center_x()
                       << " " << circle.get_center_y()
                       << " " << circle.get_radius();
+    return os;
 }
 
 std::istream& operator>>(std::istream& is, Circle& circle)
