@@ -12,19 +12,17 @@ public:
     Real y{};
 
     Point_2() = default;
-
     Point_2(const Real& x, const Real& y);
-
     ~Point_2() = default;
 };
 
-template<typename Coordinate>
-Point_2<Coordinate>::Point_2(const Coordinate& x, const Coordinate& y):
-        x(x), y(y)
+template<typename Real>
+Point_2<Real>::Point_2(const Real& x, const Real& y):
+    x(x), y(y)
 {}
 
-template<typename Coordinate>
-std::ostream& operator<<(std::ostream& os, const Point_2<Coordinate>& point_2)
+template<typename Real>
+std::ostream& operator<<(std::ostream& os, const Point_2<Real>& point_2)
 {
     os << "(" << point_2.x << ", " << point_2.y << ")";
 

@@ -21,7 +21,7 @@ public:
     Polygon(const Polygon& other);
 
     void push_back(const Point& vertex);
-    void push_back(const Coordinate& x, const Coordinate& y);
+    void add_vertex(const Coordinate& x, const Coordinate& y);
 
     unsigned size() const;
     Point& operator[](unsigned i);
@@ -61,7 +61,7 @@ void Polygon::push_back(const Point& vertex)
     vertices.emplace_back(vertex);
 }
 
-void Polygon::push_back(const Coordinate& x, const Coordinate& y)
+void Polygon::add_vertex(const Coordinate& x, const Coordinate& y)
 {
     vertices.emplace_back(x, y);
 }

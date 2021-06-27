@@ -2,6 +2,7 @@
 #define ALPHA_GLOBAL_VARIABLES_H
 
 #include <limits>
+#include <string>
 
 
 namespace gr
@@ -9,17 +10,18 @@ namespace gr
 /// Some types for the objects coordinates
 typedef float Coordinate;
 
-#define MIN_COORDINATE std::numeric_limits<Coordinate>::min()
-#define MAX_COORDINATE std::numeric_limits<Coordinate>::max()
+constexpr Coordinate MIN_COORDINATE = std::numeric_limits<Coordinate>::min();
+constexpr Coordinate MAX_COORDINATE = std::numeric_limits<Coordinate>::max();
 
 
 /// Class names for serialization
-#define POINT_NAME "Point"
-#define SEGMENT_NAME "Segment"
-#define POLYGON_NAME "Polygon"
-#define CIRCLE_NAME "Circle"
-#define LINE_NAME "Line"
-#define TEXT_NAME "Text"
+constexpr char POINT_NAME[] = "Point";
+constexpr char SEGMENT_NAME[] = "Segment";
+constexpr char VECTOR_NAME[] = "Vector";
+constexpr char POLYGON_NAME[] = "Polygon";
+constexpr char CIRCLE_NAME[] = "Circle";
+constexpr char LINE_NAME[] = "Line";
+constexpr char TEXT_NAME[] = "Text";
 
 
 /// Colors
@@ -28,8 +30,8 @@ typedef float Coordinate;
 
 
 /// Fonts
-#define DEFAULT_FONT "/home/felix/CLionProjects/Alpha/Fonts/arial.ttf"
-#define ARIAL "/home/felix/CLionProjects/Alpha/Fonts/arial.ttf"
+constexpr char ARIAL[] = "/home/felix/CLionProjects/Alpha/Fonts/arial.ttf";
+#define DEFAULT_FONT ARIAL
 }
 
 #endif //ALPHA_GLOBAL_VARIABLES_H

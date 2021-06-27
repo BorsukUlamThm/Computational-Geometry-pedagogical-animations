@@ -44,6 +44,15 @@ public:
                      const sf::Color& end_points_col = DEFAULT_PLOT_COLOR);
     template<typename... Segments>
     void add_segments(const Segment& segment, const Segments&... segments);
+    void add_vector(const Vector& vector);
+    void add_vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
+                    const Coordinate& dst_x, const Coordinate& dst_y,
+                    const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_vector(const Point& ogn, const Point& dst,
+                    const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_vector(const Segment& segment, const sf::Color& col = DEFAULT_PLOT_COLOR);
+    template<typename... Vectors>
+    void add_vectors(const Vector& vector, const Vectors&... vectors);
     void add_polygon(const Polygon& polygon);
     void add_polygon(const std::vector<Point>& vertices,
                      const sf::Color& lines_col = DEFAULT_PLOT_COLOR);
@@ -169,6 +178,39 @@ void Figure::add_segments(const Segment& segment, const Segments&... segments)
 {
     add_segment(segment);
     add_segments(segments...);
+}
+
+void Figure::add_vector(const Vector& vector)
+{
+    plots.emplace_back(vector);
+    bounding_box.extend(vector);
+}
+
+void Figure::add_vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
+                        const Coordinate& dst_x, const Coordinate& dst_y,
+                        const sf::Color& col)
+{
+    Vector vector(ogn_x, ogn_y, dst_x, dst_y, col);
+    add_vector(vector);
+}
+
+void Figure::add_vector(const Point& ogn, const Point& dst, const sf::Color& col)
+{
+    Vector vector(ogn, dst, col);
+    add_vector(vector);
+}
+
+void Figure::add_vector(const Segment& segment, const sf::Color& col)
+{
+    Vector vector(segment, col);
+    add_vector(vector);
+}
+
+template<typename... Vectors>
+void Figure::add_vectors(const Vector& vector, const Vectors&... vectors)
+{
+    add_vector(vector);
+    add_vectors(vectors...);
 }
 
 void Figure::add_polygon(const Polygon& polygon)
@@ -302,6 +344,9 @@ void Figure::merge_figure(const Figure& other)
             case SEGMENT:
                 add_segment(other[i].segment());
                 break;
+            case VECTOR:
+                add_vector(other[i].vector());
+                break;
             case POLYGON:
                 add_polygon(other[i].polygon());
                 break;
@@ -367,6 +412,9 @@ void Figure::make_bounding_box()
                 case SEGMENT:
                     bounding_box.extend(plots[i].segment());
                     break;
+                case VECTOR:
+                    bounding_box.extend(plots[i].vector());
+                    break;
                 case POLYGON:
                     bounding_box.extend(plots[i].polygon());
                     break;
@@ -411,6 +459,7 @@ std::istream& operator>>(std::istream& is, Figure& figure)
     std::string plot_name;
     Point point;
     Segment segment;
+    Vector vector;
     Polygon polygon;
     Circle circle;
     Line line;
@@ -427,6 +476,11 @@ std::istream& operator>>(std::istream& is, Figure& figure)
         {
             is >> segment;
             figure.add_segment(segment);
+        }
+        else if(plot_name == VECTOR_NAME)
+        {
+            is >> vector;
+            figure.add_vector(vector);
         }
         else if(plot_name == POLYGON_NAME)
         {

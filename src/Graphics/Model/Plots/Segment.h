@@ -22,6 +22,7 @@ public:
             const sf::Color& line_col = DEFAULT_PLOT_COLOR,
             const sf::Color& end_points_col = DEFAULT_PLOT_COLOR);
     Segment(const Segment& other);
+    ~Segment() = default;
 
     Point get_origin() const;
     Point get_destination() const;

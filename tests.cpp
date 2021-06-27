@@ -18,8 +18,8 @@ void main1()
     figure.add_point(b);
     figure.add_point(c);
     figure.add_point(d);
-    figure.add_segment(a, d);
-    figure.add_segment(b, c);
+    figure.add_vector(a, d, sf::Color::Red);
+    figure.add_vector(b, c, sf::Color::Red);
     figure.add_text("a", a);
     figure.add_text("b", b);
     figure.add_text("c", c);

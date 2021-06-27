@@ -70,6 +70,7 @@ private:
     void draw_figure(const Figure& figure);
     void draw_point(const Point& point);
     void draw_segment(const Segment& segment);
+    void draw_vector(const Vector& vector);
     void draw_polygon(const Polygon& polygon);
     void draw_circle(const Circle& circle);
     void draw_line(const Line& line);
@@ -158,7 +159,10 @@ void Canvas::display_slide_show(Slide_show& slide_show)
 
 void Canvas::open()
 {
-    window.create(sf::VideoMode(width, height), title);
+    sf::ContextSettings settings;
+    settings.antialiasingLevel = 8;
+    window.create(sf::VideoMode(width, height), title,
+                  sf::Style::Default, settings);
 }
 
 void Canvas::setup_view()

@@ -15,15 +15,24 @@ public:
     Slide_show() = default;
     ~Slide_show() = default;
 
-    void add_figure(const Figure& figure);
+    void add_slide(const Figure& figure);
+    template<typename... Figures>
+    void add_slide(const Figure& figure, const Figures&... figures);
 
     unsigned nb_slides() const;
     Figure& operator[](unsigned i);
 };
 
-void Slide_show::add_figure(const Figure& figure)
+void Slide_show::add_slide(const Figure& figure)
 {
     slides.emplace_back(figure);
+}
+
+template<typename... Figures>
+void Slide_show::add_slide(const Figure& figure, const Figures&... figures)
+{
+    Figure new_figure(figure, figures...);
+    add_slide(new_figure);
 }
 
 unsigned Slide_show::nb_slides() const

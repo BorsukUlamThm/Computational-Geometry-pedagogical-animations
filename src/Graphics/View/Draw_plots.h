@@ -20,6 +20,9 @@ void Canvas::draw_figure(const Figure& figure)
             case SEGMENT:
                 draw_segment(figure[i].segment());
                 break;
+            case VECTOR:
+                draw_vector(figure[i].vector());
+                break;
             case POLYGON:
                 draw_polygon(figure[i].polygon());
                 break;
@@ -34,6 +37,22 @@ void Canvas::draw_figure(const Figure& figure)
                 break;
         }
     }
+}
+
+const sf::Font& get_font()
+{
+    static sf::Font* font = nullptr;
+    if(font != nullptr)
+    {
+        return *font;
+    }
+
+    font = new sf::Font();
+    if(!font->loadFromFile(DEFAULT_FONT))
+    {
+        std::cout << "No font found at " << DEFAULT_FONT << std::endl;
+    }
+    return *font;
 }
 
 void Canvas::draw_point(const Point& point)
@@ -58,6 +77,33 @@ void Canvas::draw_segment(const Segment& segment)
     window.draw(shape);
     draw_point(segment.get_origin());
     draw_point(segment.get_destination());
+}
+
+void Canvas::draw_vector(const Vector& vector)
+{
+    sf::VertexArray shape(sf::LineStrip, 2);
+    shape[0].position = sf::Vector2f(vector.get_origin_x(),
+                                     -vector.get_origin_y());
+    shape[1].position = sf::Vector2f(vector.get_destination_x(),
+                                     -vector.get_destination_y());
+    shape[0].color = vector.get_color();
+    shape[1].color = vector.get_color();
+    window.draw(shape);
+
+    float tri_height = 12.0f * view.getSize().x / float(width);
+    float tri_width = 9.0f * view.getSize().x / float(width);
+    sf::Vector2f destination(vector.get_destination_x(), -vector.get_destination_y());
+    sf::Vector2f u(vector.get_destination_x() - vector.get_origin_x(),
+                           -vector.get_destination_y() + vector.get_origin_y());
+    u *= 1.0f / std::sqrt(u.x * u.x + u.y * u.y);
+    sf::Vector2f v (-u.y, u.x);
+    sf::ConvexShape triangle;
+    triangle.setPointCount(3);
+    triangle.setPoint(0, destination);
+    triangle.setPoint(1, destination - tri_height * u + tri_width / 2 * v);
+    triangle.setPoint(2, destination - tri_height * u - tri_width / 2 * v);
+    triangle.setFillColor(vector.get_color());
+    window.draw(triangle);
 }
 
 void Canvas::draw_polygon(const Polygon& polygon)
@@ -133,11 +179,7 @@ void Canvas::draw_line(const Line& line)
 
 void Canvas::draw_text(const Text& text)
 {
-    sf::Font font;
-    if(!font.loadFromFile(DEFAULT_FONT))
-    {
-        std::cout << "No font found at " << DEFAULT_FONT << std::endl;
-    }
+    const sf::Font& font = get_font();
     sf::Text shape;
     shape.setFont(font);
     unsigned size = text.get_size();

@@ -7,6 +7,7 @@
 
 #include "Point.h"
 #include "Segment.h"
+#include "Vector.h"
 #include "Polygon.h"
 #include "Circle.h"
 #include "Line.h"
@@ -16,12 +17,13 @@
 namespace gr
 {
 
-enum Plot_type {POINT, SEGMENT, POLYGON, CIRCLE, LINE, TEXT};
+enum Plot_type {POINT, SEGMENT, VECTOR, POLYGON, CIRCLE, LINE, TEXT};
 
 union Plot_value
 {
     Point point;
     Segment segment;
+    Vector vector;
     Polygon polygon;
     Circle circle;
     Line line;
@@ -41,6 +43,7 @@ public:
     Plot() = default;
     Plot(const Point& point);
     Plot(const Segment& segment);
+    Plot(const Vector& vector);
     Plot(const Polygon& polygon);
     Plot(const Circle& circle);
     Plot(const Line& line);
@@ -50,6 +53,7 @@ public:
     Plot_type type() const;
     Point point() const;
     Segment segment() const;
+    Vector vector() const;
     Polygon polygon() const;
     Circle circle() const;
     Line line() const;
@@ -71,6 +75,12 @@ Plot::Plot(const Segment& segment)
 {
     plot_type = SEGMENT;
     plot_value.segment = Segment(segment);
+}
+
+Plot::Plot(const Vector& vector)
+{
+    plot_type = VECTOR;
+    plot_value.vector = Vector(vector);
 }
 
 Plot::Plot(const Polygon& polygon)
@@ -108,6 +118,9 @@ Plot::Plot(const Plot& other)
         case SEGMENT:
             plot_value.segment = other.plot_value.segment;
             break;
+        case VECTOR:
+            plot_value.vector = other.plot_value.vector;
+            break;
         case POLYGON:
             plot_value.polygon = other.plot_value.polygon;
             break;
@@ -138,6 +151,11 @@ Segment Plot::segment() const
     return plot_value.segment;
 }
 
+Vector Plot::vector() const
+{
+    return plot_value.vector;
+}
+
 Polygon Plot::polygon() const
 {
     return plot_value.polygon;
@@ -166,6 +184,8 @@ Coordinate Plot::get_min_abscissa() const
             return plot_value.point.get_min_abscissa();
         case SEGMENT:
             return plot_value.segment.get_min_abscissa();
+            case VECTOR:
+                return plot_value.vector.get_min_abscissa();
         case POLYGON:
             return plot_value.polygon.get_min_abscissa();
         case CIRCLE:
@@ -186,6 +206,8 @@ Coordinate Plot::get_max_abscissa() const
             return plot_value.point.get_max_abscissa();
         case SEGMENT:
             return plot_value.segment.get_max_abscissa();
+            case VECTOR:
+                return plot_value.vector.get_max_abscissa();
         case POLYGON:
             return plot_value.polygon.get_max_abscissa();
         case CIRCLE:
@@ -206,6 +228,8 @@ Coordinate Plot::get_min_ordinate() const
             return plot_value.point.get_min_ordinate();
         case SEGMENT:
             return plot_value.segment.get_min_ordinate();
+            case VECTOR:
+                return plot_value.vector.get_min_ordinate();
         case POLYGON:
             return plot_value.polygon.get_min_ordinate();
         case CIRCLE:
@@ -226,6 +250,8 @@ Coordinate Plot::get_max_ordinate() const
             return plot_value.point.get_max_ordinate();
         case SEGMENT:
             return plot_value.segment.get_max_ordinate();
+        case VECTOR:
+            return plot_value.vector.get_max_ordinate();
         case POLYGON:
             return plot_value.polygon.get_max_ordinate();
         case CIRCLE:
