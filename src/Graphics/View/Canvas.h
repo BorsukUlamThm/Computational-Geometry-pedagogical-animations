@@ -22,6 +22,7 @@ private:
     unsigned height = 900;
     unsigned margin = 20;
     std::string title = "Canvas";
+    sf::Color background_color = DEFAULT_BACKGROUND_COLOR;
 
     float zoom = 1;
     float zoom_factor = 1.1;
@@ -39,8 +40,20 @@ public:
     Canvas() = default;
     ~Canvas() = default;
 
-    void display_figure(const Figure& figure);
-    void display_slide_show(const Slide_show& slide_show);
+    unsigned get_width() const;
+    unsigned get_height() const;
+    unsigned get_margin() const;
+    std::string get_title() const;
+    sf::Color get_background_color() const;
+
+    void set_width(unsigned& new_width);
+    void set_height(unsigned& new_height);
+    void set_margin(unsigned& new_margin);
+    void set_title(const std::string& new_title);
+    void set_background_color(const sf::Color& new_color);
+
+    void display_figure(Figure& figure);
+    void display_slide_show(Slide_show& slide_show);
 
 private:
     void open();
@@ -60,10 +73,62 @@ private:
     void draw_polygon(const Polygon& polygon);
     void draw_circle(const Circle& circle);
     void draw_line(const Line& line);
+    void draw_text(const Text& text);
 };
 
-void Canvas::display_figure(const Figure& figure)
+unsigned Canvas::get_width() const
 {
+    return width;
+}
+
+unsigned Canvas::get_height() const
+{
+    return height;
+}
+
+unsigned Canvas::get_margin() const
+{
+    return margin;
+}
+
+std::string Canvas::get_title() const
+{
+    return title;
+}
+
+sf::Color Canvas::get_background_color() const
+{
+    return background_color;
+}
+
+void Canvas::set_width(unsigned& new_width)
+{
+    width = new_width;
+}
+
+void Canvas::set_height(unsigned& new_height)
+{
+    height = new_height;
+}
+
+void Canvas::set_margin(unsigned& new_margin)
+{
+    margin = new_margin;
+}
+
+void Canvas::set_title(const std::string& new_title)
+{
+    title = new_title;
+}
+
+void Canvas::set_background_color(const sf::Color& new_color)
+{
+    background_color = new_color;
+}
+
+void Canvas::display_figure(Figure& figure)
+{
+    figure.make_bounding_box();
     boundingBox = figure.get_bounding_box();
     open();
     setup_view();
@@ -75,8 +140,9 @@ void Canvas::display_figure(const Figure& figure)
     }
 }
 
-void Canvas::display_slide_show(const Slide_show& slide_show)
+void Canvas::display_slide_show(Slide_show& slide_show)
 {
+    slide_show[0].make_bounding_box();
     boundingBox = slide_show[0].get_bounding_box();
     nb_slides = slide_show.nb_slides();
     open();

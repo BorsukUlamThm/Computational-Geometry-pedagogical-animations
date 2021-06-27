@@ -9,7 +9,7 @@ namespace gr
 {
 void Canvas::draw_figure(const Figure& figure)
 {
-    window.clear(DEFAULT_BACKGROUND_COLOR);
+    window.clear(background_color);
     for(unsigned i = 0; i < figure.nb_plots(); ++i)
     {
         switch(figure[i].type())
@@ -28,6 +28,9 @@ void Canvas::draw_figure(const Figure& figure)
                 break;
             case LINE:
                 draw_line(figure[i].line());
+                break;
+            case TEXT:
+                draw_text(figure[i].text());
                 break;
         }
     }
@@ -125,6 +128,34 @@ void Canvas::draw_line(const Line& line)
     shape[1].position = sf::Vector2f(x2, -y2);
     shape[0].color = line.get_color();
     shape[1].color = line.get_color();
+    window.draw(shape);
+}
+
+void Canvas::draw_text(const Text& text)
+{
+    sf::Font font;
+    if(!font.loadFromFile(DEFAULT_FONT))
+    {
+        std::cout << "No font found at " << DEFAULT_FONT << std::endl;
+    }
+    sf::Text shape;
+    shape.setFont(font);
+    unsigned size = text.get_size();
+    shape.setCharacterSize(size);
+    shape.setString(text.get_content());
+
+    float text_width = shape.getLocalBounds().width;
+    float ratio = view.getSize().x / float(width);
+    shape.setScale(ratio, ratio);
+
+    shape.setFillColor(text.get_color());
+    shape.setOutlineColor(background_color);
+    shape.setOutlineThickness(2);
+
+    float text_offset_x = text.get_offset_x() * ratio;
+    float text_offset_y = text.get_offset_y() * ratio;
+    shape.move(text.get_abscissa() + text_offset_x - text_width * ratio / 2,
+               -text.get_ordinate() - text_offset_y - float(size) * ratio / 2);
     window.draw(shape);
 }
 }

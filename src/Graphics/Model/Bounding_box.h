@@ -25,6 +25,7 @@ public:
     void extend(const Polygon& polygon);
     void extend(const Circle& circle);
     void extend(const Line& line);
+    void extend(const Text& text);
     void clear();
 
     Coordinate get_min_abscissa() const;
@@ -79,6 +80,14 @@ void Bounding_box::extend(const Line& line)
     max_abscissa = std::max(max_abscissa, line.get_max_abscissa());
     min_ordinate = std::min(min_ordinate, line.get_min_ordinate());
     max_ordinate = std::max(max_ordinate, line.get_max_ordinate());*/
+}
+
+void Bounding_box::extend(const Text& text)
+{
+    min_abscissa = std::min(min_abscissa, text.get_min_abscissa());
+    max_abscissa = std::max(max_abscissa, text.get_max_abscissa());
+    min_ordinate = std::min(min_ordinate, text.get_min_ordinate());
+    max_ordinate = std::max(max_ordinate, text.get_max_ordinate());
 }
 
 void Bounding_box::clear()

@@ -18,7 +18,7 @@ public:
     void add_figure(const Figure& figure);
 
     unsigned nb_slides() const;
-    const Figure& operator[](unsigned i) const;
+    Figure& operator[](unsigned i);
 };
 
 void Slide_show::add_figure(const Figure& figure)
@@ -31,7 +31,7 @@ unsigned Slide_show::nb_slides() const
     return slides.size();
 }
 
-const Figure& Slide_show::operator[](unsigned int i) const
+Figure& Slide_show::operator[](unsigned int i)
 {
     return slides[i];
 }

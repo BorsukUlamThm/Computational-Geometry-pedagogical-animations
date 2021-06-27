@@ -40,6 +40,11 @@ public:
     Coordinate get_max_ordinate() const;
 
     friend std::istream& operator>>(std::istream&is, Line& line);
+
+private:
+    void aux_constructor(const Coordinate& x1, const Coordinate& y1,
+                         const Coordinate& x2, const Coordinate& y2,
+                         const sf::Color& col);
 };
 
 Line::Line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
@@ -51,13 +56,23 @@ Line::Line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
     color = col;
 }
 
+void Line::aux_constructor(const Coordinate& x1, const Coordinate& y1,
+                           const Coordinate& x2, const Coordinate& y2,
+                           const sf::Color& col)
+{
+    a = y2 - y1;
+    b = x1 - x2;
+    c = - a * x1 - b * y1;
+    color = col;
+}
+
 Line::Line(const Segment& segment, sf::Color col)
 {
     Coordinate x1 = segment.get_origin().get_abscissa();
     Coordinate y1 = segment.get_origin().get_ordinate();
     Coordinate x2 = segment.get_destination().get_abscissa();
     Coordinate y2 = segment.get_destination().get_ordinate();
-    Line(x1, y1, x2, y2, col);
+    aux_constructor(x1, y1, x2, y2, col);
 }
 
 Line::Line(const Point& point1, const Point& point2, sf::Color col)
@@ -66,17 +81,14 @@ Line::Line(const Point& point1, const Point& point2, sf::Color col)
     Coordinate y1 = point1.get_ordinate();
     Coordinate x2 = point2.get_abscissa();
     Coordinate y2 = point2.get_ordinate();
-    Line(x1, y1, x2, y2, col);
+    aux_constructor(x1, y1, x2, y2, col);
 }
 
 Line::Line(const Coordinate& x1, const Coordinate& y1,
            const Coordinate& x2, const Coordinate& y2,
            const sf::Color& col)
 {
-    a = y2 - y1;
-    b = x1 - x2;
-    c = - a * x1 - b * y1;
-    color = col;
+    aux_constructor(x1, y1, x2, y2, col);
 }
 
 Line::Line(const Line& other)

@@ -10,12 +10,13 @@
 #include "Polygon.h"
 #include "Circle.h"
 #include "Line.h"
+#include "Text.h"
 
 
 namespace gr
 {
 
-enum Plot_type {POINT, SEGMENT, POLYGON, CIRCLE, LINE};
+enum Plot_type {POINT, SEGMENT, POLYGON, CIRCLE, LINE, TEXT};
 
 union Plot_value
 {
@@ -24,6 +25,7 @@ union Plot_value
     Polygon polygon;
     Circle circle;
     Line line;
+    Text text;
 
     Plot_value(){};
     ~Plot_value(){};
@@ -42,6 +44,7 @@ public:
     Plot(const Polygon& polygon);
     Plot(const Circle& circle);
     Plot(const Line& line);
+    Plot(const Text& text);
     Plot(const Plot& other);
 
     Plot_type type() const;
@@ -50,6 +53,7 @@ public:
     Polygon polygon() const;
     Circle circle() const;
     Line line() const;
+    Text text() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -87,6 +91,12 @@ Plot::Plot(const Line& line)
     plot_value.line = Line(line);
 }
 
+Plot::Plot(const Text& text)
+{
+    plot_type = TEXT;
+    plot_value.text = Text(text);
+}
+
 Plot::Plot(const Plot& other)
 {
     plot_type = other.plot_type;
@@ -106,6 +116,9 @@ Plot::Plot(const Plot& other)
             break;
         case LINE:
             plot_value.line = other.plot_value.line;
+            break;
+        case TEXT:
+            plot_value.text = other.plot_value.text;
             break;
     }
 }
@@ -140,6 +153,11 @@ Line Plot::line() const
     return plot_value.line;
 }
 
+Text Plot::text() const
+{
+    return plot_value.text;
+}
+
 Coordinate Plot::get_min_abscissa() const
 {
     switch(plot_type)
@@ -154,6 +172,8 @@ Coordinate Plot::get_min_abscissa() const
             return plot_value.circle.get_min_abscissa();
         case LINE:
             return plot_value.line.get_min_abscissa();
+        case TEXT:
+            return plot_value.text.get_min_abscissa();
     }
     return 0;
 }
@@ -172,6 +192,8 @@ Coordinate Plot::get_max_abscissa() const
             return plot_value.circle.get_max_abscissa();
         case LINE:
             return plot_value.line.get_max_abscissa();
+        case TEXT:
+            return plot_value.text.get_max_abscissa();
     }
     return 0;
 }
@@ -190,6 +212,8 @@ Coordinate Plot::get_min_ordinate() const
             return plot_value.circle.get_min_ordinate();
         case LINE:
             return plot_value.line.get_min_ordinate();
+        case TEXT:
+            return plot_value.text.get_min_ordinate();
     }
     return 0;
 }
@@ -208,6 +232,8 @@ Coordinate Plot::get_max_ordinate() const
             return plot_value.circle.get_max_ordinate();
         case LINE:
             return plot_value.line.get_max_ordinate();
+        case TEXT:
+            return plot_value.text.get_max_ordinate();
     }
     return 0;
 }

@@ -49,6 +49,7 @@ Point::Point(const Point& other)
     abscissa = Coordinate(other.abscissa);
     ordinate = Coordinate(other.ordinate);
     color = other.color;
+    radius = other.radius;
 }
 
 Coordinate Point::get_abscissa() const
@@ -61,11 +62,6 @@ Coordinate Point::get_ordinate() const
     return ordinate;
 }
 
-Coordinate Point::get_min_abscissa() const
-{
-    return abscissa;
-}
-
 sf::Color Point::get_color() const
 {
     return color;
@@ -74,6 +70,11 @@ sf::Color Point::get_color() const
 float Point::get_radius() const
 {
     return radius;
+}
+
+Coordinate Point::get_min_abscissa() const
+{
+    return abscissa;
 }
 
 Coordinate Point::get_max_abscissa() const

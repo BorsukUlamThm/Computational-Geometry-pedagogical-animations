@@ -32,6 +32,8 @@ public:
     void add_point(const Coordinate& x, const Coordinate& y,
                    const sf::Color& col = DEFAULT_PLOT_COLOR, float rad = 3);
     void add_segment(const Segment& segment);
+    void add_segment(const Point& ogn, const Point& dst,
+                     const sf::Color& line_col = DEFAULT_PLOT_COLOR);
     void add_segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
                      const Coordinate& dst_x, const Coordinate& dst_y,
                      const sf::Color& line_col = DEFAULT_PLOT_COLOR,
@@ -55,6 +57,14 @@ public:
                            const sf::Color& col = DEFAULT_PLOT_COLOR);
     void add_horizontal_line(const Coordinate& y,
                              const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_text(const Text& text);
+    void add_text(const std::string& text, const Coordinate& x, const Coordinate& y,
+                  unsigned size, float off_x, float off_y,
+                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_text(const std::string& text, const Point& point, unsigned size = 16,
+                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_text(const std::string& text, const Segment& segment, unsigned size = 16,
+                  const sf::Color& col = DEFAULT_PLOT_COLOR);
 
     void pop_last_plot();
     void pol_last_n_plots(unsigned n);
@@ -109,6 +119,13 @@ void Figure::add_segment(const Segment& segment)
 {
     plots.emplace_back(segment);
     bounding_box.extend(segment);
+}
+
+void Figure::add_segment(const Point& ogn, const Point& dst,
+                         const sf::Color& line_col)
+{
+    Segment segment(ogn, dst, line_col);
+    add_segment(segment);
 }
 
 void Figure::add_segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
@@ -190,6 +207,33 @@ void Figure::add_horizontal_line(const Coordinate& y, const sf::Color& col)
     add_line(line);
 }
 
+void Figure::add_text(const Text& text)
+{
+    plots.emplace_back(text);
+    bounding_box.extend(text);
+}
+
+void Figure::add_text(const std::string& text, const Coordinate& x, const Coordinate& y,
+                      unsigned size, float off_x, float off_y, const sf::Color& col)
+{
+    Text txt(text, x, y, size, off_x, off_y, col);
+    add_text(txt);
+}
+
+void Figure::add_text(const std::string& text, const Point& point, unsigned size,
+                      const sf::Color& col)
+{
+    Text txt(text, point, size, col);
+    add_text(txt);
+}
+
+void Figure::add_text(const std::string& text, const Segment& segment, unsigned size,
+                      const sf::Color& col)
+{
+    Text txt(text, segment, size, col);
+    add_text(txt);
+}
+
 void Figure::pop_last_plot()
 {
     if(is_empty())
@@ -249,6 +293,8 @@ void Figure::make_bounding_box()
                     /* nothing to do but i let it in a comment just in case
                     bounding_box.extend(plots[i].line());*/
                     break;
+                case TEXT:
+                    bounding_box.extend(plots[i].text());
             }
         }
     }
