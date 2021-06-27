@@ -2,7 +2,7 @@
 #define ALPHA_TEXT_H
 
 #include <SFML/Graphics.hpp>
-#include "../Global_variables.h"
+#include "Graphics/Model/Global_variables.h"
 #include "Point.h"
 #include "Segment.h"
 

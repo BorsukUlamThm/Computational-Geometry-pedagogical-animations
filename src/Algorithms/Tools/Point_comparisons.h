@@ -1,7 +1,7 @@
 #ifndef ALPHA_POINT_COMPARISONS_H
 #define ALPHA_POINT_COMPARISONS_H
 
-#include "../Model/Point_2.h"
+#include "Algorithms/Model/Point_2.h"
 
 
 namespace alg

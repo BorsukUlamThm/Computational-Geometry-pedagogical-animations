@@ -1,9 +1,9 @@
 #ifndef ALPHA_PLOT_H
 #define ALPHA_PLOT_H
 
-#include "../Global_variables.h"
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Graphics/Model/Global_variables.h"
 
 #include "Point.h"
 #include "Segment.h"

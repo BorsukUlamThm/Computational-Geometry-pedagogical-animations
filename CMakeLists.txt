@@ -7,6 +7,7 @@ set(Graphics_dir "${CMAKE_SOURCE_DIR}/src/Graphics")
 set(Algorithms_dir "${CMAKE_SOURCE_DIR}/src/Algorithms")
 file(GLOB_RECURSE graphics_sources "${Graphics_dir}/*.h")
 file(GLOB_RECURSE algorithms_sources "${Algorithms_dir}/*.h")
+include_directories("${CMAKE_SOURCE_DIR}/src")
 
 # Executables directory
 set(bin "${CMAKE_SOURCE_DIR}/bin")

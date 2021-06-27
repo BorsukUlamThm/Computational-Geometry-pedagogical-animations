@@ -2,7 +2,7 @@
 #define ALPHA_LINE_H
 
 #include <SFML/Graphics.hpp>
-#include "../Global_variables.h"
+#include "Graphics/Model/Global_variables.h"
 
 
 namespace gr

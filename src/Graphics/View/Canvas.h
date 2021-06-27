@@ -3,8 +3,8 @@
 
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-#include "../Model/Figure.h"
-#include "../Model/Slide_show.h"
+#include "Graphics/Model/Figure.h"
+#include "Graphics/Model/Slide_show.h"
 
 namespace gr
 {
