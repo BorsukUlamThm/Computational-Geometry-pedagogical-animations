@@ -10,7 +10,7 @@ namespace alg
 template<typename Real>
 class Polygon_2
 {
-typedef Point_2<Real> Vertex;
+    typedef Point_2<Real> Vertex;
 
 public:
     std::vector<Vertex> vertices;

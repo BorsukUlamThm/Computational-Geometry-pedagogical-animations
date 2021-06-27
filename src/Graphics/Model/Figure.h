@@ -15,11 +15,13 @@ class Figure
 {
 private:
     std::vector<Plot> plots;
-    Bounding_box bounding_box;
-    bool need_remake_bounding_box;
+    Bounding_box bounding_box{};
+    bool need_remake_bounding_box = false;
 
 public:
     Figure() = default;
+    template<typename... Figures>
+    explicit Figure(const Figure& figure, const Figures&... figures);
     ~Figure() = default;
 
     Bounding_box get_bounding_box() const;
@@ -31,6 +33,8 @@ public:
     void add_point(const Point& point);
     void add_point(const Coordinate& x, const Coordinate& y,
                    const sf::Color& col = DEFAULT_PLOT_COLOR, float rad = 3);
+    template<typename... Points>
+    void add_points(const Point& point, const Points&... points);
     void add_segment(const Segment& segment);
     void add_segment(const Point& ogn, const Point& dst,
                      const sf::Color& line_col = DEFAULT_PLOT_COLOR);
@@ -38,12 +42,18 @@ public:
                      const Coordinate& dst_x, const Coordinate& dst_y,
                      const sf::Color& line_col = DEFAULT_PLOT_COLOR,
                      const sf::Color& end_points_col = DEFAULT_PLOT_COLOR);
+    template<typename... Segments>
+    void add_segments(const Segment& segment, const Segments&... segments);
     void add_polygon(const Polygon& polygon);
     void add_polygon(const std::vector<Point>& vertices,
                      const sf::Color& lines_col = DEFAULT_PLOT_COLOR);
+    template<typename... Polygons>
+    void add_polygons(const Polygon& polygon, const Polygons&... polygons);
     void add_circle(const Circle& circle);
     void add_circle(const Coordinate& x, const Coordinate& y, const Coordinate& rad,
                     const sf::Color& col = DEFAULT_PLOT_COLOR);
+    template<typename... Circles>
+    void add_circles(const Circle& circle, const Circles&... circles);
     void add_line(const Line& line);
     void add_line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
                   const sf::Color& col = DEFAULT_PLOT_COLOR);
@@ -53,6 +63,8 @@ public:
     void add_line(const Coordinate& x1, const Coordinate& y1,
                   const Coordinate& x2, const Coordinate& y2,
                   const sf::Color& col = DEFAULT_PLOT_COLOR);
+    template<typename... Lines>
+    void add_lines(const Line& line, const Lines&... lines);
     void add_vertical_line(const Coordinate& x,
                            const sf::Color& col = DEFAULT_PLOT_COLOR);
     void add_horizontal_line(const Coordinate& y,
@@ -66,6 +78,8 @@ public:
     void add_text(const std::string& text, const Segment& segment, unsigned size = 16,
                   const sf::Color& col = DEFAULT_PLOT_COLOR);
 
+    void merge_figure(const Figure& other);
+
     void pop_last_plot();
     void pol_last_n_plots(unsigned n);
     void make_bounding_box();
@@ -75,6 +89,13 @@ public:
     bool is_empty() const;
     const Plot& operator[](unsigned i) const;
 };
+
+template<typename... Figures>
+Figure::Figure(const Figure& figure, const Figures&... figures)
+{
+    merge_figure(figure);
+    merge_figure(figures...);
+}
 
 Bounding_box Figure::get_bounding_box() const
 {
@@ -115,6 +136,13 @@ void Figure::add_point(const Coordinate& x, const Coordinate& y,
     add_point(point);
 }
 
+template<typename... Points>
+void Figure::add_points(const Point& point, const Points&... points)
+{
+    add_point(point);
+    add_points(points...);
+}
+
 void Figure::add_segment(const Segment& segment)
 {
     plots.emplace_back(segment);
@@ -136,6 +164,13 @@ void Figure::add_segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
     add_segment(segment);
 }
 
+template<typename... Segments>
+void Figure::add_segments(const Segment& segment, const Segments&... segments)
+{
+    add_segment(segment);
+    add_segments(segments...);
+}
+
 void Figure::add_polygon(const Polygon& polygon)
 {
     plots.emplace_back(polygon);
@@ -149,6 +184,13 @@ void Figure::add_polygon(const std::vector<Point>& vertices,
     add_polygon(polygon);
 }
 
+template<typename... Polygons>
+void Figure::add_polygons(const Polygon& polygon, const Polygons&... polygons)
+{
+    add_polygon(polygon);
+    add_polygons(polygons...);
+}
+
 void Figure::add_circle(const Circle& circle)
 {
     plots.emplace_back(circle);
@@ -160,6 +202,13 @@ void Figure::add_circle(const Coordinate& x, const Coordinate& y,
 {
     Circle circle(x, y, rad, col);
     add_circle(circle);
+}
+
+template<typename... Circles>
+void Figure::add_circles(const Circle& circle, const Circles&... circles)
+{
+    add_circle(circle);
+    add_circles(circles...);
 }
 
 void Figure::add_line(const Line& line)
@@ -193,6 +242,13 @@ void Figure::add_line(const Coordinate& x1, const Coordinate& y1,
 {
     Line line(x1, y1, x2, y2, col);
     add_line(line);
+}
+
+template<typename... Lines>
+void Figure::add_lines(const Line& line, const Lines&... lines)
+{
+    add_line(line);
+    add_lines(lines...);
 }
 
 void Figure::add_vertical_line(const Coordinate& x, const sf::Color& col)
@@ -232,6 +288,34 @@ void Figure::add_text(const std::string& text, const Segment& segment, unsigned 
 {
     Text txt(text, segment, size, col);
     add_text(txt);
+}
+
+void Figure::merge_figure(const Figure& other)
+{
+    for(unsigned i = 0; i < other.nb_plots(); ++i)
+    {
+        switch(other[i].type())
+        {
+            case POINT:
+                add_point(other[i].point());
+                break;
+            case SEGMENT:
+                add_segment(other[i].segment());
+                break;
+            case POLYGON:
+                add_polygon(other[i].polygon());
+                break;
+            case CIRCLE:
+                add_circle(other[i].circle());
+                break;
+            case LINE:
+                add_line(other[i].line());
+                break;
+            case TEXT:
+                add_text(other[i].text());
+                break;
+        }
+    }
 }
 
 void Figure::pop_last_plot()
