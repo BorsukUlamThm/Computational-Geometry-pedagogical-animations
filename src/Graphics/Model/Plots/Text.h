@@ -5,6 +5,7 @@
 #include "Graphics/Model/Global_variables.h"
 #include "Point.h"
 #include "Segment.h"
+#include "Vector.h"
 
 
 namespace gr
@@ -12,7 +13,7 @@ namespace gr
 class Text
 {
 private:
-    std::string content;
+    std::string content{};
     Coordinate abscissa{};
     Coordinate ordinate{};
     unsigned size = 16;
@@ -23,11 +24,13 @@ private:
 public:
     Text() = default;
     Text(const std::string& text, const Coordinate& x, const Coordinate& y,
-         unsigned size, float off_x, float off_y,
+         unsigned size = 16, float off_x = 0, float off_y = 0,
          const sf::Color& col = DEFAULT_PLOT_COLOR);
     Text(const std::string& text, const Point& point, unsigned size = 16,
          const sf::Color& col = DEFAULT_PLOT_COLOR);
     Text(const std::string& text, const Segment& segment, unsigned size = 16,
+         const sf::Color& col = DEFAULT_PLOT_COLOR);
+    Text(const std::string& text, const Vector& vector, unsigned size = 16,
          const sf::Color& col = DEFAULT_PLOT_COLOR);
     Text(const Text& other);
     ~Text() = default;
@@ -84,9 +87,18 @@ Text::Text(const std::string& text, const Segment& segment, unsigned int size,
            const sf::Color& col)
 {
     Coordinate x = (segment.get_origin().get_abscissa() +
-            segment.get_destination().get_abscissa()) / 2;
+                    segment.get_destination().get_abscissa()) / 2;
     Coordinate y = (segment.get_origin().get_ordinate() +
                     segment.get_destination().get_ordinate()) / 2;
+    aux_constructor(text, x, y, size,
+                    0, 0, col);
+}
+
+Text::Text(const std::string& text, const Vector& vector, unsigned int size,
+           const sf::Color& col)
+{
+    Coordinate x = (vector.get_origin_x() + vector.get_destination_x()) / 2;
+    Coordinate y = (vector.get_origin_y() + vector.get_destination_y()) / 2;
     aux_constructor(text, x, y, size,
                     0, 0, col);
 }

@@ -41,13 +41,13 @@ private:
 
 public:
     Plot() = default;
-    Plot(const Point& point);
-    Plot(const Segment& segment);
-    Plot(const Vector& vector);
-    Plot(const Polygon& polygon);
-    Plot(const Circle& circle);
-    Plot(const Line& line);
-    Plot(const Text& text);
+    explicit Plot(const Point& point);
+    explicit Plot(const Segment& segment);
+    explicit Plot(const Vector& vector);
+    explicit Plot(const Polygon& polygon);
+    explicit Plot(const Circle& circle);
+    explicit Plot(const Line& line);
+    explicit Plot(const Text& text);
     Plot(const Plot& other);
 
     Plot_type type() const;

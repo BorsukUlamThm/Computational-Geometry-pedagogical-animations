@@ -80,17 +80,19 @@ public:
                              const sf::Color& col = DEFAULT_PLOT_COLOR);
     void add_text(const Text& text);
     void add_text(const std::string& text, const Coordinate& x, const Coordinate& y,
-                  unsigned size, float off_x, float off_y,
+                  unsigned size = 16, float off_x = 0, float off_y = 0,
                   const sf::Color& col = DEFAULT_PLOT_COLOR);
     void add_text(const std::string& text, const Point& point, unsigned size = 16,
                   const sf::Color& col = DEFAULT_PLOT_COLOR);
     void add_text(const std::string& text, const Segment& segment, unsigned size = 16,
                   const sf::Color& col = DEFAULT_PLOT_COLOR);
+    void add_text(const std::string& text, const Vector& vector, unsigned size = 16,
+                  const sf::Color& col = DEFAULT_PLOT_COLOR);
 
     void merge_figure(const Figure& other);
 
     void pop_last_plot();
-    void pol_last_n_plots(unsigned n);
+    void pop_last_n_plots(unsigned n);
     void make_bounding_box();
     void clear();
 
@@ -332,6 +334,13 @@ void Figure::add_text(const std::string& text, const Segment& segment, unsigned 
     add_text(txt);
 }
 
+void Figure::add_text(const std::string& text, const Vector& vector, unsigned size,
+                      const sf::Color& col)
+{
+    Text txt(text, vector, size, col);
+    add_text(txt);
+}
+
 void Figure::merge_figure(const Figure& other)
 {
     for(unsigned i = 0; i < other.nb_plots(); ++i)
@@ -384,7 +393,7 @@ void Figure::pop_last_plot()
     plots.pop_back();
 }
 
-void Figure::pol_last_n_plots(unsigned int n)
+void Figure::pop_last_n_plots(unsigned int n)
 {
     if(n >= nb_plots())
     {

@@ -29,23 +29,60 @@ segment_set make_outside_segments(const point_set& P)
             if(i == j)
                 continue;
 
-            fig_outside_segments.add_segment(P[i].x, P[i].y, P[j].x, P[j].y);
+            fig_outside_segments.add_vector(
+                    P[i].x, P[i].y, P[j].x, P[j].y, sf::Color::Blue);
+            slides.add_slide(fig_points, fig_outside_segments);
 
             bool is_ok = true;
             for(unsigned k = 0; k < n; ++k)
             {
-                if(alg::point_left_line(P[k], P[i], P[j]))
+                if(alg::point_strictly_left_line(P[k], P[i], P[j]))
                 {
                     is_ok = false;
+                    fig_points.add_point(P[k].x, P[k].y, sf::Color::Red, 7);
+                    fig_outside_segments.add_vector(
+                            P[i].x, P[i].y, P[j].x, P[j].y, sf::Color::Red);
+                    slides.add_slide(fig_points, fig_outside_segments);
+                    fig_points.pop_last_plot();
+                    fig_outside_segments.pop_last_plot();
+                    break;
+                }
+                else
+                {
+                    fig_points.add_point(P[k].x, P[k].y, sf::Color::Green, 7);
+                    slides.add_slide(fig_points, fig_outside_segments);
+                    fig_points.pop_last_plot();
                 }
             }
+            fig_outside_segments.pop_last_plot();
             if(is_ok)
             {
                 E.emplace_back(P[i], P[j]);
+                fig_outside_segments.add_vector(
+                        P[i].x, P[i].y, P[j].x, P[j].y, sf::Color::Green);
             }
+            slides.add_slide(fig_points, fig_outside_segments);
         }
     }
+
+    for(unsigned i = 0; i < E.size(); ++i)
+    {
+        gr::Vector v (E[i].ogn.x, E[i].ogn.y, E[i].dst.x, E[i].dst.y);
+        fig_outside_segments.add_text(std::to_string(i), v);
+    }
+    slides.add_slide(fig_points, fig_outside_segments);
+    fig_outside_segments.pop_last_n_plots(E.size());
+
     return E;
+}
+
+convex_hull sort_outside_segment(segment_set& E)
+{
+    convex_hull CH;
+
+    
+
+    return CH;
 }
 
 void slow_convex_hull(const point_set& P)
@@ -57,6 +94,7 @@ void slow_convex_hull(const point_set& P)
     slides.add_slide(fig_points);
 
     segment_set E = make_outside_segments(P);
+    convex_hull CH = sort_outside_segment(E);
 }
 }
 
