@@ -22,6 +22,12 @@ Point_2<Real>::Point_2(const Real& x, const Real& y):
 {}
 
 template<typename Real>
+bool operator==(const Point_2<Real>& p, const Point_2<Real>& q)
+{
+    return p.x == q.x && p.y == q.y;
+}
+
+template<typename Real>
 std::ostream& operator<<(std::ostream& os, const Point_2<Real>& point_2)
 {
     os << "(" << point_2.x << ", " << point_2.y << ")";

@@ -91,8 +91,8 @@ public:
 
     void merge_figure(const Figure& other);
 
-    void pop_last_plot();
-    void pop_last_n_plots(unsigned n);
+    void erase_last_plot();
+    void erase_last_k_plots(unsigned k);
     void make_bounding_box();
     void clear();
 
@@ -372,7 +372,7 @@ void Figure::merge_figure(const Figure& other)
     }
 }
 
-void Figure::pop_last_plot()
+void Figure::erase_last_plot()
 {
     if(is_empty())
     {
@@ -393,16 +393,16 @@ void Figure::pop_last_plot()
     plots.pop_back();
 }
 
-void Figure::pop_last_n_plots(unsigned int n)
+void Figure::erase_last_k_plots(unsigned int k)
 {
-    if(n >= nb_plots())
+    if(k >= nb_plots())
     {
         clear();
         return;
     }
-    for(unsigned i = 0; i < n; ++i)
+    for(unsigned i = 0; i < k; ++i)
     {
-        pop_last_plot();
+        erase_last_plot();
     }
 }
 

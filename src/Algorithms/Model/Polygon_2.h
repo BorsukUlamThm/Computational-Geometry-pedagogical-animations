@@ -20,6 +20,8 @@ public:
     explicit Polygon_2(const Vertex& p, const Points&... pts);
     ~Polygon_2() = default;
 
+    unsigned size();
+
     void push_back(const Vertex& p);
     Vertex& operator[](unsigned i);
 };
@@ -30,6 +32,12 @@ Polygon_2<Real>::Polygon_2(const Vertex& p, const Points&... pts)
 {
     push_back(p);
     Polygon_2(pts...);
+}
+
+template<typename Real>
+unsigned Polygon_2<Real>::size()
+{
+    return vertices.size();
 }
 
 template<typename Real>
