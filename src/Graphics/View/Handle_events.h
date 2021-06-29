@@ -25,8 +25,7 @@ void Canvas::handle_events()
                 break;
 
             case sf::Event::MouseWheelScrolled:
-                zoom *= std::pow(zoom_factor, event.mouseWheelScroll.delta);
-                setup_view();
+                mouse_wheel_scrolled_event(event);
                 break;
 
             case sf::Event::MouseButtonPressed:
@@ -67,6 +66,21 @@ void Canvas::prev_slide()
     }
 }
 
+void Canvas::mouse_wheel_scrolled_event(const sf::Event& event)
+{
+    float zoom_ratio = std::pow(zoom_factor, event.mouseWheelScroll.delta);
+    zoom *= zoom_ratio;
+
+    float zoom_center_x = float(width) / 2 + offset_x;
+    float zoom_center_y = float(height) / 2 + offset_y;
+    float x = float(event.mouseWheelScroll.x);
+    float y = float(event.mouseWheelScroll.y);
+    offset_x += (x - zoom_center_x) * (1 - zoom_ratio);
+    offset_y += (y - zoom_center_y) * (1 - zoom_ratio);
+
+    setup_view();
+}
+
 void Canvas::mouse_button_pressed_event(const sf::Event& event)
 {
     if(mouse_button == NONE)
@@ -75,8 +89,8 @@ void Canvas::mouse_button_pressed_event(const sf::Event& event)
         {
             case sf::Mouse::Left:
                 mouse_button = LEFT;
-                hold_x = event.mouseButton.x;
-                hold_y = event.mouseButton.y;
+                hold_x = float(event.mouseButton.x);
+                hold_y = float(event.mouseButton.y);
                 break;
 
             case sf::Mouse::Right:
@@ -133,8 +147,8 @@ void Canvas::mouse_moved_event(const sf::Event& event)
     switch(mouse_button)
     {
         case LEFT:
-            hold_offset_x = event.mouseMove.x - hold_x;
-            hold_offset_y = event.mouseMove.y - hold_y;
+            hold_offset_x = float(event.mouseMove.x) - hold_x;
+            hold_offset_y = float(event.mouseMove.y) - hold_y;
             setup_view();
             break;
 
@@ -209,6 +223,10 @@ void Canvas::key_pressed_event(const sf::Event& event)
         case sf::Keyboard::Num9:
         case sf::Keyboard::Numpad9:
             slide_index = unsigned(9 * index_fraction);
+            break;
+
+        case sf::Keyboard::BackSpace:
+            slide_index = nb_slides - 1;
             break;
 
         default:
