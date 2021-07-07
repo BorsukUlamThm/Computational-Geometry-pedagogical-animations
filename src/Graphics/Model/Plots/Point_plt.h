@@ -1,5 +1,5 @@
-#ifndef ALPHA_POINT_H
-#define ALPHA_POINT_H
+#ifndef ALPHA_POINT_PLT_H
+#define ALPHA_POINT_PLT_H
 
 #include <SFML/Graphics.hpp>
 #include "Graphics/Model/Global_variables.h"
@@ -7,7 +7,7 @@
 
 namespace gr
 {
-class Point
+class Point_plt
 {
 private:
     Coordinate abscissa{};
@@ -16,11 +16,11 @@ private:
     float radius = 3;
 
 public:
-    Point() = default;
-    Point(const Coordinate& x, const Coordinate& y,
+    Point_plt() = default;
+    Point_plt(const Coordinate& x, const Coordinate& y,
           const sf::Color& col = DEFAULT_PLOT_COLOR, float rad = 3);
-    Point(const Point& other);
-    ~Point() = default;
+    Point_plt(const Point_plt& other);
+    ~Point_plt() = default;
 
     Coordinate get_abscissa() const;
     Coordinate get_ordinate() const;
@@ -32,10 +32,10 @@ public:
     Coordinate get_min_ordinate() const;
     Coordinate get_max_ordinate() const;
 
-    friend std::istream& operator>>(std::istream& is, Point& point);
+    friend std::istream& operator>>(std::istream& is, Point_plt& point);
 };
 
-Point::Point(const Coordinate &x, const Coordinate &y,
+Point_plt::Point_plt(const Coordinate &x, const Coordinate &y,
              const sf::Color& col, float rad)
 {
     abscissa = Coordinate(x);
@@ -44,7 +44,7 @@ Point::Point(const Coordinate &x, const Coordinate &y,
     radius = rad;
 }
 
-Point::Point(const Point& other)
+Point_plt::Point_plt(const Point_plt& other)
 {
     abscissa = Coordinate(other.abscissa);
     ordinate = Coordinate(other.ordinate);
@@ -52,54 +52,54 @@ Point::Point(const Point& other)
     radius = other.radius;
 }
 
-Coordinate Point::get_abscissa() const
+Coordinate Point_plt::get_abscissa() const
 {
     return abscissa;
 }
 
-Coordinate Point::get_ordinate() const
+Coordinate Point_plt::get_ordinate() const
 {
     return ordinate;
 }
 
-sf::Color Point::get_color() const
+sf::Color Point_plt::get_color() const
 {
     return color;
 }
 
-float Point::get_radius() const
+float Point_plt::get_radius() const
 {
     return radius;
 }
 
-Coordinate Point::get_min_abscissa() const
+Coordinate Point_plt::get_min_abscissa() const
 {
     return abscissa;
 }
 
-Coordinate Point::get_max_abscissa() const
+Coordinate Point_plt::get_max_abscissa() const
 {
     return abscissa;
 }
 
-Coordinate Point::get_min_ordinate() const
+Coordinate Point_plt::get_min_ordinate() const
 {
     return ordinate;
 }
 
-Coordinate Point::get_max_ordinate() const
+Coordinate Point_plt::get_max_ordinate() const
 {
     return ordinate;
 }
 
-std::ostream& operator<<(std::ostream& os, const Point& point)
+std::ostream& operator<<(std::ostream& os, const Point_plt& point)
 {
     os << POINT_NAME << " " << point.get_abscissa()
                      << " " << point.get_ordinate();
     return os;
 }
 
-std::istream& operator>>(std::istream& is, Point& point)
+std::istream& operator>>(std::istream& is, Point_plt& point)
 {
     is >> point.abscissa >> point.ordinate;
     return is;
@@ -107,4 +107,4 @@ std::istream& operator>>(std::istream& is, Point& point)
 }
 
 
-#endif //ALPHA_POINT_H
+#endif //ALPHA_POINT_PLT_H

@@ -10,7 +10,7 @@ namespace gr
 /// Some types for the objects coordinates
 typedef float Coordinate;
 
-constexpr Coordinate MIN_COORDINATE = std::numeric_limits<Coordinate>::min();
+constexpr Coordinate MIN_COORDINATE = std::numeric_limits<Coordinate>::lowest();
 constexpr Coordinate MAX_COORDINATE = std::numeric_limits<Coordinate>::max();
 
 

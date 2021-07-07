@@ -1,31 +1,31 @@
-#ifndef ALPHA_POLYGON_H
-#define ALPHA_POLYGON_H
+#ifndef ALPHA_POLYGON_PLT_H
+#define ALPHA_POLYGON_PLT_H
 
-#include "Point.h"
+#include "Point_plt.h"
 #include <vector>
 
 
 namespace gr
 {
-class Polygon
+class Polygon_plt
 {
 private:
-    std::vector<Point> vertices;
+    std::vector<Point_plt> vertices;
     sf::Color lines_color = DEFAULT_PLOT_COLOR;
 
 public:
-    Polygon() = default;
-    explicit Polygon(const sf::Color& lines_col);
-    explicit Polygon(const std::vector<Point>& vertices,
+    Polygon_plt() = default;
+    explicit Polygon_plt(const sf::Color& lines_col);
+    explicit Polygon_plt(const std::vector<Point_plt>& vertices,
                      const sf::Color& lines_col = DEFAULT_PLOT_COLOR);
-    Polygon(const Polygon& other);
+    Polygon_plt(const Polygon_plt& other);
 
-    void push_back(const Point& vertex);
+    void push_back(const Point_plt& vertex);
     void add_vertex(const Coordinate& x, const Coordinate& y);
 
     unsigned size() const;
-    Point& operator[](unsigned i);
-    const Point& operator[](unsigned i) const;
+    Point_plt& operator[](unsigned i);
+    const Point_plt& operator[](unsigned i) const;
     sf::Color get_lines_color() const;
 
     Coordinate get_min_abscissa() const;
@@ -33,21 +33,21 @@ public:
     Coordinate get_min_ordinate() const;
     Coordinate get_max_ordinate() const;
 
-    friend std::istream& operator>>(std::istream& is, Polygon& polygon);
+    friend std::istream& operator>>(std::istream& is, Polygon_plt& polygon);
 };
 
-Polygon::Polygon(const sf::Color& lines_col)
+Polygon_plt::Polygon_plt(const sf::Color& lines_col)
 {
     lines_color = lines_col;
 }
 
-Polygon::Polygon(const std::vector<Point>& vertices, const sf::Color& lines_col)
+Polygon_plt::Polygon_plt(const std::vector<Point_plt>& vertices, const sf::Color& lines_col)
 {
-    this->vertices = std::vector<Point>(vertices);
+    this->vertices = std::vector<Point_plt>(vertices);
     lines_color = lines_col;
 }
 
-Polygon::Polygon(const Polygon& other)
+Polygon_plt::Polygon_plt(const Polygon_plt& other)
 {
     for(unsigned i = 0; i < other.size(); ++i)
     {
@@ -56,37 +56,37 @@ Polygon::Polygon(const Polygon& other)
     lines_color = other.lines_color;
 }
 
-void Polygon::push_back(const Point& vertex)
+void Polygon_plt::push_back(const Point_plt& vertex)
 {
     vertices.emplace_back(vertex);
 }
 
-void Polygon::add_vertex(const Coordinate& x, const Coordinate& y)
+void Polygon_plt::add_vertex(const Coordinate& x, const Coordinate& y)
 {
     vertices.emplace_back(x, y);
 }
 
-unsigned Polygon::size() const
+unsigned Polygon_plt::size() const
 {
     return vertices.size();
 }
 
-Point& Polygon::operator[](unsigned int i)
+Point_plt& Polygon_plt::operator[](unsigned int i)
 {
     return vertices[i];
 }
 
-const Point& Polygon::operator[](unsigned int i) const
+const Point_plt& Polygon_plt::operator[](unsigned int i) const
 {
     return vertices[i];
 }
 
-sf::Color Polygon::get_lines_color() const
+sf::Color Polygon_plt::get_lines_color() const
 {
     return lines_color;
 }
 
-Coordinate Polygon::get_min_abscissa() const
+Coordinate Polygon_plt::get_min_abscissa() const
 {
     Coordinate res = vertices[0].get_min_abscissa();
     for(unsigned i = 1; i < size(); ++i)
@@ -96,7 +96,7 @@ Coordinate Polygon::get_min_abscissa() const
     return res;
 }
 
-Coordinate Polygon::get_max_abscissa() const
+Coordinate Polygon_plt::get_max_abscissa() const
 {
     Coordinate res = vertices[0].get_max_abscissa();
     for(unsigned i = 1; i < size(); ++i)
@@ -106,7 +106,7 @@ Coordinate Polygon::get_max_abscissa() const
     return res;
 }
 
-Coordinate Polygon::get_min_ordinate() const
+Coordinate Polygon_plt::get_min_ordinate() const
 {
     Coordinate res = vertices[0].get_min_ordinate();
     for(unsigned i = 1; i < size(); ++i)
@@ -116,7 +116,7 @@ Coordinate Polygon::get_min_ordinate() const
     return res;
 }
 
-Coordinate Polygon::get_max_ordinate() const
+Coordinate Polygon_plt::get_max_ordinate() const
 {
     Coordinate res = vertices[0].get_max_ordinate();
     for(unsigned i = 1; i < size(); ++i)
@@ -126,7 +126,7 @@ Coordinate Polygon::get_max_ordinate() const
     return res;
 }
 
-std::ostream& operator<<(std::ostream& os, const Polygon& polygon)
+std::ostream& operator<<(std::ostream& os, const Polygon_plt& polygon)
 {
     os << POLYGON_NAME << " " << polygon.size() << " ";
     for(unsigned i = 0; i < polygon.size(); ++i)
@@ -136,13 +136,13 @@ std::ostream& operator<<(std::ostream& os, const Polygon& polygon)
     return os;
 }
 
-std::istream& operator>>(std::istream& is, Polygon& polygon)
+std::istream& operator>>(std::istream& is, Polygon_plt& polygon)
 {
     polygon.vertices.clear();
     unsigned nb_vertices;
     is >> nb_vertices;
 
-    Point tmp;
+    Point_plt tmp;
     std::string dummy;
 
     for(unsigned i = 0; i < nb_vertices; ++i)
@@ -156,4 +156,4 @@ std::istream& operator>>(std::istream& is, Polygon& polygon)
 }
 
 
-#endif //ALPHA_POLYGON_H
+#endif //ALPHA_POLYGON_PLT_H

@@ -1,6 +1,5 @@
 #ifndef ALPHA_CANVAS_H
 #define ALPHA_CANVAS_H
-
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "Graphics/Model/Figure.h"
@@ -10,18 +9,15 @@ namespace gr
 {
 class Canvas
 {
-private:
+protected:
     sf::RenderWindow window;
+    Bounding_box bounding_box;
     sf::View view;
-    Bounding_box boundingBox;
 
-    unsigned nb_slides = 0;
-    unsigned slide_index = 0;
-
-    unsigned width = 900;
+    unsigned width = 1600;
     unsigned height = 900;
     unsigned margin = 20;
-    std::string title = "Canvas";
+    std::string title = "Display";
     sf::Color background_color = DEFAULT_BACKGROUND_COLOR;
 
     float zoom = 1;
@@ -35,6 +31,8 @@ private:
 
     enum Mouse_button {NONE, LEFT, RIGHT, MIDDLE, PREV, NEXT};
     Mouse_button mouse_button = NONE;
+    float mouse_x;
+    float mouse_y;
 
 public:
     Canvas() = default;
@@ -52,30 +50,23 @@ public:
     void set_title(const std::string& new_title);
     void set_background_color(const sf::Color& new_color);
 
-    void display_figure(Figure& figure);
-    void display_slide_show(Slide_show& slide_show);
-
-private:
+protected:
     void open();
     void setup_view();
 
-    void handle_events();
-    void next_slide();
-    void prev_slide();
+    void draw_figure(const Figure& figure);
+    void draw_point(const Point_plt& point);
+    void draw_segment(const Segment_plt& segment);
+    void draw_vector(const Vector_plt& vector);
+    void draw_polygon(const Polygon_plt& polygon);
+    void draw_circle(const Circle_plt& circle);
+    void draw_line(const Line_plt& line);
+    void draw_text(const Text_plt& text);
+
     void mouse_wheel_scrolled_event(const sf::Event& event);
     void mouse_button_pressed_event(const sf::Event& event);
     void mouse_button_released_event(const sf::Event& event);
     void mouse_moved_event(const sf::Event& event);
-    void key_pressed_event(const sf::Event& event);
-
-    void draw_figure(const Figure& figure);
-    void draw_point(const Point& point);
-    void draw_segment(const Segment& segment);
-    void draw_vector(const Vector& vector);
-    void draw_polygon(const Polygon& polygon);
-    void draw_circle(const Circle& circle);
-    void draw_line(const Line& line);
-    void draw_text(const Text& text);
 };
 
 unsigned Canvas::get_width() const
@@ -128,38 +119,13 @@ void Canvas::set_background_color(const sf::Color& new_color)
     background_color = new_color;
 }
 
-void Canvas::display_figure(Figure& figure)
-{
-    figure.make_bounding_box();
-    boundingBox = figure.get_bounding_box();
-    open();
-    setup_view();
-    while(window.isOpen())
-    {
-        handle_events();
-        draw_figure(figure);
-        window.display();
-    }
-}
-
-void Canvas::display_slide_show(Slide_show& slide_show)
-{
-    slide_show[0].make_bounding_box();
-    boundingBox = slide_show[0].get_bounding_box();
-    nb_slides = slide_show.nb_slides();
-    open();
-    setup_view();
-    while(window.isOpen())
-    {
-        handle_events();
-        draw_figure(slide_show[slide_index]);
-        window.display();
-    }
-
-}
-
 void Canvas::open()
 {
+    window.clear(DEFAULT_BACKGROUND_COLOR);
+    if(window.isOpen())
+    {
+        return;
+    }
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
     window.create(sf::VideoMode(width, height), title,
@@ -168,10 +134,18 @@ void Canvas::open()
 
 void Canvas::setup_view()
 {
-    Coordinate xm = boundingBox.get_min_abscissa();
-    Coordinate xM = boundingBox.get_max_abscissa();
-    Coordinate ym = -boundingBox.get_max_ordinate();
-    Coordinate yM = -boundingBox.get_min_ordinate();
+    Coordinate xm = bounding_box.get_min_abscissa();
+    Coordinate xM = bounding_box.get_max_abscissa();
+    Coordinate ym = -bounding_box.get_max_ordinate();
+    Coordinate yM = -bounding_box.get_min_ordinate();
+
+    if(xm == xM && ym == yM)
+    {
+        xm -= 1;
+        xM += 1;
+        ym -= 1;
+        yM += 1;
+    }
 
     float window_format = float(width) / float(height);
     float figure_format = (xM - xm) / (yM - ym);

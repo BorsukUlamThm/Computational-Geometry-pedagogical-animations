@@ -1,9 +1,9 @@
 #ifndef ALPHA_BOUNDING_BOX_H
 #define ALPHA_BOUNDING_BOX_H
 
-#include "Plots/Point.h"
-#include "Plots/Segment.h"
-#include "Plots/Polygon.h"
+#include "Plots/Point_plt.h"
+#include "Plots/Segment_plt.h"
+#include "Plots/Polygon_plt.h"
 
 
 namespace gr
@@ -20,13 +20,13 @@ public:
     Bounding_box() = default;
     Bounding_box(const Bounding_box& other);
 
-    void extend(const Point& point);
-    void extend(const Segment& segment);
-    void extend(const Vector& vector);
-    void extend(const Polygon& polygon);
-    void extend(const Circle& circle);
-    void extend(const Line& line);
-    void extend(const Text& text);
+    void extend(const Point_plt& point);
+    void extend(const Segment_plt& segment);
+    void extend(const Vector_plt& vector);
+    void extend(const Polygon_plt& polygon);
+    void extend(const Circle_plt& circle);
+    void extend(const Line_plt& line);
+    void extend(const Text_plt& text);
     void clear();
 
     Coordinate get_min_abscissa() const;
@@ -43,7 +43,7 @@ Bounding_box::Bounding_box(const Bounding_box& other)
     max_ordinate = Coordinate(other.max_ordinate);
 }
 
-void Bounding_box::extend(const Point& point)
+void Bounding_box::extend(const Point_plt& point)
 {
     min_abscissa = std::min(min_abscissa, point.get_min_abscissa());
     max_abscissa = std::max(max_abscissa, point.get_max_abscissa());
@@ -51,7 +51,7 @@ void Bounding_box::extend(const Point& point)
     max_ordinate = std::max(max_ordinate, point.get_max_ordinate());
 }
 
-void Bounding_box::extend(const Segment& segment)
+void Bounding_box::extend(const Segment_plt& segment)
 {
     min_abscissa = std::min(min_abscissa, segment.get_min_abscissa());
     max_abscissa = std::max(max_abscissa, segment.get_max_abscissa());
@@ -59,7 +59,7 @@ void Bounding_box::extend(const Segment& segment)
     max_ordinate = std::max(max_ordinate, segment.get_max_ordinate());
 }
 
-void Bounding_box::extend(const Vector& vector)
+void Bounding_box::extend(const Vector_plt& vector)
 {
     min_abscissa = std::min(min_abscissa, vector.get_min_abscissa());
     max_abscissa = std::max(max_abscissa, vector.get_max_abscissa());
@@ -67,7 +67,7 @@ void Bounding_box::extend(const Vector& vector)
     max_ordinate = std::max(max_ordinate, vector.get_max_ordinate());
 }
 
-void Bounding_box::extend(const Polygon& polygon)
+void Bounding_box::extend(const Polygon_plt& polygon)
 {
     min_abscissa = std::min(min_abscissa, polygon.get_min_abscissa());
     max_abscissa = std::max(max_abscissa, polygon.get_max_abscissa());
@@ -75,7 +75,7 @@ void Bounding_box::extend(const Polygon& polygon)
     max_ordinate = std::max(max_ordinate, polygon.get_max_ordinate());
 }
 
-void Bounding_box::extend(const Circle& circle)
+void Bounding_box::extend(const Circle_plt& circle)
 {
     min_abscissa = std::min(min_abscissa, circle.get_min_abscissa());
     max_abscissa = std::max(max_abscissa, circle.get_max_abscissa());
@@ -83,7 +83,7 @@ void Bounding_box::extend(const Circle& circle)
     max_ordinate = std::max(max_ordinate, circle.get_max_ordinate());
 }
 
-void Bounding_box::extend(const Line& line)
+void Bounding_box::extend(const Line_plt& line)
 {/* Nothing to do but to be sure i let it in a comment
     min_abscissa = std::min(min_abscissa, line.get_min_abscissa());
     max_abscissa = std::max(max_abscissa, line.get_max_abscissa());
@@ -91,7 +91,7 @@ void Bounding_box::extend(const Line& line)
     max_ordinate = std::max(max_ordinate, line.get_max_ordinate());*/
 }
 
-void Bounding_box::extend(const Text& text)
+void Bounding_box::extend(const Text_plt& text)
 {
     min_abscissa = std::min(min_abscissa, text.get_min_abscissa());
     max_abscissa = std::max(max_abscissa, text.get_max_abscissa());

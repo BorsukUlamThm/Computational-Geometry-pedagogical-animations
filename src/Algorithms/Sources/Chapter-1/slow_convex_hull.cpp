@@ -19,6 +19,21 @@ gr::Figure fig_outside_segments;
 gr::Figure fig_convex_hull;
 
 
+point_set make_point_set()
+{
+    gr::Acquisition_canvas canvas;
+    canvas.add_point_acquisition();
+    gr::Figure fig = canvas.acquire_buffer();
+
+    point_set S;
+    for(unsigned i = 0; i < fig.nb_plots(); ++i)
+    {
+        gr::Plot p = fig[i];
+        S.emplace_back(p.point().get_abscissa(), p.point().get_ordinate());
+    }
+    return S;
+}
+
 segment_set make_outside_segments(const point_set& P)
 {
     unsigned n = P.size();
@@ -69,7 +84,7 @@ segment_set make_outside_segments(const point_set& P)
     slides.add_slide(fig_points, fig_outside_segments);
     for(unsigned i = 0; i < E.size(); ++i)
     {
-        gr::Vector v (E[i].ogn.x, E[i].ogn.y, E[i].dst.x, E[i].dst.y);
+        gr::Vector_plt v (E[i].ogn.x, E[i].ogn.y, E[i].dst.x, E[i].dst.y);
         fig_outside_segments.add_text(std::to_string(i), v);
     }
     slides.add_slide(fig_points, fig_outside_segments);
@@ -131,7 +146,7 @@ void slow_convex_hull(const point_set& P)
     segment_set E = make_outside_segments(P);
     convex_hull CH = sort_outside_segment(E);
 
-    gr::Polygon plot_CH(sf::Color::Blue);
+    gr::Polygon_plt plot_CH(sf::Color::Blue);
     for(auto& v : CH.vertices)
     {
         plot_CH.add_vertex(v.x, v.y);
@@ -145,15 +160,10 @@ int main()
 {
     using namespace chap1_slow_convex_hull;
 
-    point_set S;
-    S.push_back(point(0, 0));
-    S.push_back(point(10, 0));
-    S.push_back(point(0, 10));
-    S.push_back(point(10, 10));
-    S.push_back(point(5, 5));
+    point_set S = make_point_set();
 
     slow_convex_hull(S);
-    gr::Canvas canvas;
+    gr::Display_canvas canvas;
     canvas.display_slide_show(slides);
 
     return 0;

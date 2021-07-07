@@ -1,7 +1,7 @@
 #ifndef ALPHA_DRAW_PLOTS_H
 #define ALPHA_DRAW_PLOTS_H
 
-#include "Canvas.h"
+#include "Display_canvas.h"
 #include <cmath>
 
 
@@ -14,25 +14,25 @@ void Canvas::draw_figure(const Figure& figure)
     {
         switch(figure[i].type())
         {
-            case POINT:
+            case POINT_PLT:
                 draw_point(figure[i].point());
                 break;
-            case SEGMENT:
+            case SEGMENT_PLT:
                 draw_segment(figure[i].segment());
                 break;
-            case VECTOR:
+            case VECTOR_PLT:
                 draw_vector(figure[i].vector());
                 break;
-            case POLYGON:
+            case POLYGON_PLT:
                 draw_polygon(figure[i].polygon());
                 break;
-            case CIRCLE:
+            case CIRCLE_PLT:
                 draw_circle(figure[i].circle());
                 break;
-            case LINE:
+            case LINE_PLT:
                 draw_line(figure[i].line());
                 break;
-            case TEXT:
+            case TEXT_PLT:
                 draw_text(figure[i].text());
                 break;
         }
@@ -55,7 +55,7 @@ const sf::Font& get_font()
     return *font;
 }
 
-void Canvas::draw_point(const Point& point)
+void Canvas::draw_point(const Point_plt& point)
 {
     float radius = point.get_radius() * view.getSize().x / float(width);
     sf::CircleShape shape(radius);
@@ -65,7 +65,7 @@ void Canvas::draw_point(const Point& point)
     window.draw(shape);
 }
 
-void Canvas::draw_segment(const Segment& segment)
+void Canvas::draw_segment(const Segment_plt& segment)
 {
     sf::VertexArray shape(sf::LineStrip, 2);
     shape[0].position = sf::Vector2f(segment.get_origin().get_abscissa(),
@@ -79,7 +79,7 @@ void Canvas::draw_segment(const Segment& segment)
     draw_point(segment.get_destination());
 }
 
-void Canvas::draw_vector(const Vector& vector)
+void Canvas::draw_vector(const Vector_plt& vector)
 {
     sf::VertexArray shape(sf::LineStrip, 2);
     shape[0].position = sf::Vector2f(vector.get_origin_x(),
@@ -106,7 +106,7 @@ void Canvas::draw_vector(const Vector& vector)
     window.draw(triangle);
 }
 
-void Canvas::draw_polygon(const Polygon& polygon)
+void Canvas::draw_polygon(const Polygon_plt& polygon)
 {
     unsigned n = polygon.size();
     sf::VertexArray shape(sf::LineStrip, n + 1);
@@ -128,7 +128,7 @@ void Canvas::draw_polygon(const Polygon& polygon)
     }
 }
 
-void Canvas::draw_circle(const Circle& circle)
+void Canvas::draw_circle(const Circle_plt& circle)
 {
     unsigned nb_vertices = 64;
     float a = 4 * std::acos(0) / nb_vertices;
@@ -148,7 +148,7 @@ void Canvas::draw_circle(const Circle& circle)
     window.draw(shape);
 }
 
-void Canvas::draw_line(const Line& line)
+void Canvas::draw_line(const Line_plt& line)
 {
     float x1, y1, x2, y2;
     Coordinate a = line.get_a();
@@ -177,7 +177,7 @@ void Canvas::draw_line(const Line& line)
     window.draw(shape);
 }
 
-void Canvas::draw_text(const Text& text)
+void Canvas::draw_text(const Text_plt& text)
 {
     const sf::Font& font = get_font();
     sf::Text shape;

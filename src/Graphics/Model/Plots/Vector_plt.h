@@ -1,12 +1,12 @@
-#ifndef ALPHA_VECTOR_H
-#define ALPHA_VECTOR_H
+#ifndef ALPHA_VECTOR_PLT_H
+#define ALPHA_VECTOR_PLT_H
 
-#include "Segment.h"
+#include "Segment_plt.h"
 
 
 namespace gr
 {
-class Vector
+class Vector_plt
 {
 private:
     Coordinate origin_x;
@@ -16,14 +16,14 @@ private:
     sf::Color color = DEFAULT_PLOT_COLOR;
 
 public:
-    Vector() = default;
-    Vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
+    Vector_plt() = default;
+    Vector_plt(const Coordinate& ogn_x, const Coordinate& ogn_y,
            const Coordinate& dst_x, const Coordinate& dst_y,
            const sf::Color& col = DEFAULT_PLOT_COLOR);
-    Vector(const Point& ogn, const Point& dst,
+    Vector_plt(const Point_plt& ogn, const Point_plt& dst,
            const sf::Color& col = DEFAULT_PLOT_COLOR);
-    explicit Vector(const Segment& segment, const sf::Color& col = DEFAULT_PLOT_COLOR);
-    ~Vector() = default;
+    explicit Vector_plt(const Segment_plt& segment, const sf::Color& col = DEFAULT_PLOT_COLOR);
+    ~Vector_plt() = default;
 
     Coordinate get_origin_x() const;
     Coordinate get_origin_y() const;
@@ -36,10 +36,10 @@ public:
     Coordinate get_min_ordinate() const;
     Coordinate get_max_ordinate() const;
 
-    friend std::istream& operator>>(std::istream& is, Vector& vector);
+    friend std::istream& operator>>(std::istream& is, Vector_plt& vector);
 };
 
-Vector::Vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
+Vector_plt::Vector_plt(const Coordinate& ogn_x, const Coordinate& ogn_y,
                const Coordinate& dst_x, const Coordinate& dst_y,
                const sf::Color& col)
 {
@@ -50,7 +50,7 @@ Vector::Vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
     color = col;
 }
 
-Vector::Vector(const Point& ogn, const Point& dst, const sf::Color& col)
+Vector_plt::Vector_plt(const Point_plt& ogn, const Point_plt& dst, const sf::Color& col)
 {
     origin_x = ogn.get_abscissa();
     origin_y = ogn.get_ordinate();
@@ -59,7 +59,7 @@ Vector::Vector(const Point& ogn, const Point& dst, const sf::Color& col)
     color = col;
 }
 
-Vector::Vector(const Segment& segment, const sf::Color& col)
+Vector_plt::Vector_plt(const Segment_plt& segment, const sf::Color& col)
 {
     origin_x = segment.get_origin().get_abscissa();
     origin_y = segment.get_origin().get_ordinate();
@@ -68,52 +68,52 @@ Vector::Vector(const Segment& segment, const sf::Color& col)
     color = col;
 }
 
-Coordinate Vector::get_origin_x() const
+Coordinate Vector_plt::get_origin_x() const
 {
     return origin_x;
 }
 
-Coordinate Vector::get_origin_y() const
+Coordinate Vector_plt::get_origin_y() const
 {
     return origin_y;
 }
 
-Coordinate Vector::get_destination_x() const
+Coordinate Vector_plt::get_destination_x() const
 {
     return destination_x;
 }
 
-Coordinate Vector::get_destination_y() const
+Coordinate Vector_plt::get_destination_y() const
 {
     return destination_y;
 }
 
-sf::Color Vector::get_color() const
+sf::Color Vector_plt::get_color() const
 {
     return color;
 }
 
-Coordinate Vector::get_min_abscissa() const
+Coordinate Vector_plt::get_min_abscissa() const
 {
     return std::min(origin_x, destination_x);
 }
 
-Coordinate Vector::get_max_abscissa() const
+Coordinate Vector_plt::get_max_abscissa() const
 {
     return std::max(origin_x, destination_x);
 }
 
-Coordinate Vector::get_min_ordinate() const
+Coordinate Vector_plt::get_min_ordinate() const
 {
     return std::min(origin_y, destination_y);
 }
 
-Coordinate Vector::get_max_ordinate() const
+Coordinate Vector_plt::get_max_ordinate() const
 {
     return std::max(origin_y, destination_y);
 }
 
-std::ostream& operator<<(std::ostream& os, const Vector& vector)
+std::ostream& operator<<(std::ostream& os, const Vector_plt& vector)
 {
     os << VECTOR_NAME << " " << vector.get_origin_x()
                       << " " << vector.get_origin_y()
@@ -122,7 +122,7 @@ std::ostream& operator<<(std::ostream& os, const Vector& vector)
     return os;
 }
 
-std::istream& operator>>(std::istream& is, Vector& vector)
+std::istream& operator>>(std::istream& is, Vector_plt& vector)
 {
     is >> vector.origin_x >> vector.origin_y
        >> vector.destination_x >> vector.destination_y;
@@ -131,4 +131,4 @@ std::istream& operator>>(std::istream& is, Vector& vector)
 }
 
 
-#endif //ALPHA_VECTOR_H
+#endif //ALPHA_VECTOR_PLT_H

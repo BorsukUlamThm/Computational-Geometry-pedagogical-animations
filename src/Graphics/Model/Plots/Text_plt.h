@@ -1,16 +1,16 @@
-#ifndef ALPHA_TEXT_H
-#define ALPHA_TEXT_H
+#ifndef ALPHA_TEXT_PLT_H
+#define ALPHA_TEXT_PLT_H
 
 #include <SFML/Graphics.hpp>
 #include "Graphics/Model/Global_variables.h"
-#include "Point.h"
-#include "Segment.h"
-#include "Vector.h"
+#include "Point_plt.h"
+#include "Segment_plt.h"
+#include "Vector_plt.h"
 
 
 namespace gr
 {
-class Text
+class Text_plt
 {
 private:
     std::string content{};
@@ -22,18 +22,18 @@ private:
     sf::Color color = DEFAULT_PLOT_COLOR;
 
 public:
-    Text() = default;
-    Text(const std::string& text, const Coordinate& x, const Coordinate& y,
+    Text_plt() = default;
+    Text_plt(const std::string& text, const Coordinate& x, const Coordinate& y,
          unsigned size = 16, float off_x = 0, float off_y = 0,
          const sf::Color& col = DEFAULT_PLOT_COLOR);
-    Text(const std::string& text, const Point& point, unsigned size = 16,
+    Text_plt(const std::string& text, const Point_plt& point, unsigned size = 16,
          const sf::Color& col = DEFAULT_PLOT_COLOR);
-    Text(const std::string& text, const Segment& segment, unsigned size = 16,
+    Text_plt(const std::string& text, const Segment_plt& segment, unsigned size = 16,
          const sf::Color& col = DEFAULT_PLOT_COLOR);
-    Text(const std::string& text, const Vector& vector, unsigned size = 16,
+    Text_plt(const std::string& text, const Vector_plt& vector, unsigned size = 16,
          const sf::Color& col = DEFAULT_PLOT_COLOR);
-    Text(const Text& other);
-    ~Text() = default;
+    Text_plt(const Text_plt& other);
+    ~Text_plt() = default;
 
     std::string get_content() const;
     Coordinate get_abscissa() const;
@@ -56,7 +56,7 @@ private:
                          const sf::Color& col);
 };
 
-void Text::aux_constructor(const std::string& text,
+void Text_plt::aux_constructor(const std::string& text,
                            const Coordinate& x, const Coordinate& y,
                            unsigned char_size, float off_x, float off_y,
                            const sf::Color& col)
@@ -70,20 +70,20 @@ void Text::aux_constructor(const std::string& text,
     color = col;
 }
 
-Text::Text(const std::string& text, const Coordinate& x, const Coordinate& y,
+Text_plt::Text_plt(const std::string& text, const Coordinate& x, const Coordinate& y,
            unsigned size, float off_x, float off_y, const sf::Color& col)
 {
     aux_constructor(text, x, y, size, off_x, off_y, col);
 }
 
-Text::Text(const std::string& text, const Point& point, unsigned int size,
+Text_plt::Text_plt(const std::string& text, const Point_plt& point, unsigned int size,
            const sf::Color& col)
 {
     aux_constructor(text, point.get_abscissa(), point.get_ordinate(), size,
                     0, 3 + point.get_radius() + float(size) / 2, col);
 }
 
-Text::Text(const std::string& text, const Segment& segment, unsigned int size,
+Text_plt::Text_plt(const std::string& text, const Segment_plt& segment, unsigned int size,
            const sf::Color& col)
 {
     Coordinate x = (segment.get_origin().get_abscissa() +
@@ -94,7 +94,7 @@ Text::Text(const std::string& text, const Segment& segment, unsigned int size,
                     0, 0, col);
 }
 
-Text::Text(const std::string& text, const Vector& vector, unsigned int size,
+Text_plt::Text_plt(const std::string& text, const Vector_plt& vector, unsigned int size,
            const sf::Color& col)
 {
     Coordinate x = (vector.get_origin_x() + vector.get_destination_x()) / 2;
@@ -103,7 +103,7 @@ Text::Text(const std::string& text, const Vector& vector, unsigned int size,
                     0, 0, col);
 }
 
-Text::Text(const Text& other)
+Text_plt::Text_plt(const Text_plt& other)
 {
     content = std::string(other.content);
     abscissa = Coordinate(other.abscissa);
@@ -114,61 +114,61 @@ Text::Text(const Text& other)
     color = other.color;
 }
 
-std::string Text::get_content() const
+std::string Text_plt::get_content() const
 {
     return content;
 }
 
-Coordinate Text::get_abscissa() const
+Coordinate Text_plt::get_abscissa() const
 {
     return abscissa;
 }
 
-Coordinate Text::get_ordinate() const
+Coordinate Text_plt::get_ordinate() const
 {
     return ordinate;
 }
 
-unsigned Text::get_size() const
+unsigned Text_plt::get_size() const
 {
     return size;
 }
 
-float Text::get_offset_x() const
+float Text_plt::get_offset_x() const
 {
     return offset_x;
 }
 
-float Text::get_offset_y() const
+float Text_plt::get_offset_y() const
 {
     return offset_y;
 }
 
-sf::Color Text::get_color() const
+sf::Color Text_plt::get_color() const
 {
     return color;
 }
 
-Coordinate Text::get_min_abscissa() const
+Coordinate Text_plt::get_min_abscissa() const
 {
     return abscissa;
 }
 
-Coordinate Text::get_max_abscissa() const
+Coordinate Text_plt::get_max_abscissa() const
 {
     return abscissa;
 }
 
-Coordinate Text::get_min_ordinate() const
+Coordinate Text_plt::get_min_ordinate() const
 {
     return ordinate;
 }
 
-Coordinate Text::get_max_ordinate() const
+Coordinate Text_plt::get_max_ordinate() const
 {
     return ordinate;
 }
 }
 
 
-#endif //ALPHA_TEXT_H
+#endif //ALPHA_TEXT_PLT_H

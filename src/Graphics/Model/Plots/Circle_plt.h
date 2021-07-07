@@ -1,5 +1,5 @@
-#ifndef ALPHA_CIRCLE_H
-#define ALPHA_CIRCLE_H
+#ifndef ALPHA_CIRCLE_PLT_H
+#define ALPHA_CIRCLE_PLT_H
 
 #include <SFML/Graphics.hpp>
 #include "Graphics/Model/Global_variables.h"
@@ -7,7 +7,7 @@
 
 namespace gr
 {
-class Circle
+class Circle_plt
 {
 private:
     Coordinate center_x{};
@@ -16,11 +16,11 @@ private:
     sf::Color color = DEFAULT_PLOT_COLOR;
 
 public:
-    Circle() = default;
-    Circle(const Coordinate& x, const Coordinate& y, const Coordinate& rad,
+    Circle_plt() = default;
+    Circle_plt(const Coordinate& x, const Coordinate& y, const Coordinate& rad,
            const sf::Color& col = DEFAULT_PLOT_COLOR);
-    Circle(const Circle& other);
-    ~Circle() = default;
+    Circle_plt(const Circle_plt& other);
+    ~Circle_plt() = default;
 
     Coordinate get_center_x() const;
     Coordinate get_center_y() const;
@@ -32,10 +32,10 @@ public:
     Coordinate get_min_ordinate() const;
     Coordinate get_max_ordinate() const;
 
-    friend std::istream& operator>>(std::istream& is, Circle& circle);
+    friend std::istream& operator>>(std::istream& is, Circle_plt& circle);
 };
 
-Circle::Circle(const Coordinate& x, const Coordinate& y,
+Circle_plt::Circle_plt(const Coordinate& x, const Coordinate& y,
                const Coordinate& rad, const sf::Color& col)
 {
     center_x = Coordinate(x);
@@ -44,7 +44,7 @@ Circle::Circle(const Coordinate& x, const Coordinate& y,
     color = col;
 }
 
-Circle::Circle(const Circle& other)
+Circle_plt::Circle_plt(const Circle_plt& other)
 {
     center_x = Coordinate(other.center_x);
     center_y = Coordinate(other.center_y);
@@ -52,47 +52,47 @@ Circle::Circle(const Circle& other)
     color = other.color;
 }
 
-Coordinate Circle::get_center_x() const
+Coordinate Circle_plt::get_center_x() const
 {
     return center_x;
 }
 
-Coordinate Circle::get_center_y() const
+Coordinate Circle_plt::get_center_y() const
 {
     return  center_y;
 }
 
-Coordinate Circle::get_radius() const
+Coordinate Circle_plt::get_radius() const
 {
     return radius;
 }
 
-sf::Color Circle::get_color() const
+sf::Color Circle_plt::get_color() const
 {
     return color;
 }
 
-Coordinate Circle::get_min_abscissa() const
+Coordinate Circle_plt::get_min_abscissa() const
 {
     return center_x - radius;
 }
 
-Coordinate Circle::get_max_abscissa() const
+Coordinate Circle_plt::get_max_abscissa() const
 {
     return center_x + radius;
 }
 
-Coordinate Circle::get_min_ordinate() const
+Coordinate Circle_plt::get_min_ordinate() const
 {
     return center_y - radius;
 }
 
-Coordinate Circle::get_max_ordinate() const
+Coordinate Circle_plt::get_max_ordinate() const
 {
     return center_y + radius;
 }
 
-std::ostream& operator<<(std::ostream& os, const Circle& circle)
+std::ostream& operator<<(std::ostream& os, const Circle_plt& circle)
 {
     os << CIRCLE_NAME << " " << circle.get_center_x()
                       << " " << circle.get_center_y()
@@ -100,7 +100,7 @@ std::ostream& operator<<(std::ostream& os, const Circle& circle)
     return os;
 }
 
-std::istream& operator>>(std::istream& is, Circle& circle)
+std::istream& operator>>(std::istream& is, Circle_plt& circle)
 {
     is >> circle.center_x >> circle.center_y >> circle.radius;
     return is;
@@ -108,4 +108,4 @@ std::istream& operator>>(std::istream& is, Circle& circle)
 }
 
 
-#endif //ALPHA_CIRCLE_H
+#endif //ALPHA_CIRCLE_PLT_H
