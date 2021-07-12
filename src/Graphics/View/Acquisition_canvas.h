@@ -62,8 +62,6 @@ Figure Acquisition_canvas::acquire_buffer()
         handle_events();
         draw_figure(acquisitions);
         window.display();
-        std::cout << state << std::endl;
-
     }
 
     return Figure(acquisitions);
