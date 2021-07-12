@@ -159,8 +159,8 @@ int main()
     using namespace chap1_slow_convex_hull;
 
     point_set P = make_point_set();
-
     slow_convex_hull(P);
+
     gr::Display_canvas canvas;
     canvas.display_slide_show(slides);
 
