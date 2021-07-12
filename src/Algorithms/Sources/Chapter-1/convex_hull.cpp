@@ -9,6 +9,10 @@ typedef alg::Point_2<int> point;
 typedef std::vector<point> convex_hull;
 typedef std::vector<point> point_set;
 
+gr::Slide_show slides;
+gr::Figure fig_points;
+gr::Figure fig_hull;
+
 
 point_set make_point_set()
 {
