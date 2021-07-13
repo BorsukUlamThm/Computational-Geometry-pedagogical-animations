@@ -20,10 +20,11 @@ public:
     explicit Polygon_2(const Vertex& p, const Points&... pts);
     ~Polygon_2() = default;
 
-    unsigned size();
+    unsigned size() const;
 
     void push_back(const Vertex& p);
     Vertex& operator[](unsigned i);
+    const Vertex& operator[](unsigned i) const;
 };
 
 template<typename Real>
@@ -35,7 +36,7 @@ Polygon_2<Real>::Polygon_2(const Vertex& p, const Points&... pts)
 }
 
 template<typename Real>
-unsigned Polygon_2<Real>::size()
+unsigned Polygon_2<Real>::size() const
 {
     return vertices.size();
 }
@@ -48,6 +49,12 @@ void Polygon_2<Real>::push_back(const Vertex& p)
 
 template<typename Real>
 typename Polygon_2<Real>::Vertex& Polygon_2<Real>::operator[](unsigned int i)
+{
+    return vertices[i];
+}
+
+template<typename Real>
+const typename Polygon_2<Real>::Vertex& Polygon_2<Real>::operator[](unsigned int i) const
 {
     return vertices[i];
 }
