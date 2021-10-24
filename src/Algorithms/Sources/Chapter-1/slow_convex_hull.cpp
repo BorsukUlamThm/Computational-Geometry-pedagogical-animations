@@ -1,13 +1,12 @@
 #include "Graphics/View/View.h"
-#include "Algorithms/Model/Model.h"
-#include "Algorithms/Tools/Point_comparisons.h"
+#include "Algorithms/Algorithms.h"
 
 
 namespace chap1_slow_convex_hull
 {
 typedef alg::Point_2<int> point;
 typedef alg::Segment_2<int> segment;
-typedef alg::Polygon_2<int> convex_hull;
+typedef std::vector<point> convex_hull;
 typedef std::vector<point> point_set;
 typedef std::vector<segment> segment_set;
 
@@ -145,7 +144,7 @@ void slow_convex_hull(const point_set& P)
     convex_hull CH = sort_outside_segment(E);
 
     gr::Polygon_plt plot_CH(sf::Color::Blue);
-    for(auto& v : CH.vertices)
+    for(auto& v : CH)
     {
         plot_CH.add_vertex(v.x, v.y);
     }

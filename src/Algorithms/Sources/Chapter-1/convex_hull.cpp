@@ -1,6 +1,5 @@
 #include "Graphics/View/View.h"
-#include "Algorithms/Model/Model.h"
-#include "Algorithms/Tools/Point_comparisons.h"
+#include "Algorithms/Algorithms.h"
 
 
 namespace chap1_convex_hull
@@ -30,7 +29,6 @@ point_set make_point_set()
 
     return P;
 }
-
 
 bool left_turn(const convex_hull& hull, const point& p)
 {

@@ -1,18 +1,16 @@
 #include "Graphics/View/View.h"
-#include "Algorithms/Model/Model.h"
-#include "Algorithms/Tools/Point_comparisons.h"
+#include "Algorithms/Algorithms.h"
 
 
 namespace chap1_jarvis_convex_hull
 {
 typedef alg::Point_2<int> point;
-typedef alg::Polygon_2<int> convex_hull;
+typedef std::vector<point> convex_hull;
 typedef std::vector<point> point_set;
 
 gr::Slide_show slides;
 gr::Figure fig_points;
 gr::Figure fig_hull;
-gr::Figure fig_line;
 
 
 point_set make_point_set()
@@ -108,10 +106,10 @@ void jarvis_convex_hull(const point_set& P)
         slides.add_slide(fig_points, fig_hull);
         CH.push_back(p);
     }
-    CH.vertices.pop_back();
+    CH.pop_back();
 
     gr::Polygon_plt plot_CH(sf::Color::Blue);
-    for(auto& v : CH.vertices)
+    for(auto& v : CH)
     {
         plot_CH.add_vertex(v.x, v.y);
     }
