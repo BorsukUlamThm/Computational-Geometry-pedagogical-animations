@@ -14,8 +14,60 @@ gr::Figure fig_hull;
 gr::Figure fig_line;
 
 
+bool acquire_points = false;
+bool random_input = true;
+unsigned nb_random_points = 50;
+unsigned long seed = time_seed;
+
+void process_command_line(int argc, char** argv)
+{
+    for(unsigned i = 0; i < argc; ++i)
+    {
+        if(std::string(argv[i]) == "-a")
+        {
+            acquire_points = true;
+            random_input = false;
+            continue;
+        }
+        if(std::string(argv[i]) == "-r")
+        {
+            random_input = true;
+            acquire_points = false;
+            ++i;
+            if(i >= argc)
+            {
+                std::cerr << "invalid -r parameter, missing"
+                          << " number of random points"
+                          << std::endl;
+                continue;
+            }
+            nb_random_points = std::stoi(std::string(argv[i]));
+        }
+        if(std::string(argv[i]) == "-s")
+        {
+            ++i;
+            if(i >= argc)
+            {
+                std::cerr << "invalid -s parameter, missing seed"
+                          << std::endl;
+                continue;
+            }
+            seed = std::stoi(std::string(argv[i]));
+        }
+    }
+}
+
 point_set make_point_set()
 {
+    if(random_input)
+    {
+        std::cout << "initializing " << nb_random_points << " random points"
+                  << std::endl << "seed : " << seed << std::endl;
+
+        alg::Normal_number_generator<int> ng(seed);
+        return alg::random_2D_point_set<int>(nb_random_points, ng);
+    }
+
     gr::Acquisition_canvas canvas;
     canvas.add_point_acquisition();
     gr::Figure fig = canvas.acquire_buffer();
@@ -167,10 +219,11 @@ void make_convex_hull(point_set& P)
 }
 }
 
-int main()
+int main(int argc, char** argv)
 {
     using namespace chap1_convex_hull;
 
+    process_command_line(argc, argv);
     point_set P = make_point_set();
     make_convex_hull(P);
 
