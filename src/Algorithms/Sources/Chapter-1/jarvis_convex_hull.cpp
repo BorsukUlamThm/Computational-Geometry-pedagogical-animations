@@ -105,7 +105,7 @@ point next_point(const convex_hull& CH, const point_set& P)
         i++;
         p = P[i];
     }
-    fig_hull.add_segment(last.x, last.y, p.x, p.y, sf::Color::Blue);
+    fig_hull.add_segment(last.x, last.y, p.x, p.y, YELLOW);
     slides.add_slide(fig_points, fig_hull);
 
     for(unsigned j = i + 1; j < P.size(); ++j)
@@ -117,16 +117,16 @@ point next_point(const convex_hull& CH, const point_set& P)
 
         if(alg::point_left_line(P[j], last, p))
         {
-            fig_points.add_segment(last.x, last.y, P[j].x, P[j].y, sf::Color::Red);
+            fig_points.add_segment(last.x, last.y, P[j].x, P[j].y, RED);
             slides.add_slide(fig_points, fig_hull);
             fig_hull.erase_last_plot();
-            fig_hull.add_segment(last.x, last.y, P[j].x, P[j].y, sf::Color::Blue);
+            fig_hull.add_segment(last.x, last.y, P[j].x, P[j].y, YELLOW);
 
             p = P[j];
         }
         else
         {
-            fig_points.add_segment(last.x, last.y, P[j].x, P[j].y, sf::Color::Green);
+            fig_points.add_segment(last.x, last.y, P[j].x, P[j].y, GREEN);
             slides.add_slide(fig_points, fig_hull);
         }
         fig_points.erase_last_plot();
@@ -147,20 +147,20 @@ void jarvis_convex_hull(const point_set& P)
     CH.push_back(first_point(P));
     CH.push_back(next_point(CH, P));
     fig_hull.add_segment(CH[0].x, CH[0].y,
-                         CH[1].x, CH[1].y, sf::Color::Blue);
+                         CH[1].x, CH[1].y, YELLOW);
     slides.add_slide(fig_points, fig_hull);
 
     while(CH[CH.size() - 1] != CH[0])
     {
         point p = next_point(CH, P);
         point q = CH[CH.size() - 1];
-        fig_hull.add_segment(p.x, p.y, q.x, q.y, sf::Color::Blue);
+        fig_hull.add_segment(p.x, p.y, q.x, q.y, YELLOW);
         slides.add_slide(fig_points, fig_hull);
         CH.push_back(p);
     }
     CH.pop_back();
 
-    gr::Polygon_plt plot_CH(sf::Color::Blue);
+    gr::Polygon_plt plot_CH(YELLOW);
     for(auto& v : CH)
     {
         plot_CH.add_vertex(v.x, v.y);

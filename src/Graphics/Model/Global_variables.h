@@ -25,8 +25,17 @@ constexpr char TEXT_NAME[] = "Text";
 
 
 /// Colors
-#define DEFAULT_BACKGROUND_COLOR sf::Color::White
-#define DEFAULT_PLOT_COLOR sf::Color::Black
+#define DARK_GREY (sf::Color(33, 47, 60))
+#define LIGHT_GREY (sf::Color(208, 211, 212))
+
+#define RED (sf::Color(203, 67, 53))
+#define PURPLE (sf::Color(175, 122, 197))
+#define BLUE (sf::Color(52, 152, 219))
+#define GREEN (sf::Color(39, 174, 96))
+#define YELLOW (sf::Color(241, 196, 15))
+
+#define DEFAULT_BACKGROUND_COLOR DARK_GREY
+#define DEFAULT_PLOT_COLOR LIGHT_GREY
 
 
 /// Fonts

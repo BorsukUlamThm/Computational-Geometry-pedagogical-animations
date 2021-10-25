@@ -104,7 +104,7 @@ convex_hull make_upper_hull(const point_set& P)
     U.push_back(P[1]);
 
     fig_hull.add_segment(P[0].x, P[0].y,
-                         P[1].x, P[1].y, sf::Color::Blue);
+                         P[1].x, P[1].y, YELLOW);
     fig_line.clear();
     fig_line.add_vertical_line(P[1].x);
     slides.add_slide(fig_points, fig_line, fig_hull);
@@ -114,20 +114,20 @@ convex_hull make_upper_hull(const point_set& P)
         unsigned k = U.size();
         fig_hull.erase_last_plot();
         fig_hull.add_segment(U[k - 2].x, U[k - 2].y,
-                             U[k - 1].x, U[k - 1].y, sf::Color::Blue);
+                             U[k - 1].x, U[k - 1].y, YELLOW);
         fig_line.clear();
         fig_line.add_vertical_line(P[i].x);
 
         while(left_turn(U, P[i]))
         {
             fig_hull.add_segment(U.back().x, U.back().y,
-                                 P[i].x, P[i].y, sf::Color::Red);
+                                 P[i].x, P[i].y, RED);
             slides.add_slide(fig_points, fig_line, fig_hull);
             fig_hull.erase_last_k_plots(2);
             U.pop_back();
         }
         fig_hull.add_segment(U.back().x, U.back().y,
-                             P[i].x, P[i].y, sf::Color::Green);
+                             P[i].x, P[i].y, GREEN);
         U.push_back(P[i]);
         slides.add_slide(fig_points, fig_line, fig_hull);
     }
@@ -135,7 +135,7 @@ convex_hull make_upper_hull(const point_set& P)
     unsigned k = U.size();
     fig_hull.erase_last_plot();
     fig_hull.add_segment(U[k - 2].x, U[k - 2].y,
-                         U[k - 1].x, U[k - 1].y, sf::Color::Blue);
+                         U[k - 1].x, U[k - 1].y, YELLOW);
 
     return U;
 }
@@ -150,7 +150,7 @@ convex_hull make_lower_hull(const point_set& P)
     L.push_back(P[n - 2]);
 
     fig_hull.add_segment(P[n - 1].x, P[n - 1].y,
-                         P[n - 2].x, P[n - 2].y, sf::Color::Blue);
+                         P[n - 2].x, P[n - 2].y, YELLOW);
     fig_line.clear();
     fig_line.add_vertical_line(P[n - 2].x);
     slides.add_slide(fig_points, fig_line, fig_hull);
@@ -160,20 +160,20 @@ convex_hull make_lower_hull(const point_set& P)
         unsigned k = L.size();
         fig_hull.erase_last_plot();
         fig_hull.add_segment(L[k - 2].x, L[k - 2].y,
-                             L[k - 1].x, L[k - 1].y, sf::Color::Blue);
+                             L[k - 1].x, L[k - 1].y, YELLOW);
         fig_line.clear();
         fig_line.add_vertical_line(P[i].x);
 
         while(left_turn(L, P[i]))
         {
             fig_hull.add_segment(L.back().x, L.back().y,
-                                 P[i].x, P[i].y, sf::Color::Red);
+                                 P[i].x, P[i].y, RED);
             slides.add_slide(fig_points, fig_line, fig_hull);
             fig_hull.erase_last_k_plots(2);
             L.pop_back();
         }
         fig_hull.add_segment(L.back().x, L.back().y,
-                             P[i].x, P[i].y, sf::Color::Green);
+                             P[i].x, P[i].y, GREEN);
         L.push_back(P[i]);
         slides.add_slide(fig_points, fig_line, fig_hull);
     }
@@ -181,7 +181,7 @@ convex_hull make_lower_hull(const point_set& P)
     unsigned k = L.size();
     fig_hull.erase_last_plot();
     fig_hull.add_segment(L[k - 2].x, L[k - 2].y,
-                         L[k - 1].x, L[k - 1].y, sf::Color::Blue);
+                         L[k - 1].x, L[k - 1].y, YELLOW);
     slides.add_slide(fig_points, fig_line, fig_hull);
 
     return L;
@@ -208,7 +208,7 @@ void make_convex_hull(point_set& P)
         U.push_back(p);
     }
 
-    gr::Polygon_plt plot_CH(sf::Color::Blue);
+    gr::Polygon_plt plot_CH(YELLOW);
     for(auto& v : U)
     {
         plot_CH.add_vertex(v.x, v.y);
