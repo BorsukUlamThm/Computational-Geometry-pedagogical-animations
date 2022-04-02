@@ -1,4 +1,4 @@
-# Alpha
+# Computational Geometry pedagogical animations
 
 This project aims to provideanimation of usual computational geometry algorithm for pedagogical purpose (plus a bunch of other stuff)
 
