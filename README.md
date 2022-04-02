@@ -25,7 +25,7 @@ The project is a [CMake](https://cmake.org/) project. Information on how to inst
 
 Then the project can be built using
 ```bash
-#in the Alpha directory
+#in the Project directory
 mkdir build && cd build
 cmake ..
 make
