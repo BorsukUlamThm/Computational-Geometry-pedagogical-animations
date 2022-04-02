@@ -20,8 +20,8 @@ PLOT_COLOR 208 211 212
 FONT arial
 
 
-# Window settings
+# Window settings, -1 for maximal possible length
 
-WIDTH 1600
-HEIGHT 900
+WIDTH -1
+HEIGHT -1
 MARGIN 20

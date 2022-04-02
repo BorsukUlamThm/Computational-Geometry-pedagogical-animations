@@ -132,8 +132,17 @@ void Canvas::open()
     }
     sf::ContextSettings settings;
     settings.antialiasingLevel = 8;
-    window.create(sf::VideoMode(config.width, config.height), title,
-                  sf::Style::Default, settings);
+
+    if(config.width == -1 || config.height == -1)
+    {
+        window.create(sf::VideoMode::getDesktopMode(), title,
+                      sf::Style::Default, settings);
+    }
+    else
+    {
+        window.create(sf::VideoMode(config.width, config.height), title,
+                    sf::Style::Default, settings);
+    }
 }
 
 void Canvas::setup_view()
