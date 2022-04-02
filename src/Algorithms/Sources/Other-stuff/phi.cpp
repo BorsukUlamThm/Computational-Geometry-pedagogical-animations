@@ -54,6 +54,32 @@ void plot_phi(integer n, float r)
     phi_values.clear();
 
     gr::Display_canvas canvas;
+
+    std::vector<unsigned> numbers;
+    while(n >= 1000)
+    {
+        numbers.push_back(n % 1000);
+        n = n / 1000;
+    }
+    numbers.push_back(n);
+
+    std::string title = "phi(n) for n up to ";
+    title += std::to_string(numbers[numbers.size() - 1]);
+    for(unsigned i = numbers.size() - 2; i != -1; --i)
+    {
+        title += " ";
+        if(numbers[i] < 100)
+        {
+            title += "0";
+        }
+        if(numbers[i] < 10)
+        {
+            title += "0";
+        }
+        title += std::to_string(numbers[i]);
+    }
+
+    canvas.set_title(title);
     canvas.display_figure(fig);
 }
 }

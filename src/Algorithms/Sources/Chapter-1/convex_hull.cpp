@@ -69,6 +69,7 @@ point_set make_point_set()
     }
 
     gr::Acquisition_canvas canvas;
+    canvas.set_title("Convex hull - acquisition");
     canvas.add_point_acquisition();
     gr::Figure fig = canvas.acquire_buffer();
 
@@ -228,6 +229,7 @@ int main(int argc, char** argv)
     make_convex_hull(P);
 
     gr::Display_canvas canvas;
+    canvas.set_title("Convex hull - animation");
     canvas.display_slide_show(slides);
 
     return 0;

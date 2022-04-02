@@ -4,31 +4,36 @@
 
 namespace fs = std::filesystem;
 
-std::vector<std::string> split_line(std::string& line)
+void print(unsigned n)
 {
-    std::istringstream iss(line);
-    std::vector<std::string> res;
-    std::string word;
-
-    while(!iss.eof())
+    std::vector<unsigned> numbers;
+    while(n >= 1000)
     {
-        iss >> word;
-        res.push_back(word);
+        numbers.push_back(n % 1000);
+        n = n / 1000;
     }
+    numbers.push_back(n);
 
-    return res;
+    std::string title;
+    title += std::to_string(numbers[numbers.size() - 1]);
+    for(unsigned i = numbers.size() - 2; i != -1; --i)
+    {
+        title += " ";
+        if(numbers[i] < 100)
+        {
+            title += "0";
+        }
+        if(numbers[i] < 10)
+        {
+            title += "0";
+        }
+        title += std::to_string(numbers[i]);
+    }
+    std::cout << title << std::endl;
 }
 
 int main()
 {
-    std::ifstream is ("../test");
-    std::string line;
-    std::getline(is, line);
-
-    for(;!is.eof(); std::getline(is, line))
-    {
-        auto words = split_line(line);
-        std::cout << words.size();
-    }
+    print(2008);
 
 }

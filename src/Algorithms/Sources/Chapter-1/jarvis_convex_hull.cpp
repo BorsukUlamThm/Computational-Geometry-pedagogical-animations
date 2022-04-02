@@ -68,6 +68,7 @@ point_set make_point_set()
     }
 
     gr::Acquisition_canvas canvas;
+    canvas.set_title("Jarvis convex hull - acquisition");
     canvas.add_point_acquisition();
     gr::Figure fig = canvas.acquire_buffer();
 
@@ -179,6 +180,7 @@ int main()
     jarvis_convex_hull(P);
 
     gr::Display_canvas canvas;
+    canvas.set_title("Jarvis convex hull - animation");
     canvas.display_slide_show(slides);
 
     return 0;

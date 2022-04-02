@@ -107,6 +107,7 @@ namespace Other_stuff_dragon
         }
 
         gr::Display_canvas canvas;
+        canvas.set_title("Dragon curve - " + std::to_string(n) + " iterations");
         canvas.display_figure(fig);
     }
 }

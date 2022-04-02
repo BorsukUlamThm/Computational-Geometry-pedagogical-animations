@@ -198,11 +198,11 @@ struct Config
             }
             if(words[0] == "HEIGHT")
             {
-                width = std::stoi(words[1]);
+                height = std::stoi(words[1]);
             }
             if(words[0] == "MARGIN")
             {
-                width = std::stoi(words[1]);
+                margin = std::stoi(words[1]);
             }
         }
 
