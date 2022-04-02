@@ -35,3 +35,6 @@ bin
 # Clion stuff
 cmake-build-debug
 .idea
+
+# Config
+.config
