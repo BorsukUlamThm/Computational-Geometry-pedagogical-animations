@@ -11,13 +11,13 @@ class Polygon_plt
 {
 private:
     std::vector<Point_plt> vertices;
-    sf::Color lines_color = DEFAULT_PLOT_COLOR;
+    Color lines_color = DEFAULT_PLOT_COLOR;
 
 public:
     Polygon_plt() = default;
-    explicit Polygon_plt(const sf::Color& lines_col);
+    explicit Polygon_plt(Color lines_col);
     explicit Polygon_plt(const std::vector<Point_plt>& vertices,
-                     const sf::Color& lines_col = DEFAULT_PLOT_COLOR);
+                     Color lines_col = DEFAULT_PLOT_COLOR);
     Polygon_plt(const Polygon_plt& other);
 
     void push_back(const Point_plt& vertex);
@@ -26,7 +26,7 @@ public:
     unsigned size() const;
     Point_plt& operator[](unsigned i);
     const Point_plt& operator[](unsigned i) const;
-    sf::Color get_lines_color() const;
+    Color get_lines_color() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -36,12 +36,12 @@ public:
     friend std::istream& operator>>(std::istream& is, Polygon_plt& polygon);
 };
 
-Polygon_plt::Polygon_plt(const sf::Color& lines_col)
+Polygon_plt::Polygon_plt(Color lines_col)
 {
     lines_color = lines_col;
 }
 
-Polygon_plt::Polygon_plt(const std::vector<Point_plt>& vertices, const sf::Color& lines_col)
+Polygon_plt::Polygon_plt(const std::vector<Point_plt>& vertices, Color lines_col)
 {
     this->vertices = std::vector<Point_plt>(vertices);
     lines_color = lines_col;
@@ -81,7 +81,7 @@ const Point_plt& Polygon_plt::operator[](unsigned int i) const
     return vertices[i];
 }
 
-sf::Color Polygon_plt::get_lines_color() const
+Color Polygon_plt::get_lines_color() const
 {
     return lines_color;
 }

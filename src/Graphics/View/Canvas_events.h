@@ -12,8 +12,8 @@ void Canvas::mouse_wheel_scrolled_event(const sf::Event& event)
     float zoom_ratio = std::pow(zoom_factor, event.mouseWheelScroll.delta);
     zoom *= zoom_ratio;
 
-    float zoom_center_x = float(width) / 2 + offset_x;
-    float zoom_center_y = float(height) / 2 + offset_y;
+    float zoom_center_x = float(config.width) / 2 + offset_x;
+    float zoom_center_y = float(config.height) / 2 + offset_y;
     float x = float(event.mouseWheelScroll.x);
     float y = float(event.mouseWheelScroll.y);
     offset_x += (x - zoom_center_x) * (1 - zoom_ratio);

@@ -11,22 +11,22 @@ class Segment_plt
 private:
     Point_plt origin;
     Point_plt destination;
-    sf::Color line_color = DEFAULT_PLOT_COLOR;
+    Color line_color = DEFAULT_PLOT_COLOR;
 
 public:
     Segment_plt() = default;
     Segment_plt(const Point_plt& ogn, const Point_plt& dst,
-            const sf::Color& line_col = DEFAULT_PLOT_COLOR);
+            Color line_col = DEFAULT_PLOT_COLOR);
     Segment_plt(const Coordinate& ogn_x, const Coordinate& ogn_y,
             const Coordinate& dst_x, const Coordinate& dst_y,
-            const sf::Color& line_col = DEFAULT_PLOT_COLOR,
-            const sf::Color& end_points_col = DEFAULT_PLOT_COLOR);
+            Color line_col = DEFAULT_PLOT_COLOR,
+            Color end_points_col = DEFAULT_PLOT_COLOR);
     Segment_plt(const Segment_plt& other);
     ~Segment_plt() = default;
 
     Point_plt get_origin() const;
     Point_plt get_destination() const;
-    sf::Color get_line_color() const;
+    Color get_line_color() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -37,7 +37,7 @@ public:
 };
 
 Segment_plt::Segment_plt(const Point_plt& ogn, const Point_plt& dst,
-                 const sf::Color& line_col)
+                 Color line_col)
 {
     origin = Point_plt(ogn);
     destination = Point_plt(dst);
@@ -46,7 +46,7 @@ Segment_plt::Segment_plt(const Point_plt& ogn, const Point_plt& dst,
 
 Segment_plt::Segment_plt(const Coordinate& ogn_x, const Coordinate& ogn_y,
                  const Coordinate& dst_x, const Coordinate& dst_y,
-                 const sf::Color& line_col, const sf::Color& end_points_col)
+                 Color line_col, Color end_points_col)
 {
     origin = Point_plt(ogn_x, ogn_y, end_points_col);
     destination = Point_plt(dst_x, dst_y, end_points_col);
@@ -70,7 +70,7 @@ Point_plt Segment_plt::get_destination() const
     return destination;
 }
 
-sf::Color Segment_plt::get_line_color() const
+Color Segment_plt::get_line_color() const
 {
     return line_color;
 }

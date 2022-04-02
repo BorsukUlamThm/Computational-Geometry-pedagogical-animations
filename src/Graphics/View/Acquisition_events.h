@@ -18,8 +18,8 @@ void Acquisition_canvas::handle_events()
                 break;
 
             case sf::Event::Resized:
-                width = event.size.width;
-                height = event.size.height;
+                config.width = event.size.width;
+                config.height = event.size.height;
                 setup_bounding_box();
                 setup_view();
                 break;

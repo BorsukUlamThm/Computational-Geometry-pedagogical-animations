@@ -12,19 +12,19 @@ class Point_plt
 private:
     Coordinate abscissa{};
     Coordinate ordinate{};
-    sf::Color color = DEFAULT_PLOT_COLOR;
+    Color color = DEFAULT_PLOT_COLOR;
     float radius = 3;
 
 public:
     Point_plt() = default;
     Point_plt(const Coordinate& x, const Coordinate& y,
-          const sf::Color& col = DEFAULT_PLOT_COLOR, float rad = 3);
+          Color col = DEFAULT_PLOT_COLOR, float rad = 3);
     Point_plt(const Point_plt& other);
     ~Point_plt() = default;
 
     Coordinate get_abscissa() const;
     Coordinate get_ordinate() const;
-    sf::Color get_color() const;
+    Color get_color() const;
     float get_radius() const;
 
     Coordinate get_min_abscissa() const;
@@ -36,7 +36,7 @@ public:
 };
 
 Point_plt::Point_plt(const Coordinate &x, const Coordinate &y,
-             const sf::Color& col, float rad)
+             Color col, float rad)
 {
     abscissa = Coordinate(x);
     ordinate = Coordinate(y);
@@ -62,7 +62,7 @@ Coordinate Point_plt::get_ordinate() const
     return ordinate;
 }
 
-sf::Color Point_plt::get_color() const
+Color Point_plt::get_color() const
 {
     return color;
 }

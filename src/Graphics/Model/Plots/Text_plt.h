@@ -19,19 +19,19 @@ private:
     unsigned size = 16;
     float offset_x = 0;
     float offset_y = 0;
-    sf::Color color = DEFAULT_PLOT_COLOR;
+    Color color = DEFAULT_PLOT_COLOR;
 
 public:
     Text_plt() = default;
     Text_plt(const std::string& text, const Coordinate& x, const Coordinate& y,
          unsigned size = 16, float off_x = 0, float off_y = 0,
-         const sf::Color& col = DEFAULT_PLOT_COLOR);
+         const Color col = DEFAULT_PLOT_COLOR);
     Text_plt(const std::string& text, const Point_plt& point, unsigned size = 16,
-         const sf::Color& col = DEFAULT_PLOT_COLOR);
+         const Color col = DEFAULT_PLOT_COLOR);
     Text_plt(const std::string& text, const Segment_plt& segment, unsigned size = 16,
-         const sf::Color& col = DEFAULT_PLOT_COLOR);
+         const Color col = DEFAULT_PLOT_COLOR);
     Text_plt(const std::string& text, const Vector_plt& vector, unsigned size = 16,
-         const sf::Color& col = DEFAULT_PLOT_COLOR);
+         const Color col = DEFAULT_PLOT_COLOR);
     Text_plt(const Text_plt& other);
     ~Text_plt() = default;
 
@@ -41,7 +41,7 @@ public:
     unsigned get_size() const;
     float get_offset_x() const;
     float get_offset_y() const;
-    sf::Color get_color() const;
+    Color get_color() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -53,13 +53,13 @@ private:
     void aux_constructor(const std::string& text,
                          const Coordinate& x, const Coordinate& y,
                          unsigned size, float off_x, float off_y,
-                         const sf::Color& col);
+                         Color col);
 };
 
 void Text_plt::aux_constructor(const std::string& text,
                            const Coordinate& x, const Coordinate& y,
                            unsigned char_size, float off_x, float off_y,
-                           const sf::Color& col)
+                           Color col)
 {
     content = std::string(text);
     abscissa = Coordinate(x);
@@ -71,20 +71,20 @@ void Text_plt::aux_constructor(const std::string& text,
 }
 
 Text_plt::Text_plt(const std::string& text, const Coordinate& x, const Coordinate& y,
-           unsigned size, float off_x, float off_y, const sf::Color& col)
+           unsigned size, float off_x, float off_y, Color col)
 {
     aux_constructor(text, x, y, size, off_x, off_y, col);
 }
 
 Text_plt::Text_plt(const std::string& text, const Point_plt& point, unsigned int size,
-           const sf::Color& col)
+           Color col)
 {
     aux_constructor(text, point.get_abscissa(), point.get_ordinate(), size,
                     0, 3 + point.get_radius() + float(size) / 2, col);
 }
 
 Text_plt::Text_plt(const std::string& text, const Segment_plt& segment, unsigned int size,
-           const sf::Color& col)
+           Color col)
 {
     Coordinate x = (segment.get_origin().get_abscissa() +
                     segment.get_destination().get_abscissa()) / 2;
@@ -95,7 +95,7 @@ Text_plt::Text_plt(const std::string& text, const Segment_plt& segment, unsigned
 }
 
 Text_plt::Text_plt(const std::string& text, const Vector_plt& vector, unsigned int size,
-           const sf::Color& col)
+           Color col)
 {
     Coordinate x = (vector.get_origin_x() + vector.get_destination_x()) / 2;
     Coordinate y = (vector.get_origin_y() + vector.get_destination_y()) / 2;
@@ -144,7 +144,7 @@ float Text_plt::get_offset_y() const
     return offset_y;
 }
 
-sf::Color Text_plt::get_color() const
+Color Text_plt::get_color() const
 {
     return color;
 }

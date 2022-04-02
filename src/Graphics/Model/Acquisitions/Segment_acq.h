@@ -10,22 +10,22 @@ namespace gr
 class Segment_acq
 {
 private:
-    sf::Color line_color = DEFAULT_PLOT_COLOR;
-    sf::Color end_points_color = DEFAULT_PLOT_COLOR;
+    Color line_color = DEFAULT_PLOT_COLOR;
+    Color end_points_color = DEFAULT_PLOT_COLOR;
 
 public:
     Segment_acq() = default;
-    explicit Segment_acq(const sf::Color& line_col,
-                         const sf::Color& end_points_col = DEFAULT_PLOT_COLOR);
+    explicit Segment_acq(Color line_col,
+                         Color end_points_col = DEFAULT_PLOT_COLOR);
     Segment_acq(const Segment_acq& other);
     ~Segment_acq() = default;
 
-    sf::Color get_line_color() const;
-    sf::Color get_end_points_color() const;
+    Color get_line_color() const;
+    Color get_end_points_color() const;
 };
 
-Segment_acq::Segment_acq(const sf::Color& line_col,
-                         const sf::Color& end_points_col)
+Segment_acq::Segment_acq(Color line_col,
+                         Color end_points_col)
 {
     line_color = line_col;
     end_points_color = end_points_col;
@@ -37,12 +37,12 @@ Segment_acq::Segment_acq(const Segment_acq& other)
     end_points_color = other.end_points_color;
 }
 
-sf::Color Segment_acq::get_line_color() const
+Color Segment_acq::get_line_color() const
 {
     return line_color;
 }
 
-sf::Color Segment_acq::get_end_points_color() const
+Color Segment_acq::get_end_points_color() const
 {
     return end_points_color;
 }

@@ -47,7 +47,7 @@ void plot_phi(integer n, float r)
     gr::Figure fig;
     for (unsigned i = 0; i < phi_values.size(); ++i)
     {
-        fig.add_point(i, phi_values[i], DEFAULT_PLOT_COLOR, r);
+        fig.add_point(i, phi_values[i], gr::DEFAULT_PLOT_COLOR, r);
     }
 
     primes.clear();

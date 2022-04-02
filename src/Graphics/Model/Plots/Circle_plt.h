@@ -13,19 +13,19 @@ private:
     Coordinate center_x{};
     Coordinate center_y{};
     Coordinate radius{};
-    sf::Color color = DEFAULT_PLOT_COLOR;
+    Color color = DEFAULT_PLOT_COLOR;
 
 public:
     Circle_plt() = default;
     Circle_plt(const Coordinate& x, const Coordinate& y, const Coordinate& rad,
-           const sf::Color& col = DEFAULT_PLOT_COLOR);
+           Color col = DEFAULT_PLOT_COLOR);
     Circle_plt(const Circle_plt& other);
     ~Circle_plt() = default;
 
     Coordinate get_center_x() const;
     Coordinate get_center_y() const;
     Coordinate get_radius() const;
-    sf::Color get_color() const;
+    Color get_color() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -36,7 +36,7 @@ public:
 };
 
 Circle_plt::Circle_plt(const Coordinate& x, const Coordinate& y,
-               const Coordinate& rad, const sf::Color& col)
+               const Coordinate& rad, Color col)
 {
     center_x = Coordinate(x);
     center_y = Coordinate(y);
@@ -67,7 +67,7 @@ Coordinate Circle_plt::get_radius() const
     return radius;
 }
 
-sf::Color Circle_plt::get_color() const
+Color Circle_plt::get_color() const
 {
     return color;
 }

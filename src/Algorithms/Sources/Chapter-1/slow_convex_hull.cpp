@@ -96,7 +96,7 @@ segment_set make_outside_segments(const point_set& P)
                 continue;
 
             fig_outside_segments.add_vector(
-                    P[i].x, P[i].y, P[j].x, P[j].y, YELLOW);
+                    P[i].x, P[i].y, P[j].x, P[j].y, gr::YELLOW);
             slides.add_slide(fig_points, fig_outside_segments);
 
             bool is_ok = true;
@@ -105,9 +105,9 @@ segment_set make_outside_segments(const point_set& P)
                 if(alg::point_strictly_left_line(P[k], P[i], P[j]))
                 {
                     is_ok = false;
-                    fig_points.add_point(P[k].x, P[k].y, RED, 7);
+                    fig_points.add_point(P[k].x, P[k].y, gr::RED, 7);
                     fig_outside_segments.add_vector(
-                            P[i].x, P[i].y, P[j].x, P[j].y, RED);
+                            P[i].x, P[i].y, P[j].x, P[j].y, gr::RED);
                     slides.add_slide(fig_points, fig_outside_segments);
                     fig_points.erase_last_plot();
                     fig_outside_segments.erase_last_plot();
@@ -115,7 +115,7 @@ segment_set make_outside_segments(const point_set& P)
                 }
                 else
                 {
-                    fig_points.add_point(P[k].x, P[k].y, GREEN, 7);
+                    fig_points.add_point(P[k].x, P[k].y, gr::GREEN, 7);
                     slides.add_slide(fig_points, fig_outside_segments);
                     fig_points.erase_last_plot();
                 }
@@ -125,7 +125,7 @@ segment_set make_outside_segments(const point_set& P)
             {
                 E.emplace_back(P[i], P[j]);
                 fig_outside_segments.add_vector(
-                        P[i].x, P[i].y, P[j].x, P[j].y, GREEN);
+                        P[i].x, P[i].y, P[j].x, P[j].y, gr::GREEN);
                 slides.add_slide(fig_points, fig_outside_segments);
             }
         }
@@ -151,7 +151,7 @@ convex_hull sort_outside_segment(segment_set& E)
 
     fig_outside_segments.clear();
     fig_outside_segments.add_vector(
-            s.ogn.x, s.ogn.y, s.dst.x, s.dst.y, YELLOW);
+            s.ogn.x, s.ogn.y, s.dst.x, s.dst.y, gr::YELLOW);
     slides.add_slide(fig_points, fig_outside_segments);
 
     while(CH.size() < E.size())
@@ -164,7 +164,7 @@ convex_hull sort_outside_segment(segment_set& E)
                 s = e;
 
                 fig_outside_segments.add_vector(
-                        e.ogn.x, e.ogn.y, e.dst.x, e.dst.y, GREEN);
+                        e.ogn.x, e.ogn.y, e.dst.x, e.dst.y, gr::GREEN);
                 slides.add_slide(fig_points, fig_outside_segments);
                 fig_outside_segments.erase_last_plot();
                 break;
@@ -172,13 +172,13 @@ convex_hull sort_outside_segment(segment_set& E)
             else
             {
                 fig_outside_segments.add_vector(
-                        e.ogn.x, e.ogn.y, e.dst.x, e.dst.y, RED);
+                        e.ogn.x, e.ogn.y, e.dst.x, e.dst.y, gr::RED);
                 slides.add_slide(fig_points, fig_outside_segments);
                 fig_outside_segments.erase_last_plot();
             }
         }
         fig_outside_segments.add_vector(
-                s.ogn.x, s.ogn.y, s.dst.x, s.dst.y, YELLOW);
+                s.ogn.x, s.ogn.y, s.dst.x, s.dst.y, gr::YELLOW);
         slides.add_slide(fig_points, fig_outside_segments);
     }
 
@@ -196,7 +196,7 @@ void slow_convex_hull(const point_set& P)
     segment_set E = make_outside_segments(P);
     convex_hull CH = sort_outside_segment(E);
 
-    gr::Polygon_plt plot_CH(YELLOW);
+    gr::Polygon_plt plot_CH(gr::YELLOW);
     for(auto& v : CH)
     {
         plot_CH.add_vertex(v.x, v.y);

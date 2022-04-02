@@ -15,7 +15,7 @@ gr::Figure fig_hull;
 gr::Figure fig_half_hulls;
 gr::Figure fig_turn;
 
-void plot_turn(const half_hull& H, const half_hull::iterator it, sf::Color color)
+void plot_turn(const half_hull& H, const half_hull::iterator it, gr::Color color)
 {
     point p2 = *it;
     point p3 = *std::next(it);
@@ -32,7 +32,7 @@ void plot_turn(const half_hull& H, const half_hull::iterator it, sf::Color color
     fig_turn.add_segment(p2.x, p2.y, p3.x, p3.y, color, color);
 }
 
-void plot_half_hull(const half_hull& H, sf::Color color = PURPLE)
+void plot_half_hull(const half_hull& H, gr::Color color = gr::PURPLE)
 {
     if(H.size() == 1)
     {
@@ -146,7 +146,7 @@ void make_convex(half_hull& H)
         while(left_turn(H, it))
         {
             plot_half_hull(H);
-            plot_turn(H, it, RED);
+            plot_turn(H, it, gr::RED);
             slides.add_slide(fig_points, fig_half_hulls, fig_turn);
             fig_half_hulls.clear();
             fig_turn.clear();
@@ -154,7 +154,7 @@ void make_convex(half_hull& H)
             --it;
         }
         plot_half_hull(H);
-        plot_turn(H, it, GREEN);
+        plot_turn(H, it, gr::GREEN);
         slides.add_slide(fig_points, fig_half_hulls, fig_turn);
         fig_half_hulls.clear();
         fig_turn.clear();
@@ -175,7 +175,7 @@ half_hull upper_merge(half_hull& UH1, half_hull& UH2)
     fig_half_hulls.clear();
 
     make_convex(UH1);
-    plot_half_hull(UH1, YELLOW);
+    plot_half_hull(UH1, gr::YELLOW);
     slides.add_slide(fig_points, fig_half_hulls);
     fig_half_hulls.clear();
 
@@ -195,7 +195,7 @@ half_hull lower_merge(half_hull& LH1, half_hull& LH2)
     fig_half_hulls.clear();
 
     make_convex(LH1);
-    plot_half_hull(LH1, YELLOW);
+    plot_half_hull(LH1, gr::YELLOW);
     slides.add_slide(fig_points, fig_half_hulls);
     fig_half_hulls.clear();
 
@@ -256,7 +256,7 @@ void daq_convex_hull(const point_set& P)
     L.pop_back();
     U.splice(U.end(), L);
 
-    gr::Polygon_plt plot_CH(YELLOW);
+    gr::Polygon_plt plot_CH(gr::YELLOW);
     for(auto& v : U)
     {
         plot_CH.add_vertex(v.x, v.y);

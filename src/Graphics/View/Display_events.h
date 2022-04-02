@@ -19,8 +19,8 @@ void Display_canvas::handle_events()
                 break;
 
             case sf::Event::Resized:
-                width = event.size.width;
-                height = event.size.height;
+                config.width = event.size.width;
+                config.height = event.size.height;
                 setup_view();
                 break;
 

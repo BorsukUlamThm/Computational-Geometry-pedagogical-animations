@@ -14,25 +14,25 @@ private:
     Coordinate a{};
     Coordinate b{};
     Coordinate c{};
-    sf::Color color = DEFAULT_PLOT_COLOR;
+    Color color = DEFAULT_PLOT_COLOR;
 
 public:
     Line_plt() = default;
     Line_plt(const Coordinate& a, const Coordinate& b, const Coordinate& c,
-         const sf::Color& col = DEFAULT_PLOT_COLOR);
-    Line_plt(const Segment_plt& segment, sf::Color col = DEFAULT_PLOT_COLOR);
+         Color col = DEFAULT_PLOT_COLOR);
+    Line_plt(const Segment_plt& segment, Color col = DEFAULT_PLOT_COLOR);
     Line_plt(const Point_plt& point1, const Point_plt& point2,
-         sf::Color col = DEFAULT_PLOT_COLOR);
+         Color col = DEFAULT_PLOT_COLOR);
     Line_plt(const Coordinate& x1, const Coordinate& y1,
          const Coordinate& x2, const Coordinate& y2,
-         const sf::Color& col = DEFAULT_PLOT_COLOR);
+         Color col = DEFAULT_PLOT_COLOR);
     Line_plt(const Line_plt& other);
     ~Line_plt() = default;
 
     Coordinate get_a() const;
     Coordinate get_b() const;
     Coordinate get_c() const;
-    sf::Color get_color() const;
+    Color get_color() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -44,11 +44,11 @@ public:
 private:
     void aux_constructor(const Coordinate& x1, const Coordinate& y1,
                          const Coordinate& x2, const Coordinate& y2,
-                         const sf::Color& col);
+                         Color col);
 };
 
 Line_plt::Line_plt(const Coordinate& a, const Coordinate& b, const Coordinate& c,
-           const sf::Color& col)
+           Color col)
 {
     this-> a = Coordinate(a);
     this-> b = Coordinate(b);
@@ -58,7 +58,7 @@ Line_plt::Line_plt(const Coordinate& a, const Coordinate& b, const Coordinate& c
 
 void Line_plt::aux_constructor(const Coordinate& x1, const Coordinate& y1,
                            const Coordinate& x2, const Coordinate& y2,
-                           const sf::Color& col)
+                           Color col)
 {
     a = y2 - y1;
     b = x1 - x2;
@@ -66,7 +66,7 @@ void Line_plt::aux_constructor(const Coordinate& x1, const Coordinate& y1,
     color = col;
 }
 
-Line_plt::Line_plt(const Segment_plt& segment, sf::Color col)
+Line_plt::Line_plt(const Segment_plt& segment, Color col)
 {
     Coordinate x1 = segment.get_origin().get_abscissa();
     Coordinate y1 = segment.get_origin().get_ordinate();
@@ -75,7 +75,7 @@ Line_plt::Line_plt(const Segment_plt& segment, sf::Color col)
     aux_constructor(x1, y1, x2, y2, col);
 }
 
-Line_plt::Line_plt(const Point_plt& point1, const Point_plt& point2, sf::Color col)
+Line_plt::Line_plt(const Point_plt& point1, const Point_plt& point2, Color col)
 {
     Coordinate x1 = point1.get_abscissa();
     Coordinate y1 = point1.get_ordinate();
@@ -86,7 +86,7 @@ Line_plt::Line_plt(const Point_plt& point1, const Point_plt& point2, sf::Color c
 
 Line_plt::Line_plt(const Coordinate& x1, const Coordinate& y1,
            const Coordinate& x2, const Coordinate& y2,
-           const sf::Color& col)
+           Color col)
 {
     aux_constructor(x1, y1, x2, y2, col);
 }
@@ -114,7 +114,7 @@ Coordinate Line_plt::get_c() const
     return c;
 }
 
-sf::Color Line_plt::get_color() const
+Color Line_plt::get_color() const
 {
     return color;
 }

@@ -39,29 +39,13 @@ void Canvas::draw_figure(const Figure& figure)
     }
 }
 
-const sf::Font& get_font()
-{
-    static sf::Font* font = nullptr;
-    if(font != nullptr)
-    {
-        return *font;
-    }
-
-    font = new sf::Font();
-    if(!font->loadFromFile(DEFAULT_FONT))
-    {
-        std::cout << "No font found at " << DEFAULT_FONT << std::endl;
-    }
-    return *font;
-}
-
 void Canvas::draw_point(const Point_plt& point)
 {
-    float radius = point.get_radius() * view.getSize().x / float(width);
+    float radius = point.get_radius() * view.getSize().x / float(config.width);
     sf::CircleShape shape(radius);
     shape.move(point.get_abscissa() - radius,
                -point.get_ordinate() - radius);
-    shape.setFillColor(point.get_color());
+    shape.setFillColor(get_color(point.get_color()));
     window.draw(shape);
 }
 
@@ -72,8 +56,8 @@ void Canvas::draw_segment(const Segment_plt& segment)
                                      -segment.get_origin().get_ordinate());
     shape[1].position = sf::Vector2f(segment.get_destination().get_abscissa(),
                                      -segment.get_destination().get_ordinate());
-    shape[0].color = segment.get_line_color();
-    shape[1].color = segment.get_line_color();
+    shape[0].color = get_color(segment.get_line_color());
+    shape[1].color = get_color(segment.get_line_color());
     window.draw(shape);
     draw_point(segment.get_origin());
     draw_point(segment.get_destination());
@@ -86,12 +70,12 @@ void Canvas::draw_vector(const Vector_plt& vector)
                                      -vector.get_origin_y());
     shape[1].position = sf::Vector2f(vector.get_destination_x(),
                                      -vector.get_destination_y());
-    shape[0].color = vector.get_color();
-    shape[1].color = vector.get_color();
+    shape[0].color = get_color(vector.get_color());
+    shape[1].color = get_color(vector.get_color());
     window.draw(shape);
 
-    float tri_height = 12.0f * view.getSize().x / float(width);
-    float tri_width = 9.0f * view.getSize().x / float(width);
+    float tri_height = 12.0f * view.getSize().x / float(config.width);
+    float tri_width = 9.0f * view.getSize().x / float(config.width);
     sf::Vector2f destination(vector.get_destination_x(), -vector.get_destination_y());
     sf::Vector2f u(vector.get_destination_x() - vector.get_origin_x(),
                            -vector.get_destination_y() + vector.get_origin_y());
@@ -102,7 +86,7 @@ void Canvas::draw_vector(const Vector_plt& vector)
     triangle.setPoint(0, destination);
     triangle.setPoint(1, destination - tri_height * u + tri_width / 2 * v);
     triangle.setPoint(2, destination - tri_height * u - tri_width / 2 * v);
-    triangle.setFillColor(vector.get_color());
+    triangle.setFillColor(get_color(vector.get_color()));
     window.draw(triangle);
 }
 
@@ -119,7 +103,7 @@ void Canvas::draw_polygon(const Polygon_plt& polygon)
                                      -polygon[0].get_ordinate());
     for(unsigned i = 0; i <= n; ++i)
     {
-        shape[i].color = polygon.get_lines_color();
+        shape[i].color = get_color(polygon.get_lines_color());
     }
     window.draw(shape);
     for(unsigned i = 0; i < n; ++i)
@@ -143,7 +127,7 @@ void Canvas::draw_circle(const Circle_plt& circle)
             circle.get_center_x() + circle.get_radius(), -circle.get_center_y());
     for(unsigned i = 0; i <= nb_vertices; ++i)
     {
-        shape[i].color = circle.get_color();
+        shape[i].color = get_color(circle.get_color());
     }
     window.draw(shape);
 }
@@ -172,25 +156,24 @@ void Canvas::draw_line(const Line_plt& line)
     sf::VertexArray shape(sf::LineStrip, 2);
     shape[0].position = sf::Vector2f(x1, -y1);
     shape[1].position = sf::Vector2f(x2, -y2);
-    shape[0].color = line.get_color();
-    shape[1].color = line.get_color();
+    shape[0].color = get_color(line.get_color());
+    shape[1].color = get_color(line.get_color());
     window.draw(shape);
 }
 
 void Canvas::draw_text(const Text_plt& text)
 {
-    const sf::Font& font = get_font();
     sf::Text shape;
-    shape.setFont(font);
+    shape.setFont(config.font);
     unsigned size = text.get_size();
     shape.setCharacterSize(size);
     shape.setString(text.get_content());
 
     float text_width = shape.getLocalBounds().width;
-    float ratio = view.getSize().x / float(width);
+    float ratio = view.getSize().x / float(config.width);
     shape.setScale(ratio, ratio);
 
-    shape.setFillColor(text.get_color());
+    shape.setFillColor(get_color(text.get_color()));
     shape.setOutlineColor(background_color);
     shape.setOutlineThickness(2);
 

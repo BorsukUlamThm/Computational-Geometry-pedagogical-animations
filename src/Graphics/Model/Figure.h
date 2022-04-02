@@ -33,62 +33,62 @@ public:
 
     void add_point(const Point_plt& point);
     void add_point(const Coordinate& x, const Coordinate& y,
-                   const sf::Color& col = DEFAULT_PLOT_COLOR, float rad = 3);
+                   Color col = DEFAULT_PLOT_COLOR, float rad = 3);
     template<typename... Points>
     void add_point(const Point_plt& point, const Points&... points);
     void add_segment(const Segment_plt& segment);
     void add_segment(const Point_plt& ogn, const Point_plt& dst,
-                     const sf::Color& line_col = DEFAULT_PLOT_COLOR);
+                     Color line_col = DEFAULT_PLOT_COLOR);
     void add_segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
                      const Coordinate& dst_x, const Coordinate& dst_y,
-                     const sf::Color& line_col = DEFAULT_PLOT_COLOR,
-                     const sf::Color& end_points_col = DEFAULT_PLOT_COLOR);
+                     Color line_col = DEFAULT_PLOT_COLOR,
+                     Color end_points_col = DEFAULT_PLOT_COLOR);
     template<typename... Segments>
     void add_segment(const Segment_plt& segment, const Segments&... segments);
     void add_vector(const Vector_plt& vector);
     void add_vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
                     const Coordinate& dst_x, const Coordinate& dst_y,
-                    const sf::Color& col = DEFAULT_PLOT_COLOR);
+                    Color col = DEFAULT_PLOT_COLOR);
     void add_vector(const Point_plt& ogn, const Point_plt& dst,
-                    const sf::Color& col = DEFAULT_PLOT_COLOR);
-    void add_vector(const Segment_plt& segment, const sf::Color& col = DEFAULT_PLOT_COLOR);
+                    Color col = DEFAULT_PLOT_COLOR);
+    void add_vector(const Segment_plt& segment, Color col = DEFAULT_PLOT_COLOR);
     template<typename... Vectors>
     void add_vector(const Vector_plt& vector, const Vectors&... vectors);
     void add_polygon(const Polygon_plt& polygon);
     void add_polygon(const std::vector<Point_plt>& vertices,
-                     const sf::Color& lines_col = DEFAULT_PLOT_COLOR);
+                     Color lines_col = DEFAULT_PLOT_COLOR);
     template<typename... Polygons>
     void add_polygon(const Polygon_plt& polygon, const Polygons&... polygons);
     void add_circle(const Circle_plt& circle);
     void add_circle(const Coordinate& x, const Coordinate& y, const Coordinate& rad,
-                    const sf::Color& col = DEFAULT_PLOT_COLOR);
+                    Color col = DEFAULT_PLOT_COLOR);
     template<typename... Circles>
     void add_circle(const Circle_plt& circle, const Circles&... circles);
     void add_line(const Line_plt& line);
     void add_line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
-                  const sf::Color& col = DEFAULT_PLOT_COLOR);
-    void add_line(const Segment_plt& segment, sf::Color col = DEFAULT_PLOT_COLOR);
+                  Color col = DEFAULT_PLOT_COLOR);
+    void add_line(const Segment_plt& segment, Color col = DEFAULT_PLOT_COLOR);
     void add_line(const Point_plt& point1, const Point_plt& point2,
-                  sf::Color col = DEFAULT_PLOT_COLOR);
+                  Color col = DEFAULT_PLOT_COLOR);
     void add_line(const Coordinate& x1, const Coordinate& y1,
                   const Coordinate& x2, const Coordinate& y2,
-                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+                  Color col = DEFAULT_PLOT_COLOR);
     template<typename... Lines>
     void add_line(const Line_plt& line, const Lines&... lines);
     void add_vertical_line(const Coordinate& x,
-                           const sf::Color& col = DEFAULT_PLOT_COLOR);
+                           Color col = DEFAULT_PLOT_COLOR);
     void add_horizontal_line(const Coordinate& y,
-                             const sf::Color& col = DEFAULT_PLOT_COLOR);
+                             Color col = DEFAULT_PLOT_COLOR);
     void add_text(const Text_plt& text);
     void add_text(const std::string& text, const Coordinate& x, const Coordinate& y,
                   unsigned size = 16, float off_x = 0, float off_y = 0,
-                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+                  Color col = DEFAULT_PLOT_COLOR);
     void add_text(const std::string& text, const Point_plt& point, unsigned size = 16,
-                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+                  Color col = DEFAULT_PLOT_COLOR);
     void add_text(const std::string& text, const Segment_plt& segment, unsigned size = 16,
-                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+                  Color col = DEFAULT_PLOT_COLOR);
     void add_text(const std::string& text, const Vector_plt& vector, unsigned size = 16,
-                  const sf::Color& col = DEFAULT_PLOT_COLOR);
+                  Color col = DEFAULT_PLOT_COLOR);
 
     void merge_figure(const Figure& other);
     template<typename... Figures>
@@ -149,7 +149,7 @@ void Figure::add_point(const Point_plt& point)
 }
 
 void Figure::add_point(const Coordinate& x, const Coordinate& y,
-                       const sf::Color& col, float rad)
+                       Color col, float rad)
 {
     Point_plt point(x, y, col, rad);
     add_point(point);
@@ -169,7 +169,7 @@ void Figure::add_segment(const Segment_plt& segment)
 }
 
 void Figure::add_segment(const Point_plt& ogn, const Point_plt& dst,
-                         const sf::Color& line_col)
+                         Color line_col)
 {
     Segment_plt segment(ogn, dst, line_col);
     add_segment(segment);
@@ -177,7 +177,7 @@ void Figure::add_segment(const Point_plt& ogn, const Point_plt& dst,
 
 void Figure::add_segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
                          const Coordinate& dst_x, const Coordinate& dst_y,
-                         const sf::Color& line_col, const sf::Color& end_points_col)
+                         Color line_col, Color end_points_col)
 {
     Segment_plt segment(ogn_x, ogn_y, dst_x, dst_y, line_col, end_points_col);
     add_segment(segment);
@@ -198,19 +198,19 @@ void Figure::add_vector(const Vector_plt& vector)
 
 void Figure::add_vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
                         const Coordinate& dst_x, const Coordinate& dst_y,
-                        const sf::Color& col)
+                        Color col)
 {
     Vector_plt vector(ogn_x, ogn_y, dst_x, dst_y, col);
     add_vector(vector);
 }
 
-void Figure::add_vector(const Point_plt& ogn, const Point_plt& dst, const sf::Color& col)
+void Figure::add_vector(const Point_plt& ogn, const Point_plt& dst, Color col)
 {
     Vector_plt vector(ogn, dst, col);
     add_vector(vector);
 }
 
-void Figure::add_vector(const Segment_plt& segment, const sf::Color& col)
+void Figure::add_vector(const Segment_plt& segment, Color col)
 {
     Vector_plt vector(segment, col);
     add_vector(vector);
@@ -230,7 +230,7 @@ void Figure::add_polygon(const Polygon_plt& polygon)
 }
 
 void Figure::add_polygon(const std::vector<Point_plt>& vertices,
-                         const sf::Color& lines_col)
+                         Color lines_col)
 {
     Polygon_plt polygon(vertices, lines_col);
     add_polygon(polygon);
@@ -250,7 +250,7 @@ void Figure::add_circle(const Circle_plt& circle)
 }
 
 void Figure::add_circle(const Coordinate& x, const Coordinate& y,
-                        const Coordinate& rad, const sf::Color& col)
+                        const Coordinate& rad, Color col)
 {
     Circle_plt circle(x, y, rad, col);
     add_circle(circle);
@@ -270,19 +270,19 @@ void Figure::add_line(const Line_plt& line)
 }
 
 void Figure::add_line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
-                      const sf::Color& col)
+                      Color col)
 {
     Line_plt line(a, b, c, col);
     add_line(line);
 }
 
-void Figure::add_line(const Segment_plt& segment, sf::Color col)
+void Figure::add_line(const Segment_plt& segment, Color col)
 {
     Line_plt line(segment, col);
     add_line(line);
 }
 
-void Figure::add_line(const Point_plt& point1, const Point_plt& point2, sf::Color col)
+void Figure::add_line(const Point_plt& point1, const Point_plt& point2, Color col)
 {
     Line_plt line(point1, point2, col);
     add_line(line);
@@ -290,7 +290,7 @@ void Figure::add_line(const Point_plt& point1, const Point_plt& point2, sf::Colo
 
 void Figure::add_line(const Coordinate& x1, const Coordinate& y1,
                       const Coordinate& x2, const Coordinate& y2,
-                      const sf::Color& col)
+                      Color col)
 {
     Line_plt line(x1, y1, x2, y2, col);
     add_line(line);
@@ -303,13 +303,13 @@ void Figure::add_line(const Line_plt& line, const Lines&... lines)
     add_line(lines...);
 }
 
-void Figure::add_vertical_line(const Coordinate& x, const sf::Color& col)
+void Figure::add_vertical_line(const Coordinate& x, Color col)
 {
     Line_plt line(1, 0, -x, col);
     add_line(line);
 }
 
-void Figure::add_horizontal_line(const Coordinate& y, const sf::Color& col)
+void Figure::add_horizontal_line(const Coordinate& y, Color col)
 {
     Line_plt line(0, 1, -y, col);
     add_line(line);
@@ -322,28 +322,28 @@ void Figure::add_text(const Text_plt& text)
 }
 
 void Figure::add_text(const std::string& text, const Coordinate& x, const Coordinate& y,
-                      unsigned size, float off_x, float off_y, const sf::Color& col)
+                      unsigned size, float off_x, float off_y, Color col)
 {
     Text_plt txt(text, x, y, size, off_x, off_y, col);
     add_text(txt);
 }
 
 void Figure::add_text(const std::string& text, const Point_plt& point, unsigned size,
-                      const sf::Color& col)
+                      Color col)
 {
     Text_plt txt(text, point, size, col);
     add_text(txt);
 }
 
 void Figure::add_text(const std::string& text, const Segment_plt& segment, unsigned size,
-                      const sf::Color& col)
+                      Color col)
 {
     Text_plt txt(text, segment, size, col);
     add_text(txt);
 }
 
 void Figure::add_text(const std::string& text, const Vector_plt& vector, unsigned size,
-                      const sf::Color& col)
+                      Color col)
 {
     Text_plt txt(text, vector, size, col);
     add_text(txt);

@@ -13,23 +13,23 @@ private:
     Coordinate origin_y;
     Coordinate destination_x;
     Coordinate destination_y;
-    sf::Color color = DEFAULT_PLOT_COLOR;
+    Color color = DEFAULT_PLOT_COLOR;
 
 public:
     Vector_plt() = default;
     Vector_plt(const Coordinate& ogn_x, const Coordinate& ogn_y,
            const Coordinate& dst_x, const Coordinate& dst_y,
-           const sf::Color& col = DEFAULT_PLOT_COLOR);
+           Color col = DEFAULT_PLOT_COLOR);
     Vector_plt(const Point_plt& ogn, const Point_plt& dst,
-           const sf::Color& col = DEFAULT_PLOT_COLOR);
-    explicit Vector_plt(const Segment_plt& segment, const sf::Color& col = DEFAULT_PLOT_COLOR);
+           Color col = DEFAULT_PLOT_COLOR);
+    explicit Vector_plt(const Segment_plt& segment, Color col = DEFAULT_PLOT_COLOR);
     ~Vector_plt() = default;
 
     Coordinate get_origin_x() const;
     Coordinate get_origin_y() const;
     Coordinate get_destination_x() const;
     Coordinate get_destination_y() const;
-    sf::Color get_color() const;
+    Color get_color() const;
 
     Coordinate get_min_abscissa() const;
     Coordinate get_max_abscissa() const;
@@ -41,7 +41,7 @@ public:
 
 Vector_plt::Vector_plt(const Coordinate& ogn_x, const Coordinate& ogn_y,
                const Coordinate& dst_x, const Coordinate& dst_y,
-               const sf::Color& col)
+               Color col)
 {
     origin_x = ogn_x;
     origin_y = ogn_y;
@@ -50,7 +50,7 @@ Vector_plt::Vector_plt(const Coordinate& ogn_x, const Coordinate& ogn_y,
     color = col;
 }
 
-Vector_plt::Vector_plt(const Point_plt& ogn, const Point_plt& dst, const sf::Color& col)
+Vector_plt::Vector_plt(const Point_plt& ogn, const Point_plt& dst, Color col)
 {
     origin_x = ogn.get_abscissa();
     origin_y = ogn.get_ordinate();
@@ -59,7 +59,7 @@ Vector_plt::Vector_plt(const Point_plt& ogn, const Point_plt& dst, const sf::Col
     color = col;
 }
 
-Vector_plt::Vector_plt(const Segment_plt& segment, const sf::Color& col)
+Vector_plt::Vector_plt(const Segment_plt& segment, Color col)
 {
     origin_x = segment.get_origin().get_abscissa();
     origin_y = segment.get_origin().get_ordinate();
@@ -88,7 +88,7 @@ Coordinate Vector_plt::get_destination_y() const
     return destination_y;
 }
 
-sf::Color Vector_plt::get_color() const
+Color Vector_plt::get_color() const
 {
     return color;
 }
