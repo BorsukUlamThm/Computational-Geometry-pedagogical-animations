@@ -11,7 +11,7 @@
 namespace gr
 {
 /// Project name
-#define ALPHA "Alpha"
+#define PROJECT_NAME "Computational Geometry pedagogical animations"
 
 /// Some types for the objects coordinates
 typedef float Coordinate;
@@ -52,13 +52,13 @@ std::filesystem::path get_Alpha_directory()
 {
     std::filesystem::path current_dir = std::filesystem::current_path();
 
-    while(current_dir.filename().string() != ALPHA)
+    while(current_dir.filename().string() != PROJECT_NAME)
     {
         if(!current_dir.has_parent_path())
         {
-            std::cerr << "Warning : Executable is not run in " << ALPHA
-            << " directory" << std::endl
-            << "          Some graphics may not work properly" << std::endl;
+            std::cerr << "Warning : Executable is not run in " << PROJECT_NAME
+                      << " directory" << std::endl
+                      << "          Some graphics may not work properly" << std::endl;
 
             return std::filesystem::path();
         }

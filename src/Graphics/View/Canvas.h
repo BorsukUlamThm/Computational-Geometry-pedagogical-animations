@@ -15,7 +15,7 @@ protected:
     sf::View view;
 
     Config config;
-    std::string title = ALPHA;
+    std::string title = PROJECT_NAME;
     sf::Color background_color = Config().default_background_color;
 
     float zoom = 1;
