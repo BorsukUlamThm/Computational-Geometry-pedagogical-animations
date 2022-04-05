@@ -44,7 +44,7 @@ void AVL_node<T>::update_depth()
     }
 }
 
-template<typename T, typename Comparator>
+template<typename T, typename Order>
 class AVL_tree
 {
 // Comparator will compare instances of T (no shit)
@@ -57,12 +57,12 @@ public:
 
 private:
     Node* root = nullptr;
-    Comparator comp = Comparator();
+    Order comp = Order();
 
 public:
     AVL_tree() = default;
     ~AVL_tree();
-    Comparator& get_comparator();
+    Order& get_order();
 
     bool is_empty() const;
     unsigned depth() const;
@@ -104,7 +104,7 @@ AVL_tree<T, Comparator>::~AVL_tree()
 }
 
 template<typename T, typename Comparator>
-Comparator& AVL_tree<T, Comparator>::get_comparator()
+Comparator& AVL_tree<T, Comparator>::get_order()
 {
     return comp;
 }
