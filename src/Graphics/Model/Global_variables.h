@@ -44,15 +44,15 @@ enum Color
     DEFAULT_PLOT_COLOR
 };
 
-std::filesystem::path get_Alpha_directory()
+std::filesystem::path get_project_directory()
 {
     std::filesystem::path current_dir = std::filesystem::current_path();
 
     while(current_dir.filename().string() != PROJECT_NAME)
     {
-        if(!current_dir.has_parent_path())
+        if(current_dir.parent_path() == current_dir.root_directory())
         {
-            std::cerr << "Warning : Executable is not run in " << PROJECT_NAME
+            std::cerr << "Warning : Executable is not executed from " << PROJECT_NAME
                       << " directory" << std::endl
                       << "          Some graphics may not work properly" << std::endl;
 
@@ -66,7 +66,7 @@ std::filesystem::path get_Alpha_directory()
 
 std::filesystem::path get_config_directory()
 {
-    std::filesystem::path Alpha_dir = get_Alpha_directory();
+    std::filesystem::path Alpha_dir = get_project_directory();
 
     if(Alpha_dir.empty())
     {
