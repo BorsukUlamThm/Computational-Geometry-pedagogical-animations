@@ -1,6 +1,8 @@
 #ifndef ALPHA_POINT_2_H
 #define ALPHA_POINT_2_H
 
+#include "ostream"
+
 
 namespace alg
 {

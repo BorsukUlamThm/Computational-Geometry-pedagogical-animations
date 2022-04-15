@@ -67,7 +67,7 @@ point_set make_point_set()
                   << std::endl << "seed : " << seed << std::endl;
 
         alg::Normal_number_generator<int> ng(seed);
-        return alg::random_2D_point_set<int>(nb_random_points, ng);
+        return alg::random_point_2_set<int > (nb_random_points, ng);
     }
 
     gr::Acquisition_canvas canvas;
