@@ -11,7 +11,7 @@
 namespace gr
 {
 /// Project name
-#define PROJECT_NAME "Computational Geometry pedagogical animations"
+#define PROJECT_NAME "Computational-Geometry-pedagogical-animations"
 
 /// Some types for the objects coordinates
 typedef float Coordinate;
@@ -43,10 +43,6 @@ enum Color
     DEFAULT_BACKGROUND_COLOR,
     DEFAULT_PLOT_COLOR
 };
-
-/// Fonts
-constexpr char ARIAL[] = "/home/felix/CLionProjects/Alpha/Fonts/arial.ttf";
-#define DEFAULT_FONT ARIAL
 
 std::filesystem::path get_Alpha_directory()
 {
