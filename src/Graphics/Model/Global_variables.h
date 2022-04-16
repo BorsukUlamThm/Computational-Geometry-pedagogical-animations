@@ -3,16 +3,13 @@
 
 #include <limits>
 #include <string>
-#include <filesystem>
 #include <fstream>
 #include <SFML/Graphics.hpp>
+#include "General_tools/General_tools.h"
 
 
 namespace gr
 {
-/// Project name
-#define PROJECT_NAME "Computational-Geometry-pedagogical-animations"
-
 /// Some types for the objects coordinates
 typedef float Coordinate;
 
@@ -44,53 +41,6 @@ enum Color
     DEFAULT_PLOT_COLOR
 };
 
-std::filesystem::path get_project_directory()
-{
-    std::filesystem::path current_dir = std::filesystem::current_path();
-
-    while(current_dir.filename().string() != PROJECT_NAME)
-    {
-        if(current_dir.parent_path() == current_dir.root_directory())
-        {
-            std::cerr << "Warning : Executable is not executed from " << PROJECT_NAME
-                      << " directory" << std::endl
-                      << "          Some graphics may not work properly" << std::endl;
-
-            return std::filesystem::path();
-        }
-        current_dir = current_dir.parent_path();
-    }
-
-    return current_dir;
-}
-
-std::filesystem::path get_config_directory()
-{
-    std::filesystem::path Alpha_dir = get_project_directory();
-
-    if(Alpha_dir.empty())
-    {
-        return Alpha_dir;
-    }
-
-    return Alpha_dir / ".config";
-}
-
-std::vector<std::string> split_line(std::string& line)
-{
-    std::istringstream iss(line);
-    std::vector<std::string> res;
-    std::string word;
-
-    while(!iss.eof())
-    {
-        iss >> word;
-        res.push_back(word);
-    }
-
-    return res;
-}
-
 sf::Color read_color(const std::vector<std::string>& words)
 {
     unsigned r = std::stoi(words[1]);
@@ -121,7 +71,7 @@ struct Config
 
     Config()
     {
-        std::filesystem::path config_dir = get_config_directory();
+        std::filesystem::path config_dir = gt::get_config_directory();
         if(config_dir.empty())
         {
             return;
@@ -137,7 +87,7 @@ struct Config
                 continue;
             }
 
-            std::vector<std::string> words = split_line(line);
+            std::vector<std::string> words = gt::split_line(line);
             if(words[0][0] == '#')
             {
                 continue;
