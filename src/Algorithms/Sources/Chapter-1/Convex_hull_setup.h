@@ -8,27 +8,40 @@ typedef alg::Point_2<int> point;
 typedef std::vector<point> convex_hull;
 typedef std::vector<point> point_set;
 
+enum Input_type
+{
+    RANDOM,
+    ACQUISITION,
+    FILE
+};
+
 struct Convex_hull_option
 {
-    bool random_input = true;
+    Input_type input_type = RANDOM;
     unsigned nb_random_points = 50;
     unsigned long seed = time_seed;
+    std::string input_path;
 };
 
 Convex_hull_option process_command_line(int argc, char** argv)
 {
     Convex_hull_option opt;
 
-    for (unsigned i = 0; i < argc; ++i)
+    for(unsigned i = 0; i < argc; ++i)
     {
-        if (std::string(argv[i]) == "-a")
+        if(argv[i][0] != '-')
         {
-            opt.random_input = false;
             continue;
         }
-        if (std::string(argv[i]) == "-r")
+
+        if(std::string(argv[i]) == "-a")
         {
-            opt.random_input = true;
+            opt.input_type = ACQUISITION;
+            continue;
+        }
+        if(std::string(argv[i]) == "-r")
+        {
+            opt.input_type = RANDOM;
             ++i;
             if (i >= argc)
             {
@@ -51,7 +64,7 @@ Convex_hull_option process_command_line(int argc, char** argv)
             }
         }
 
-        if (std::string(argv[i]) == "-s")
+        if(std::string(argv[i]) == "-s")
         {
             ++i;
             if (i >= argc)
@@ -72,6 +85,25 @@ Convex_hull_option process_command_line(int argc, char** argv)
                 --i;
             }
         }
+
+        if(std::string(argv[i]) == "-i")
+        {
+            opt.input_type = FILE;
+            ++i;
+            if (i >= argc)
+            {
+                std::cerr << "invalid -s parameter, missing seed"
+                          << std::endl;
+                continue;
+            }
+
+            opt.input_path = std::string(argv[i]);
+        }
+
+        else
+        {
+            std::cerr << "unknown " << argv[i] << " option ignored" << std::endl;
+        }
     }
 
     return opt;
@@ -79,7 +111,7 @@ Convex_hull_option process_command_line(int argc, char** argv)
 
 point_set make_point_set(const Convex_hull_option& opt)
 {
-    if (opt.random_input)
+    if (opt.input_type == RANDOM)
     {
         std::cout << "initializing " << opt.nb_random_points << " random points"
                   << std::endl << "seed : " << opt.seed << std::endl;
@@ -88,19 +120,24 @@ point_set make_point_set(const Convex_hull_option& opt)
         return alg::random_point_2_set<int>(opt.nb_random_points, ng);
     }
 
-    gr::Acquisition_canvas canvas;
-    canvas.set_title("Convex hull - acquisition");
-    canvas.add_point_acquisition();
-    gr::Figure fig = canvas.acquire_buffer();
-
-    point_set P;
-    for (unsigned i = 0; i < fig.nb_plots(); ++i)
+    if(opt.input_type == ACQUISITION)
     {
-        gr::Plot p = fig[i];
-        P.emplace_back(p.point().get_abscissa(), p.point().get_ordinate());
+        gr::Acquisition_canvas canvas;
+        canvas.set_title("Convex hull - acquisition");
+        canvas.add_point_acquisition();
+        gr::Figure fig = canvas.acquire_buffer();
+
+        point_set P;
+        for (unsigned i = 0; i < fig.nb_plots(); ++i)
+        {
+            gr::Plot p = fig[i];
+            P.emplace_back(p.point().get_abscissa(), p.point().get_ordinate());
+        }
+
+        return P;
     }
 
-    return P;
+    return alg::read_point_2_set<int>(opt.input_path);
 }
 }
 

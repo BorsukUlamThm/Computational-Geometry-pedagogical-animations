@@ -138,6 +138,8 @@ int main(int argc, char** argv)
 
     chs::Convex_hull_option opt = chs::process_command_line(argc, argv);
     point_set P = chs::make_point_set(opt);
+
+    alg::save_point_2_set("log/Chapter-1/rotating_convex_hull", P);
     make_convex_hull(P);
 
     gr::Display_canvas canvas;

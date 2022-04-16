@@ -14,7 +14,11 @@ Point_2<Real> read_point_2(std::istream& is);
 template<typename Real>
 Segment_2<Real> read_segment_2(std::istream& is);
 template<typename Real>
+std::vector<Point_2<Real>> read_point_2_set(std::ifstream& ifs);
+template<typename Real>
 std::vector<Point_2<Real>> read_point_2_set(const std::string& path);
+template<typename Real>
+std::vector<Segment_2<Real>> read_segment_2_set(std::ifstream& ifs);
 template<typename Real>
 std::vector<Segment_2<Real>> read_segment_2_set(const std::string& path);
 template<typename Real>
@@ -43,15 +47,13 @@ Segment_2<Real> read_segment_2(std::istream& is)
     return Segment_2<Real>(x1, y1, x2, y2);
 }
 
-template<typename Real> std::vector<Point_2<Real>>
-read_point_2_set(const std::string& path)
+template<typename Real>
+std::vector<Point_2<Real>> read_point_2_set(std::ifstream& ifs)
 {
-    std::filesystem::path Project_dir = gt::get_project_directory();
-    std::ifstream ifs(Project_dir / path);
-
     std::vector<Point_2<Real>> points;
     unsigned n;
     ifs >> n;
+
     for(unsigned i = 0; i < n; ++i)
     {
         points.push_back(read_point_2<Real>(ifs));
@@ -61,20 +63,36 @@ read_point_2_set(const std::string& path)
 }
 
 template<typename Real>
-std::vector<Segment_2<Real>> read_segment_2_set(const std::string& path)
+std::vector<Point_2<Real>> read_point_2_set(const std::string& path)
 {
     std::filesystem::path Project_dir = gt::get_project_directory();
     std::ifstream ifs(Project_dir / path);
 
+    return read_point_2_set<Real>(ifs);
+}
+
+template<typename Real>
+std::vector<Segment_2<Real>> read_segment_2_set(std::ifstream& ifs)
+{
     std::vector<Segment_2<Real>> segments;
     unsigned n;
     ifs >> n;
+
     for(unsigned i = 0; i < n; ++i)
     {
         segments.push_back(read_segment_2<Real>(ifs));
     }
 
     return segments;
+}
+
+template<typename Real>
+std::vector<Segment_2<Real>> read_segment_2_set(const std::string& path)
+{
+    std::filesystem::path Project_dir = gt::get_project_directory();
+    std::ifstream ifs(Project_dir / path);
+
+    return read_segment_2_set<Real>(ifs);
 }
 
 template<typename Real>
