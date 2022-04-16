@@ -137,6 +137,11 @@ void Display_canvas::key_pressed_event(const sf::Event& event)
             slide_index = nb_slides - 1;
             break;
 
+        case sf::Keyboard::Escape:
+            window.clear();
+            window.close();
+            break;
+
         default:
             break;
     }

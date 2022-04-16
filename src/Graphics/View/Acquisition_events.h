@@ -97,6 +97,11 @@ void Acquisition_canvas::key_pressed_event(const sf::Event& event)
             handle_point(x, y);
             break;
 
+        case sf::Keyboard::Escape:
+            window.clear();
+            window.close();
+            break;
+
         default:
             break;
     }
