@@ -15,15 +15,18 @@ namespace alg
 template <typename Real>
 class Number_generator
 {
+protected:
+    typedef double dist_number;
+
 public:
-    virtual Real next_number(const Real& inf = -50,
-                             const Real& sup = 50) = 0;
+    virtual Real next_number(const dist_number& inf = -50,
+                             const dist_number& sup = 50) = 0;
 };
 
-template <typename number>
-class Normal_number_generator: public Number_generator<number>
+template <typename Real>
+class Normal_number_generator: public Number_generator<Real>
 {
-    typedef double dist_number;
+    typedef typename Number_generator<Real>::dist_number dist_number;
 
 public:
     Normal_number_generator(unsigned long seed = time_seed);
@@ -35,8 +38,8 @@ public:
      * @param sup
      * @return
      */
-    number next_number(const number& inf = -50,
-                       const number& sup = 50) override;
+    Real next_number(const dist_number& inf = -50,
+                       const dist_number& sup = 50) override;
 
 private:
     std::default_random_engine generator;
@@ -53,17 +56,17 @@ template <typename Real>
 std::vector<Segment_2<Real>>
 random_segment_2_set(unsigned n, Number_generator<Real>& ng);
 
-template <typename number>
-Normal_number_generator<number>::Normal_number_generator(unsigned long seed):
+template <typename Real>
+Normal_number_generator<Real>::Normal_number_generator(unsigned long seed):
         generator(std::default_random_engine(seed)),
         distribution(std::normal_distribution<dist_number>(0, 1))
 {}
 
-template <typename number>
-number Normal_number_generator<number>::next_number(const number& inf, const number& sup)
+template <typename Real>
+Real Normal_number_generator<Real>::next_number(const dist_number& inf, const dist_number& sup)
 {
     dist_number a = distribution(generator);
-    return number(inf + a * (sup - inf));
+    return Real(inf + a * (sup - inf));
 }
 
 template <typename Real>
@@ -89,7 +92,7 @@ std::vector<Point_2<Real>> random_point_2_set(unsigned n,
 template <typename Real>
 Segment_2<Real> random_segment_2(Number_generator<Real>& ng)
 {
-    return Point_2<Real>(random_point_2(ng), random_point_2(ng));
+    return Segment_2<Real>(random_point_2(ng), random_point_2(ng));
 }
 
 template <typename Real>

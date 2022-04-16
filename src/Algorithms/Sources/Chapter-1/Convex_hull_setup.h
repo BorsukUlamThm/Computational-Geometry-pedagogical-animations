@@ -5,7 +5,6 @@
 namespace chs
 {
 typedef alg::Point_2<int> point;
-typedef std::vector<point> convex_hull;
 typedef std::vector<point> point_set;
 
 enum Input_type

@@ -11,7 +11,7 @@ class Event_queue
 {
 // The Event class needs to have two things
 // An overload of the operator <
-// and a method void handle()
+// and a method void handle() const
 private:
     boost::heap::priority_queue<Event> heap;
 
