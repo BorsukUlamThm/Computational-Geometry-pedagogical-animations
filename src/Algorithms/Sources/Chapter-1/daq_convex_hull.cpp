@@ -1,5 +1,6 @@
 #include "Graphics/View/View.h"
 #include "Algorithms/Algorithms.h"
+#include "Convex_hull_setup.h"
 #include <list>
 
 
@@ -53,76 +54,6 @@ void plot_half_hull(const half_hull& H, gr::Color color = gr::PURPLE)
         int y2 = it->y;
         fig_half_hulls.add_segment(x1, y1, x2, y2, color, color);
     }
-}
-
-
-bool acquire_points = false;
-bool random_input = true;
-unsigned nb_random_points = 50;
-unsigned long seed = time_seed;
-
-void process_command_line(int argc, char** argv)
-{
-    for(unsigned i = 0; i < argc; ++i)
-    {
-        if(std::string(argv[i]) == "-a")
-        {
-            acquire_points = true;
-            random_input = false;
-            continue;
-        }
-        if(std::string(argv[i]) == "-r")
-        {
-            random_input = true;
-            acquire_points = false;
-            ++i;
-            if(i >= argc)
-            {
-                std::cerr << "invalid -r parameter, missing"
-                          << " number of random points"
-                          << std::endl;
-                continue;
-            }
-            nb_random_points = std::stoi(std::string(argv[i]));
-        }
-        if(std::string(argv[i]) == "-s")
-        {
-            ++i;
-            if(i >= argc)
-            {
-                std::cerr << "invalid -s parameter, missing seed"
-                          << std::endl;
-                continue;
-            }
-            seed = std::stoi(std::string(argv[i]));
-        }
-    }
-}
-
-point_set make_point_set()
-{
-    if(random_input)
-    {
-        std::cout << "initializing " << nb_random_points << " random points"
-                  << std::endl << "seed : " << seed << std::endl;
-
-        alg::Normal_number_generator<int> ng(seed);
-        return alg::random_point_2_set<int>(nb_random_points, ng);
-    }
-
-    gr::Acquisition_canvas canvas;
-    canvas.set_title("Divide and conquer convex hull - acquisition");
-    canvas.add_point_acquisition();
-    gr::Figure fig = canvas.acquire_buffer();
-
-    point_set P;
-    for(unsigned i = 0; i < fig.nb_plots(); ++i)
-    {
-        gr::Plot p = fig[i];
-        P.emplace_back(p.point().get_abscissa(), p.point().get_ordinate());
-    }
-
-    return P;
 }
 
 /// returns true iff the three points prev(it), it, next(it) make a left turn
@@ -273,8 +204,8 @@ int main(int argc, char** argv)
 {
     using namespace chap1_daq_convex_hull;
 
-    process_command_line(argc, argv);
-    point_set P = make_point_set();
+    chs::Convex_hull_option opt = chs::process_command_line(argc, argv);
+    point_set P = chs::make_point_set(opt);
     daq_convex_hull(P);
 
     gr::Display_canvas canvas;
