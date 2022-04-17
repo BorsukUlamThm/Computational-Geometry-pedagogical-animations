@@ -55,7 +55,7 @@ class AVL_tree
 public:
     typedef AVL_node<T> Node;
 
-private:
+protected:
     Node* root = nullptr;
     Order comp = Order();
 
@@ -76,7 +76,7 @@ public:
     void remove(const T& val);
     void remove(const T& val, bool& found);
 
-private:
+protected:
     unsigned aux_size(Node* node) const;
     Node* aux_find(const T& val, Node* node) const;
     Node* aux_find_left_neighbour(const T& val, Node* node, Node* candidate) const;
@@ -409,13 +409,14 @@ T AVL_tree<T, Comparator>::extract_max(AVL_tree::Node*& node)
     {
         T max = node->root;
         Node* left = node->left;
-        delete left;
+        delete node;
 
         node = left;
         return max;
     }
 
     T max = extract_max(node->right);
+    node->update_depth();
     balance(node);
     return max;
 }
