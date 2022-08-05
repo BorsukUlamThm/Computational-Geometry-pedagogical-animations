@@ -1,0 +1,27 @@
+# Configuration file, you can change it if you want
+
+# Colors
+
+DARK_GREY 33 47 60
+LIGHT_GREY 208 211 212
+
+RED 203 67 53
+PURPLE 175 122 197
+BLUE 52 152 219
+GREEN 39 174 96
+YELLOW 241 196 15
+
+BACKGROUND_COLOR 33 47 60
+PLOT_COLOR 208 211 212
+
+
+# Fonts
+
+FONT arial
+
+
+# Window settings, -1 for maximal possible length
+
+WIDTH -1
+HEIGHT -1
+MARGIN 20
