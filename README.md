@@ -10,14 +10,17 @@ The whole project was developed on Linux. If you want to use it on Windows, you 
 
 tl;dr : in your terminal
 ```bash
-sudo apt-get install libsfml-dev
+sudo apt install libboost-dev
+sudo apt install libsfml-dev
 ```
 
+The project needs the [boost](https://www.boost.org/) library.
 
+You can install it on linux using ``sudo apt install libboost-dev`` on Ubuntu or ``sudo pacman -S boost`` on Arch. More information about the installation can be found [here](https://www.boost.org/users/download/).
 
 The graphical animation use the [SFML library](https://www.sfml-dev.org/index.php).
 
-It can be installed on linux using ``sudo apt-get install libsfml-dev`` on Ubuntu or ``sudo pacman -S sfml`` on Arch. More information about installation can be found [here](https://www.sfml-dev.org/tutorials/2.5/start-linux.php) for Linux, and [here](https://www.sfml-dev.org/tutorials/2.5/start-vc.php) for Windows (but still, you should have less trouble building this project using a VM or a dual boot).
+You can install it on linux using ``sudo apt install libsfml-dev`` on Ubuntu or ``sudo pacman -S sfml`` on Arch. More information about installation can be found [here](https://www.sfml-dev.org/tutorials/2.5/start-linux.php) for Linux, and [here](https://www.sfml-dev.org/tutorials/2.5/start-vc.php) for Windows (but still, you should have less trouble building this project using a VM or a dual boot).
 
 ## Build
 

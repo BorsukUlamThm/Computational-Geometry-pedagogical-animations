@@ -38,9 +38,3 @@ log
 # Clion stuff
 cmake-build-debug
 .idea
-
-# Config
-.config
-
-# Test file
-tests.cpp
