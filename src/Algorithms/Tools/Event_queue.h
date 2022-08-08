@@ -1,5 +1,4 @@
-#ifndef ALPHA_EVENT_QUEUE_H
-#define ALPHA_EVENT_QUEUE_H
+#pragma once
 
 #include <boost/heap/priority_queue.hpp>
 
@@ -39,6 +38,3 @@ void Event_queue<Event>::handle_events()
     }
 }
 }
-
-
-#endif //ALPHA_EVENT_QUEUE_H

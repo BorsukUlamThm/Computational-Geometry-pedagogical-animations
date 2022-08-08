@@ -1,5 +1,4 @@
-#ifndef ALPHA_DISPLAY_EVENTS_H
-#define ALPHA_DISPLAY_EVENTS_H
+#pragma once
 
 #include <cmath>
 #include "Display_canvas.h"
@@ -147,5 +146,3 @@ void Display_canvas::key_pressed_event(const sf::Event& event)
     }
 }
 }
-
-#endif //ALPHA_DISPLAY_EVENTS_H

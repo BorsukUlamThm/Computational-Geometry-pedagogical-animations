@@ -1,5 +1,4 @@
-#ifndef ALPHA_ACQUISITION_CANVAS_H
-#define ALPHA_ACQUISITION_CANVAS_H
+#pragma once
 
 #include "Canvas.h"
 #include "Canvas_events.h"
@@ -118,6 +117,3 @@ void Acquisition_canvas::acquire_point(Coordinate& x, Coordinate& y)
     y = -ym - ratio_y * view_size_y;
 }
 }
-
-
-#endif //ALPHA_ACQUISITION_CANVAS_H

@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.0)
-project(Alpha)
+project(CGPA)
 set(CMAKE_CXX_STANDARD 20)
+
+# Boost include
+FIND_PACKAGE(Boost 1.74 COMPONENTS program_options REQUIRED)
+INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
 
 # Some variables for the includes
 set(Graphics_dir ${CMAKE_SOURCE_DIR}/src/Graphics)
@@ -18,7 +22,7 @@ set(log ${CMAKE_SOURCE_DIR}/log)
 # Test executable
 add_executable(tests tests.cpp ${algorithms_sources} ${general_tools_sources} ${graphics_sources})
 set_target_properties(tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${bin})
-target_link_libraries(tests -lsfml-graphics -lsfml-window -lsfml-system)
+target_link_libraries(tests -lsfml-graphics -lsfml-window -lsfml-system ${Boost_LIBRARIES})
 
 # All other executables
 file(GLOB chapters ${CMAKE_SOURCE_DIR}/src/Algorithms/Sources/*)
@@ -32,6 +36,6 @@ foreach(chapter ${chapters})
         add_executable(${source_name} ${source} ${algorithms_sources} ${general_tools_sources} ${graphics_sources})
         set_target_properties(${source_name} PROPERTIES
                 RUNTIME_OUTPUT_DIRECTORY ${bin}/${chapter_name})
-        target_link_libraries(${source_name} -lsfml-graphics -lsfml-window -lsfml-system)
+        target_link_libraries(${source_name} -lsfml-graphics -lsfml-window -lsfml-system ${Boost_LIBRARIES})
     endforeach()
 endforeach()

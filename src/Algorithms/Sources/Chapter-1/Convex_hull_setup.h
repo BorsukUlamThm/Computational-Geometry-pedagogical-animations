@@ -1,5 +1,4 @@
-#ifndef ALPHA_CONVEX_HULL_SETUP_H
-#define ALPHA_CONVEX_HULL_SETUP_H
+#pragma once
 
 
 namespace chs
@@ -139,5 +138,3 @@ point_set make_point_set(const Convex_hull_option& opt)
     return alg::read_point_2_set<int>(opt.input_path);
 }
 }
-
-#endif //ALPHA_CONVEX_HULL_SETUP_H

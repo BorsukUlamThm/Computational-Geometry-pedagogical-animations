@@ -1,5 +1,4 @@
-#ifndef ALPHA_SEGMENT_INTERSECTIONS_EVENTS_H
-#define ALPHA_SEGMENT_INTERSECTIONS_EVENTS_H
+#pragma once
 
 #include "Graphics/View/View.h"
 #include "Algorithms/Algorithms.h"
@@ -179,6 +178,3 @@ void Event_queue::handle_events()
 
 
 }
-
-
-#endif //ALPHA_SEGMENT_INTERSECTIONS_EVENTS_H

@@ -1,5 +1,4 @@
-#ifndef ALPHA_CIRCLE_PLT_H
-#define ALPHA_CIRCLE_PLT_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "Graphics/Model/Global_variables.h"
@@ -106,6 +105,3 @@ std::istream& operator>>(std::istream& is, Circle_plt& circle)
     return is;
 }
 }
-
-
-#endif //ALPHA_CIRCLE_PLT_H

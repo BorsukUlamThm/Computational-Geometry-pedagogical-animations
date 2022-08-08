@@ -1,5 +1,4 @@
-#ifndef ALPHA_TEXT_PLT_H
-#define ALPHA_TEXT_PLT_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "Graphics/Model/Global_variables.h"
@@ -169,6 +168,3 @@ Coordinate Text_plt::get_max_ordinate() const
     return ordinate;
 }
 }
-
-
-#endif //ALPHA_TEXT_PLT_H

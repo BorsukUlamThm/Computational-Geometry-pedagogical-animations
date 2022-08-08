@@ -1,5 +1,4 @@
-#ifndef ALPHA_DISPLAY_CANVAS_H
-#define ALPHA_DISPLAY_CANVAS_H
+#pragma once
 
 #include "Canvas.h"
 #include "Canvas_events.h"
@@ -57,6 +56,3 @@ void Display_canvas::display_slide_show(Slide_show& slide_show)
 
 }
 }
-
-
-#endif //ALPHA_DISPLAY_CANVAS_H

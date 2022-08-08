@@ -1,5 +1,4 @@
-#ifndef ALPHA_LINE_PLT_H
-#define ALPHA_LINE_PLT_H
+#pragma once
 
 #include <SFML/Graphics.hpp>
 #include "Graphics/Model/Global_variables.h"
@@ -153,6 +152,3 @@ std::istream& operator>>(std::istream& is, Line_plt& line)
     return is;
 }
 }
-
-
-#endif //ALPHA_LINE_PLT_H

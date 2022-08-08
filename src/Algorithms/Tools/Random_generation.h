@@ -1,5 +1,4 @@
-#ifndef ALPHA_RANDOM_GENERATION_H
-#define ALPHA_RANDOM_GENERATION_H
+#pragma once
 
 #include "Algorithms/Model/Point_2.h"
 
@@ -107,5 +106,3 @@ std::vector<Segment_2<Real>> random_segment_2_set(unsigned n,
     return segments;
 }
 }
-
-#endif //ALPHA_RANDOM_GENERATION_H

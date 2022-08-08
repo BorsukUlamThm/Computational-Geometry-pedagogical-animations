@@ -1,5 +1,4 @@
-#ifndef ALPHA_SEGMENT_INTERSECTIONS_SETUP_H
-#define ALPHA_SEGMENT_INTERSECTIONS_SETUP_H
+#pragma once
 
 #include "Graphics/View/View.h"
 #include "Algorithms/Algorithms.h"
@@ -145,5 +144,3 @@ segment_set make_segment_set(const Segment_intersections_options& opt)
     return S;
 }
 }
-
-#endif //ALPHA_SEGMENT_INTERSECTIONS_SETUP_H

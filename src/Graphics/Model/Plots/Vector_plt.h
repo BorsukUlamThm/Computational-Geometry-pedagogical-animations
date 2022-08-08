@@ -1,5 +1,4 @@
-#ifndef ALPHA_VECTOR_PLT_H
-#define ALPHA_VECTOR_PLT_H
+#pragma once
 
 #include "Segment_plt.h"
 
@@ -129,6 +128,3 @@ std::istream& operator>>(std::istream& is, Vector_plt& vector)
     return is;
 }
 }
-
-
-#endif //ALPHA_VECTOR_PLT_H

@@ -1,5 +1,4 @@
-#ifndef ALPHA_LINE_INTERSECTIONS_H
-#define ALPHA_LINE_INTERSECTIONS_H
+#pragma once
 
 #include <iostream>
 #include "Point_comparisons.h"
@@ -62,5 +61,3 @@ Real x_intersection(const Segment_2<Real>& s, const Real& y)
     return (y - b) / a;
 }
 }
-
-#endif //ALPHA_LINE_INTERSECTIONS_H

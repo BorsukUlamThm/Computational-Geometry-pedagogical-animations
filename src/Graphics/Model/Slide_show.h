@@ -1,5 +1,4 @@
-#ifndef ALPHA_SLIDE_SHOW_H
-#define ALPHA_SLIDE_SHOW_H
+#pragma once
 
 #include "Figure.h"
 
@@ -45,6 +44,3 @@ Figure& Slide_show::operator[](unsigned int i)
     return slides[i];
 }
 }
-
-
-#endif //ALPHA_SLIDE_SHOW_H

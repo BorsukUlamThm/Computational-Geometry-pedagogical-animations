@@ -1,5 +1,4 @@
-#ifndef ALPHA_POINT_2_H
-#define ALPHA_POINT_2_H
+#pragma once
 
 #include "ostream"
 
@@ -29,6 +28,3 @@ bool operator==(const Point_2<Real>& p, const Point_2<Real>& q)
     return p.x == q.x && p.y == q.y;
 }
 }
-
-
-#endif //ALPHA_POINT_2_H

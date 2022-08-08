@@ -1,5 +1,4 @@
-#ifndef ALPHA_DRAW_PLOTS_H
-#define ALPHA_DRAW_PLOTS_H
+#pragma once
 
 #include "Display_canvas.h"
 #include <cmath>
@@ -184,5 +183,3 @@ void Canvas::draw_text(const Text_plt& text)
     window.draw(shape);
 }
 }
-
-#endif //ALPHA_DRAW_PLOTS_H

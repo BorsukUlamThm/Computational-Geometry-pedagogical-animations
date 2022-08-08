@@ -1,5 +1,4 @@
-#ifndef ALPHA_CANVAS_EVENTS_H
-#define ALPHA_CANVAS_EVENTS_H
+#pragma once
 
 #include <cmath>
 #include "Canvas.h"
@@ -101,6 +100,3 @@ void Canvas::mouse_moved_event(const sf::Event& event)
     }
 }
 }
-
-
-#endif //ALPHA_CANVAS_EVENTS_H

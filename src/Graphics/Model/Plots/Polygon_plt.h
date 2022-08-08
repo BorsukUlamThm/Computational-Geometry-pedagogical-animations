@@ -1,5 +1,4 @@
-#ifndef ALPHA_POLYGON_PLT_H
-#define ALPHA_POLYGON_PLT_H
+#pragma once
 
 #include "Point_plt.h"
 #include <vector>
@@ -154,6 +153,3 @@ std::istream& operator>>(std::istream& is, Polygon_plt& polygon)
     return is;
 }
 }
-
-
-#endif //ALPHA_POLYGON_PLT_H

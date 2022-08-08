@@ -1,5 +1,4 @@
-#ifndef ALPHA_BOUNDING_BOX_H
-#define ALPHA_BOUNDING_BOX_H
+#pragma once
 
 #include "Plots/Point_plt.h"
 #include "Plots/Segment_plt.h"
@@ -127,6 +126,3 @@ Coordinate Bounding_box::get_max_ordinate() const
     return max_ordinate;
 }
 }
-
-
-#endif //ALPHA_BOUNDING_BOX_H

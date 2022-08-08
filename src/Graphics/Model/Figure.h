@@ -1,5 +1,4 @@
-#ifndef ALPHA_FIGURE_H
-#define ALPHA_FIGURE_H
+#pragma once
 
 #include "Plots/Plot.h"
 #include "Plots/Point_plt.h"
@@ -526,6 +525,3 @@ std::istream& operator>>(std::istream& is, Figure& figure)
     return is;
 }
 }
-
-
-#endif //ALPHA_FIGURE_H

@@ -1,5 +1,4 @@
-#ifndef ALPHA_POINT_COMPARISONS_H
-#define ALPHA_POINT_COMPARISONS_H
+#pragma once
 
 #include "Algorithms/Model/Point_2.h"
 
@@ -116,5 +115,3 @@ bool point_strictly_right_line(const Point_2<Real>& p,
     return akward_det<Real>(p, ogn, dst) < 0;
 }
 }
-
-#endif //ALPHA_POINT_COMPARISONS_H

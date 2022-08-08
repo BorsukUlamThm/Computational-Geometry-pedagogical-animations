@@ -1,5 +1,4 @@
-#ifndef ALPHA_SEGMENT_2_H
-#define ALPHA_SEGMENT_2_H
+#pragma once
 
 #include "Point_2.h"
 
@@ -39,5 +38,3 @@ bool operator==(const Segment_2<Real>& s1, const Segment_2<Real> s2)
     return s1.ogn == s2.ogn && s1.dst == s2.dst;
 }
 }
-
-#endif //ALPHA_SEGMENT_2_H

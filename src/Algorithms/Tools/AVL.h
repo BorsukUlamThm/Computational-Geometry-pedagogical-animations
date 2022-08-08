@@ -1,5 +1,4 @@
-#ifndef ALPHA_AVL_H
-#define ALPHA_AVL_H
+#pragma once
 
 
 namespace alg
@@ -438,6 +437,3 @@ void AVL_tree<T, Comparator>::remove_node(AVL_tree::Node*& node)
     node = left;
 }
 }
-
-
-#endif //ALPHA_AVL_H

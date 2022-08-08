@@ -1,5 +1,5 @@
-#ifndef ALPHA_CANVAS_H
-#define ALPHA_CANVAS_H
+#pragma once
+
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "Graphics/Model/Figure.h"
@@ -188,6 +188,3 @@ void Canvas::setup_view()
     window.setView(view);
 }
 }
-
-
-#endif //ALPHA_CANVAS_H

@@ -1,5 +1,4 @@
-#ifndef ALPHA_PLOT_H
-#define ALPHA_PLOT_H
+#pragma once
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -322,6 +321,3 @@ Coordinate Plot::get_max_ordinate() const
 }
 
 }
-
-
-#endif //ALPHA_PLOT_H

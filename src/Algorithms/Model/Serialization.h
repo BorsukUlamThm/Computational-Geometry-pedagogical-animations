@@ -1,11 +1,11 @@
-#ifndef ALPHA_SERIALIZATION_H
-#define ALPHA_SERIALIZATION_H
+#pragma once
 
+/** @cond */
 #include <fstream>
 #include "Point_2.h"
 #include "Segment_2.h"
 #include "General_tools/General_tools.h"
-
+/** @endcond */
 
 namespace alg
 {
@@ -139,6 +139,3 @@ void save_segment_2_set(const std::string& path, const std::vector<Segment_2<Rea
     }
 }
 }
-
-
-#endif //ALPHA_SERIALIZATION_H

@@ -1,5 +1,4 @@
-#ifndef ALPHA_ACQUISITION_EVENTS_H
-#define ALPHA_ACQUISITION_EVENTS_H
+#pragma once
 
 #include "Acquisition_canvas.h"
 
@@ -107,5 +106,3 @@ void Acquisition_canvas::key_pressed_event(const sf::Event& event)
     }
 }
 }
-
-#endif //ALPHA_ACQUISITION_EVENTS_H

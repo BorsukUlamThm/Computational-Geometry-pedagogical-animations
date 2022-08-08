@@ -1,5 +1,4 @@
-#ifndef ALPHA_GLOBAL_VARIABLES_H
-#define ALPHA_GLOBAL_VARIABLES_H
+#pragma once
 
 #include <limits>
 #include <string>
@@ -184,5 +183,3 @@ struct Config
 
 
 }
-
-#endif //ALPHA_GLOBAL_VARIABLES_H
