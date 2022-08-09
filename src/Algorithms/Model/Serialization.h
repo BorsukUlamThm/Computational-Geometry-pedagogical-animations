@@ -1,11 +1,12 @@
 #pragma once
 
 /** @cond */
+#include <filesystem>
 #include <fstream>
-#include "Point_2.h"
-#include "Segment_2.h"
-#include "General_tools/General_tools.h"
+#include <vector>
 /** @endcond */
+#include "General_tools/General_tools.h"
+#include "Segment_2.h"
 
 namespace alg
 {

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Display_canvas.h"
+/** @cond */
 #include <cmath>
+/** @endcond */
+#include "Display_canvas.h"
 
 
 namespace gr

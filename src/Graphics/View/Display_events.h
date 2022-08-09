@@ -1,6 +1,8 @@
 #pragma once
 
+/** @cond */
 #include <cmath>
+/** @endcond */
 #include "Display_canvas.h"
 
 

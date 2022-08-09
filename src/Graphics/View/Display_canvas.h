@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Canvas.h"
 #include "Canvas_events.h"
 
 

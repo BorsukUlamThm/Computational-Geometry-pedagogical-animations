@@ -1,7 +1,8 @@
-#include "Graphics/View/View.h"
-#include "Algorithms/Algorithms.h"
+/** @cond */
 #include <cmath>
 #include <boost/multiprecision/cpp_int.hpp>
+/** @endcond */
+#include "Graphics/View/View.h"
 
 namespace Other_stuff_syracuse
 {

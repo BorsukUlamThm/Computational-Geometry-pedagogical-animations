@@ -1,6 +1,7 @@
-#include "Graphics/View/View.h"
-#include "Algorithms/Algorithms.h"
+/** @cond */
 #include <set>
+/** @endcond */
+#include "Graphics/View/View.h"
 
 namespace Other_stuff_dragon
 {

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include "Graphics/Model/Global_variables.h"
-
 #include "Point_acq.h"
 #include "Segment_acq.h"
 

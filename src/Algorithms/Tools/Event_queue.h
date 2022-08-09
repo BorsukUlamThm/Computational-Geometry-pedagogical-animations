@@ -1,6 +1,8 @@
 #pragma once
 
+/** @cond */
 #include <boost/heap/priority_queue.hpp>
+/** @endcond */
 
 
 namespace alg

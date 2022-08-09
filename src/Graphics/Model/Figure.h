@@ -1,10 +1,5 @@
 #pragma once
 
-#include "Plots/Plot.h"
-#include "Plots/Point_plt.h"
-#include "Plots/Segment_plt.h"
-#include "Plots/Polygon_plt.h"
-
 #include "Bounding_box.h"
 
 
@@ -445,7 +440,7 @@ void Figure::make_bounding_box()
                     bounding_box.extend(plots[i].circle());
                     break;
                 case LINE_PLT:
-                    /* nothing to do but i let it in a comment just in case
+                    /* nothing to do but I let it in a comment just in case
                     bounding_box.extend(plots[i].line());*/
                     break;
                 case TEXT_PLT:

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Algorithms/Algorithms.h"
+#include "Graphics/View/View.h"
 
 namespace chs
 {

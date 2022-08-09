@@ -1,9 +1,11 @@
 #pragma once
 
+/** @cond */
 #include <limits>
 #include <string>
 #include <fstream>
 #include <SFML/Graphics.hpp>
+/** @endcond */
 #include "General_tools/General_tools.h"
 
 

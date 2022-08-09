@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Algorithms/Model/Point_2.h"
+#include "Algorithms/Model/Segment_2.h"
 
 
 namespace alg

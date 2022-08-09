@@ -1,5 +1,3 @@
-#include "Graphics/View/View.h"
-#include "Algorithms/Algorithms.h"
 #include "Convex_hull_setup.h"
 
 

@@ -1,9 +1,11 @@
 #pragma once
 
+/** @cond */
 #include <iostream>
 #include <string>
 #include <vector>
 #include <filesystem>
+/** @endcond */
 
 
 namespace gt

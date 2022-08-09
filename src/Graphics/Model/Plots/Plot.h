@@ -1,18 +1,13 @@
 #pragma once
 
+/** @cond */
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Graphics/Model/Global_variables.h"
-
-#include "Point_plt.h"
-#include "Segment_plt.h"
-#include "Vector_plt.h"
+/** @endcond */
 #include "Polygon_plt.h"
 #include "Circle_plt.h"
 #include "Line_plt.h"
 #include "Text_plt.h"
-
-// doc for union https://docs.microsoft.com/en-us/cpp/cpp/unions?view=msvc-160
 
 
 namespace gr

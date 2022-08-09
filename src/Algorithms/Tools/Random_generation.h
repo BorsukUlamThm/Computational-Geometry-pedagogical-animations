@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Algorithms/Model/Point_2.h"
-
+/** @cond */
 #include <vector>
 #include <chrono>
 #include <random>
+/** @endcond */
+#include "Algorithms/Model/Segment_2.h"
 
 
 namespace alg

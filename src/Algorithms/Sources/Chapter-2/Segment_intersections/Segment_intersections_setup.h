@@ -1,9 +1,11 @@
 #pragma once
 
-#include "Graphics/View/View.h"
-#include "Algorithms/Algorithms.h"
+/** @cond */
 #include <boost/rational.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
+/** @endcond */
+#include "Graphics/View/View.h"
+#include "Algorithms/Algorithms.h"
 
 
 namespace chap2_segment_intersections

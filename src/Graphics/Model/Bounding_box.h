@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Plots/Point_plt.h"
-#include "Plots/Segment_plt.h"
-#include "Plots/Polygon_plt.h"
+#include "Plots/Plot.h"
 
 
 namespace gr

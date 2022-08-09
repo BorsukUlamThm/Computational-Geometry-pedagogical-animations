@@ -1,5 +1,5 @@
-#include "Segment_intersections/Segment_intersections_setup.h"
 #include "Segment_intersections/Segment_intersections_events.h"
+#include "Segment_intersections/Segment_intersections_setup.h"
 
 
 namespace chap2_segment_intersections

@@ -1,9 +1,8 @@
 #pragma once
 
+/** @cond */
 #include <SFML/Graphics.hpp>
-#include "Graphics/Model/Global_variables.h"
-#include "Point_plt.h"
-#include "Segment_plt.h"
+/** @endcond */
 #include "Vector_plt.h"
 
 

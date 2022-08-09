@@ -1,6 +1,8 @@
 #pragma once
 
+/** @cond */
 #include <iostream>
+/** @endcond */
 #include "Point_comparisons.h"
 
 

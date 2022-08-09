@@ -1,7 +1,7 @@
-#include "Graphics/View/View.h"
-#include "Algorithms/Algorithms.h"
-#include "Convex_hull_setup.h"
+/** @cond */
 #include <list>
+/** @endcond */
+#include "Convex_hull_setup.h"
 
 
 namespace chap1_daq_convex_hull

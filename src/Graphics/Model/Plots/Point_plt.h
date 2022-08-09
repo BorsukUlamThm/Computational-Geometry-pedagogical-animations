@@ -1,6 +1,8 @@
 #pragma once
 
+/** @cond */
 #include <SFML/Graphics.hpp>
+/** @endcond */
 #include "Graphics/Model/Global_variables.h"
 
 

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "ostream"
+/** @cond */
+#include <ostream>
+/** @endcond */
 
 
 namespace alg

@@ -1,7 +1,9 @@
 #pragma once
 
-#include "Point_plt.h"
+/** @cond */
 #include <vector>
+/** @endcond */
+#include "Point_plt.h"
 
 
 namespace gr

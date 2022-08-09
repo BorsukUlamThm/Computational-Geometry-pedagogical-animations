@@ -1,8 +1,9 @@
 #pragma once
 
+/** @cond */
 #include <SFML/Graphics.hpp>
-#include "Graphics/Model/Global_variables.h"
-
+/** @endcond */
+#include "Segment_plt.h"
 
 namespace gr
 {
