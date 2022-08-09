@@ -15,6 +15,9 @@ namespace gt
 	/// Project name
 #define PROJECT_NAME "Computational-Geometry-pedagogical-animations"
 
+  /*!
+   * @return the root of the project directory
+   */
 	fs::path get_project_directory()
 	{
 		fs::path current_dir = fs::current_path();
@@ -35,6 +38,9 @@ namespace gt
 		return current_dir;
 	}
 
+	/*!
+	 * @return the root of the .config directory
+	 */
 	fs::path get_config_directory()
 	{
 		fs::path res = get_project_directory();
@@ -57,6 +63,10 @@ namespace gt
 		return res;
 	}
 
+	/*!
+	 * @param line a parsed line from a config file
+	 * @return the list of the words separated by whitespaces
+	 */
 	std::vector<std::string> split_line(std::string& line)
 	{
 		std::istringstream iss(line);

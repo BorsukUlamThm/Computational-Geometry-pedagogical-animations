@@ -55,13 +55,13 @@ protected:
     void setup_view();
 
     void draw_figure(const Figure& figure);
-    void draw_point(const Point_plt& point);
-    void draw_segment(const Segment_plt& segment);
-    void draw_vector(const Vector_plt& vector);
-    void draw_polygon(const Polygon_plt& polygon);
-    void draw_circle(const Circle_plt& circle);
-    void draw_line(const Line_plt& line);
-    void draw_text(const Text_plt& text);
+    void draw_point(const Point_plot& point);
+    void draw_segment(const Segment_plot& segment);
+    void draw_vector(const Vector_plot& vector);
+    void draw_polygon(const Polygon_plot& polygon);
+    void draw_circle(const Circle_plot& circle);
+    void draw_line(const Line_plot& line);
+    void draw_text(const Text_plot& text);
 
     void mouse_wheel_scrolled_event(const sf::Event& event);
     void mouse_button_pressed_event(const sf::Event& event);

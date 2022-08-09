@@ -4,315 +4,325 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 /** @endcond */
-#include "Polygon_plt.h"
-#include "Circle_plt.h"
-#include "Line_plt.h"
-#include "Text_plt.h"
+#include "Polygon_plot.h"
+#include "Circle_plot.h"
+#include "Line_plot.h"
+#include "Text_plot.h"
 
 
 namespace gr
 {
+	// +-----------------------------------------------------------------------+
+	// |                             DECLARATIONS                              |
+	// +-----------------------------------------------------------------------+
 
-enum Plot_type
-{
-    POINT_PLT,
-    SEGMENT_PLT,
-    VECTOR_PLT,
-    POLYGON_PLT,
-    CIRCLE_PLT,
-    LINE_PLT,
-    TEXT_PLT
-};
+	enum Plot_type
+	{
+		POINT_PLT,
+		SEGMENT_PLT,
+		VECTOR_PLT,
+		POLYGON_PLT,
+		CIRCLE_PLT,
+		LINE_PLT,
+		TEXT_PLT
+	};
 
-class Plot
-{
-private:
-    Plot_type plot_type;
-    union
-    {
-        Point_plt u_point;
-        Segment_plt u_segment;
-        Vector_plt u_vector;
-        Polygon_plt u_polygon;
-        Circle_plt u_circle;
-        Line_plt u_line;
-        Text_plt u_text;
-    };
+	/*!
+	 * Wrapper class for all the plots
+	 */
+	class Plot
+	{
+	private:
+		Plot_type plot_type;
+		union
+		{
+			Point_plot u_point;
+			Segment_plot u_segment;
+			Vector_plot u_vector;
+			Polygon_plot u_polygon;
+			Circle_plot u_circle;
+			Line_plot u_line;
+			Text_plot u_text;
+		};
 
-public:
-    explicit Plot(Plot_type type);
-    explicit Plot(const Point_plt& point);
-    explicit Plot(const Segment_plt& segment);
-    explicit Plot(const Vector_plt& vector);
-    explicit Plot(const Polygon_plt& polygon);
-    explicit Plot(const Circle_plt& circle);
-    explicit Plot(const Line_plt& line);
-    explicit Plot(const Text_plt& text);
-    Plot(const Plot& other);
-    ~Plot();
+	public:
+		explicit Plot(Plot_type type);
+		explicit Plot(const Point_plot& point);
+		explicit Plot(const Segment_plot& segment);
+		explicit Plot(const Vector_plot& vector);
+		explicit Plot(const Polygon_plot& polygon);
+		explicit Plot(const Circle_plot& circle);
+		explicit Plot(const Line_plot& line);
+		explicit Plot(const Text_plot& text);
+		Plot(const Plot& other);
+		~Plot();
 
-    Plot_type type() const;
-    Point_plt point() const;
-    Segment_plt segment() const;
-    Vector_plt vector() const;
-    Polygon_plt polygon() const;
-    Circle_plt circle() const;
-    Line_plt line() const;
-    Text_plt text() const;
+		Plot_type type() const;
+		Point_plot point() const;
+		Segment_plot segment() const;
+		Vector_plot vector() const;
+		Polygon_plot polygon() const;
+		Circle_plot circle() const;
+		Line_plot line() const;
+		Text_plot text() const;
 
-    Coordinate get_min_abscissa() const;
-    Coordinate get_max_abscissa() const;
-    Coordinate get_min_ordinate() const;
-    Coordinate get_max_ordinate() const;
-};
+		Coordinate get_min_abscissa() const;
+		Coordinate get_max_abscissa() const;
+		Coordinate get_min_ordinate() const;
+		Coordinate get_max_ordinate() const;
+	};
 
-Plot::Plot(Plot_type type)
-{
-    plot_type = type;
-    switch(type)
-    {
-        case POINT_PLT:
-            new (&u_point) Point_plt();
-            break;
-        case SEGMENT_PLT:
-            new (&u_segment) Segment_plt();
-            break;
-        case VECTOR_PLT:
-            new (&u_vector) Vector_plt();
-            break;
-        case POLYGON_PLT:
-            new (&u_polygon) Polygon_plt();
-            break;
-        case CIRCLE_PLT:
-            new (&u_circle) Circle_plt();
-            break;
-        case LINE_PLT:
-            new (&u_line) Line_plt();
-            break;
-        case TEXT_PLT:
-            new (&u_text) Text_plt();
-            break;
-    }
-}
 
-Plot::Plot(const Point_plt& point):
-    plot_type(POINT_PLT),
-    u_point(Point_plt(point))
-{}
+	// +-----------------------------------------------------------------------+
+	// |                              DEFINITIONS                              |
+	// +-----------------------------------------------------------------------+
 
-Plot::Plot(const Segment_plt& segment):
-    plot_type(SEGMENT_PLT),
-    u_segment(Segment_plt(segment))
-{}
+	Plot::Plot(Plot_type type)
+	{
+		plot_type = type;
+		switch(type)
+		{
+			case POINT_PLT:
+				new (&u_point) Point_plot();
+				break;
+			case SEGMENT_PLT:
+				new (&u_segment) Segment_plot();
+				break;
+			case VECTOR_PLT:
+				new (&u_vector) Vector_plot();
+				break;
+			case POLYGON_PLT:
+				new (&u_polygon) Polygon_plot();
+				break;
+			case CIRCLE_PLT:
+				new (&u_circle) Circle_plot();
+				break;
+			case LINE_PLT:
+				new (&u_line) Line_plot();
+				break;
+			case TEXT_PLT:
+				new (&u_text) Text_plot();
+				break;
+		}
+	}
 
-Plot::Plot(const Vector_plt& vector):
-    plot_type(VECTOR_PLT),
-    u_vector(Vector_plt(vector))
-{}
+	Plot::Plot(const Point_plot& point):
+			plot_type(POINT_PLT),
+			u_point(Point_plot(point))
+	{}
 
-Plot::Plot(const Polygon_plt& polygon):
-    plot_type(POLYGON_PLT),
-    u_polygon(Polygon_plt(polygon))
-{}
+	Plot::Plot(const Segment_plot& segment):
+			plot_type(SEGMENT_PLT),
+			u_segment(Segment_plot(segment))
+	{}
 
-Plot::Plot(const Circle_plt& circle):
-    plot_type(CIRCLE_PLT),
-    u_circle(Circle_plt(circle))
-{}
+	Plot::Plot(const Vector_plot& vector):
+			plot_type(VECTOR_PLT),
+			u_vector(Vector_plot(vector))
+	{}
 
-Plot::Plot(const Line_plt& line):
-    plot_type(LINE_PLT),
-    u_line(Line_plt(line))
-{}
+	Plot::Plot(const Polygon_plot& polygon):
+			plot_type(POLYGON_PLT),
+			u_polygon(Polygon_plot(polygon))
+	{}
 
-Plot::Plot(const Text_plt& text):
-    plot_type(TEXT_PLT),
-    u_text(Text_plt(text))
-{}
+	Plot::Plot(const Circle_plot& circle):
+			plot_type(CIRCLE_PLT),
+			u_circle(Circle_plot(circle))
+	{}
 
-Plot::Plot(const Plot& other)
-{
-    plot_type = other.plot_type;
-    switch(plot_type)
-    {
-        case POINT_PLT:
-            new (&u_point) Point_plt(other.u_point);
-            break;
-        case SEGMENT_PLT:
-            new (&u_segment) Segment_plt(other.u_segment);
-            break;
-        case VECTOR_PLT:
-            new (&u_vector) Vector_plt(other.u_vector);
-            break;
-        case POLYGON_PLT:
-            new (&u_polygon) Polygon_plt(other.u_polygon);
-            break;
-        case CIRCLE_PLT:
-            new (&u_circle) Circle_plt(other.u_circle);
-            break;
-        case LINE_PLT:
-            new (&u_line) Line_plt(other.u_line);
-            break;
-        case TEXT_PLT:
-            new (&u_text) Text_plt(other.u_text);
-            break;
-    }
-}
+	Plot::Plot(const Line_plot& line):
+			plot_type(LINE_PLT),
+			u_line(Line_plot(line))
+	{}
 
-Plot::~Plot()
-{
-    switch(plot_type)
-    {
-        case POINT_PLT:
-            u_point.~Point_plt();
-            break;
-        case SEGMENT_PLT:
-            u_segment.~Segment_plt();
-            break;
-        case VECTOR_PLT:
-            u_vector.~Vector_plt();
-            break;
-        case POLYGON_PLT:
-            u_polygon.~Polygon_plt();
-            break;
-        case CIRCLE_PLT:
-            u_circle.~Circle_plt();
-            break;
-        case LINE_PLT:
-            u_line.~Line_plt();
-            break;
-        case TEXT_PLT:
-            u_text.~Text_plt();
-            break;
-    }
-}
+	Plot::Plot(const Text_plot& text):
+			plot_type(TEXT_PLT),
+			u_text(Text_plot(text))
+	{}
 
-Plot_type Plot::type() const
-{
-    return plot_type;
-}
+	Plot::Plot(const Plot& other)
+	{
+		plot_type = other.plot_type;
+		switch(plot_type)
+		{
+			case POINT_PLT:
+				new (&u_point) Point_plot(other.u_point);
+				break;
+			case SEGMENT_PLT:
+				new (&u_segment) Segment_plot(other.u_segment);
+				break;
+			case VECTOR_PLT:
+				new (&u_vector) Vector_plot(other.u_vector);
+				break;
+			case POLYGON_PLT:
+				new (&u_polygon) Polygon_plot(other.u_polygon);
+				break;
+			case CIRCLE_PLT:
+				new (&u_circle) Circle_plot(other.u_circle);
+				break;
+			case LINE_PLT:
+				new (&u_line) Line_plot(other.u_line);
+				break;
+			case TEXT_PLT:
+				new (&u_text) Text_plot(other.u_text);
+				break;
+		}
+	}
 
-Point_plt Plot::point() const
-{
-    return u_point;
-}
+	Plot::~Plot()
+	{
+		switch(plot_type)
+		{
+			case POINT_PLT:
+				u_point.~Point_plot();
+				break;
+			case SEGMENT_PLT:
+				u_segment.~Segment_plot();
+				break;
+			case VECTOR_PLT:
+				u_vector.~Vector_plot();
+				break;
+			case POLYGON_PLT:
+				u_polygon.~Polygon_plot();
+				break;
+			case CIRCLE_PLT:
+				u_circle.~Circle_plot();
+				break;
+			case LINE_PLT:
+				u_line.~Line_plot();
+				break;
+			case TEXT_PLT:
+				u_text.~Text_plot();
+				break;
+		}
+	}
 
-Segment_plt Plot::segment() const
-{
-    return u_segment;
-}
+	Plot_type Plot::type() const
+	{
+		return plot_type;
+	}
 
-Vector_plt Plot::vector() const
-{
-    return u_vector;
-}
+	Point_plot Plot::point() const
+	{
+		return u_point;
+	}
 
-Polygon_plt Plot::polygon() const
-{
-    return u_polygon;
-}
+	Segment_plot Plot::segment() const
+	{
+		return u_segment;
+	}
 
-Circle_plt Plot::circle() const
-{
-    return u_circle;
-}
+	Vector_plot Plot::vector() const
+	{
+		return u_vector;
+	}
 
-Line_plt Plot::line() const
-{
-    return u_line;
-}
+	Polygon_plot Plot::polygon() const
+	{
+		return u_polygon;
+	}
 
-Text_plt Plot::text() const
-{
-    return u_text;
-}
+	Circle_plot Plot::circle() const
+	{
+		return u_circle;
+	}
 
-Coordinate Plot::get_min_abscissa() const
-{
-    switch(plot_type)
-    {
-        case POINT_PLT:
-            return u_point.get_min_abscissa();
-        case SEGMENT_PLT:
-            return u_segment.get_min_abscissa();
-            case VECTOR_PLT:
-                return u_vector.get_min_abscissa();
-        case POLYGON_PLT:
-            return u_polygon.get_min_abscissa();
-        case CIRCLE_PLT:
-            return u_circle.get_min_abscissa();
-        case LINE_PLT:
-            return u_line.get_min_abscissa();
-        case TEXT_PLT:
-            return u_text.get_min_abscissa();
-    }
-    return 0;
-}
+	Line_plot Plot::line() const
+	{
+		return u_line;
+	}
 
-Coordinate Plot::get_max_abscissa() const
-{
-    switch(plot_type)
-    {
-        case POINT_PLT:
-            return u_point.get_max_abscissa();
-        case SEGMENT_PLT:
-            return u_segment.get_max_abscissa();
-            case VECTOR_PLT:
-                return u_vector.get_max_abscissa();
-        case POLYGON_PLT:
-            return u_polygon.get_max_abscissa();
-        case CIRCLE_PLT:
-            return u_circle.get_max_abscissa();
-        case LINE_PLT:
-            return u_line.get_max_abscissa();
-        case TEXT_PLT:
-            return u_text.get_max_abscissa();
-    }
-    return 0;
-}
+	Text_plot Plot::text() const
+	{
+		return u_text;
+	}
 
-Coordinate Plot::get_min_ordinate() const
-{
-    switch(plot_type)
-    {
-        case POINT_PLT:
-            return u_point.get_min_ordinate();
-        case SEGMENT_PLT:
-            return u_segment.get_min_ordinate();
-            case VECTOR_PLT:
-                return u_vector.get_min_ordinate();
-        case POLYGON_PLT:
-            return u_polygon.get_min_ordinate();
-        case CIRCLE_PLT:
-            return u_circle.get_min_ordinate();
-        case LINE_PLT:
-            return u_line.get_min_ordinate();
-        case TEXT_PLT:
-            return u_text.get_min_ordinate();
-    }
-    return 0;
-}
+	Coordinate Plot::get_min_abscissa() const
+	{
+		switch(plot_type)
+		{
+			case POINT_PLT:
+				return u_point.get_min_abscissa();
+			case SEGMENT_PLT:
+				return u_segment.get_min_abscissa();
+			case VECTOR_PLT:
+				return u_vector.get_min_abscissa();
+			case POLYGON_PLT:
+				return u_polygon.get_min_abscissa();
+			case CIRCLE_PLT:
+				return u_circle.get_min_abscissa();
+			case LINE_PLT:
+				return u_line.get_min_abscissa();
+			case TEXT_PLT:
+				return u_text.get_min_abscissa();
+		}
+		return 0;
+	}
 
-Coordinate Plot::get_max_ordinate() const
-{
-    switch(plot_type)
-    {
-        case POINT_PLT:
-            return u_point.get_max_ordinate();
-        case SEGMENT_PLT:
-            return u_segment.get_max_ordinate();
-        case VECTOR_PLT:
-            return u_vector.get_max_ordinate();
-        case POLYGON_PLT:
-            return u_polygon.get_max_ordinate();
-        case CIRCLE_PLT:
-            return u_circle.get_max_ordinate();
-        case LINE_PLT:
-            return u_line.get_max_ordinate();
-        case TEXT_PLT:
-            return u_text.get_max_ordinate();
-    }
-    return 0;
-}
+	Coordinate Plot::get_max_abscissa() const
+	{
+		switch(plot_type)
+		{
+			case POINT_PLT:
+				return u_point.get_max_abscissa();
+			case SEGMENT_PLT:
+				return u_segment.get_max_abscissa();
+			case VECTOR_PLT:
+				return u_vector.get_max_abscissa();
+			case POLYGON_PLT:
+				return u_polygon.get_max_abscissa();
+			case CIRCLE_PLT:
+				return u_circle.get_max_abscissa();
+			case LINE_PLT:
+				return u_line.get_max_abscissa();
+			case TEXT_PLT:
+				return u_text.get_max_abscissa();
+		}
+		return 0;
+	}
 
+	Coordinate Plot::get_min_ordinate() const
+	{
+		switch(plot_type)
+		{
+			case POINT_PLT:
+				return u_point.get_min_ordinate();
+			case SEGMENT_PLT:
+				return u_segment.get_min_ordinate();
+			case VECTOR_PLT:
+				return u_vector.get_min_ordinate();
+			case POLYGON_PLT:
+				return u_polygon.get_min_ordinate();
+			case CIRCLE_PLT:
+				return u_circle.get_min_ordinate();
+			case LINE_PLT:
+				return u_line.get_min_ordinate();
+			case TEXT_PLT:
+				return u_text.get_min_ordinate();
+		}
+		return 0;
+	}
+
+	Coordinate Plot::get_max_ordinate() const
+	{
+		switch(plot_type)
+		{
+			case POINT_PLT:
+				return u_point.get_max_ordinate();
+			case SEGMENT_PLT:
+				return u_segment.get_max_ordinate();
+			case VECTOR_PLT:
+				return u_vector.get_max_ordinate();
+			case POLYGON_PLT:
+				return u_polygon.get_max_ordinate();
+			case CIRCLE_PLT:
+				return u_circle.get_max_ordinate();
+			case LINE_PLT:
+				return u_line.get_max_ordinate();
+			case TEXT_PLT:
+				return u_text.get_max_ordinate();
+		}
+		return 0;
+	}
 }

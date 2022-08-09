@@ -119,7 +119,7 @@ void make_convex_hull(point_set& P)
 
     convex_hull CH = make_hull(P);
 
-    gr::Polygon_plt plot_CH(gr::YELLOW);
+    gr::Polygon_plot plot_CH(gr::YELLOW);
     for(auto& v : CH)
     {
         plot_CH.add_vertex(v.x, v.y);

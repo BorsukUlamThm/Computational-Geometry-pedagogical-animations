@@ -188,7 +188,7 @@ void daq_convex_hull(const point_set& P)
     L.pop_back();
     U.splice(U.end(), L);
 
-    gr::Polygon_plt plot_CH(gr::YELLOW);
+    gr::Polygon_plot plot_CH(gr::YELLOW);
     for(auto& v : U)
     {
         plot_CH.add_vertex(v.x, v.y);

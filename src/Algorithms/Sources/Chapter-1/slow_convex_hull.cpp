@@ -65,7 +65,7 @@ segment_set make_outside_segments(const point_set& P)
     slides.add_slide(fig_points, fig_outside_segments);
     for(unsigned i = 0; i < E.size(); ++i)
     {
-        gr::Vector_plt v (E[i].ogn.x, E[i].ogn.y, E[i].dst.x, E[i].dst.y);
+        gr::Vector_plot v (E[i].ogn.x, E[i].ogn.y, E[i].dst.x, E[i].dst.y);
         fig_outside_segments.add_text(std::to_string(i), v);
     }
     slides.add_slide(fig_points, fig_outside_segments);
@@ -127,7 +127,7 @@ void slow_convex_hull(const point_set& P)
     segment_set E = make_outside_segments(P);
     convex_hull CH = sort_outside_segment(E);
 
-    gr::Polygon_plt plot_CH(gr::YELLOW);
+    gr::Polygon_plot plot_CH(gr::YELLOW);
     for(auto& v : CH)
     {
         plot_CH.add_vertex(v.x, v.y);

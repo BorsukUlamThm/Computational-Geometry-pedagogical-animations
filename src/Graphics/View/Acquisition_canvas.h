@@ -69,8 +69,8 @@ void Acquisition_canvas::setup_bounding_box()
 {
     if(acquisitions.is_empty())
     {
-        gr::Point_plt p(0, 0);
-        gr::Point_plt q((Coordinate(config.width)), Coordinate(config.height));
+        gr::Point_plot p(0, 0);
+        gr::Point_plot q((Coordinate(config.width)), Coordinate(config.height));
 
         bounding_box.clear();
         bounding_box.extend(p);

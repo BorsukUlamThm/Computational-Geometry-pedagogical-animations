@@ -25,64 +25,64 @@ public:
     Coordinate get_max_ordinate() const;
     Plot get_last_plot() const;
 
-    void add_point(const Point_plt& point);
+    void add_point(const Point_plot& point);
     void add_point(const Coordinate& x, const Coordinate& y,
                    Color col = DEFAULT_PLOT_COLOR, float rad = 3);
     template<typename... Points>
-    void add_point(const Point_plt& point, const Points&... points);
-    void add_segment(const Segment_plt& segment);
-    void add_segment(const Point_plt& ogn, const Point_plt& dst,
-                     Color line_col = DEFAULT_PLOT_COLOR);
+    void add_point(const Point_plot& point, const Points&... points);
+    void add_segment(const Segment_plot& segment);
+    void add_segment(const Point_plot& ogn, const Point_plot& dst,
+					 Color line_col = DEFAULT_PLOT_COLOR);
     void add_segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
                      const Coordinate& dst_x, const Coordinate& dst_y,
                      Color line_col = DEFAULT_PLOT_COLOR,
                      Color end_points_col = DEFAULT_PLOT_COLOR);
     template<typename... Segments>
-    void add_segment(const Segment_plt& segment, const Segments&... segments);
-    void add_vector(const Vector_plt& vector);
+    void add_segment(const Segment_plot& segment, const Segments&... segments);
+    void add_vector(const Vector_plot& vector);
     void add_vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
                     const Coordinate& dst_x, const Coordinate& dst_y,
                     Color col = DEFAULT_PLOT_COLOR);
-    void add_vector(const Point_plt& ogn, const Point_plt& dst,
-                    Color col = DEFAULT_PLOT_COLOR);
-    void add_vector(const Segment_plt& segment, Color col = DEFAULT_PLOT_COLOR);
+    void add_vector(const Point_plot& ogn, const Point_plot& dst,
+					Color col = DEFAULT_PLOT_COLOR);
+    void add_vector(const Segment_plot& segment, Color col = DEFAULT_PLOT_COLOR);
     template<typename... Vectors>
-    void add_vector(const Vector_plt& vector, const Vectors&... vectors);
-    void add_polygon(const Polygon_plt& polygon);
-    void add_polygon(const std::vector<Point_plt>& vertices,
+    void add_vector(const Vector_plot& vector, const Vectors&... vectors);
+    void add_polygon(const Polygon_plot& polygon);
+    void add_polygon(const std::vector<Point_plot>& vertices,
                      Color lines_col = DEFAULT_PLOT_COLOR);
     template<typename... Polygons>
-    void add_polygon(const Polygon_plt& polygon, const Polygons&... polygons);
-    void add_circle(const Circle_plt& circle);
+    void add_polygon(const Polygon_plot& polygon, const Polygons&... polygons);
+    void add_circle(const Circle_plot& circle);
     void add_circle(const Coordinate& x, const Coordinate& y, const Coordinate& rad,
                     Color col = DEFAULT_PLOT_COLOR);
     template<typename... Circles>
-    void add_circle(const Circle_plt& circle, const Circles&... circles);
-    void add_line(const Line_plt& line);
+    void add_circle(const Circle_plot& circle, const Circles&... circles);
+    void add_line(const Line_plot& line);
     void add_line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
                   Color col = DEFAULT_PLOT_COLOR);
-    void add_line(const Segment_plt& segment, Color col = DEFAULT_PLOT_COLOR);
-    void add_line(const Point_plt& point1, const Point_plt& point2,
-                  Color col = DEFAULT_PLOT_COLOR);
+    void add_line(const Segment_plot& segment, Color col = DEFAULT_PLOT_COLOR);
+    void add_line(const Point_plot& point1, const Point_plot& point2,
+				  Color col = DEFAULT_PLOT_COLOR);
     void add_line(const Coordinate& x1, const Coordinate& y1,
                   const Coordinate& x2, const Coordinate& y2,
                   Color col = DEFAULT_PLOT_COLOR);
     template<typename... Lines>
-    void add_line(const Line_plt& line, const Lines&... lines);
+    void add_line(const Line_plot& line, const Lines&... lines);
     void add_vertical_line(const Coordinate& x,
                            Color col = DEFAULT_PLOT_COLOR);
     void add_horizontal_line(const Coordinate& y,
                              Color col = DEFAULT_PLOT_COLOR);
-    void add_text(const Text_plt& text);
+    void add_text(const Text_plot& text);
     void add_text(const std::string& text, const Coordinate& x, const Coordinate& y,
                   unsigned size = 16, float off_x = 0, float off_y = 0,
                   Color col = DEFAULT_PLOT_COLOR);
-    void add_text(const std::string& text, const Point_plt& point, unsigned size = 16,
-                  Color col = DEFAULT_PLOT_COLOR);
-    void add_text(const std::string& text, const Segment_plt& segment, unsigned size = 16,
-                  Color col = DEFAULT_PLOT_COLOR);
-    void add_text(const std::string& text, const Vector_plt& vector, unsigned size = 16,
-                  Color col = DEFAULT_PLOT_COLOR);
+    void add_text(const std::string& text, const Point_plot& point, unsigned size = 16,
+				  Color col = DEFAULT_PLOT_COLOR);
+    void add_text(const std::string& text, const Segment_plot& segment, unsigned size = 16,
+				  Color col = DEFAULT_PLOT_COLOR);
+    void add_text(const std::string& text, const Vector_plot& vector, unsigned size = 16,
+				  Color col = DEFAULT_PLOT_COLOR);
 
     void merge_figure(const Figure& other);
     template<typename... Figures>
@@ -135,7 +135,7 @@ Plot Figure::get_last_plot() const
     return plots.back();
 }
 
-void Figure::add_point(const Point_plt& point)
+void Figure::add_point(const Point_plot& point)
 {
     Plot plot(point);
     plots.push_back(plot);
@@ -145,27 +145,27 @@ void Figure::add_point(const Point_plt& point)
 void Figure::add_point(const Coordinate& x, const Coordinate& y,
                        Color col, float rad)
 {
-    Point_plt point(x, y, col, rad);
+    Point_plot point(x, y, col, rad);
     add_point(point);
 }
 
 template<typename... Points>
-void Figure::add_point(const Point_plt& point, const Points&... points)
+void Figure::add_point(const Point_plot& point, const Points&... points)
 {
     add_point(point);
     add_point(points...);
 }
 
-void Figure::add_segment(const Segment_plt& segment)
+void Figure::add_segment(const Segment_plot& segment)
 {
     plots.emplace_back(segment);
     bounding_box.extend(segment);
 }
 
-void Figure::add_segment(const Point_plt& ogn, const Point_plt& dst,
-                         Color line_col)
+void Figure::add_segment(const Point_plot& ogn, const Point_plot& dst,
+						 Color line_col)
 {
-    Segment_plt segment(ogn, dst, line_col);
+    Segment_plot segment(ogn, dst, line_col);
     add_segment(segment);
 }
 
@@ -173,18 +173,18 @@ void Figure::add_segment(const Coordinate& ogn_x, const Coordinate& ogn_y,
                          const Coordinate& dst_x, const Coordinate& dst_y,
                          Color line_col, Color end_points_col)
 {
-    Segment_plt segment(ogn_x, ogn_y, dst_x, dst_y, line_col, end_points_col);
+    Segment_plot segment(ogn_x, ogn_y, dst_x, dst_y, line_col, end_points_col);
     add_segment(segment);
 }
 
 template<typename... Segments>
-void Figure::add_segment(const Segment_plt& segment, const Segments&... segments)
+void Figure::add_segment(const Segment_plot& segment, const Segments&... segments)
 {
     add_segment(segment);
     add_segment(segments...);
 }
 
-void Figure::add_vector(const Vector_plt& vector)
+void Figure::add_vector(const Vector_plot& vector)
 {
     plots.emplace_back(vector);
     bounding_box.extend(vector);
@@ -194,50 +194,50 @@ void Figure::add_vector(const Coordinate& ogn_x, const Coordinate& ogn_y,
                         const Coordinate& dst_x, const Coordinate& dst_y,
                         Color col)
 {
-    Vector_plt vector(ogn_x, ogn_y, dst_x, dst_y, col);
+    Vector_plot vector(ogn_x, ogn_y, dst_x, dst_y, col);
     add_vector(vector);
 }
 
-void Figure::add_vector(const Point_plt& ogn, const Point_plt& dst, Color col)
+void Figure::add_vector(const Point_plot& ogn, const Point_plot& dst, Color col)
 {
-    Vector_plt vector(ogn, dst, col);
+    Vector_plot vector(ogn, dst, col);
     add_vector(vector);
 }
 
-void Figure::add_vector(const Segment_plt& segment, Color col)
+void Figure::add_vector(const Segment_plot& segment, Color col)
 {
-    Vector_plt vector(segment, col);
+    Vector_plot vector(segment, col);
     add_vector(vector);
 }
 
 template<typename... Vectors>
-void Figure::add_vector(const Vector_plt& vector, const Vectors&... vectors)
+void Figure::add_vector(const Vector_plot& vector, const Vectors&... vectors)
 {
     add_vector(vector);
     add_vector(vectors...);
 }
 
-void Figure::add_polygon(const Polygon_plt& polygon)
+void Figure::add_polygon(const Polygon_plot& polygon)
 {
     plots.emplace_back(polygon);
     bounding_box.extend(polygon);
 }
 
-void Figure::add_polygon(const std::vector<Point_plt>& vertices,
+void Figure::add_polygon(const std::vector<Point_plot>& vertices,
                          Color lines_col)
 {
-    Polygon_plt polygon(vertices, lines_col);
+    Polygon_plot polygon(vertices, lines_col);
     add_polygon(polygon);
 }
 
 template<typename... Polygons>
-void Figure::add_polygon(const Polygon_plt& polygon, const Polygons&... polygons)
+void Figure::add_polygon(const Polygon_plot& polygon, const Polygons&... polygons)
 {
     add_polygon(polygon);
     add_polygon(polygons...);
 }
 
-void Figure::add_circle(const Circle_plt& circle)
+void Figure::add_circle(const Circle_plot& circle)
 {
     plots.emplace_back(circle);
     bounding_box.extend(circle);
@@ -246,18 +246,18 @@ void Figure::add_circle(const Circle_plt& circle)
 void Figure::add_circle(const Coordinate& x, const Coordinate& y,
                         const Coordinate& rad, Color col)
 {
-    Circle_plt circle(x, y, rad, col);
+    Circle_plot circle(x, y, rad, col);
     add_circle(circle);
 }
 
 template<typename... Circles>
-void Figure::add_circle(const Circle_plt& circle, const Circles&... circles)
+void Figure::add_circle(const Circle_plot& circle, const Circles&... circles)
 {
     add_circle(circle);
     add_circle(circles...);
 }
 
-void Figure::add_line(const Line_plt& line)
+void Figure::add_line(const Line_plot& line)
 {
     plots.emplace_back(line);
     bounding_box.extend(line);
@@ -266,19 +266,19 @@ void Figure::add_line(const Line_plt& line)
 void Figure::add_line(const Coordinate& a, const Coordinate& b, const Coordinate& c,
                       Color col)
 {
-    Line_plt line(a, b, c, col);
+    Line_plot line(a, b, c, col);
     add_line(line);
 }
 
-void Figure::add_line(const Segment_plt& segment, Color col)
+void Figure::add_line(const Segment_plot& segment, Color col)
 {
-    Line_plt line(segment, col);
+    Line_plot line(segment, col);
     add_line(line);
 }
 
-void Figure::add_line(const Point_plt& point1, const Point_plt& point2, Color col)
+void Figure::add_line(const Point_plot& point1, const Point_plot& point2, Color col)
 {
-    Line_plt line(point1, point2, col);
+    Line_plot line(point1, point2, col);
     add_line(line);
 }
 
@@ -286,12 +286,12 @@ void Figure::add_line(const Coordinate& x1, const Coordinate& y1,
                       const Coordinate& x2, const Coordinate& y2,
                       Color col)
 {
-    Line_plt line(x1, y1, x2, y2, col);
+    Line_plot line(x1, y1, x2, y2, col);
     add_line(line);
 }
 
 template<typename... Lines>
-void Figure::add_line(const Line_plt& line, const Lines&... lines)
+void Figure::add_line(const Line_plot& line, const Lines&... lines)
 {
     add_line(line);
     add_line(lines...);
@@ -299,17 +299,17 @@ void Figure::add_line(const Line_plt& line, const Lines&... lines)
 
 void Figure::add_vertical_line(const Coordinate& x, Color col)
 {
-    Line_plt line(1, 0, -x, col);
+    Line_plot line(1, 0, -x, col);
     add_line(line);
 }
 
 void Figure::add_horizontal_line(const Coordinate& y, Color col)
 {
-    Line_plt line(0, 1, -y, col);
+    Line_plot line(0, 1, -y, col);
     add_line(line);
 }
 
-void Figure::add_text(const Text_plt& text)
+void Figure::add_text(const Text_plot& text)
 {
     plots.emplace_back(text);
     bounding_box.extend(text);
@@ -318,28 +318,28 @@ void Figure::add_text(const Text_plt& text)
 void Figure::add_text(const std::string& text, const Coordinate& x, const Coordinate& y,
                       unsigned size, float off_x, float off_y, Color col)
 {
-    Text_plt txt(text, x, y, size, off_x, off_y, col);
+    Text_plot txt(text, x, y, size, off_x, off_y, col);
     add_text(txt);
 }
 
-void Figure::add_text(const std::string& text, const Point_plt& point, unsigned size,
-                      Color col)
+void Figure::add_text(const std::string& text, const Point_plot& point, unsigned size,
+					  Color col)
 {
-    Text_plt txt(text, point, size, col);
+    Text_plot txt(text, point, size, col);
     add_text(txt);
 }
 
-void Figure::add_text(const std::string& text, const Segment_plt& segment, unsigned size,
-                      Color col)
+void Figure::add_text(const std::string& text, const Segment_plot& segment, unsigned size,
+					  Color col)
 {
-    Text_plt txt(text, segment, size, col);
+    Text_plot txt(text, segment, size, col);
     add_text(txt);
 }
 
-void Figure::add_text(const std::string& text, const Vector_plt& vector, unsigned size,
-                      Color col)
+void Figure::add_text(const std::string& text, const Vector_plot& vector, unsigned size,
+					  Color col)
 {
-    Text_plt txt(text, vector, size, col);
+    Text_plot txt(text, vector, size, col);
     add_text(txt);
 }
 
@@ -475,12 +475,12 @@ std::istream& operator>>(std::istream& is, Figure& figure)
 {
     figure.clear();
     std::string plot_name;
-    Point_plt point;
-    Segment_plt segment;
-    Vector_plt vector;
-    Polygon_plt polygon;
-    Circle_plt circle;
-    Line_plt line;
+    Point_plot point;
+    Segment_plot segment;
+    Vector_plot vector;
+    Polygon_plot polygon;
+    Circle_plot circle;
+    Line_plot line;
 
     while(!is.eof())
     {

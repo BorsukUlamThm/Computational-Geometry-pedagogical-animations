@@ -40,7 +40,7 @@ void Canvas::draw_figure(const Figure& figure)
     }
 }
 
-void Canvas::draw_point(const Point_plt& point)
+void Canvas::draw_point(const Point_plot& point)
 {
     float radius = point.get_radius() * view.getSize().x / float(config.width);
     sf::CircleShape shape(radius);
@@ -50,7 +50,7 @@ void Canvas::draw_point(const Point_plt& point)
     window.draw(shape);
 }
 
-void Canvas::draw_segment(const Segment_plt& segment)
+void Canvas::draw_segment(const Segment_plot& segment)
 {
     sf::VertexArray shape(sf::LineStrip, 2);
     shape[0].position = sf::Vector2f(segment.get_origin().get_abscissa(),
@@ -64,7 +64,7 @@ void Canvas::draw_segment(const Segment_plt& segment)
     draw_point(segment.get_destination());
 }
 
-void Canvas::draw_vector(const Vector_plt& vector)
+void Canvas::draw_vector(const Vector_plot& vector)
 {
     sf::VertexArray shape(sf::LineStrip, 2);
     shape[0].position = sf::Vector2f(vector.get_origin_x(),
@@ -91,7 +91,7 @@ void Canvas::draw_vector(const Vector_plt& vector)
     window.draw(triangle);
 }
 
-void Canvas::draw_polygon(const Polygon_plt& polygon)
+void Canvas::draw_polygon(const Polygon_plot& polygon)
 {
     unsigned n = polygon.size();
     sf::VertexArray shape(sf::LineStrip, n + 1);
@@ -113,7 +113,7 @@ void Canvas::draw_polygon(const Polygon_plt& polygon)
     }
 }
 
-void Canvas::draw_circle(const Circle_plt& circle)
+void Canvas::draw_circle(const Circle_plot& circle)
 {
     unsigned nb_vertices = 64;
     float a = 4 * std::acos(0) / nb_vertices;
@@ -133,7 +133,7 @@ void Canvas::draw_circle(const Circle_plt& circle)
     window.draw(shape);
 }
 
-void Canvas::draw_line(const Line_plt& line)
+void Canvas::draw_line(const Line_plot& line)
 {
     float x1, y1, x2, y2;
     Coordinate a = line.get_a();
@@ -162,7 +162,7 @@ void Canvas::draw_line(const Line_plt& line)
     window.draw(shape);
 }
 
-void Canvas::draw_text(const Text_plt& text)
+void Canvas::draw_text(const Text_plot& text)
 {
     sf::Text shape;
     shape.setFont(config.font);

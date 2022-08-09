@@ -91,7 +91,7 @@ void jarvis_convex_hull(const point_set& P)
     }
     CH.pop_back();
 
-    gr::Polygon_plt plot_CH(gr::YELLOW);
+    gr::Polygon_plot plot_CH(gr::YELLOW);
     for(auto& v : CH)
     {
         plot_CH.add_vertex(v.x, v.y);
