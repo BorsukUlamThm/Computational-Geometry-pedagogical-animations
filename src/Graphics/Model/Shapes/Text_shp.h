@@ -5,7 +5,7 @@
 /** @endcond */
 #include "Vector_shp.h"
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |

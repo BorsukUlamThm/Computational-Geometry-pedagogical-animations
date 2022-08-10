@@ -3,7 +3,7 @@
 #include "Figure.h"
 
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |

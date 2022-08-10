@@ -4,7 +4,7 @@
 #include "Segment_acq.h"
 
 
-namespace gr
+namespace graphics
 {
 	enum Acquisition_type
 	{

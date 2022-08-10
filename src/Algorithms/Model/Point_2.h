@@ -5,7 +5,7 @@
 /** @endcond */
 
 
-namespace alg
+namespace algorithms
 {
 template<typename Real>
 class Point_2

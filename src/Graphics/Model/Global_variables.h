@@ -10,8 +10,10 @@
 #include "General_tools/General_tools.h"
 
 
-namespace gr
+namespace graphics
 {
+	namespace gt = general_tools;
+
 	// Some types for the objects coordinates
 	typedef float Coordinate;
 

@@ -5,6 +5,8 @@
 
 namespace Other_stuff_dragon
 {
+	namespace gr = graphics;
+
     struct complex
     {
         double real = 0;

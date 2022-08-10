@@ -3,6 +3,8 @@
 
 namespace Other_stuff_phi
 {
+	namespace gr = graphics;
+
 typedef unsigned integer;
 
 void plot_phi(integer n, float r)

@@ -3,7 +3,7 @@
 #include "Shapes/Shape.h"
 
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |

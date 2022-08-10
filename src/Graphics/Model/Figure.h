@@ -11,7 +11,7 @@
 #include "Bounding_box.h"
 
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |

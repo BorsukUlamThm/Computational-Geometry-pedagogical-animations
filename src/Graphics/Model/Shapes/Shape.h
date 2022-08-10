@@ -6,7 +6,7 @@
 /** @endcond */
 #include "Graphics/Model/Global_variables.h"
 
-namespace gr
+namespace graphics
 {
 	class Canvas;
 	// +-----------------------------------------------------------------------+

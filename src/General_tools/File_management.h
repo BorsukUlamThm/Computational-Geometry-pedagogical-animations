@@ -8,16 +8,16 @@
 /** @endcond */
 
 
-namespace gt
+namespace general_tools
 {
 	namespace fs = std::filesystem;
 
 	/// Project name
 #define PROJECT_NAME "Computational-Geometry-pedagogical-animations"
 
-  /*!
-   * @return the root of the project directory
-   */
+	/*!
+	 * @return the root of the project directory
+	 */
 	fs::path get_project_directory()
 	{
 		fs::path current_dir = fs::current_path();
@@ -27,8 +27,8 @@ namespace gt
 			if (current_dir.parent_path() == current_dir.root_directory())
 			{
 				std::cerr << "Warning : Executable is not executed from " << PROJECT_NAME
-									<< " directory" << std::endl
-									<< "          Some graphics may not work properly" << std::endl;
+						  << " directory" << std::endl
+						  << "          Some graphics may not work properly" << std::endl;
 
 				return {};
 			}
@@ -55,7 +55,7 @@ namespace gt
 		if (!fs::exists(res))
 		{
 			std::cerr << "Warning : .config directory not found" << std::endl
-								<< "          Some graphics may not work properly" << std::endl;
+					  << "          Some graphics may not work properly" << std::endl;
 
 			return {};
 		}

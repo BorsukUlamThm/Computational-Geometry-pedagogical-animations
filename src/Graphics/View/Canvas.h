@@ -7,7 +7,7 @@
 #include "Graphics/Model/Figure.h"
 
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |

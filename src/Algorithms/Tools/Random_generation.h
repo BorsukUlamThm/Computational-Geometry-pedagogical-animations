@@ -8,7 +8,7 @@
 #include "Algorithms/Model/Segment_2.h"
 
 
-namespace alg
+namespace algorithms
 {
 #define time_seed (std::chrono::system_clock::now().time_since_epoch().count() % 1000000)
 

@@ -6,6 +6,8 @@
 
 namespace Other_stuff_syracuse
 {
+	namespace gr = graphics;
+
     using boost::multiprecision::cpp_int;
     typedef cpp_int integer;
 

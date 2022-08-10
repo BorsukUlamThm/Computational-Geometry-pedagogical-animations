@@ -5,7 +5,7 @@
 /** @endcond */
 #include "Shape.h"
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |

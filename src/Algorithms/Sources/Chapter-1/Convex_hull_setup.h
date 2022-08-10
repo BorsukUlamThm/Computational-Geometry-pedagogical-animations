@@ -5,138 +5,141 @@
 
 namespace chs
 {
-typedef alg::Point_2<int> point;
-typedef std::vector<point> point_set;
+	namespace gr = graphics;
+	namespace alg = algorithms;
 
-enum Input_type
-{
-    RANDOM,
-    ACQUISITION,
-    FILE
-};
+	typedef alg::Point_2<int> point;
+	typedef std::vector<point> point_set;
 
-struct Convex_hull_option
-{
-    Input_type input_type = RANDOM;
-    unsigned nb_random_points = 50;
-    unsigned long seed = time_seed;
-    std::string input_path;
-};
+	enum Input_type
+	{
+		RANDOM,
+		ACQUISITION,
+		FILE
+	};
 
-Convex_hull_option process_command_line(int argc, char** argv)
-{
-    Convex_hull_option opt;
+	struct Convex_hull_option
+	{
+		Input_type input_type = RANDOM;
+		unsigned nb_random_points = 50;
+		unsigned long seed = time_seed;
+		std::string input_path;
+	};
 
-    for(unsigned i = 0; i < argc; ++i)
-    {
-        if(argv[i][0] != '-')
-        {
-            continue;
-        }
+	Convex_hull_option process_command_line(int argc, char** argv)
+	{
+		Convex_hull_option opt;
 
-        if(std::string(argv[i]) == "-a")
-        {
-            opt.input_type = ACQUISITION;
-            continue;
-        }
-        if(std::string(argv[i]) == "-r")
-        {
-            opt.input_type = RANDOM;
-            ++i;
-            if (i >= argc)
-            {
-                std::cerr << "invalid -r parameter, missing"
-                          << " number of random points"
-                          << std::endl;
-                continue;
-            }
+		for(unsigned i = 0; i < argc; ++i)
+		{
+			if(argv[i][0] != '-')
+			{
+				continue;
+			}
 
-            try
-            {
-                opt.nb_random_points = std::stoi(std::string(argv[i]));
-            }
-            catch(const std::invalid_argument& ia)
-            {
-                std::cerr << "invalid -r parameter, missing"
-                          << " number of random points"
-                          << std::endl;
-                --i;
-            }
-        }
+			if(std::string(argv[i]) == "-a")
+			{
+				opt.input_type = ACQUISITION;
+				continue;
+			}
+			if(std::string(argv[i]) == "-r")
+			{
+				opt.input_type = RANDOM;
+				++i;
+				if (i >= argc)
+				{
+					std::cerr << "invalid -r parameter, missing"
+							  << " number of random points"
+							  << std::endl;
+					continue;
+				}
 
-        if(std::string(argv[i]) == "-s")
-        {
-            ++i;
-            if (i >= argc)
-            {
-                std::cerr << "invalid -s parameter, missing seed"
-                          << std::endl;
-                continue;
-            }
+				try
+				{
+					opt.nb_random_points = std::stoi(std::string(argv[i]));
+				}
+				catch(const std::invalid_argument& ia)
+				{
+					std::cerr << "invalid -r parameter, missing"
+							  << " number of random points"
+							  << std::endl;
+					--i;
+				}
+			}
 
-            try
-            {
-                opt.seed = std::stoi(std::string(argv[i]));
-            }
-            catch(const std::invalid_argument& ia)
-            {
-                std::cerr << "invalid -s parameter, missing seed"
-                          << std::endl;
-                --i;
-            }
-        }
+			if(std::string(argv[i]) == "-s")
+			{
+				++i;
+				if (i >= argc)
+				{
+					std::cerr << "invalid -s parameter, missing seed"
+							  << std::endl;
+					continue;
+				}
 
-        if(std::string(argv[i]) == "-i")
-        {
-            opt.input_type = FILE;
-            ++i;
-            if (i >= argc)
-            {
-                std::cerr << "invalid -s parameter, missing seed"
-                          << std::endl;
-                continue;
-            }
+				try
+				{
+					opt.seed = std::stoi(std::string(argv[i]));
+				}
+				catch(const std::invalid_argument& ia)
+				{
+					std::cerr << "invalid -s parameter, missing seed"
+							  << std::endl;
+					--i;
+				}
+			}
 
-            opt.input_path = std::string(argv[i]);
-        }
+			if(std::string(argv[i]) == "-i")
+			{
+				opt.input_type = FILE;
+				++i;
+				if (i >= argc)
+				{
+					std::cerr << "invalid -s parameter, missing seed"
+							  << std::endl;
+					continue;
+				}
 
-        else
-        {
-            std::cerr << "unknown " << argv[i] << " option ignored" << std::endl;
-        }
-    }
+				opt.input_path = std::string(argv[i]);
+			}
 
-    return opt;
-}
+			else
+			{
+				std::cerr << "unknown " << argv[i] << " option ignored" << std::endl;
+			}
+		}
 
-point_set make_point_set(const Convex_hull_option& opt)
-{
-    if (opt.input_type == RANDOM)
-    {
-        std::cout << "initializing " << opt.nb_random_points << " random points"
-                  << std::endl << "seed : " << opt.seed << std::endl;
+		return opt;
+	}
 
-        alg::Normal_number_generator<int> ng(opt.seed);
-        return alg::random_point_2_set<int>(opt.nb_random_points, ng);
-    }
+	point_set make_point_set(const Convex_hull_option& opt)
+	{
+		if (opt.input_type == RANDOM)
+		{
+			std::cout << "initializing " << opt.nb_random_points << " random points"
+					  << std::endl << "seed : " << opt.seed << std::endl;
 
-    if(opt.input_type == ACQUISITION)
-    {
-        gr::Acquisition_canvas canvas;
-        canvas.set_title("Convex hull - acquisition");
-        canvas.add_point_acquisition();
-        gr::Figure fig = canvas.acquire_buffer();
+			alg::Normal_number_generator<int> ng(opt.seed);
+			return alg::random_point_2_set<int>(opt.nb_random_points, ng);
+		}
 
-        point_set P;
-        for (unsigned i = 0; i < fig.nb_plots(); ++i)
-        {
-            auto p = std::dynamic_pointer_cast<gr::Point_shp>(fig[i]);
-            P.emplace_back(p->get_abscissa(), p->get_ordinate());
-        }
+		if(opt.input_type == ACQUISITION)
+		{
+			gr::Acquisition_canvas canvas;
+			canvas.set_title("Convex hull - acquisition");
+			canvas.add_point_acquisition();
+			gr::Figure fig = canvas.acquire_buffer();
 
-        return P;
-    }
+			point_set P;
+			for (unsigned i = 0; i < fig.nb_plots(); ++i)
+			{
+				auto p = std::dynamic_pointer_cast<gr::Point_shp>(fig[i]);
+				P.emplace_back(p->get_abscissa(), p->get_ordinate());
+			}
 
-    return alg::read_point_2_set<int>(opt.input_path);
-}
+			return P;
+		}
+
+		return alg::read_point_2_set<int>(opt.input_path);
+	}
 }

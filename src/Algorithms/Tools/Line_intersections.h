@@ -6,7 +6,7 @@
 #include "Point_comparisons.h"
 
 
-namespace alg
+namespace algorithms
 {
 template<typename Real>
 bool segment_intersect(const Segment_2<Real>& s1, const Segment_2<Real>& s2);

@@ -6,7 +6,7 @@
 #include "Display_canvas.h"
 
 
-namespace gr
+namespace graphics
 {
 	void Display_canvas::handle_events()
 	{

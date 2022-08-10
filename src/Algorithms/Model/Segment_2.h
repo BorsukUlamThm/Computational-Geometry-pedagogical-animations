@@ -2,7 +2,7 @@
 
 #include "Point_2.h"
 
-namespace alg
+namespace algorithms
 {
 template<typename Real>
 class Segment_2

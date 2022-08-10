@@ -3,6 +3,9 @@
 
 namespace chap1_convex_hull
 {
+	namespace gr = graphics;
+	namespace alg = algorithms;
+
 	typedef alg::Point_2<int> point;
 	typedef std::vector<point> convex_hull;
 	typedef std::vector<point> point_set;

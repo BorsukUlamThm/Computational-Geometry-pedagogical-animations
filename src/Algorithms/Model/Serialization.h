@@ -8,7 +8,7 @@
 #include "General_tools/General_tools.h"
 #include "Segment_2.h"
 
-namespace alg
+namespace algorithms
 {
 template<typename Real>
 Point_2<Real> read_point_2(std::istream& is);
@@ -66,7 +66,7 @@ std::vector<Point_2<Real>> read_point_2_set(std::ifstream& ifs)
 template<typename Real>
 std::vector<Point_2<Real>> read_point_2_set(const std::string& path)
 {
-    std::filesystem::path Project_dir = gt::get_project_directory();
+    std::filesystem::path Project_dir = general_tools::get_project_directory();
     std::ifstream ifs(Project_dir / path);
 
     return read_point_2_set<Real>(ifs);
@@ -90,7 +90,7 @@ std::vector<Segment_2<Real>> read_segment_2_set(std::ifstream& ifs)
 template<typename Real>
 std::vector<Segment_2<Real>> read_segment_2_set(const std::string& path)
 {
-    std::filesystem::path Project_dir = gt::get_project_directory();
+    std::filesystem::path Project_dir = general_tools::get_project_directory();
     std::ifstream ifs(Project_dir / path);
 
     return read_segment_2_set<Real>(ifs);
@@ -113,7 +113,7 @@ std::ostream& operator<<(std::ostream& os, const Segment_2<Real>& s)
 template<typename Real>
 void save_point_2_set(const std::string& path, const std::vector<Point_2<Real>>& points)
 {
-    std::filesystem::path Project_dir = gt::get_project_directory();
+    std::filesystem::path Project_dir = general_tools::get_project_directory();
     std::ofstream ofs(Project_dir / path);
 
     unsigned n = points.size();
@@ -128,7 +128,7 @@ void save_point_2_set(const std::string& path, const std::vector<Point_2<Real>>&
 template<typename Real>
 void save_segment_2_set(const std::string& path, const std::vector<Segment_2<Real>>& segments)
 {
-    std::filesystem::path Project_dir = gt::get_project_directory();
+    std::filesystem::path Project_dir = general_tools::get_project_directory();
     std::ofstream ofs(Project_dir / path);
 
     unsigned n = segments.size();

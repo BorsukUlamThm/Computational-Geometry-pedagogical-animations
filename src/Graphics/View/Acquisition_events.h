@@ -3,7 +3,7 @@
 #include "Acquisition_canvas.h"
 
 
-namespace gr
+namespace graphics
 {
 void Acquisition_canvas::handle_events()
 {

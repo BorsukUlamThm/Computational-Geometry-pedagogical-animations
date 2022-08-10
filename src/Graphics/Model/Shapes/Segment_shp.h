@@ -3,7 +3,7 @@
 #include "Point_shp.h"
 
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |

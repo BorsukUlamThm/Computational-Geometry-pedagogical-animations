@@ -2,12 +2,12 @@
 
 int main()
 {
-	gr::Point_shp point_plot(1, 1);
-	gr::Segment_shp segment_plot(1, 2, 4, 5);
-	gr::Vector_shp vector_plot(1, 2, 4, 5);
-	gr::Polygon_shp polygon_plot;
+	graphics::Point_shp point_plot(1, 1);
+	graphics::Segment_shp segment_plot(1, 2, 4, 5);
+	graphics::Vector_shp vector_plot(1, 2, 4, 5);
+	graphics::Polygon_shp polygon_plot;
 
-	gr::Bounding_box bounding_box;
+	graphics::Bounding_box bounding_box;
 
 	bounding_box.extend(point_plot);
 	bounding_box.extend(vector_plot);

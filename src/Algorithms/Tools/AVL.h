@@ -1,7 +1,7 @@
 #pragma once
 
 
-namespace alg
+namespace algorithms
 {
 template<typename T>
 struct AVL_node

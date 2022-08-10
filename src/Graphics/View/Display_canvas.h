@@ -4,7 +4,7 @@
 #include "Graphics/Model/Slide_show.h"
 
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |

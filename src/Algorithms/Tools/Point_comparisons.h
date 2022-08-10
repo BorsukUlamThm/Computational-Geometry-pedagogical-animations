@@ -3,7 +3,7 @@
 #include "Algorithms/Model/Segment_2.h"
 
 
-namespace alg
+namespace algorithms
 {
 template<typename Real>
 bool point_below_point(const Point_2<Real>& p, const Point_2<Real>& q);

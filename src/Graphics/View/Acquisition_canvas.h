@@ -4,7 +4,7 @@
 #include "Canvas.h"
 
 
-namespace gr
+namespace graphics
 {
 class Acquisition_canvas : public Canvas
 {
@@ -69,8 +69,8 @@ void Acquisition_canvas::setup_bounding_box()
 {
     if(acquisitions.is_empty())
     {
-        gr::Point_shp p(0, 0);
-        gr::Point_shp q((Coordinate(config.width)), Coordinate(config.height));
+        graphics::Point_shp p(0, 0);
+        graphics::Point_shp q((Coordinate(config.width)), Coordinate(config.height));
 
         bounding_box.clear();
         bounding_box.extend(p);

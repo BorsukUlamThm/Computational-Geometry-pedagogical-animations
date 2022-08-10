@@ -6,7 +6,7 @@
 #include "Canvas.h"
 
 
-namespace gr
+namespace graphics
 {
 void Canvas::mouse_wheel_scrolled_event(const sf::Event& event)
 {

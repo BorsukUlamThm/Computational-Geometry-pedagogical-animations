@@ -3,7 +3,7 @@
 #include "Segment_shp.h"
 
 
-namespace gr
+namespace graphics
 {
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |
