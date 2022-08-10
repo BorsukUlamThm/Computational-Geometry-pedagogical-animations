@@ -19,7 +19,7 @@ namespace gr
 	 *    has equation ax + by + c = 0\n
 	 * -> color\n
 	 */
-	class Line_plot
+	class Line_plot : public Plot
 	{
 	private:
 		Coordinate a{};
@@ -65,10 +65,12 @@ namespace gr
 		Coordinate get_c() const;
 		Color get_color() const;
 
-		Coordinate get_min_abscissa() const;
-		Coordinate get_max_abscissa() const;
-		Coordinate get_min_ordinate() const;
-		Coordinate get_max_ordinate() const;
+		Coordinate get_min_abscissa() const override;
+		Coordinate get_max_abscissa() const override;
+		Coordinate get_min_ordinate() const override;
+		Coordinate get_max_ordinate() const override;
+
+		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
 										Line_plot& line);

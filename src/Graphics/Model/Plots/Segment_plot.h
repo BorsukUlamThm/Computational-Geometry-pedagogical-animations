@@ -15,7 +15,7 @@ namespace gr
 	 * -> endpoints of the segment\n
 	 * -> color
 	 */
-	class Segment_plot
+	class Segment_plot : public Plot
 	{
 	private:
 		Point_plot origin;
@@ -48,10 +48,12 @@ namespace gr
 		Point_plot get_destination() const;
 		Color get_line_color() const;
 
-		Coordinate get_min_abscissa() const;
-		Coordinate get_max_abscissa() const;
-		Coordinate get_min_ordinate() const;
-		Coordinate get_max_ordinate() const;
+		Coordinate get_min_abscissa() const override;
+		Coordinate get_max_abscissa() const override;
+		Coordinate get_min_ordinate() const override;
+		Coordinate get_max_ordinate() const override;
+
+		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
 										Segment_plot& segment);

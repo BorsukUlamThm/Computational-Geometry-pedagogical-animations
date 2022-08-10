@@ -1,24 +1,22 @@
-#include <boost/program_options.hpp>
-#include <iostream>
+#include "Graphics/View/View.h"
 
 int main()
 {
-	std::string s {"`a"};
-	std::vector<std::string> vec;
-	vec.emplace_back("b");
-	vec.emplace_back("c");
-	vec.emplace_back("d`");
+	gr::Point_plot point_plot(1, 1);
+	gr::Segment_plot segment_plot(1, 2, 4, 5);
+	gr::Vector_plot vector_plot(1, 2, 4, 5);
+	gr::Polygon_plot polygon_plot;
 
-	s = s.substr(1, s.size() - 1);
-	unsigned i = 0;
-	while(i < vec.size() && vec[i][vec[i].size() - 1] != '`')
-	{
-		s += vec[i];
-		++i;
-	}
-	s += vec[i].substr(0, vec[i].size() - 1);
+	gr::Bounding_box bounding_box;
 
-	std::cout << s << std::endl << std::endl;
+	bounding_box.extend(point_plot);
+	bounding_box.extend(vector_plot);
+
+	std::cout << bounding_box.get_min_abscissa() << " "
+			  << bounding_box.get_max_abscissa() << " "
+			  << bounding_box.get_min_ordinate() << " "
+			  << bounding_box.get_max_ordinate() << std::endl;
+
 
 	return 0;
 }

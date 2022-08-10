@@ -15,7 +15,7 @@ namespace gr
 	 * -> coordinates of the endpoints of the vector\n
 	 * -> color
 	 */
-	class Vector_plot
+	class Vector_plot : public Plot
 	{
 	private:
 		Coordinate origin_x = 0;
@@ -55,10 +55,12 @@ namespace gr
 		Coordinate get_destination_y() const;
 		Color get_color() const;
 
-		Coordinate get_min_abscissa() const;
-		Coordinate get_max_abscissa() const;
-		Coordinate get_min_ordinate() const;
-		Coordinate get_max_ordinate() const;
+		Coordinate get_min_abscissa() const override;
+		Coordinate get_max_abscissa() const override;
+		Coordinate get_min_ordinate() const override;
+		Coordinate get_max_ordinate() const override;
+
+		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
 										Vector_plot& vector);

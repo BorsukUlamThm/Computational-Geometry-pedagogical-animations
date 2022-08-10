@@ -5,7 +5,6 @@
 /** @endcond */
 #include "Vector_plot.h"
 
-
 namespace gr
 {
 	// +-----------------------------------------------------------------------+
@@ -21,7 +20,7 @@ namespace gr
 	 * -> vertical and horizontal offsets, in pixels\n
 	 * -> color\n
 	 */
-	class Text_plot
+	class Text_plot : public Plot
 	{
 	private:
 		std::string content{};
@@ -80,10 +79,12 @@ namespace gr
 		float get_offset_y() const;
 		Color get_color() const;
 
-		Coordinate get_min_abscissa() const;
-		Coordinate get_max_abscissa() const;
-		Coordinate get_min_ordinate() const;
-		Coordinate get_max_ordinate() const;
+		Coordinate get_min_abscissa() const override;
+		Coordinate get_max_abscissa() const override;
+		Coordinate get_min_ordinate() const override;
+		Coordinate get_max_ordinate() const override;
+
+		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
 										Text_plot& text);

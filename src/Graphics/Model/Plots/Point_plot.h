@@ -3,8 +3,7 @@
 /** @cond */
 #include <SFML/Graphics.hpp>
 /** @endcond */
-#include "Graphics/Model/Global_variables.h"
-
+#include "Plot.h"
 
 namespace gr
 {
@@ -20,7 +19,7 @@ namespace gr
 	 * -> color\n
 	 * -> radius of the point plot, in pixel\n
 	 */
-	class Point_plot
+	class Point_plot : public Plot
 	{
 	private:
 		Coordinate abscissa{};
@@ -43,10 +42,12 @@ namespace gr
 		Color get_color() const;
 		float get_radius() const;
 
-		Coordinate get_min_abscissa() const;
-		Coordinate get_max_abscissa() const;
-		Coordinate get_min_ordinate() const;
-		Coordinate get_max_ordinate() const;
+		Coordinate get_min_abscissa() const override;
+		Coordinate get_max_abscissa() const override;
+		Coordinate get_min_ordinate() const override;
+		Coordinate get_max_ordinate() const override;
+
+		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
 										Point_plot& point);

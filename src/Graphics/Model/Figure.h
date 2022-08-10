@@ -1,5 +1,13 @@
 #pragma once
 
+/** @cond */
+#include <memory>
+/** @endcond */
+
+#include "Plots/Polygon_plot.h"
+#include "Plots/Circle_plot.h"
+#include "Plots/Line_plot.h"
+#include "Plots/Text_plot.h"
 #include "Bounding_box.h"
 
 
@@ -8,6 +16,8 @@ namespace gr
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |
 	// +-----------------------------------------------------------------------+
+
+	typedef std::shared_ptr<Plot> Plot_ptr;
 
 	/*!
 	 * A Figure is a set of Plot that will be drawn on a Canvas\n
@@ -18,7 +28,7 @@ namespace gr
 	class Figure
 	{
 	private:
-		std::vector<Plot> plots;
+		std::vector<Plot_ptr> plots;
 		Bounding_box bounding_box{};
 		bool need_remake_bounding_box = false;
 
@@ -38,7 +48,7 @@ namespace gr
 		Coordinate get_max_abscissa() const;
 		Coordinate get_min_ordinate() const;
 		Coordinate get_max_ordinate() const;
-		Plot get_last_plot() const;
+		Plot_ptr get_last_plot() const;
 
 		void add_point(const Point_plot& point);
 		void add_point(const Coordinate& x,
@@ -168,7 +178,7 @@ namespace gr
 
 		unsigned nb_plots() const;
 		bool is_empty() const;
-		const Plot& operator[](unsigned i) const;
+		const Plot_ptr& operator[](unsigned i) const;
 	};
 
 
@@ -209,14 +219,14 @@ namespace gr
 		return bounding_box.get_max_ordinate();
 	}
 
-	Plot Figure::get_last_plot() const
+	Plot_ptr Figure::get_last_plot() const
 	{
 		return plots.back();
 	}
 
 	void Figure::add_point(const Point_plot& point)
 	{
-		Plot plot(point);
+		Plot_ptr plot = std::make_shared<Point_plot>(point);
 		plots.push_back(plot);
 		bounding_box.extend(point);
 	}
@@ -240,7 +250,8 @@ namespace gr
 
 	void Figure::add_segment(const Segment_plot& segment)
 	{
-		plots.emplace_back(segment);
+		Plot_ptr plot = std::make_shared<Segment_plot>(segment);
+		plots.push_back(plot);
 		bounding_box.extend(segment);
 	}
 
@@ -274,7 +285,8 @@ namespace gr
 
 	void Figure::add_vector(const Vector_plot& vector)
 	{
-		plots.emplace_back(vector);
+		Plot_ptr plot = std::make_shared<Vector_plot>(vector);
+		plots.push_back(plot);
 		bounding_box.extend(vector);
 	}
 
@@ -313,7 +325,8 @@ namespace gr
 
 	void Figure::add_polygon(const Polygon_plot& polygon)
 	{
-		plots.emplace_back(polygon);
+		Plot_ptr plot = std::make_shared<Polygon_plot>(polygon);
+		plots.push_back(plot);
 		bounding_box.extend(polygon);
 	}
 
@@ -334,7 +347,8 @@ namespace gr
 
 	void Figure::add_circle(const Circle_plot& circle)
 	{
-		plots.emplace_back(circle);
+		Plot_ptr plot = std::make_shared<Circle_plot>(circle);
+		plots.push_back(plot);
 		bounding_box.extend(circle);
 	}
 
@@ -357,7 +371,8 @@ namespace gr
 
 	void Figure::add_line(const Line_plot& line)
 	{
-		plots.emplace_back(line);
+		Plot_ptr plot = std::make_shared<Line_plot>(line);
+		plots.push_back(plot);
 		bounding_box.extend(line);
 	}
 
@@ -419,7 +434,8 @@ namespace gr
 
 	void Figure::add_text(const Text_plot& text)
 	{
-		plots.emplace_back(text);
+		Plot_ptr plot = std::make_shared<Text_plot>(text);
+		plots.push_back(plot);
 		bounding_box.extend(text);
 	}
 
@@ -466,30 +482,8 @@ namespace gr
 	{
 		for(unsigned i = 0; i < other.nb_plots(); ++i)
 		{
-			switch(other[i].type())
-			{
-				case POINT_PLT:
-					add_point(other[i].point());
-					break;
-				case SEGMENT_PLT:
-					add_segment(other[i].segment());
-					break;
-				case VECTOR_PLT:
-					add_vector(other[i].vector());
-					break;
-				case POLYGON_PLT:
-					add_polygon(other[i].polygon());
-					break;
-				case CIRCLE_PLT:
-					add_circle(other[i].circle());
-					break;
-				case LINE_PLT:
-					add_line(other[i].line());
-					break;
-				case TEXT_PLT:
-					add_text(other[i].text());
-					break;
-			}
+			plots.push_back(other[i]);
+			bounding_box.extend(*other[i]);
 		}
 	}
 
@@ -507,11 +501,10 @@ namespace gr
 		{
 			return;
 		}
-		Plot plot = plots.back();
-		Coordinate xM = plot.get_max_abscissa();
-		Coordinate xm = plot.get_min_abscissa();
-		Coordinate yM = plot.get_max_ordinate();
-		Coordinate ym = plot.get_min_ordinate();
+		Coordinate xM = plots.back()->get_max_abscissa();
+		Coordinate xm = plots.back()->get_min_abscissa();
+		Coordinate yM = plots.back()->get_max_ordinate();
+		Coordinate ym = plots.back()->get_min_ordinate();
 
 		if(xM == get_max_abscissa() || xm == get_min_abscissa() ||
 		   yM == get_max_ordinate() || ym == get_min_ordinate())
@@ -542,7 +535,7 @@ namespace gr
 			bounding_box.clear();
 			for(unsigned i = 0; i < nb_plots(); ++i)
 			{
-				bounding_box.extend(plots[i]);
+				bounding_box.extend(*plots[i]);
 			}
 		}
 	}
@@ -563,7 +556,7 @@ namespace gr
 		return nb_plots() == 0;
 	}
 
-	const Plot& Figure::operator[](unsigned int i) const
+	const Plot_ptr& Figure::operator[](unsigned int i) const
 	{
 		return plots[i];
 	}
@@ -579,6 +572,7 @@ namespace gr
 		Polygon_plot polygon;
 		Circle_plot circle;
 		Line_plot line;
+		Text_plot text;
 
 		while(!is.eof())
 		{
@@ -612,6 +606,11 @@ namespace gr
 			{
 				is >> line;
 				figure.add_line(line);
+			}
+			else if(plot_name == TEXT_NAME)
+			{
+				is >> text;
+				figure.add_text(text);
 			}
 			plot_name = "";
 		}

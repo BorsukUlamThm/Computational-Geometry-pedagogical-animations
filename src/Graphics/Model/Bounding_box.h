@@ -25,13 +25,6 @@ namespace gr
 		Bounding_box() = default;
 		Bounding_box(const Bounding_box& other);
 
-		void extend(const Point_plot& point);
-		void extend(const Segment_plot& segment);
-		void extend(const Vector_plot& vector);
-		void extend(const Polygon_plot& polygon);
-		void extend(const Circle_plot& circle);
-		void extend(const Line_plot& line);
-		void extend(const Text_plot& text);
 		void extend(const Plot& plot);
 		void clear();
 
@@ -54,88 +47,12 @@ namespace gr
 		max_ordinate = Coordinate(other.max_ordinate);
 	}
 
-	void Bounding_box::extend(const Point_plot& point)
-	{
-		min_abscissa = std::min(min_abscissa, point.get_min_abscissa());
-		max_abscissa = std::max(max_abscissa, point.get_max_abscissa());
-		min_ordinate = std::min(min_ordinate, point.get_min_ordinate());
-		max_ordinate = std::max(max_ordinate, point.get_max_ordinate());
-	}
-
-	void Bounding_box::extend(const Segment_plot& segment)
-	{
-		min_abscissa = std::min(min_abscissa, segment.get_min_abscissa());
-		max_abscissa = std::max(max_abscissa, segment.get_max_abscissa());
-		min_ordinate = std::min(min_ordinate, segment.get_min_ordinate());
-		max_ordinate = std::max(max_ordinate, segment.get_max_ordinate());
-	}
-
-	void Bounding_box::extend(const Vector_plot& vector)
-	{
-		min_abscissa = std::min(min_abscissa, vector.get_min_abscissa());
-		max_abscissa = std::max(max_abscissa, vector.get_max_abscissa());
-		min_ordinate = std::min(min_ordinate, vector.get_min_ordinate());
-		max_ordinate = std::max(max_ordinate, vector.get_max_ordinate());
-	}
-
-	void Bounding_box::extend(const Polygon_plot& polygon)
-	{
-		min_abscissa = std::min(min_abscissa, polygon.get_min_abscissa());
-		max_abscissa = std::max(max_abscissa, polygon.get_max_abscissa());
-		min_ordinate = std::min(min_ordinate, polygon.get_min_ordinate());
-		max_ordinate = std::max(max_ordinate, polygon.get_max_ordinate());
-	}
-
-	void Bounding_box::extend(const Circle_plot& circle)
-	{
-		min_abscissa = std::min(min_abscissa, circle.get_min_abscissa());
-		max_abscissa = std::max(max_abscissa, circle.get_max_abscissa());
-		min_ordinate = std::min(min_ordinate, circle.get_min_ordinate());
-		max_ordinate = std::max(max_ordinate, circle.get_max_ordinate());
-	}
-
-	void Bounding_box::extend(const Line_plot& line)
-	{/* Nothing to do but to be sure i let it in a comment
-    min_abscissa = std::min(min_abscissa, line.get_min_abscissa());
-    max_abscissa = std::max(max_abscissa, line.get_max_abscissa());
-    min_ordinate = std::min(min_ordinate, line.get_min_ordinate());
-    max_ordinate = std::max(max_ordinate, line.get_max_ordinate());*/
-	}
-
-	void Bounding_box::extend(const Text_plot& text)
-	{
-		min_abscissa = std::min(min_abscissa, text.get_min_abscissa());
-		max_abscissa = std::max(max_abscissa, text.get_max_abscissa());
-		min_ordinate = std::min(min_ordinate, text.get_min_ordinate());
-		max_ordinate = std::max(max_ordinate, text.get_max_ordinate());
-	}
-
 	void Bounding_box::extend(const Plot& plot)
 	{
-		switch(plot.type())
-		{
-			case POINT_PLT:
-				extend(plot.point());
-				break;
-			case SEGMENT_PLT:
-				extend(plot.segment());
-				break;
-			case VECTOR_PLT:
-				extend(plot.vector());
-				break;
-			case POLYGON_PLT:
-				extend(plot.polygon());
-				break;
-			case CIRCLE_PLT:
-				extend(plot.circle());
-				break;
-			case LINE_PLT:
-				extend(plot.line());
-				break;
-			case TEXT_PLT:
-				extend(plot.text());
-				break;
-		}
+		min_abscissa = std::min(min_abscissa, plot.get_min_abscissa());
+		max_abscissa = std::max(max_abscissa, plot.get_max_abscissa());
+		min_ordinate = std::min(min_ordinate, plot.get_min_ordinate());
+		max_ordinate = std::max(max_ordinate, plot.get_max_ordinate());
 	}
 
 	void Bounding_box::clear()

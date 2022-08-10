@@ -71,7 +71,7 @@ void Acquisition_canvas::handle_point(Coordinate x, Coordinate y)
             break;
 
         case SEGMENT_ACQ2:
-            Point_plot p = acquisitions.get_last_plot().point();
+            Point_plot p = *(std::dynamic_pointer_cast<Point_plot>(acquisitions.get_last_plot()));
             Point_plot q (x, y, acquisition.segment().get_end_points_color());
             acquisitions.erase_last_plot();
             acquisitions.add_segment(p, q, acquisition.segment().get_line_color());

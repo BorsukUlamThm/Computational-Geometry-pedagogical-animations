@@ -18,7 +18,7 @@ namespace gr
 	 * -> list of the vertices\n
 	 * -> color\n
 	 */
-	class Polygon_plot
+	class Polygon_plot : public Plot
 	{
 	private:
 		std::vector<Point_plot> vertices;
@@ -40,10 +40,12 @@ namespace gr
 		const Point_plot& operator[](unsigned i) const;
 		Color get_lines_color() const;
 
-		Coordinate get_min_abscissa() const;
-		Coordinate get_max_abscissa() const;
-		Coordinate get_min_ordinate() const;
-		Coordinate get_max_ordinate() const;
+		Coordinate get_min_abscissa() const override;
+		Coordinate get_max_abscissa() const override;
+		Coordinate get_min_ordinate() const override;
+		Coordinate get_max_ordinate() const override;
+
+		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
 										Polygon_plot& polygon);
