@@ -5,42 +5,55 @@
 
 namespace gr
 {
-class Slide_show
-{
-private:
-    std::vector<Figure> slides;
+	// +-----------------------------------------------------------------------+
+	// |                             DECLARATIONS                              |
+	// +-----------------------------------------------------------------------+
 
-public:
-    Slide_show() = default;
-    ~Slide_show() = default;
+	/*!
+	 * A Slide_show is a sequence of Figure that will be
+	 * displayed in the specified order\n
+	 */
+	class Slide_show
+	{
+	private:
+		std::vector<Figure> slides;
 
-    void add_slide(const Figure& figure);
-    template<typename... Figures>
-    void add_slide(const Figure& figure, const Figures&... figures);
+	public:
+		Slide_show() = default;
+		~Slide_show() = default;
 
-    unsigned nb_slides() const;
-    Figure& operator[](unsigned i);
-};
+		void add_slide(const Figure& figure);
+		template<typename... Figures>
+		void add_slide(const Figure& figure, const Figures&... figures);
 
-void Slide_show::add_slide(const Figure& figure)
-{
-    slides.emplace_back(figure);
-}
+		unsigned nb_slides() const;
+		Figure& operator[](unsigned i);
+	};
 
-template<typename... Figures>
-void Slide_show::add_slide(const Figure& figure, const Figures&... figures)
-{
-    Figure new_figure(figure, figures...);
-    add_slide(new_figure);
-}
 
-unsigned Slide_show::nb_slides() const
-{
-    return slides.size();
-}
+	// +-----------------------------------------------------------------------+
+	// |                              DEFINITIONS                              |
+	// +-----------------------------------------------------------------------+
 
-Figure& Slide_show::operator[](unsigned int i)
-{
-    return slides[i];
-}
+	void Slide_show::add_slide(const Figure& figure)
+	{
+		slides.emplace_back(figure);
+	}
+
+	template<typename... Figures>
+	void Slide_show::add_slide(const Figure& figure, const Figures&... figures)
+	{
+		Figure new_figure(figure, figures...);
+		add_slide(new_figure);
+	}
+
+	unsigned Slide_show::nb_slides() const
+	{
+		return slides.size();
+	}
+
+	Figure& Slide_show::operator[](unsigned int i)
+	{
+		return slides[i];
+	}
 }

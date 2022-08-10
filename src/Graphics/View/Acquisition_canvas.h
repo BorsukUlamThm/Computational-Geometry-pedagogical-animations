@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Graphics/Model/Acquisitions/Acquisition.h"
-#include "Canvas_events.h"
+#include "Canvas.h"
 
 
 namespace gr

@@ -3,7 +3,7 @@
 /** @cond */
 #include <cmath>
 /** @endcond */
-#include "Display_canvas.h"
+#include "Canvas.h"
 
 
 namespace gr

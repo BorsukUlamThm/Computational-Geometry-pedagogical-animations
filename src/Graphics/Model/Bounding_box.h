@@ -32,6 +32,7 @@ namespace gr
 		void extend(const Circle_plot& circle);
 		void extend(const Line_plot& line);
 		void extend(const Text_plot& text);
+		void extend(const Plot& plot);
 		void clear();
 
 		Coordinate get_min_abscissa() const;
@@ -107,6 +108,34 @@ namespace gr
 		max_abscissa = std::max(max_abscissa, text.get_max_abscissa());
 		min_ordinate = std::min(min_ordinate, text.get_min_ordinate());
 		max_ordinate = std::max(max_ordinate, text.get_max_ordinate());
+	}
+
+	void Bounding_box::extend(const Plot& plot)
+	{
+		switch(plot.type())
+		{
+			case POINT_PLT:
+				extend(plot.point());
+				break;
+			case SEGMENT_PLT:
+				extend(plot.segment());
+				break;
+			case VECTOR_PLT:
+				extend(plot.vector());
+				break;
+			case POLYGON_PLT:
+				extend(plot.polygon());
+				break;
+			case CIRCLE_PLT:
+				extend(plot.circle());
+				break;
+			case LINE_PLT:
+				extend(plot.line());
+				break;
+			case TEXT_PLT:
+				extend(plot.text());
+				break;
+		}
 	}
 
 	void Bounding_box::clear()

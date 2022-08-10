@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Canvas_events.h"
+#include "Canvas.h"
+#include "Graphics/Model/Slide_show.h"
 
 
 namespace gr
