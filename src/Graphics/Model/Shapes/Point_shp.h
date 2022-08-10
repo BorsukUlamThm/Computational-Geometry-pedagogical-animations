@@ -3,7 +3,7 @@
 /** @cond */
 #include <SFML/Graphics.hpp>
 /** @endcond */
-#include "Plot.h"
+#include "Shape.h"
 
 namespace gr
 {
@@ -19,7 +19,7 @@ namespace gr
 	 * -> color\n
 	 * -> radius of the point plot, in pixel\n
 	 */
-	class Point_plot : public Plot
+	class Point_shp : public Shape
 	{
 	private:
 		Coordinate abscissa{};
@@ -28,14 +28,14 @@ namespace gr
 		float radius = 3;
 
 	public:
-		Point_plot() = default;
-		Point_plot(const Coordinate& x,
-				   const Coordinate& y,
-				   Color col = DEFAULT_PLOT_COLOR,
-				   float rad = 3);
-		Point_plot(const Point_plot& other);
+		Point_shp() = default;
+		Point_shp(const Coordinate& x,
+				  const Coordinate& y,
+				  Color col = DEFAULT_PLOT_COLOR,
+				  float rad = 3);
+		Point_shp(const Point_shp& other);
 
-		~Point_plot() = default;
+		~Point_shp() = default;
 
 		Coordinate get_abscissa() const;
 		Coordinate get_ordinate() const;
@@ -50,7 +50,7 @@ namespace gr
 		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
-										Point_plot& point);
+										Point_shp& point);
 	};
 
 
@@ -58,10 +58,10 @@ namespace gr
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	Point_plot::Point_plot(const Coordinate &x,
-						   const Coordinate &y,
-						   Color col,
-						   float rad)
+	Point_shp::Point_shp(const Coordinate &x,
+						 const Coordinate &y,
+						 Color col,
+						 float rad)
 	{
 		abscissa = Coordinate(x);
 		ordinate = Coordinate(y);
@@ -69,7 +69,7 @@ namespace gr
 		radius = rad;
 	}
 
-	Point_plot::Point_plot(const Point_plot& other)
+	Point_shp::Point_shp(const Point_shp& other)
 	{
 		abscissa = Coordinate(other.abscissa);
 		ordinate = Coordinate(other.ordinate);
@@ -77,48 +77,48 @@ namespace gr
 		radius = other.radius;
 	}
 
-	Coordinate Point_plot::get_abscissa() const
+	Coordinate Point_shp::get_abscissa() const
 	{
 		return abscissa;
 	}
 
-	Coordinate Point_plot::get_ordinate() const
+	Coordinate Point_shp::get_ordinate() const
 	{
 		return ordinate;
 	}
 
-	Color Point_plot::get_color() const
+	Color Point_shp::get_color() const
 	{
 		return color;
 	}
 
-	float Point_plot::get_radius() const
+	float Point_shp::get_radius() const
 	{
 		return radius;
 	}
 
-	Coordinate Point_plot::get_min_abscissa() const
+	Coordinate Point_shp::get_min_abscissa() const
 	{
 		return abscissa;
 	}
 
-	Coordinate Point_plot::get_max_abscissa() const
+	Coordinate Point_shp::get_max_abscissa() const
 	{
 		return abscissa;
 	}
 
-	Coordinate Point_plot::get_min_ordinate() const
+	Coordinate Point_shp::get_min_ordinate() const
 	{
 		return ordinate;
 	}
 
-	Coordinate Point_plot::get_max_ordinate() const
+	Coordinate Point_shp::get_max_ordinate() const
 	{
 		return ordinate;
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const Point_plot& point)
+							 const Point_shp& point)
 	{
 		os << POINT_NAME << " "
 		   << point.get_abscissa() << " "
@@ -127,7 +127,7 @@ namespace gr
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 Point_plot& point)
+							 Point_shp& point)
 	{
 		is >> point.abscissa
 		   >> point.ordinate;

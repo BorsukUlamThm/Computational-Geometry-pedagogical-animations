@@ -138,7 +138,7 @@ namespace chap1_convex_hull
 			U.push_back(p);
 		}
 
-		gr::Polygon_plot plot_CH(gr::YELLOW);
+		gr::Polygon_shp plot_CH(gr::YELLOW);
 		for(auto& v : U)
 		{
 			plot_CH.add_vertex(v.x, v.y);

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Segment_plot.h"
+#include "Segment_shp.h"
 
 
 namespace gr
@@ -15,7 +15,7 @@ namespace gr
 	 * -> coordinates of the endpoints of the vector\n
 	 * -> color
 	 */
-	class Vector_plot : public Plot
+	class Vector_shp : public Shape
 	{
 	private:
 		Coordinate origin_x = 0;
@@ -26,28 +26,28 @@ namespace gr
 
 	public:
 		// standard constructors
-		Vector_plot() = default;
-		Vector_plot(const Coordinate& ogn_x,
-					const Coordinate& ogn_y,
-					const Coordinate& dst_x,
-					const Coordinate& dst_y,
-					Color col = DEFAULT_PLOT_COLOR);
-		Vector_plot(const Vector_plot& other);
+		Vector_shp() = default;
+		Vector_shp(const Coordinate& ogn_x,
+				   const Coordinate& ogn_y,
+				   const Coordinate& dst_x,
+				   const Coordinate& dst_y,
+				   Color col = DEFAULT_PLOT_COLOR);
+		Vector_shp(const Vector_shp& other);
 
 		//other constructors
 		/*!
 		 * Constructs the segment whose endpoints are ogn and dst
 		 */
-		Vector_plot(const Point_plot& ogn,
-					const Point_plot& dst,
-					Color col = DEFAULT_PLOT_COLOR);
+		Vector_shp(const Point_shp& ogn,
+				   const Point_shp& dst,
+				   Color col = DEFAULT_PLOT_COLOR);
 		/*!
 		 * Constructs the segment whose endpoints are the segment's endpoints
 		 */
-		explicit Vector_plot(const Segment_plot& segment,
-							 Color col = DEFAULT_PLOT_COLOR);
+		explicit Vector_shp(const Segment_shp& segment,
+							Color col = DEFAULT_PLOT_COLOR);
 
-		~Vector_plot() = default;
+		~Vector_shp() = default;
 
 		Coordinate get_origin_x() const;
 		Coordinate get_origin_y() const;
@@ -63,7 +63,7 @@ namespace gr
 		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
-										Vector_plot& vector);
+										Vector_shp& vector);
 	};
 
 
@@ -71,11 +71,11 @@ namespace gr
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	Vector_plot::Vector_plot(const Coordinate& ogn_x,
-							 const Coordinate& ogn_y,
-							 const Coordinate& dst_x,
-							 const Coordinate& dst_y,
-							 Color col)
+	Vector_shp::Vector_shp(const Coordinate& ogn_x,
+						   const Coordinate& ogn_y,
+						   const Coordinate& dst_x,
+						   const Coordinate& dst_y,
+						   Color col)
 	{
 		origin_x = ogn_x;
 		origin_y = ogn_y;
@@ -84,7 +84,7 @@ namespace gr
 		color = col;
 	}
 
-	Vector_plot::Vector_plot(const Vector_plot& other)
+	Vector_shp::Vector_shp(const Vector_shp& other)
 	{
 		origin_x = Coordinate(other.origin_x);
 		origin_y = Coordinate(other.origin_y);
@@ -93,9 +93,9 @@ namespace gr
 		color = other.color;
 	}
 
-	Vector_plot::Vector_plot(const Point_plot& ogn,
-							 const Point_plot& dst,
-							 Color col)
+	Vector_shp::Vector_shp(const Point_shp& ogn,
+						   const Point_shp& dst,
+						   Color col)
 	{
 		origin_x = ogn.get_abscissa();
 		origin_y = ogn.get_ordinate();
@@ -104,8 +104,8 @@ namespace gr
 		color = col;
 	}
 
-	Vector_plot::Vector_plot(const Segment_plot& segment,
-							 Color col)
+	Vector_shp::Vector_shp(const Segment_shp& segment,
+						   Color col)
 	{
 		origin_x = segment.get_origin().get_abscissa();
 		origin_y = segment.get_origin().get_ordinate();
@@ -114,53 +114,53 @@ namespace gr
 		color = col;
 	}
 
-	Coordinate Vector_plot::get_origin_x() const
+	Coordinate Vector_shp::get_origin_x() const
 	{
 		return origin_x;
 	}
 
-	Coordinate Vector_plot::get_origin_y() const
+	Coordinate Vector_shp::get_origin_y() const
 	{
 		return origin_y;
 	}
 
-	Coordinate Vector_plot::get_destination_x() const
+	Coordinate Vector_shp::get_destination_x() const
 	{
 		return destination_x;
 	}
 
-	Coordinate Vector_plot::get_destination_y() const
+	Coordinate Vector_shp::get_destination_y() const
 	{
 		return destination_y;
 	}
 
-	Color Vector_plot::get_color() const
+	Color Vector_shp::get_color() const
 	{
 		return color;
 	}
 
-	Coordinate Vector_plot::get_min_abscissa() const
+	Coordinate Vector_shp::get_min_abscissa() const
 	{
 		return std::min(origin_x, destination_x);
 	}
 
-	Coordinate Vector_plot::get_max_abscissa() const
+	Coordinate Vector_shp::get_max_abscissa() const
 	{
 		return std::max(origin_x, destination_x);
 	}
 
-	Coordinate Vector_plot::get_min_ordinate() const
+	Coordinate Vector_shp::get_min_ordinate() const
 	{
 		return std::min(origin_y, destination_y);
 	}
 
-	Coordinate Vector_plot::get_max_ordinate() const
+	Coordinate Vector_shp::get_max_ordinate() const
 	{
 		return std::max(origin_y, destination_y);
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const Vector_plot& vector)
+							 const Vector_shp& vector)
 	{
 		os << VECTOR_NAME << " "
 		   << vector.get_origin_x() << " "
@@ -171,7 +171,7 @@ namespace gr
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 Vector_plot& vector)
+							 Vector_shp& vector)
 	{
 		is >> vector.origin_x
 		   >> vector.origin_y

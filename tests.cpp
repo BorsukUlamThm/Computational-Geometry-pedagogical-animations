@@ -2,10 +2,10 @@
 
 int main()
 {
-	gr::Point_plot point_plot(1, 1);
-	gr::Segment_plot segment_plot(1, 2, 4, 5);
-	gr::Vector_plot vector_plot(1, 2, 4, 5);
-	gr::Polygon_plot polygon_plot;
+	gr::Point_shp point_plot(1, 1);
+	gr::Segment_shp segment_plot(1, 2, 4, 5);
+	gr::Vector_shp vector_plot(1, 2, 4, 5);
+	gr::Polygon_shp polygon_plot;
 
 	gr::Bounding_box bounding_box;
 

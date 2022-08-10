@@ -3,7 +3,7 @@
 /** @cond */
 #include <SFML/Graphics.hpp>
 /** @endcond */
-#include "Vector_plot.h"
+#include "Vector_shp.h"
 
 namespace gr
 {
@@ -20,7 +20,7 @@ namespace gr
 	 * -> vertical and horizontal offsets, in pixels\n
 	 * -> color\n
 	 */
-	class Text_plot : public Plot
+	class Text_shp : public Shape
 	{
 	private:
 		std::string content{};
@@ -33,43 +33,43 @@ namespace gr
 
 	public:
 		// standard constructors
-		Text_plot() = default;
-		Text_plot(const std::string& text,
-				  const Coordinate& x,
-				  const Coordinate& y,
-				  unsigned size = 16,
-				  float off_x = 0,
-				  float off_y = 0,
-				  const Color col = DEFAULT_PLOT_COLOR);
-		Text_plot(const Text_plot& other);
+		Text_shp() = default;
+		Text_shp(const std::string& text,
+				 const Coordinate& x,
+				 const Coordinate& y,
+				 unsigned size = 16,
+				 float off_x = 0,
+				 float off_y = 0,
+				 const Color col = DEFAULT_PLOT_COLOR);
+		Text_shp(const Text_shp& other);
 
 		// other constructors
 		/*!
 		 * Constructs a text that will be drawn
 		 * just above the given point
 		 */
-		Text_plot(const std::string& text,
-				  const Point_plot& point,
-				  unsigned size = 16,
-				  const Color col = DEFAULT_PLOT_COLOR);
+		Text_shp(const std::string& text,
+				 const Point_shp& point,
+				 unsigned size = 16,
+				 const Color col = DEFAULT_PLOT_COLOR);
 		/*!
 		 * Constructs a text that will be drawn
 		 * in the middle of the given segment
 		 */
-		Text_plot(const std::string& text,
-				  const Segment_plot& segment,
-				  unsigned size = 16,
-				  const Color col = DEFAULT_PLOT_COLOR);
+		Text_shp(const std::string& text,
+				 const Segment_shp& segment,
+				 unsigned size = 16,
+				 const Color col = DEFAULT_PLOT_COLOR);
 		/*!
 		 * Constructs a text that will be drawn
 		 * in the middle of the given vector
 		 */
-		Text_plot(const std::string& text,
-				  const Vector_plot& vector,
-				  unsigned size = 16,
-				  const Color col = DEFAULT_PLOT_COLOR);
+		Text_shp(const std::string& text,
+				 const Vector_shp& vector,
+				 unsigned size = 16,
+				 const Color col = DEFAULT_PLOT_COLOR);
 
-		~Text_plot() = default;
+		~Text_shp() = default;
 
 		std::string get_content() const;
 		Coordinate get_abscissa() const;
@@ -87,7 +87,7 @@ namespace gr
 		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
-										Text_plot& text);
+										Text_shp& text);
 
 	private:
 		void aux_constructor(const std::string& text,
@@ -104,13 +104,13 @@ namespace gr
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	void Text_plot::aux_constructor(const std::string& text,
-									const Coordinate& x,
-									const Coordinate& y,
-									unsigned char_size,
-									float off_x,
-									float off_y,
-									Color col)
+	void Text_shp::aux_constructor(const std::string& text,
+								   const Coordinate& x,
+								   const Coordinate& y,
+								   unsigned char_size,
+								   float off_x,
+								   float off_y,
+								   Color col)
 	{
 		content = std::string(text);
 		abscissa = Coordinate(x);
@@ -121,30 +121,30 @@ namespace gr
 		color = col;
 	}
 
-	Text_plot::Text_plot(const std::string& text,
-						 const Coordinate& x,
-						 const Coordinate& y,
-						 unsigned size,
-						 float off_x,
-						 float off_y,
-						 Color col)
+	Text_shp::Text_shp(const std::string& text,
+					   const Coordinate& x,
+					   const Coordinate& y,
+					   unsigned size,
+					   float off_x,
+					   float off_y,
+					   Color col)
 	{
 		aux_constructor(text, x, y, size, off_x, off_y, col);
 	}
 
-	Text_plot::Text_plot(const std::string& text,
-						 const Point_plot& point,
-						 unsigned int size,
-						 Color col)
+	Text_shp::Text_shp(const std::string& text,
+					   const Point_shp& point,
+					   unsigned int size,
+					   Color col)
 	{
 		aux_constructor(text, point.get_abscissa(), point.get_ordinate(), size,
 						0, 3 + point.get_radius() + float(size) / 2, col);
 	}
 
-	Text_plot::Text_plot(const std::string& text,
-						 const Segment_plot& segment,
-						 unsigned int size,
-						 Color col)
+	Text_shp::Text_shp(const std::string& text,
+					   const Segment_shp& segment,
+					   unsigned int size,
+					   Color col)
 	{
 		Coordinate x = (segment.get_origin().get_abscissa() +
 						segment.get_destination().get_abscissa()) / 2;
@@ -154,10 +154,10 @@ namespace gr
 						0, 0, col);
 	}
 
-	Text_plot::Text_plot(const std::string& text,
-						 const Vector_plot& vector,
-						 unsigned int size,
-						 Color col)
+	Text_shp::Text_shp(const std::string& text,
+					   const Vector_shp& vector,
+					   unsigned int size,
+					   Color col)
 	{
 		Coordinate x = (vector.get_origin_x() + vector.get_destination_x()) / 2;
 		Coordinate y = (vector.get_origin_y() + vector.get_destination_y()) / 2;
@@ -165,7 +165,7 @@ namespace gr
 						0, 0, col);
 	}
 
-	Text_plot::Text_plot(const Text_plot& other)
+	Text_shp::Text_shp(const Text_shp& other)
 	{
 		content = std::string(other.content);
 		abscissa = Coordinate(other.abscissa);
@@ -176,63 +176,63 @@ namespace gr
 		color = other.color;
 	}
 
-	std::string Text_plot::get_content() const
+	std::string Text_shp::get_content() const
 	{
 		return content;
 	}
 
-	Coordinate Text_plot::get_abscissa() const
+	Coordinate Text_shp::get_abscissa() const
 	{
 		return abscissa;
 	}
 
-	Coordinate Text_plot::get_ordinate() const
+	Coordinate Text_shp::get_ordinate() const
 	{
 		return ordinate;
 	}
 
-	unsigned Text_plot::get_size() const
+	unsigned Text_shp::get_size() const
 	{
 		return size;
 	}
 
-	float Text_plot::get_offset_x() const
+	float Text_shp::get_offset_x() const
 	{
 		return offset_x;
 	}
 
-	float Text_plot::get_offset_y() const
+	float Text_shp::get_offset_y() const
 	{
 		return offset_y;
 	}
 
-	Color Text_plot::get_color() const
+	Color Text_shp::get_color() const
 	{
 		return color;
 	}
 
-	Coordinate Text_plot::get_min_abscissa() const
+	Coordinate Text_shp::get_min_abscissa() const
 	{
 		return abscissa;
 	}
 
-	Coordinate Text_plot::get_max_abscissa() const
+	Coordinate Text_shp::get_max_abscissa() const
 	{
 		return abscissa;
 	}
 
-	Coordinate Text_plot::get_min_ordinate() const
+	Coordinate Text_shp::get_min_ordinate() const
 	{
 		return ordinate;
 	}
 
-	Coordinate Text_plot::get_max_ordinate() const
+	Coordinate Text_shp::get_max_ordinate() const
 	{
 		return ordinate;
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const Text_plot& text)
+							 const Text_shp& text)
 	{
 		os << TEXT_NAME << " \""
 		   << text.get_content() << "\" "
@@ -246,7 +246,7 @@ namespace gr
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 Text_plot& text)
+							 Text_shp& text)
 	{
 		text.content.clear();
 		std::string tmp;

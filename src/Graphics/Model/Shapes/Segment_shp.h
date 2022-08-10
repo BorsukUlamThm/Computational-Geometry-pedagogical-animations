@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Point_plot.h"
+#include "Point_shp.h"
 
 
 namespace gr
@@ -15,37 +15,37 @@ namespace gr
 	 * -> endpoints of the segment\n
 	 * -> color
 	 */
-	class Segment_plot : public Plot
+	class Segment_shp : public Shape
 	{
 	private:
-		Point_plot origin;
-		Point_plot destination;
+		Point_shp origin;
+		Point_shp destination;
 		Color line_color = DEFAULT_PLOT_COLOR;
 
 	public:
 		// standard constructors
-		Segment_plot() = default;
-		Segment_plot(const Point_plot& ogn,
-					 const Point_plot& dst,
-					 Color line_col = DEFAULT_PLOT_COLOR);
-		Segment_plot(const Segment_plot& other);
+		Segment_shp() = default;
+		Segment_shp(const Point_shp& ogn,
+					const Point_shp& dst,
+					Color line_col = DEFAULT_PLOT_COLOR);
+		Segment_shp(const Segment_shp& other);
 
 		// other constructor
 		/*!
 		 * Constructs the segment whose endpoints are ogn and dst\n
 		 * where ogn coordinate (ogn_x, ogn_y) and dst (dst_x, dst_y)
 		 */
-		Segment_plot(const Coordinate& ogn_x,
-					 const Coordinate& ogn_y,
-					 const Coordinate& dst_x,
-					 const Coordinate& dst_y,
-					 Color line_col = DEFAULT_PLOT_COLOR,
-					 Color end_points_col = DEFAULT_PLOT_COLOR);
+		Segment_shp(const Coordinate& ogn_x,
+					const Coordinate& ogn_y,
+					const Coordinate& dst_x,
+					const Coordinate& dst_y,
+					Color line_col = DEFAULT_PLOT_COLOR,
+					Color end_points_col = DEFAULT_PLOT_COLOR);
 
-		~Segment_plot() = default;
+		~Segment_shp() = default;
 
-		Point_plot get_origin() const;
-		Point_plot get_destination() const;
+		Point_shp get_origin() const;
+		Point_shp get_destination() const;
 		Color get_line_color() const;
 
 		Coordinate get_min_abscissa() const override;
@@ -56,7 +56,7 @@ namespace gr
 		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
-										Segment_plot& segment);
+										Segment_shp& segment);
 	};
 
 
@@ -64,75 +64,75 @@ namespace gr
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	Segment_plot::Segment_plot(const Point_plot& ogn,
-							   const Point_plot& dst,
-							   Color line_col)
+	Segment_shp::Segment_shp(const Point_shp& ogn,
+							 const Point_shp& dst,
+							 Color line_col)
 	{
-		origin = Point_plot(ogn);
-		destination = Point_plot(dst);
+		origin = Point_shp(ogn);
+		destination = Point_shp(dst);
 		line_color = line_col;
 	}
 
-	Segment_plot::Segment_plot(const Coordinate& ogn_x,
-							   const Coordinate& ogn_y,
-							   const Coordinate& dst_x,
-							   const Coordinate& dst_y,
-							   Color line_col,
-							   Color end_points_col)
+	Segment_shp::Segment_shp(const Coordinate& ogn_x,
+							 const Coordinate& ogn_y,
+							 const Coordinate& dst_x,
+							 const Coordinate& dst_y,
+							 Color line_col,
+							 Color end_points_col)
 	{
-		origin = Point_plot(ogn_x, ogn_y, end_points_col);
-		destination = Point_plot(dst_x, dst_y, end_points_col);
+		origin = Point_shp(ogn_x, ogn_y, end_points_col);
+		destination = Point_shp(dst_x, dst_y, end_points_col);
 		line_color = line_col;
 	}
 
-	Segment_plot::Segment_plot(const Segment_plot& other)
+	Segment_shp::Segment_shp(const Segment_shp& other)
 	{
-		origin = Point_plot(other.origin);
-		destination = Point_plot(other.destination);
+		origin = Point_shp(other.origin);
+		destination = Point_shp(other.destination);
 		line_color = other.line_color;
 	}
 
-	Point_plot Segment_plot::get_origin() const
+	Point_shp Segment_shp::get_origin() const
 	{
 		return origin;
 	}
 
-	Point_plot Segment_plot::get_destination() const
+	Point_shp Segment_shp::get_destination() const
 	{
 		return destination;
 	}
 
-	Color Segment_plot::get_line_color() const
+	Color Segment_shp::get_line_color() const
 	{
 		return line_color;
 	}
 
-	Coordinate Segment_plot::get_min_abscissa() const
+	Coordinate Segment_shp::get_min_abscissa() const
 	{
 		return std::min(origin.get_min_abscissa(),
 						destination.get_min_abscissa());
 	}
 
-	Coordinate Segment_plot::get_max_abscissa() const
+	Coordinate Segment_shp::get_max_abscissa() const
 	{
 		return std::max(origin.get_max_abscissa(),
 						destination.get_max_abscissa());
 	}
 
-	Coordinate Segment_plot::get_min_ordinate() const
+	Coordinate Segment_shp::get_min_ordinate() const
 	{
 		return std::min(origin.get_min_ordinate(),
 						destination.get_min_ordinate());
 	}
 
-	Coordinate Segment_plot::get_max_ordinate() const
+	Coordinate Segment_shp::get_max_ordinate() const
 	{
 		return std::max(origin.get_max_ordinate(),
 						destination.get_max_ordinate());
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const Segment_plot& segment)
+							 const Segment_shp& segment)
 	{
 		os << SEGMENT_NAME << " "
 		   << segment.get_origin() << " "
@@ -141,7 +141,7 @@ namespace gr
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 Segment_plot& segment)
+							 Segment_shp& segment)
 	{
 		std::string dummy;
 		is >> dummy

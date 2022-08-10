@@ -4,10 +4,10 @@
 #include <memory>
 /** @endcond */
 
-#include "Plots/Polygon_plot.h"
-#include "Plots/Circle_plot.h"
-#include "Plots/Line_plot.h"
-#include "Plots/Text_plot.h"
+#include "Shapes/Polygon_shp.h"
+#include "Shapes/Circle_shp.h"
+#include "Shapes/Line_shp.h"
+#include "Shapes/Text_shp.h"
 #include "Bounding_box.h"
 
 
@@ -17,10 +17,10 @@ namespace gr
 	// |                             DECLARATIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	typedef std::shared_ptr<Plot> Plot_ptr;
+	typedef std::shared_ptr<Shape> Plot_ptr;
 
 	/*!
-	 * A Figure is a set of Plot that will be drawn on a Canvas\n
+	 * A Figure is a set of Shape that will be drawn on a Canvas\n
 	 * The plots are drawn in the same order they were added\n
 	 * All the add_X methods add an X plot
 	 * calling the appropriate constructor with the same signature
@@ -50,18 +50,18 @@ namespace gr
 		Coordinate get_max_ordinate() const;
 		Plot_ptr get_last_plot() const;
 
-		void add_point(const Point_plot& point);
+		void add_point(const Point_shp& point);
 		void add_point(const Coordinate& x,
 					   const Coordinate& y,
 					   Color col = DEFAULT_PLOT_COLOR,
 					   float rad = 3);
 		template<typename... Points>
-		void add_point(const Point_plot& point,
+		void add_point(const Point_shp& point,
 					   const Points&... points);
 
-		void add_segment(const Segment_plot& segment);
-		void add_segment(const Point_plot& ogn,
-						 const Point_plot& dst,
+		void add_segment(const Segment_shp& segment);
+		void add_segment(const Point_shp& ogn,
+						 const Point_shp& dst,
 						 Color line_col = DEFAULT_PLOT_COLOR);
 		void add_segment(const Coordinate& ogn_x,
 						 const Coordinate& ogn_y,
@@ -70,49 +70,49 @@ namespace gr
 						 Color line_col = DEFAULT_PLOT_COLOR,
 						 Color end_points_col = DEFAULT_PLOT_COLOR);
 		template<typename... Segments>
-		void add_segment(const Segment_plot& segment,
+		void add_segment(const Segment_shp& segment,
 						 const Segments&... segments);
 
-		void add_vector(const Vector_plot& vector);
+		void add_vector(const Vector_shp& vector);
 		void add_vector(const Coordinate& ogn_x,
 						const Coordinate& ogn_y,
 						const Coordinate& dst_x,
 						const Coordinate& dst_y,
 						Color col = DEFAULT_PLOT_COLOR);
-		void add_vector(const Point_plot& ogn,
-						const Point_plot& dst,
+		void add_vector(const Point_shp& ogn,
+						const Point_shp& dst,
 						Color col = DEFAULT_PLOT_COLOR);
-		void add_vector(const Segment_plot& segment,
+		void add_vector(const Segment_shp& segment,
 						Color col = DEFAULT_PLOT_COLOR);
 		template<typename... Vectors>
-		void add_vector(const Vector_plot& vector,
+		void add_vector(const Vector_shp& vector,
 						const Vectors&... vectors);
 
-		void add_polygon(const Polygon_plot& polygon);
-		void add_polygon(const std::vector<Point_plot>& vertices,
+		void add_polygon(const Polygon_shp& polygon);
+		void add_polygon(const std::vector<Point_shp>& vertices,
 						 Color lines_col = DEFAULT_PLOT_COLOR);
 		template<typename... Polygons>
-		void add_polygon(const Polygon_plot& polygon,
+		void add_polygon(const Polygon_shp& polygon,
 						 const Polygons&... polygons);
 
-		void add_circle(const Circle_plot& circle);
+		void add_circle(const Circle_shp& circle);
 		void add_circle(const Coordinate& x,
 						const Coordinate& y,
 						const Coordinate& rad,
 						Color col = DEFAULT_PLOT_COLOR);
 		template<typename... Circles>
-		void add_circle(const Circle_plot& circle,
+		void add_circle(const Circle_shp& circle,
 						const Circles&... circles);
 
-		void add_line(const Line_plot& line);
+		void add_line(const Line_shp& line);
 		void add_line(const Coordinate& a,
 					  const Coordinate& b,
 					  const Coordinate& c,
 					  Color col = DEFAULT_PLOT_COLOR);
-		void add_line(const Segment_plot& segment,
+		void add_line(const Segment_shp& segment,
 					  Color col = DEFAULT_PLOT_COLOR);
-		void add_line(const Point_plot& point1,
-					  const Point_plot& point2,
+		void add_line(const Point_shp& point1,
+					  const Point_shp& point2,
 					  Color col = DEFAULT_PLOT_COLOR);
 		void add_line(const Coordinate& x1,
 					  const Coordinate& y1,
@@ -120,7 +120,7 @@ namespace gr
 					  const Coordinate& y2,
 					  Color col = DEFAULT_PLOT_COLOR);
 		template<typename... Lines>
-		void add_line(const Line_plot& line,
+		void add_line(const Line_shp& line,
 					  const Lines&... lines);
 
 		void add_vertical_line(const Coordinate& x,
@@ -128,7 +128,7 @@ namespace gr
 		void add_horizontal_line(const Coordinate& y,
 								 Color col = DEFAULT_PLOT_COLOR);
 
-		void add_text(const Text_plot& text);
+		void add_text(const Text_shp& text);
 		void add_text(const std::string& text,
 					  const Coordinate& x,
 					  const Coordinate& y,
@@ -137,15 +137,15 @@ namespace gr
 					  float off_y = 0,
 					  Color col = DEFAULT_PLOT_COLOR);
 		void add_text(const std::string& text,
-					  const Point_plot& point,
+					  const Point_shp& point,
 					  unsigned size = 16,
 					  Color col = DEFAULT_PLOT_COLOR);
 		void add_text(const std::string& text,
-					  const Segment_plot& segment,
+					  const Segment_shp& segment,
 					  unsigned size = 16,
 					  Color col = DEFAULT_PLOT_COLOR);
 		void add_text(const std::string& text,
-					  const Vector_plot& vector,
+					  const Vector_shp& vector,
 					  unsigned size = 16,
 					  Color col = DEFAULT_PLOT_COLOR);
 
@@ -158,15 +158,15 @@ namespace gr
 						  const Figures&... figures);
 
 		/*!
-		 * Erases the last added Plot \n
+		 * Erases the last added Shape \n
 		 * This can affect the Bounding_box,
-		 * make_bounding_box() should be called before adding a new Plot
+		 * make_bounding_box() should be called before adding a new Shape
 		 */
 		void erase_last_plot();
 		/*!
 		 * Erases the last k added plot \n
 		 * This can affect the Bounding_box,
-		 * make_bounding_box() should be called before adding a new Plot
+		 * make_bounding_box() should be called before adding a new Shape
 		 */
 		void erase_last_k_plots(unsigned k);
 		/*!
@@ -224,9 +224,9 @@ namespace gr
 		return plots.back();
 	}
 
-	void Figure::add_point(const Point_plot& point)
+	void Figure::add_point(const Point_shp& point)
 	{
-		Plot_ptr plot = std::make_shared<Point_plot>(point);
+		Plot_ptr plot = std::make_shared<Point_shp>(point);
 		plots.push_back(plot);
 		bounding_box.extend(point);
 	}
@@ -236,30 +236,30 @@ namespace gr
 						   Color col,
 						   float rad)
 	{
-		Point_plot point(x, y, col, rad);
+		Point_shp point(x, y, col, rad);
 		add_point(point);
 	}
 
 	template<typename... Points>
-	void Figure::add_point(const Point_plot& point,
+	void Figure::add_point(const Point_shp& point,
 						   const Points&... points)
 	{
 		add_point(point);
 		add_point(points...);
 	}
 
-	void Figure::add_segment(const Segment_plot& segment)
+	void Figure::add_segment(const Segment_shp& segment)
 	{
-		Plot_ptr plot = std::make_shared<Segment_plot>(segment);
+		Plot_ptr plot = std::make_shared<Segment_shp>(segment);
 		plots.push_back(plot);
 		bounding_box.extend(segment);
 	}
 
-	void Figure::add_segment(const Point_plot& ogn,
-							 const Point_plot& dst,
+	void Figure::add_segment(const Point_shp& ogn,
+							 const Point_shp& dst,
 							 Color line_col)
 	{
-		Segment_plot segment(ogn, dst, line_col);
+		Segment_shp segment(ogn, dst, line_col);
 		add_segment(segment);
 	}
 
@@ -270,22 +270,22 @@ namespace gr
 							 Color line_col,
 							 Color end_points_col)
 	{
-		Segment_plot segment(ogn_x, ogn_y, dst_x, dst_y,
-							 line_col, end_points_col);
+		Segment_shp segment(ogn_x, ogn_y, dst_x, dst_y,
+							line_col, end_points_col);
 		add_segment(segment);
 	}
 
 	template<typename... Segments>
-	void Figure::add_segment(const Segment_plot& segment,
+	void Figure::add_segment(const Segment_shp& segment,
 							 const Segments&... segments)
 	{
 		add_segment(segment);
 		add_segment(segments...);
 	}
 
-	void Figure::add_vector(const Vector_plot& vector)
+	void Figure::add_vector(const Vector_shp& vector)
 	{
-		Plot_ptr plot = std::make_shared<Vector_plot>(vector);
+		Plot_ptr plot = std::make_shared<Vector_shp>(vector);
 		plots.push_back(plot);
 		bounding_box.extend(vector);
 	}
@@ -296,58 +296,58 @@ namespace gr
 							const Coordinate& dst_y,
 							Color col)
 	{
-		Vector_plot vector(ogn_x, ogn_y, dst_x, dst_y, col);
+		Vector_shp vector(ogn_x, ogn_y, dst_x, dst_y, col);
 		add_vector(vector);
 	}
 
-	void Figure::add_vector(const Point_plot& ogn,
-							const Point_plot& dst,
+	void Figure::add_vector(const Point_shp& ogn,
+							const Point_shp& dst,
 							Color col)
 	{
-		Vector_plot vector(ogn, dst, col);
+		Vector_shp vector(ogn, dst, col);
 		add_vector(vector);
 	}
 
-	void Figure::add_vector(const Segment_plot& segment,
+	void Figure::add_vector(const Segment_shp& segment,
 							Color col)
 	{
-		Vector_plot vector(segment, col);
+		Vector_shp vector(segment, col);
 		add_vector(vector);
 	}
 
 	template<typename... Vectors>
-	void Figure::add_vector(const Vector_plot& vector,
+	void Figure::add_vector(const Vector_shp& vector,
 							const Vectors&... vectors)
 	{
 		add_vector(vector);
 		add_vector(vectors...);
 	}
 
-	void Figure::add_polygon(const Polygon_plot& polygon)
+	void Figure::add_polygon(const Polygon_shp& polygon)
 	{
-		Plot_ptr plot = std::make_shared<Polygon_plot>(polygon);
+		Plot_ptr plot = std::make_shared<Polygon_shp>(polygon);
 		plots.push_back(plot);
 		bounding_box.extend(polygon);
 	}
 
-	void Figure::add_polygon(const std::vector<Point_plot>& vertices,
+	void Figure::add_polygon(const std::vector<Point_shp>& vertices,
 							 Color lines_col)
 	{
-		Polygon_plot polygon(vertices, lines_col);
+		Polygon_shp polygon(vertices, lines_col);
 		add_polygon(polygon);
 	}
 
 	template<typename... Polygons>
-	void Figure::add_polygon(const Polygon_plot& polygon,
+	void Figure::add_polygon(const Polygon_shp& polygon,
 							 const Polygons&... polygons)
 	{
 		add_polygon(polygon);
 		add_polygon(polygons...);
 	}
 
-	void Figure::add_circle(const Circle_plot& circle)
+	void Figure::add_circle(const Circle_shp& circle)
 	{
-		Plot_ptr plot = std::make_shared<Circle_plot>(circle);
+		Plot_ptr plot = std::make_shared<Circle_shp>(circle);
 		plots.push_back(plot);
 		bounding_box.extend(circle);
 	}
@@ -357,21 +357,21 @@ namespace gr
 							const Coordinate& rad,
 							Color col)
 	{
-		Circle_plot circle(x, y, rad, col);
+		Circle_shp circle(x, y, rad, col);
 		add_circle(circle);
 	}
 
 	template<typename... Circles>
-	void Figure::add_circle(const Circle_plot& circle,
+	void Figure::add_circle(const Circle_shp& circle,
 							const Circles&... circles)
 	{
 		add_circle(circle);
 		add_circle(circles...);
 	}
 
-	void Figure::add_line(const Line_plot& line)
+	void Figure::add_line(const Line_shp& line)
 	{
-		Plot_ptr plot = std::make_shared<Line_plot>(line);
+		Plot_ptr plot = std::make_shared<Line_shp>(line);
 		plots.push_back(plot);
 		bounding_box.extend(line);
 	}
@@ -381,22 +381,22 @@ namespace gr
 						  const Coordinate& c,
 						  Color col)
 	{
-		Line_plot line(a, b, c, col);
+		Line_shp line(a, b, c, col);
 		add_line(line);
 	}
 
-	void Figure::add_line(const Segment_plot& segment,
+	void Figure::add_line(const Segment_shp& segment,
 						  Color col)
 	{
-		Line_plot line(segment, col);
+		Line_shp line(segment, col);
 		add_line(line);
 	}
 
-	void Figure::add_line(const Point_plot& point1,
-						  const Point_plot& point2,
+	void Figure::add_line(const Point_shp& point1,
+						  const Point_shp& point2,
 						  Color col)
 	{
-		Line_plot line(point1, point2, col);
+		Line_shp line(point1, point2, col);
 		add_line(line);
 	}
 
@@ -406,12 +406,12 @@ namespace gr
 						  const Coordinate& y2,
 						  Color col)
 	{
-		Line_plot line(x1, y1, x2, y2, col);
+		Line_shp line(x1, y1, x2, y2, col);
 		add_line(line);
 	}
 
 	template<typename... Lines>
-	void Figure::add_line(const Line_plot& line,
+	void Figure::add_line(const Line_shp& line,
 						  const Lines&... lines)
 	{
 		add_line(line);
@@ -421,20 +421,20 @@ namespace gr
 	void Figure::add_vertical_line(const Coordinate& x,
 								   Color col)
 	{
-		Line_plot line(1, 0, -x, col);
+		Line_shp line(1, 0, -x, col);
 		add_line(line);
 	}
 
 	void Figure::add_horizontal_line(const Coordinate& y,
 									 Color col)
 	{
-		Line_plot line(0, 1, -y, col);
+		Line_shp line(0, 1, -y, col);
 		add_line(line);
 	}
 
-	void Figure::add_text(const Text_plot& text)
+	void Figure::add_text(const Text_shp& text)
 	{
-		Plot_ptr plot = std::make_shared<Text_plot>(text);
+		Plot_ptr plot = std::make_shared<Text_shp>(text);
 		plots.push_back(plot);
 		bounding_box.extend(text);
 	}
@@ -447,34 +447,34 @@ namespace gr
 						  float off_y,
 						  Color col)
 	{
-		Text_plot txt(text, x, y, size, off_x, off_y, col);
+		Text_shp txt(text, x, y, size, off_x, off_y, col);
 		add_text(txt);
 	}
 
 	void Figure::add_text(const std::string& text,
-						  const Point_plot& point,
+						  const Point_shp& point,
 						  unsigned size,
 						  Color col)
 	{
-		Text_plot txt(text, point, size, col);
+		Text_shp txt(text, point, size, col);
 		add_text(txt);
 	}
 
 	void Figure::add_text(const std::string& text,
-						  const Segment_plot& segment,
+						  const Segment_shp& segment,
 						  unsigned size,
 						  Color col)
 	{
-		Text_plot txt(text, segment, size, col);
+		Text_shp txt(text, segment, size, col);
 		add_text(txt);
 	}
 
 	void Figure::add_text(const std::string& text,
-						  const Vector_plot& vector,
+						  const Vector_shp& vector,
 						  unsigned size,
 						  Color col)
 	{
-		Text_plot txt(text, vector, size, col);
+		Text_shp txt(text, vector, size, col);
 		add_text(txt);
 	}
 
@@ -566,13 +566,13 @@ namespace gr
 	{
 		figure.clear();
 		std::string plot_name;
-		Point_plot point;
-		Segment_plot segment;
-		Vector_plot vector;
-		Polygon_plot polygon;
-		Circle_plot circle;
-		Line_plot line;
-		Text_plot text;
+		Point_shp point;
+		Segment_shp segment;
+		Vector_shp vector;
+		Polygon_shp polygon;
+		Circle_shp circle;
+		Line_shp line;
+		Text_shp text;
 
 		while(!is.eof())
 		{

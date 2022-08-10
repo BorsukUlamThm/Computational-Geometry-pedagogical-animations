@@ -17,7 +17,7 @@ namespace gr
 		}
 	}
 
-	void Point_plot::draw(Canvas& canvas) const
+	void Point_shp::draw(Canvas& canvas) const
 	{
 		float ratio = canvas.view.getSize().x / float(canvas.config.width);
 		float rad = radius * ratio;
@@ -29,7 +29,7 @@ namespace gr
 		canvas.window.draw(shape);
 	}
 
-	//	void Canvas::draw_point(const Point_plot& point)
+	//	void Canvas::draw_point(const Point_shp& point)
 	//	{
 	//		float radius = point.get_radius() * view.getSize().x / float(config.width);
 	//		sf::CircleShape shape(radius);
@@ -39,7 +39,7 @@ namespace gr
 	//		window.draw(shape);
 	//	}
 
-	void Segment_plot::draw(Canvas& canvas) const
+	void Segment_shp::draw(Canvas& canvas) const
 	{
 		sf::VertexArray shape(sf::LineStrip, 2);
 		shape[0].position = sf::Vector2f(origin.get_abscissa(),
@@ -54,7 +54,7 @@ namespace gr
 		destination.draw(canvas);
 	}
 
-	//	void Canvas::draw_segment(const Segment_plot& segment)
+	//	void Canvas::draw_segment(const Segment_shp& segment)
 	//	{
 	//		sf::VertexArray shape(sf::LineStrip, 2);
 	//		shape[0].position = sf::Vector2f(segment.get_origin().get_abscissa(),
@@ -68,7 +68,7 @@ namespace gr
 	//		draw_point(segment.get_destination());
 	//	}
 
-	void Vector_plot::draw(gr::Canvas& canvas) const
+	void Vector_shp::draw(gr::Canvas& canvas) const
 	{
 		sf::VertexArray shape(sf::LineStrip, 2);
 		shape[0].position = sf::Vector2f(origin_x, -origin_y);
@@ -96,7 +96,7 @@ namespace gr
 		canvas.window.draw(triangle);
 	}
 
-	//	void Canvas::draw_vector(const Vector_plot& vector)
+	//	void Canvas::draw_vector(const Vector_shp& vector)
 	//	{
 	//		sf::VertexArray shape(sf::LineStrip, 2);
 	//		shape[0].position = sf::Vector2f(vector.get_origin_x(),
@@ -123,7 +123,7 @@ namespace gr
 	//		window.draw(triangle);
 	//	}
 
-	void Polygon_plot::draw(Canvas& canvas) const
+	void Polygon_shp::draw(Canvas& canvas) const
 	{
 		unsigned n = size();
 		sf::VertexArray shape(sf::LineStrip, n + 1);
@@ -147,7 +147,7 @@ namespace gr
 		}
 	}
 
-	//	void Canvas::draw_polygon(const Polygon_plot& polygon)
+	//	void Canvas::draw_polygon(const Polygon_shp& polygon)
 	//	{
 	//		unsigned n = polygon.size();
 	//		sf::VertexArray shape(sf::LineStrip, n + 1);
@@ -169,7 +169,7 @@ namespace gr
 	//		}
 	//	}
 
-	void Circle_plot::draw(Canvas& canvas) const
+	void Circle_shp::draw(Canvas& canvas) const
 	{
 		unsigned nb_vertices = 64;
 		float a = 4 * std::acos(0) / nb_vertices;
@@ -191,7 +191,7 @@ namespace gr
 		canvas.window.draw(shape);
 	}
 
-//	void Canvas::draw_circle(const Circle_plot& circle)
+//	void Canvas::draw_circle(const Circle_shp& circle)
 //	{
 //		unsigned nb_vertices = 64;
 //		float a = 4 * std::acos(0) / nb_vertices;
@@ -211,7 +211,7 @@ namespace gr
 //		window.draw(shape);
 //	}
 
-	void Line_plot::draw(Canvas& canvas) const
+	void Line_shp::draw(Canvas& canvas) const
 	{
 		float x1, y1, x2, y2;
 		if(b == 0)
@@ -237,7 +237,7 @@ namespace gr
 		canvas.window.draw(shape);
 	}
 
-//	void Canvas::draw_line(const Line_plot& line)
+//	void Canvas::draw_line(const Line_shp& line)
 //	{
 //		float x1, y1, x2, y2;
 //		Coordinate a = line.get_a();
@@ -266,7 +266,7 @@ namespace gr
 //		window.draw(shape);
 //	}
 
-	void Text_plot::draw(gr::Canvas& canvas) const
+	void Text_shp::draw(gr::Canvas& canvas) const
 	{
 		sf::Text shape;
 		shape.setFont(canvas.config.font);
@@ -288,7 +288,7 @@ namespace gr
 		canvas.window.draw(shape);
 	}
 
-//	void Canvas::draw_text(const Text_plot& text)
+//	void Canvas::draw_text(const Text_shp& text)
 //	{
 //		sf::Text shape;
 //		shape.setFont(config.font);

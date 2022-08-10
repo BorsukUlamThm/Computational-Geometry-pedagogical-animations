@@ -3,7 +3,7 @@
 /** @cond */
 #include <SFML/Graphics.hpp>
 /** @endcond */
-#include "Segment_plot.h"
+#include "Segment_shp.h"
 
 
 namespace gr
@@ -19,7 +19,7 @@ namespace gr
 	 *    has equation ax + by + c = 0\n
 	 * -> color\n
 	 */
-	class Line_plot : public Plot
+	class Line_shp : public Shape
 	{
 	private:
 		Coordinate a{};
@@ -29,36 +29,36 @@ namespace gr
 
 	public:
 		// standard constructors
-		Line_plot() = default;
-		Line_plot(const Coordinate& a,
-				  const Coordinate& b,
-				  const Coordinate& c,
-				  Color col = DEFAULT_PLOT_COLOR);
-		Line_plot(const Line_plot& other);
+		Line_shp() = default;
+		Line_shp(const Coordinate& a,
+				 const Coordinate& b,
+				 const Coordinate& c,
+				 Color col = DEFAULT_PLOT_COLOR);
+		Line_shp(const Line_shp& other);
 
 		// other constructors
 		/*!
 		 * Constructs the line containing the given segment
 		 */
-		explicit Line_plot(const Segment_plot& segment,
-						   Color col = DEFAULT_PLOT_COLOR);
+		explicit Line_shp(const Segment_shp& segment,
+						  Color col = DEFAULT_PLOT_COLOR);
 		/*!
 		 * Constructs the line containing the two given points
 		 */
-		Line_plot(const Point_plot& point1,
-				  const Point_plot& point2,
-				  Color col = DEFAULT_PLOT_COLOR);
+		Line_shp(const Point_shp& point1,
+				 const Point_shp& point2,
+				 Color col = DEFAULT_PLOT_COLOR);
 		/*!
 		 * Constructs the line containing the two points p1 and p2\n
 		 * where p1 has coordinate (x1, y1) and p2 (x2, y2)
 		 */
-		Line_plot(const Coordinate& x1,
-				  const Coordinate& y1,
-				  const Coordinate& x2,
-				  const Coordinate& y2,
-				  Color col = DEFAULT_PLOT_COLOR);
+		Line_shp(const Coordinate& x1,
+				 const Coordinate& y1,
+				 const Coordinate& x2,
+				 const Coordinate& y2,
+				 Color col = DEFAULT_PLOT_COLOR);
 
-		~Line_plot() = default;
+		~Line_shp() = default;
 
 		Coordinate get_a() const;
 		Coordinate get_b() const;
@@ -73,7 +73,7 @@ namespace gr
 		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
-										Line_plot& line);
+										Line_shp& line);
 
 	private:
 		void aux_constructor(const Coordinate& x1,
@@ -88,10 +88,10 @@ namespace gr
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	Line_plot::Line_plot(const Coordinate& a,
-						 const Coordinate& b,
-						 const Coordinate& c,
-						 Color col)
+	Line_shp::Line_shp(const Coordinate& a,
+					   const Coordinate& b,
+					   const Coordinate& c,
+					   Color col)
 	{
 		this-> a = Coordinate(a);
 		this-> b = Coordinate(b);
@@ -99,11 +99,11 @@ namespace gr
 		color = col;
 	}
 
-	void Line_plot::aux_constructor(const Coordinate& x1,
-									const Coordinate& y1,
-									const Coordinate& x2,
-									const Coordinate& y2,
-									Color col)
+	void Line_shp::aux_constructor(const Coordinate& x1,
+								   const Coordinate& y1,
+								   const Coordinate& x2,
+								   const Coordinate& y2,
+								   Color col)
 	{
 		a = y2 - y1;
 		b = x1 - x2;
@@ -111,8 +111,8 @@ namespace gr
 		color = col;
 	}
 
-	Line_plot::Line_plot(const Segment_plot& segment,
-						 Color col)
+	Line_shp::Line_shp(const Segment_shp& segment,
+					   Color col)
 	{
 		Coordinate x1 = segment.get_origin().get_abscissa();
 		Coordinate y1 = segment.get_origin().get_ordinate();
@@ -121,9 +121,9 @@ namespace gr
 		aux_constructor(x1, y1, x2, y2, col);
 	}
 
-	Line_plot::Line_plot(const Point_plot& point1,
-						 const Point_plot& point2,
-						 Color col)
+	Line_shp::Line_shp(const Point_shp& point1,
+					   const Point_shp& point2,
+					   Color col)
 	{
 		Coordinate x1 = point1.get_abscissa();
 		Coordinate y1 = point1.get_ordinate();
@@ -132,16 +132,16 @@ namespace gr
 		aux_constructor(x1, y1, x2, y2, col);
 	}
 
-	Line_plot::Line_plot(const Coordinate& x1,
-						 const Coordinate& y1,
-						 const Coordinate& x2,
-						 const Coordinate& y2,
-						 Color col)
+	Line_shp::Line_shp(const Coordinate& x1,
+					   const Coordinate& y1,
+					   const Coordinate& x2,
+					   const Coordinate& y2,
+					   Color col)
 	{
 		aux_constructor(x1, y1, x2, y2, col);
 	}
 
-	Line_plot::Line_plot(const Line_plot& other)
+	Line_shp::Line_shp(const Line_shp& other)
 	{
 		a = Coordinate(other.a);
 		b = Coordinate(other.b);
@@ -149,48 +149,48 @@ namespace gr
 		color = other.color;
 	}
 
-	Coordinate Line_plot::get_a() const
+	Coordinate Line_shp::get_a() const
 	{
 		return a;
 	}
 
-	Coordinate Line_plot::get_b() const
+	Coordinate Line_shp::get_b() const
 	{
 		return b;
 	}
 
-	Coordinate Line_plot::get_c() const
+	Coordinate Line_shp::get_c() const
 	{
 		return c;
 	}
 
-	Color Line_plot::get_color() const
+	Color Line_shp::get_color() const
 	{
 		return color;
 	}
 
-	Coordinate Line_plot::get_min_abscissa() const
+	Coordinate Line_shp::get_min_abscissa() const
 	{
 		return MAX_COORDINATE;
 	}
 
-	Coordinate Line_plot::get_max_abscissa() const
+	Coordinate Line_shp::get_max_abscissa() const
 	{
 		return MIN_COORDINATE;
 	}
 
-	Coordinate Line_plot::get_min_ordinate() const
+	Coordinate Line_shp::get_min_ordinate() const
 	{
 		return MAX_COORDINATE;
 	}
 
-	Coordinate Line_plot::get_max_ordinate() const
+	Coordinate Line_shp::get_max_ordinate() const
 	{
 		return MIN_COORDINATE;
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const Line_plot& line)
+							 const Line_shp& line)
 	{
 		os << LINE_NAME << " "
 		   << line.get_a() << " "
@@ -200,7 +200,7 @@ namespace gr
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 Line_plot& line)
+							 Line_shp& line)
 	{
 		is >> line.a
 		   >> line.b

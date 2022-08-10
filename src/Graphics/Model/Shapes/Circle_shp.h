@@ -3,7 +3,7 @@
 /** @cond */
 #include <SFML/Graphics.hpp>
 /** @endcond */
-#include "Plot.h"
+#include "Shape.h"
 
 
 namespace gr
@@ -19,7 +19,7 @@ namespace gr
 	 * -> radius\n
 	 * -> color\n
 	 */
-	class Circle_plot : public Plot
+	class Circle_shp : public Shape
 	{
 	private:
 		Coordinate center_x{};
@@ -28,14 +28,14 @@ namespace gr
 		Color color = DEFAULT_PLOT_COLOR;
 
 	public:
-		Circle_plot() = default;
-		Circle_plot(const Coordinate& x,
-					const Coordinate& y,
-					const Coordinate& rad,
-					Color col = DEFAULT_PLOT_COLOR);
-		Circle_plot(const Circle_plot& other);
+		Circle_shp() = default;
+		Circle_shp(const Coordinate& x,
+				   const Coordinate& y,
+				   const Coordinate& rad,
+				   Color col = DEFAULT_PLOT_COLOR);
+		Circle_shp(const Circle_shp& other);
 
-		~Circle_plot() = default;
+		~Circle_shp() = default;
 
 		Coordinate get_center_x() const;
 		Coordinate get_center_y() const;
@@ -50,7 +50,7 @@ namespace gr
 		void draw(Canvas& canvas) const override;
 
 		friend std::istream& operator>>(std::istream& is,
-										Circle_plot& circle);
+										Circle_shp& circle);
 	};
 
 
@@ -58,10 +58,10 @@ namespace gr
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	Circle_plot::Circle_plot(const Coordinate& x,
-							 const Coordinate& y,
-							 const Coordinate& rad,
-							 Color col)
+	Circle_shp::Circle_shp(const Coordinate& x,
+						   const Coordinate& y,
+						   const Coordinate& rad,
+						   Color col)
 	{
 		center_x = Coordinate(x);
 		center_y = Coordinate(y);
@@ -69,7 +69,7 @@ namespace gr
 		color = col;
 	}
 
-	Circle_plot::Circle_plot(const Circle_plot& other)
+	Circle_shp::Circle_shp(const Circle_shp& other)
 	{
 		center_x = Coordinate(other.center_x);
 		center_y = Coordinate(other.center_y);
@@ -77,48 +77,48 @@ namespace gr
 		color = other.color;
 	}
 
-	Coordinate Circle_plot::get_center_x() const
+	Coordinate Circle_shp::get_center_x() const
 	{
 		return center_x;
 	}
 
-	Coordinate Circle_plot::get_center_y() const
+	Coordinate Circle_shp::get_center_y() const
 	{
 		return  center_y;
 	}
 
-	Coordinate Circle_plot::get_radius() const
+	Coordinate Circle_shp::get_radius() const
 	{
 		return radius;
 	}
 
-	Color Circle_plot::get_color() const
+	Color Circle_shp::get_color() const
 	{
 		return color;
 	}
 
-	Coordinate Circle_plot::get_min_abscissa() const
+	Coordinate Circle_shp::get_min_abscissa() const
 	{
 		return center_x - radius;
 	}
 
-	Coordinate Circle_plot::get_max_abscissa() const
+	Coordinate Circle_shp::get_max_abscissa() const
 	{
 		return center_x + radius;
 	}
 
-	Coordinate Circle_plot::get_min_ordinate() const
+	Coordinate Circle_shp::get_min_ordinate() const
 	{
 		return center_y - radius;
 	}
 
-	Coordinate Circle_plot::get_max_ordinate() const
+	Coordinate Circle_shp::get_max_ordinate() const
 	{
 		return center_y + radius;
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const Circle_plot& circle)
+							 const Circle_shp& circle)
 	{
 		os << CIRCLE_NAME << " "
 		   << circle.get_center_x() << " "
@@ -128,7 +128,7 @@ namespace gr
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 Circle_plot& circle)
+							 Circle_shp& circle)
 	{
 		is >> circle.center_x
 		   >> circle.center_y

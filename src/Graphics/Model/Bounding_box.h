@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Plots/Plot.h"
+#include "Shapes/Shape.h"
 
 
 namespace gr
@@ -25,7 +25,7 @@ namespace gr
 		Bounding_box() = default;
 		Bounding_box(const Bounding_box& other);
 
-		void extend(const Plot& plot);
+		void extend(const Shape& plot);
 		void clear();
 
 		Coordinate get_min_abscissa() const;
@@ -47,7 +47,7 @@ namespace gr
 		max_ordinate = Coordinate(other.max_ordinate);
 	}
 
-	void Bounding_box::extend(const Plot& plot)
+	void Bounding_box::extend(const Shape& plot)
 	{
 		min_abscissa = std::min(min_abscissa, plot.get_min_abscissa());
 		max_abscissa = std::max(max_abscissa, plot.get_max_abscissa());

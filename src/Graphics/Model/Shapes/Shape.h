@@ -16,7 +16,7 @@ namespace gr
 	/*!
 	 * Wrapper class for all the plots
 	 */
-	class Plot
+	class Shape
 	{
 	public:
 		virtual Coordinate get_min_abscissa() const = 0;

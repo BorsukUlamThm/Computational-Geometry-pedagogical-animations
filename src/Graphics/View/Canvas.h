@@ -75,26 +75,26 @@ namespace gr
 		void open();
 		void setup_view();
 
-//		void draw_point(const Point_plot& point);
-//		void draw_segment(const Segment_plot& segment);
-//		void draw_vector(const Vector_plot& vector);
-//		void draw_polygon(const Polygon_plot& polygon);
-//		void draw_circle(const Circle_plot& circle);
-//		void draw_line(const Line_plot& line);
-//		void draw_text(const Text_plot& text);
+//		void draw_point(const Point_shp& point);
+//		void draw_segment(const Segment_shp& segment);
+//		void draw_vector(const Vector_shp& vector);
+//		void draw_polygon(const Polygon_shp& polygon);
+//		void draw_circle(const Circle_shp& circle);
+//		void draw_line(const Line_shp& line);
+//		void draw_text(const Text_shp& text);
 
 		void mouse_wheel_scrolled_event(const sf::Event& event);
 		void mouse_button_pressed_event(const sf::Event& event);
 		void mouse_button_released_event(const sf::Event& event);
 		void mouse_moved_event(const sf::Event& event);
 
-		friend void Point_plot::draw(Canvas& canvas) const;
-		friend void Segment_plot::draw(Canvas& canvas) const;
-		friend void Line_plot::draw(Canvas& canvas) const;
-		friend void Polygon_plot::draw(Canvas& canvas) const;
-		friend void Circle_plot::draw(Canvas& canvas) const;
-		friend void Vector_plot::draw(Canvas& canvas) const;
-		friend void Text_plot::draw(Canvas& canvas) const;
+		friend void Point_shp::draw(Canvas& canvas) const;
+		friend void Segment_shp::draw(Canvas& canvas) const;
+		friend void Line_shp::draw(Canvas& canvas) const;
+		friend void Polygon_shp::draw(Canvas& canvas) const;
+		friend void Circle_shp::draw(Canvas& canvas) const;
+		friend void Vector_shp::draw(Canvas& canvas) const;
+		friend void Text_shp::draw(Canvas& canvas) const;
 	};
 
 

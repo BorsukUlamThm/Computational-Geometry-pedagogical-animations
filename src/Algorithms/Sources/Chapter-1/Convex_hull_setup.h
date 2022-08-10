@@ -130,7 +130,7 @@ point_set make_point_set(const Convex_hull_option& opt)
         point_set P;
         for (unsigned i = 0; i < fig.nb_plots(); ++i)
         {
-            auto p = std::dynamic_pointer_cast<gr::Point_plot>(fig[i]);
+            auto p = std::dynamic_pointer_cast<gr::Point_shp>(fig[i]);
             P.emplace_back(p->get_abscissa(), p->get_ordinate());
         }
 
