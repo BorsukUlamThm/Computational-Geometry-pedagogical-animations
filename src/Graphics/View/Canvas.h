@@ -15,7 +15,6 @@ namespace gr
 
 	/*!
 	 * The Canvas class will handle all the drawing of Figure\n
-	 *
 	 */
 	class Canvas
 	{
@@ -25,8 +24,6 @@ namespace gr
 		sf::View view;
 
 		Config config;
-		std::string title = PROJECT_NAME;
-		sf::Color background_color = Config().default_background_color;
 
 		float zoom = 1;
 		float zoom_factor = 1.1;
@@ -54,18 +51,23 @@ namespace gr
 		Canvas() = default;
 		~Canvas() = default;
 
+		std::string get_title() const;
 		sf::Color get_color(Color col) const;
+		sf::Color get_background_color() const;
+		sf::Color get_default_plot_color() const;
+		sf::Font get_font() const;
 		unsigned get_width() const;
 		unsigned get_height() const;
 		unsigned get_margin() const;
-		std::string get_title() const;
-		sf::Color get_background_color() const;
 
+		void set_title(const std::string& new_title);
+		void set_color(Color col, const sf::Color& new_col);
+		void set_background_color(const sf::Color& new_color);
+		void set_default_plot_color(const sf::Color& new_color);
+		void set_font(const sf::Font& new_font);
 		void set_width(unsigned& new_width);
 		void set_height(unsigned& new_height);
 		void set_margin(unsigned& new_margin);
-		void set_title(const std::string& new_title);
-		void set_background_color(const sf::Color& new_color);
 
 		void draw_figure(const Figure& figure);
 
@@ -87,9 +89,34 @@ namespace gr
 		void mouse_moved_event(const sf::Event& event);
 	};
 
+
+	// +-----------------------------------------------------------------------+
+	// |                              DEFINITIONS                              |
+	// +-----------------------------------------------------------------------+
+
+	std::string Canvas::get_title() const
+	{
+		return config.window_title;
+	}
+
 	sf::Color Canvas::get_color(Color col) const
 	{
 		return config.get_color(col);
+	}
+
+	sf::Color Canvas::get_background_color() const
+	{
+		return config.colors[BACKGROUND_COLOR];
+	}
+
+	sf::Color Canvas::get_default_plot_color() const
+	{
+		return config.colors[DEFAULT_PLOT_COLOR];
+	}
+
+	sf::Font Canvas::get_font() const
+	{
+		return config.font;
 	}
 
 	unsigned Canvas::get_width() const
@@ -107,14 +134,29 @@ namespace gr
 		return config.margin;
 	}
 
-	std::string Canvas::get_title() const
+	void Canvas::set_title(const std::string& new_title)
 	{
-		return title;
+		config.window_title = new_title;
 	}
 
-	sf::Color Canvas::get_background_color() const
+	void Canvas::set_color(Color col, const sf::Color& new_col)
 	{
-		return background_color;
+		config.colors[col] = new_col;
+	}
+
+	void Canvas::set_background_color(const sf::Color& new_color)
+	{
+		config.colors[BACKGROUND_COLOR] = new_color;
+	}
+
+	void Canvas::set_default_plot_color(const sf::Color& new_color)
+	{
+		config.colors[DEFAULT_PLOT_COLOR] = new_color;
+	}
+
+	void Canvas::set_font(const sf::Font& new_font)
+	{
+		config.font = new_font;
 	}
 
 	void Canvas::set_width(unsigned& new_width)
@@ -132,19 +174,9 @@ namespace gr
 		config.margin = new_margin;
 	}
 
-	void Canvas::set_title(const std::string& new_title)
-	{
-		title = new_title;
-	}
-
-	void Canvas::set_background_color(const sf::Color& new_color)
-	{
-		background_color = new_color;
-	}
-
 	void Canvas::open()
 	{
-		window.clear(config.default_background_color);
+		window.clear(config.colors[BACKGROUND_COLOR]);
 		if(window.isOpen())
 		{
 			return;
@@ -154,12 +186,14 @@ namespace gr
 
 		if(config.width == -1 || config.height == -1)
 		{
-			window.create(sf::VideoMode::getDesktopMode(), title,
+			window.create(sf::VideoMode::getDesktopMode(),
+						  config.window_title,
 						  sf::Style::Default, settings);
 		}
 		else
 		{
-			window.create(sf::VideoMode(config.width, config.height), title,
+			window.create(sf::VideoMode(config.width, config.height),
+						  config.window_title,
 						  sf::Style::Default, settings);
 		}
 	}
@@ -183,26 +217,23 @@ namespace gr
 		float figure_format = (xM - xm) / (yM - ym);
 		if(window_format < figure_format)
 		{
-			float margin_offset =
-					2 * config.margin * (xM - xm) / zoom / float(config.width) / // NOLINT(cppcoreguidelines-narrowing-conversions)
-					(1 - 2 * config.margin / float(config.width)); // NOLINT(cppcoreguidelines-narrowing-conversions)
+			float margin_offset = 2 * config.margin / float(config.width);
+			margin_offset /= (1 - margin_offset);
+			margin_offset *= (xM - xm) / zoom;
 			view.setSize(margin_offset + (xM - xm) / zoom,
 						 margin_offset + (xM - xm) / window_format / zoom);
-			float ratio = view.getSize().x / float(config.width);
-			view.setCenter(-ratio * (offset_x + hold_offset_x) + (xm + xM) / 2,
-						   -ratio * (offset_y + hold_offset_y) + (ym + yM) / 2);
 		}
 		else
 		{
-			float margin_offset =
-					2 * config.margin * (yM - ym) / zoom / float(config.height) / // NOLINT(cppcoreguidelines-narrowing-conversions)
-					(1 - 2 * config.margin / float(config.height)); // NOLINT(cppcoreguidelines-narrowing-conversions)
+			float margin_offset = 2 * config.margin / float(config.height);
+			margin_offset /= (1 - margin_offset);
+			margin_offset *= (xM - xm) / zoom;
 			view.setSize(margin_offset + (yM - ym) * window_format / zoom,
 						 margin_offset + (yM - ym) / zoom);
-			float ratio = view.getSize().x / float(config.width);
-			view.setCenter(-ratio * (offset_x + hold_offset_x) + (xm + xM) / 2,
-						   -ratio * (offset_y + hold_offset_y) + (ym + yM) / 2);
 		}
+		float ratio = view.getSize().x / float(config.width);
+		view.setCenter(-ratio * (offset_x + hold_offset_x) + (xm + xM) / 2,
+					   -ratio * (offset_y + hold_offset_y) + (ym + yM) / 2);
 
 		window.setView(view);
 	}

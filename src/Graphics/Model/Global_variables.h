@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include <SFML/Graphics.hpp>
+#include <boost/array.hpp>
 /** @endcond */
 #include "General_tools/General_tools.h"
 
@@ -40,8 +41,9 @@ namespace gr
 		BLUE,
 		GREEN,
 		YELLOW,
-		DEFAULT_BACKGROUND_COLOR,
-		DEFAULT_PLOT_COLOR
+		BACKGROUND_COLOR,
+		DEFAULT_PLOT_COLOR,
+		NB_COLORS
 	};
 
 	/*!
@@ -55,17 +57,9 @@ namespace gr
 	 */
 	struct Config
 	{
-		sf::Color dark_grey = sf::Color(33, 47, 60);
-		sf::Color light_grey = sf::Color(208, 211, 212);
+		std::string window_title = "CGPA";
 
-		sf::Color red = sf::Color(203, 67, 53);
-		sf::Color purple = sf::Color(175, 122, 197);
-		sf::Color blue = sf::Color(52, 152, 219);
-		sf::Color green = sf::Color(39, 174, 96);
-		sf::Color yellow = sf::Color(241, 196, 15);
-
-		sf::Color default_background_color = dark_grey;
-		sf::Color default_plot_color = light_grey;
+		boost::array<sf::Color, NB_COLORS> colors;
 
 		sf::Font font;
 
@@ -79,6 +73,16 @@ namespace gr
 		 */
 		Config()
 		{
+			colors[DARK_GREY] = sf::Color(33, 47, 60);
+			colors[LIGHT_GREY] = sf::Color(208, 211, 212);
+			colors[RED] = sf::Color(203, 67, 53);
+			colors[PURPLE] = sf::Color(175, 122, 197);
+			colors[BLUE] = sf::Color(52, 152, 219);
+			colors[GREEN] = sf::Color(39, 174, 96);
+			colors[YELLOW] = sf::Color(241, 196, 15);
+			colors[BACKGROUND_COLOR] = colors[DARK_GREY];
+			colors[DEFAULT_PLOT_COLOR] = colors[LIGHT_GREY];
+
 			std::filesystem::path config_dir = gt::get_config_directory();
 			if(config_dir.empty())
 			{ return; }
@@ -96,23 +100,23 @@ namespace gr
 				{ continue; }
 
 				if(words[0] == "DARK_GREY")
-				{ dark_grey = read_color(words); }
+				{ colors[DARK_GREY] = read_color(words); }
 				if(words[0] == "LIGHT_GREY")
-				{ light_grey = read_color(words); }
+				{ colors[LIGHT_GREY] = read_color(words); }
 				if(words[0] == "RED")
-				{ red = read_color(words); }
+				{ colors[RED] = read_color(words); }
 				if(words[0] == "PURPLE")
-				{ purple = read_color(words); }
+				{ colors[PURPLE] = read_color(words); }
 				if(words[0] == "BLUE")
-				{ blue = read_color(words); }
+				{ colors[BLUE] = read_color(words); }
 				if(words[0] == "GREEN")
-				{ green = read_color(words); }
+				{ colors[GREEN] = read_color(words); }
 				if(words[0] == "YELLOW")
-				{ yellow = read_color(words); }
+				{ colors[YELLOW] = read_color(words); }
 				if(words[0] == "BACKGROUND_COLOR")
-				{ default_background_color = read_color(words); }
+				{ colors[BACKGROUND_COLOR] = read_color(words); }
 				if(words[0] == "PLOT_COLOR")
-				{ default_plot_color = read_color(words); }
+				{ colors[DEFAULT_PLOT_COLOR] = read_color(words); }
 
 				if(words[0] == "FONT")
 				{
@@ -153,26 +157,9 @@ namespace gr
 		 */
 		sf::Color get_color(Color col) const
 		{
-			switch(col)
+			if (col < NB_COLORS)
 			{
-				case DARK_GREY:
-					return dark_grey;
-				case LIGHT_GREY:
-					return light_grey;
-				case RED:
-					return red;
-				case PURPLE:
-					return purple;
-				case BLUE:
-					return blue;
-				case GREEN:
-					return green;
-				case YELLOW:
-					return yellow;
-				case DEFAULT_BACKGROUND_COLOR:
-					return default_background_color;
-				case DEFAULT_PLOT_COLOR:
-					return default_plot_color;
+				return colors[col];
 			}
 
 			return sf::Color(0, 0, 0);
