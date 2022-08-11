@@ -22,9 +22,9 @@ namespace graphics
 	class Line_shp : public Shape
 	{
 	private:
-		Coordinate a{};
-		Coordinate b{};
-		Coordinate c{};
+		Coordinate a {};
+		Coordinate b {};
+		Coordinate c {};
 		Color color = DEFAULT_PLOT_COLOR;
 
 	public:
@@ -92,9 +92,9 @@ namespace graphics
 					   const Coordinate& c,
 					   Color col)
 	{
-		this-> a = Coordinate(a);
-		this-> b = Coordinate(b);
-		this-> c = Coordinate(c);
+		this->a = Coordinate(a);
+		this->b = Coordinate(b);
+		this->c = Coordinate(c);
 		color = col;
 	}
 
@@ -156,7 +156,7 @@ namespace graphics
 	{
 		a = y2 - y1;
 		b = x1 - x2;
-		c = - a * x1 - b * y1;
+		c = -a * x1 - b * y1;
 		color = col;
 	}
 

@@ -5,6 +5,7 @@
 /** @endcond */
 #include "Vector_shp.h"
 
+
 namespace graphics
 {
 	// +-----------------------------------------------------------------------+
@@ -39,9 +40,9 @@ namespace graphics
 	class Text_shp : public Shape
 	{
 	private:
-		std::string content{};
-		Coordinate abscissa{};
-		Coordinate ordinate{};
+		std::string content {};
+		Coordinate abscissa {};
+		Coordinate ordinate {};
 		unsigned size = 16;
 		float offset_x = 0;
 		float offset_y = 0;
@@ -243,7 +244,7 @@ namespace graphics
 		std::string tmp;
 		is >> tmp;
 		text.content = tmp.substr(1, tmp.size() - 1);
-		if(text.content[text.content.size() - 1] == '\"')
+		if (text.content[text.content.size() - 1] == '\"')
 		{
 			text.content = text.content.substr(0, tmp.size() - 1);
 		}

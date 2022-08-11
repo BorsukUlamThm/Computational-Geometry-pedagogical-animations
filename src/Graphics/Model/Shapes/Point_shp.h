@@ -5,6 +5,7 @@
 /** @endcond */
 #include "Shape.h"
 
+
 namespace graphics
 {
 	// +-----------------------------------------------------------------------+
@@ -25,8 +26,8 @@ namespace graphics
 	class Point_shp : public Shape
 	{
 	private:
-		Coordinate abscissa{};
-		Coordinate ordinate{};
+		Coordinate abscissa {};
+		Coordinate ordinate {};
 		Color color = DEFAULT_PLOT_COLOR;
 		float radius = 3;
 
@@ -65,8 +66,8 @@ namespace graphics
 		make_bounding_box();
 	}
 
-	Point_shp::Point_shp(const Coordinate &x,
-						 const Coordinate &y,
+	Point_shp::Point_shp(const Coordinate& x,
+						 const Coordinate& y,
 						 Color col,
 						 float rad)
 	{

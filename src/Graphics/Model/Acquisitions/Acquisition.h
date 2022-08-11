@@ -37,44 +37,46 @@ namespace graphics
 	Acquisition::Acquisition(Acquisition_type type)
 	{
 		acquisition_type = type;
-		switch(type)
+		switch (type)
 		{
 			case POINT_ACQ:
-				new (&u_point) Point_acq();
+				new(&u_point) Point_acq();
 				break;
 			case SEGMENT_ACQ:
-				new (&u_segment) Segment_acq();
+				new(&u_segment) Segment_acq();
 				break;
 		}
 	}
 
-	Acquisition::Acquisition(const Point_acq& point):
-			acquisition_type(POINT_ACQ),
-			u_point(Point_acq(point))
-	{}
+	Acquisition::Acquisition(const Point_acq& point)
+	{
+		acquisition_type = POINT_ACQ;
+		u_point = Point_acq(point);
+	}
 
-	Acquisition::Acquisition(const Segment_acq& segment):
-			acquisition_type(SEGMENT_ACQ),
-			u_segment(Segment_acq(segment))
-	{}
+	Acquisition::Acquisition(const Segment_acq& segment)
+	{
+		acquisition_type = SEGMENT_ACQ;
+		u_segment = Segment_acq(segment);
+	}
 
 	Acquisition::Acquisition(const Acquisition& other)
 	{
 		acquisition_type = other.acquisition_type;
-		switch(acquisition_type)
+		switch (acquisition_type)
 		{
 			case POINT_ACQ:
-				new (&u_point) Point_acq(other.u_point);
+				new(&u_point) Point_acq(other.u_point);
 				break;
 			case SEGMENT_ACQ:
-				new (&u_segment) Segment_acq(other.u_segment);
+				new(&u_segment) Segment_acq(other.u_segment);
 				break;
 		}
 	}
 
 	Acquisition::~Acquisition()
 	{
-		switch(acquisition_type)
+		switch (acquisition_type)
 		{
 			case POINT_ACQ:
 				u_point.~Point_acq();
@@ -86,17 +88,11 @@ namespace graphics
 	}
 
 	Acquisition_type Acquisition::type() const
-	{
-		return acquisition_type;
-	}
+	{ return acquisition_type; }
 
 	Point_acq Acquisition::point() const
-	{
-		return u_point;
-	}
+	{ return u_point; }
 
 	Segment_acq Acquisition::segment() const
-	{
-		return u_segment;
-	}
+	{ return u_segment; }
 }

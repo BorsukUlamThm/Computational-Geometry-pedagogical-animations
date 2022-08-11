@@ -37,12 +37,8 @@ namespace graphics
 	}
 
 	Color Point_acq::get_color() const
-	{
-		return color;
-	}
+	{ return color; }
 
 	float Point_acq::get_radius() const
-	{
-		return radius;
-	}
+	{ return radius; }
 }

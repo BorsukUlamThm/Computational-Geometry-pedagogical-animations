@@ -10,10 +10,10 @@ namespace graphics
 {
 	void Display_canvas::handle_events()
 	{
-		sf::Event event{};
-		while(window.pollEvent(event))
+		sf::Event event {};
+		while (window.pollEvent(event))
 		{
-			switch(event.type)
+			switch (event.type)
 			{
 				case sf::Event::Closed:
 					window.close();
@@ -54,7 +54,7 @@ namespace graphics
 	void Display_canvas::key_pressed_event(const sf::Event& event)
 	{
 		float index_fraction = float(nb_slides) / 10;
-		switch(event.key.code)
+		switch (event.key.code)
 		{
 			case sf::Keyboard::Right:
 			case sf::Keyboard::Space:

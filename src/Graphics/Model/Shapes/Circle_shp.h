@@ -28,9 +28,9 @@ namespace graphics
 	class Circle_shp : public Shape
 	{
 	private:
-		Coordinate center_x{};
-		Coordinate center_y{};
-		Coordinate radius{};
+		Coordinate center_x {};
+		Coordinate center_y {};
+		Coordinate radius {};
 		Color color = DEFAULT_PLOT_COLOR;
 
 	public:
@@ -93,7 +93,7 @@ namespace graphics
 	{ return center_x; }
 
 	Coordinate Circle_shp::get_center_y() const
-	{ return  center_y; }
+	{ return center_y; }
 
 	Coordinate Circle_shp::get_radius() const
 	{ return radius; }

@@ -24,7 +24,8 @@ namespace graphics
 
 		void add_slide(const Figure& figure);
 		template<typename... Figures>
-		void add_slide(const Figure& figure, const Figures&... figures);
+		void add_slide(const Figure& figure,
+					   const Figures& ... figures);
 
 		unsigned nb_slides() const;
 		Figure& operator[](unsigned i);
@@ -36,24 +37,19 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	void Slide_show::add_slide(const Figure& figure)
-	{
-		slides.emplace_back(figure);
-	}
+	{ slides.emplace_back(figure); }
 
 	template<typename... Figures>
-	void Slide_show::add_slide(const Figure& figure, const Figures&... figures)
+	void Slide_show::add_slide(const Figure& figure,
+							   const Figures& ... figures)
 	{
 		Figure new_figure(figure, figures...);
 		add_slide(new_figure);
 	}
 
 	unsigned Slide_show::nb_slides() const
-	{
-		return slides.size();
-	}
+	{ return slides.size(); }
 
 	Figure& Slide_show::operator[](unsigned int i)
-	{
-		return slides[i];
-	}
+	{ return slides[i]; }
 }

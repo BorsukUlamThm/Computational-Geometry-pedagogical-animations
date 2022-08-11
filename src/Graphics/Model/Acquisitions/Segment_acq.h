@@ -17,7 +17,7 @@ namespace graphics
 	public:
 		Segment_acq() = default;
 		explicit Segment_acq(Color line_col,
-												 Color end_points_col = DEFAULT_PLOT_COLOR);
+							 Color end_points_col = DEFAULT_PLOT_COLOR);
 		Segment_acq(const Segment_acq& other);
 		~Segment_acq() = default;
 
@@ -26,7 +26,7 @@ namespace graphics
 	};
 
 	Segment_acq::Segment_acq(Color line_col,
-													 Color end_points_col)
+							 Color end_points_col)
 	{
 		line_color = line_col;
 		end_points_color = end_points_col;
@@ -39,12 +39,8 @@ namespace graphics
 	}
 
 	Color Segment_acq::get_line_color() const
-	{
-		return line_color;
-	}
+	{ return line_color; }
 
 	Color Segment_acq::get_end_points_color() const
-	{
-		return end_points_color;
-	}
+	{ return end_points_color; }
 }

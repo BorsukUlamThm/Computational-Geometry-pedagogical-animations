@@ -77,7 +77,7 @@ namespace graphics
 
 	Polygon_shp::Polygon_shp(const Polygon_shp& other) : Shape(other)
 	{
-		for(unsigned i = 0; i < other.size(); ++i)
+		for (unsigned i = 0; i < other.size(); ++i)
 		{
 			vertices.emplace_back(other[i]);
 		}
@@ -110,7 +110,7 @@ namespace graphics
 	void Polygon_shp::make_bounding_box()
 	{
 		bounding_box.clear();
-		for(auto& vertex : vertices)
+		for (auto& vertex : vertices)
 		{
 			bounding_box.extend(vertex.get_bounding_box());
 		}
@@ -121,7 +121,7 @@ namespace graphics
 	{
 		os << POLYGON_NAME << " "
 		   << polygon.size() << " ";
-		for(unsigned i = 0; i < polygon.size(); ++i)
+		for (unsigned i = 0; i < polygon.size(); ++i)
 		{
 			os << polygon[i] << " ";
 		}
@@ -138,7 +138,7 @@ namespace graphics
 		Point_shp tmp;
 		std::string dummy;
 
-		for(unsigned i = 0; i < nb_vertices; ++i)
+		for (unsigned i = 0; i < nb_vertices; ++i)
 		{
 			is >> dummy;
 			is >> tmp;

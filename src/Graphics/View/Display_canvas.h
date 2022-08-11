@@ -11,7 +11,7 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 *
+	 * The Display_canvas class handles the display of a Slide_show
 	 */
 	class Display_canvas : public Canvas
 	{
@@ -44,7 +44,7 @@ namespace graphics
 		bounding_box = figure.get_bounding_box();
 		open();
 		setup_view();
-		while(window.isOpen())
+		while (window.isOpen())
 		{
 			handle_events();
 			draw_figure(figure);
@@ -59,28 +59,23 @@ namespace graphics
 		nb_slides = slide_show.nb_slides();
 		open();
 		setup_view();
-		while(window.isOpen())
+		while (window.isOpen())
 		{
 			handle_events();
 			draw_figure(slide_show[slide_index]);
 			window.display();
 		}
-
 	}
 
 	void Display_canvas::next_slide()
 	{
-		if(slide_index < nb_slides - 1)
-		{
-			slide_index++;
-		}
+		if (slide_index < nb_slides - 1)
+		{ slide_index++; }
 	}
 
 	void Display_canvas::prev_slide()
 	{
-		if(slide_index > 0)
-		{
-			slide_index--;
-		}
+		if (slide_index > 0)
+		{ slide_index--; }
 	}
 }

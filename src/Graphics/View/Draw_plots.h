@@ -11,7 +11,7 @@ namespace graphics
 	void Canvas::draw_figure(const Figure& figure)
 	{
 		window.clear(config.colors[BACKGROUND_COLOR]);
-		for(unsigned i = 0; i < figure.nb_plots(); ++i)
+		for (unsigned i = 0; i < figure.nb_plots(); ++i)
 		{
 			figure[i]->draw(*this);
 		}
@@ -60,7 +60,7 @@ namespace graphics
 		sf::Vector2f destination(destination_x, -destination_y);
 		sf::Vector2f u(destination_x - origin_x, -destination_y + origin_y);
 		u *= 1.0f / std::sqrt(u.x * u.x + u.y * u.y);
-		sf::Vector2f v (-u.y, u.x);
+		sf::Vector2f v(-u.y, u.x);
 
 		sf::ConvexShape triangle;
 		triangle.setPointCount(3);
@@ -76,7 +76,7 @@ namespace graphics
 	{
 		unsigned n = size();
 		sf::VertexArray shape(sf::LineStrip, n + 1);
-		for(unsigned i = 0; i < n; ++i)
+		for (unsigned i = 0; i < n; ++i)
 		{
 			shape[i].position = sf::Vector2f(vertices[i].get_abscissa(),
 											 -vertices[i].get_ordinate());
@@ -84,13 +84,13 @@ namespace graphics
 		shape[n].position = sf::Vector2f(vertices[0].get_abscissa(),
 										 -vertices[0].get_ordinate());
 
-		for(unsigned i = 0; i <= n; ++i)
+		for (unsigned i = 0; i <= n; ++i)
 		{
 			shape[i].color = canvas.get_color(lines_color);
 		}
 		canvas.window.draw(shape);
 
-		for(unsigned i = 0; i < n; ++i)
+		for (unsigned i = 0; i < n; ++i)
 		{
 			vertices[i].draw(canvas);
 		}
@@ -101,7 +101,7 @@ namespace graphics
 		unsigned nb_vertices = 64;
 		float a = 4 * std::acos(0) / nb_vertices;
 		sf::VertexArray shape(sf::LineStrip, nb_vertices + 1);
-		for(unsigned i = 0; i < nb_vertices; ++i)
+		for (unsigned i = 0; i < nb_vertices; ++i)
 		{
 			Coordinate x = center_x + radius * std::cos(i * a);
 			Coordinate y = -center_y - radius * std::sin(i * a);
@@ -111,7 +111,7 @@ namespace graphics
 		Coordinate y = -center_y;
 		shape[nb_vertices].position = sf::Vector2f(x, y);
 
-		for(unsigned i = 0; i <= nb_vertices; ++i)
+		for (unsigned i = 0; i <= nb_vertices; ++i)
 		{
 			shape[i].color = canvas.get_color(color);
 		}
@@ -121,12 +121,12 @@ namespace graphics
 	void Line_shp::draw(Canvas& canvas) const
 	{
 		float x1, y1, x2, y2;
-		if(b == 0)
+		if (b == 0)
 		{
-			x1 = - c / a;
-			x2 = - c / a;
-			y1 = - canvas.view.getCenter().y + canvas.view.getSize().y / 2;
-			y2 = - canvas.view.getCenter().y - canvas.view.getSize().y / 2;
+			x1 = -c / a;
+			x2 = -c / a;
+			y1 = -canvas.view.getCenter().y + canvas.view.getSize().y / 2;
+			y2 = -canvas.view.getCenter().y - canvas.view.getSize().y / 2;
 		}
 		else
 		{

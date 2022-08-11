@@ -86,13 +86,13 @@ namespace graphics
 			colors[DEFAULT_PLOT_COLOR] = colors[LIGHT_GREY];
 
 			std::filesystem::path config_dir = gt::get_config_directory();
-			if(config_dir.empty())
+			if (config_dir.empty())
 			{ return; }
 
-			std::ifstream is (config_dir.string() + "/config");
+			std::ifstream is(config_dir.string() + "/config");
 			std::string line;
 
-			for(;!is.eof(); std::getline(is, line))
+			for (; !is.eof(); std::getline(is, line))
 			{
 				parse_config_line(line, config_dir.string());
 			}
@@ -110,37 +110,37 @@ namespace graphics
 		void parse_config_line(const std::string& line,
 							   const std::string& config_dir_path)
 		{
-			if(line.empty())
+			if (line.empty())
 			{ return; }
 
 			std::vector<std::string> words = gt::split_line(line);
-			if(words[0][0] == '#')
+			if (words[0][0] == '#')
 			{ return; }
 
-			if(words[0] == "DARK_GREY")
+			if (words[0] == "DARK_GREY")
 			{ colors[DARK_GREY] = read_color(words); }
-			if(words[0] == "LIGHT_GREY")
+			if (words[0] == "LIGHT_GREY")
 			{ colors[LIGHT_GREY] = read_color(words); }
-			if(words[0] == "RED")
+			if (words[0] == "RED")
 			{ colors[RED] = read_color(words); }
-			if(words[0] == "PURPLE")
+			if (words[0] == "PURPLE")
 			{ colors[PURPLE] = read_color(words); }
-			if(words[0] == "BLUE")
+			if (words[0] == "BLUE")
 			{ colors[BLUE] = read_color(words); }
-			if(words[0] == "GREEN")
+			if (words[0] == "GREEN")
 			{ colors[GREEN] = read_color(words); }
-			if(words[0] == "YELLOW")
+			if (words[0] == "YELLOW")
 			{ colors[YELLOW] = read_color(words); }
-			if(words[0] == "BACKGROUND_COLOR")
+			if (words[0] == "BACKGROUND_COLOR")
 			{ colors[BACKGROUND_COLOR] = read_color(words); }
-			if(words[0] == "PLOT_COLOR")
+			if (words[0] == "PLOT_COLOR")
 			{ colors[DEFAULT_PLOT_COLOR] = read_color(words); }
 
-			if(words[0] == "FONT")
+			if (words[0] == "FONT")
 			{
 				std::string font_file = config_dir_path
 										+ "/Fonts/" + words[1] + ".ttf";
-				if(!font.loadFromFile(font_file))
+				if (!font.loadFromFile(font_file))
 				{
 					std::cout << "No font found at "
 							  << font_file
@@ -148,11 +148,11 @@ namespace graphics
 				}
 			}
 
-			if(words[0] == "WIDTH")
+			if (words[0] == "WIDTH")
 			{ width = std::stoi(words[1]); }
-			if(words[0] == "HEIGHT")
+			if (words[0] == "HEIGHT")
 			{ height = std::stoi(words[1]); }
-			if(words[0] == "MARGIN")
+			if (words[0] == "MARGIN")
 			{ margin = std::stoi(words[1]); }
 		}
 

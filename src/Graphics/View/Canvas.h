@@ -145,13 +145,13 @@ namespace graphics
 	void Canvas::open()
 	{
 		window.clear(config.colors[BACKGROUND_COLOR]);
-		if(window.isOpen())
+		if (window.isOpen())
 		{ return; }
 
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
 
-		if(config.width == -1 || config.height == -1)
+		if (config.width == -1 || config.height == -1)
 		{
 			window.create(sf::VideoMode::getDesktopMode(),
 						  config.window_title,
@@ -172,7 +172,7 @@ namespace graphics
 		Coordinate y_min = -bounding_box.get_max_ordinate();
 		Coordinate y_max = -bounding_box.get_min_ordinate();
 
-		if(x_min == x_max && y_min == y_max)
+		if (x_min == x_max && y_min == y_max)
 		{
 			x_min -= 1;
 			x_max += 1;
@@ -185,7 +185,7 @@ namespace graphics
 		float x_length = (x_max - x_min) / zoom;
 		float y_length = (y_max - y_min) / zoom;
 
-		if(window_format < figure_format)
+		if (window_format < figure_format)
 		{
 			float margin_offset = 2 * config.margin / float(config.width);
 			margin_offset /= (1 - margin_offset);

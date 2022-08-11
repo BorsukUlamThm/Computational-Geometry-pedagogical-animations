@@ -6,113 +6,144 @@
 
 namespace graphics
 {
-class Acquisition_canvas : public Canvas
-{
-private:
-    enum State {BEGIN_ACQ, POINT_ACQ1, SEGMENT_ACQ1, SEGMENT_ACQ2, END_ACQ};
+	// +-----------------------------------------------------------------------+
+	// |                             DECLARATIONS                              |
+	// +-----------------------------------------------------------------------+
 
-    std::vector<Acquisition> buffer;
-    unsigned index = 0;
-    Figure acquisitions;
-    State state = BEGIN_ACQ;
+	/*!
+	 * The Acquisition_canvas class allows to acquire shapes in order to perform
+	 * algorithms on them\n
+	 * \n
+	 * Usage :\n
+	 * First you declare the needed acquisitions using the add_X_acquisition
+	 * methods. Then the acquire_buffer method opens the canvas on which you can
+	 * draw the declared acquisitions. After all acquisitions are drawn, the
+	 * method returns a Figure that contains them
+	 */
+	class Acquisition_canvas : public Canvas
+	{
+	private:
+		enum State
+		{
+			BEGIN_ACQ,
+			POINT_ACQ1,
+			SEGMENT_ACQ1,
+			SEGMENT_ACQ2,
+			END_ACQ
+		};
 
-public:
-    Acquisition_canvas() = default;
-    ~Acquisition_canvas() = default;
+		std::vector<Acquisition> buffer;
+		unsigned index = 0;
+		Figure acquisitions;
+		State state = BEGIN_ACQ;
 
-    void add_point_acquisition(Color col = DEFAULT_PLOT_COLOR,
-                               float rad = 3);
-    void add_segment_acquisition(Color line_col = DEFAULT_PLOT_COLOR,
-                                 Color end_points_col = DEFAULT_PLOT_COLOR);
+	public:
+		Acquisition_canvas() = default;
+		~Acquisition_canvas() = default;
 
-    Figure acquire_buffer();
+		void add_point_acquisition(Color col = DEFAULT_PLOT_COLOR,
+								   float rad = 3);
+		void add_segment_acquisition(Color line_col = DEFAULT_PLOT_COLOR,
+									 Color end_points_col = DEFAULT_PLOT_COLOR);
 
-private:
-    void setup_bounding_box();
-    void set_next_state();
-    void acquire_point(Coordinate& x, Coordinate& y);
+		Figure acquire_buffer();
 
-    void handle_events();
-    void handle_point(Coordinate x, Coordinate y);
-    void key_pressed_event(const sf::Event& event);
-};
+	private:
+		void setup_bounding_box();
+		void set_next_state();
+		void acquire_point(Coordinate& x,
+						   Coordinate& y);
 
-void Acquisition_canvas::add_point_acquisition(Color col, float rad)
-{
-    Point_acq point(col, rad);
-    buffer.emplace_back(point);
-}
+		void handle_events();
+		void handle_point(Coordinate x,
+						  Coordinate y);
+		void key_pressed_event(const sf::Event& event);
+	};
 
-void Acquisition_canvas::add_segment_acquisition(Color line_col,
-                                                 Color end_points_col)
-{
-    Segment_acq segment(line_col, end_points_col);
-    buffer.emplace_back(segment);
-}
 
-Figure Acquisition_canvas::acquire_buffer()
-{
-    config.margin = 0;
-    open();
-    set_next_state();
-    while(window.isOpen() && state != END_ACQ)
-    {
-        handle_events();
-        draw_figure(acquisitions);
-        window.display();
-    }
+	// +-----------------------------------------------------------------------+
+	// |                              DEFINITIONS                              |
+	// +-----------------------------------------------------------------------+
 
-    return Figure(acquisitions);
-}
+	void Acquisition_canvas::add_point_acquisition(Color col,
+												   float rad)
+	{
+		Point_acq point(col, rad);
+		buffer.emplace_back(point);
+	}
 
-void Acquisition_canvas::setup_bounding_box()
-{
-    if(acquisitions.is_empty())
-    {
-        graphics::Point_shp p(0, 0);
-        graphics::Point_shp q((Coordinate(config.width)), Coordinate(config.height));
+	void Acquisition_canvas::add_segment_acquisition(Color line_col,
+													 Color end_points_col)
+	{
+		Segment_acq segment(line_col, end_points_col);
+		buffer.emplace_back(segment);
+	}
 
-        bounding_box.clear();
-        bounding_box.extend(p.get_bounding_box());
-        bounding_box.extend(q.get_bounding_box());
-    }
-    else
-    {
-        bounding_box = Bounding_box(acquisitions.get_bounding_box());
-    }
-}
+	Figure Acquisition_canvas::acquire_buffer()
+	{
+		config.margin = 0;
+		open();
+		set_next_state();
+		while (window.isOpen() && state != END_ACQ)
+		{
+			handle_events();
+			draw_figure(acquisitions);
+			window.display();
+		}
 
-void Acquisition_canvas::set_next_state()
-{
-    if(index >= buffer.size())
-    {
-        state = END_ACQ;
-        return;
-    }
+		return Figure(acquisitions);
+	}
 
-    switch(buffer[index].type())
-    {
-        case POINT_ACQ:
-            state = POINT_ACQ1;
-            break;
+	void Acquisition_canvas::setup_bounding_box()
+	{
+		if (acquisitions.is_empty())
+		{
+			graphics::Point_shp p(0, 0);
+			graphics::Point_shp q((Coordinate(config.width)),
+								  Coordinate(config.height));
 
-        case SEGMENT_ACQ:
-            state = SEGMENT_ACQ1;
-            break;
-    }
-}
+			bounding_box.clear();
+			bounding_box.extend(p.get_bounding_box());
+			bounding_box.extend(q.get_bounding_box());
+		}
+		else
+		{
+			bounding_box = Bounding_box(acquisitions.get_bounding_box());
+		}
+	}
 
-void Acquisition_canvas::acquire_point(Coordinate& x, Coordinate& y)
-{
-    float ratio_x = mouse_x / float(config.width);
-    float ratio_y = mouse_y / float(config.height);
+	void Acquisition_canvas::set_next_state()
+	{
+		if (index >= buffer.size())
+		{
+			state = END_ACQ;
+			return;
+		}
 
-    float view_size_x = view.getSize().x;
-    float view_size_y = view.getSize().y;
-    float xm = view.getCenter().x - view.getSize().x / 2;
-    float ym = view.getCenter().y - view.getSize().y / 2;
+		switch (buffer[index].type())
+		{
+			case POINT_ACQ:
+				state = POINT_ACQ1;
+				break;
 
-    x = xm + ratio_x * view_size_x;
-    y = -ym - ratio_y * view_size_y;
-}
+			case SEGMENT_ACQ:
+				state = SEGMENT_ACQ1;
+				break;
+		}
+	}
+
+	void Acquisition_canvas::acquire_point(Coordinate& x,
+										   Coordinate& y)
+	{
+		float ratio_x = mouse_x / float(config.width);
+		float ratio_y = mouse_y / float(config.height);
+
+		float view_size_x = view.getSize().x;
+		float view_size_y = view.getSize().y;
+		float xm = view.getCenter().x - view.getSize().x / 2;
+		float ym = view.getCenter().y - view.getSize().y / 2;
+
+		x = xm + ratio_x * view_size_x;
+		y = -ym - ratio_y * view_size_y;
+	}
 }

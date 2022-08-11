@@ -7,6 +7,7 @@
 #include "Graphics/Model/Global_variables.h"
 #include "Graphics/Model/Bounding_box.h"
 
+
 namespace graphics
 {
 	class Canvas;
