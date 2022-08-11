@@ -193,34 +193,22 @@ namespace graphics
 	}
 
 	Bounding_box Figure::get_bounding_box() const
-	{
-		return bounding_box;
-	}
+	{ return bounding_box; }
 
 	Coordinate Figure::get_min_abscissa() const
-	{
-		return bounding_box.get_min_abscissa();
-	}
+	{ return bounding_box.get_min_abscissa(); }
 
 	Coordinate Figure::get_max_abscissa() const
-	{
-		return bounding_box.get_max_abscissa();
-	}
+	{ return bounding_box.get_max_abscissa(); }
 
 	Coordinate Figure::get_min_ordinate() const
-	{
-		return bounding_box.get_min_ordinate();
-	}
+	{ return bounding_box.get_min_ordinate(); }
 
 	Coordinate Figure::get_max_ordinate() const
-	{
-		return bounding_box.get_max_ordinate();
-	}
+	{ return bounding_box.get_max_ordinate(); }
 
 	Plot_ptr Figure::get_last_plot() const
-	{
-		return plots.back();
-	}
+	{ return plots.back(); }
 
 	void Figure::add_point(const Point_shp& point)
 	{
@@ -545,19 +533,13 @@ namespace graphics
 	}
 
 	unsigned Figure::nb_plots() const
-	{
-		return plots.size();
-	}
+	{ return plots.size(); }
 
 	bool Figure::is_empty() const
-	{
-		return nb_plots() == 0;
-	}
+	{ return nb_plots() == 0; }
 
 	const Plot_ptr& Figure::operator[](unsigned int i) const
-	{
-		return plots[i];
-	}
+	{ return plots[i]; }
 
 	std::istream& operator>>(std::istream& is,
 			Figure& figure)

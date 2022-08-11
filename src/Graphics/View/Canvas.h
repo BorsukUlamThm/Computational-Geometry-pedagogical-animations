@@ -75,14 +75,6 @@ namespace graphics
 		void open();
 		void setup_view();
 
-//		void draw_point(const Point_shp& point);
-//		void draw_segment(const Segment_shp& segment);
-//		void draw_vector(const Vector_shp& vector);
-//		void draw_polygon(const Polygon_shp& polygon);
-//		void draw_circle(const Circle_shp& circle);
-//		void draw_line(const Line_shp& line);
-//		void draw_text(const Text_shp& text);
-
 		void mouse_wheel_scrolled_event(const sf::Event& event);
 		void mouse_button_pressed_event(const sf::Event& event);
 		void mouse_button_released_event(const sf::Event& event);
@@ -103,92 +95,59 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	std::string Canvas::get_title() const
-	{
-		return config.window_title;
-	}
+	{ return config.window_title; }
 
 	sf::Color Canvas::get_color(Color col) const
-	{
-		return config.get_color(col);
-	}
+	{ return config.get_color(col); }
 
 	sf::Color Canvas::get_background_color() const
-	{
-		return config.colors[BACKGROUND_COLOR];
-	}
+	{ return config.colors[BACKGROUND_COLOR]; }
 
 	sf::Color Canvas::get_default_plot_color() const
-	{
-		return config.colors[DEFAULT_PLOT_COLOR];
-	}
+	{ return config.colors[DEFAULT_PLOT_COLOR]; }
 
 	sf::Font Canvas::get_font() const
-	{
-		return config.font;
-	}
+	{ return config.font; }
 
 	unsigned Canvas::get_width() const
-	{
-		return config.width;
-	}
+	{ return config.width; }
 
 	unsigned Canvas::get_height() const
-	{
-		return config.height;
-	}
+	{ return config.height; }
 
 	unsigned Canvas::get_margin() const
-	{
-		return config.margin;
-	}
+	{ return config.margin; }
 
 	void Canvas::set_title(const std::string& new_title)
-	{
-		config.window_title = new_title;
-	}
+	{ config.window_title = new_title; }
 
 	void Canvas::set_color(Color col, const sf::Color& new_col)
-	{
-		config.colors[col] = new_col;
-	}
+	{ config.colors[col] = new_col; }
 
 	void Canvas::set_background_color(const sf::Color& new_color)
-	{
-		config.colors[BACKGROUND_COLOR] = new_color;
-	}
+	{ config.colors[BACKGROUND_COLOR] = new_color; }
 
 	void Canvas::set_default_plot_color(const sf::Color& new_color)
-	{
-		config.colors[DEFAULT_PLOT_COLOR] = new_color;
-	}
+	{ config.colors[DEFAULT_PLOT_COLOR] = new_color; }
 
 	void Canvas::set_font(const sf::Font& new_font)
-	{
-		config.font = new_font;
-	}
+	{ config.font = new_font; }
 
 	void Canvas::set_width(unsigned& new_width)
-	{
-		config.width = new_width;
-	}
+	{ config.width = new_width; }
 
 	void Canvas::set_height(unsigned& new_height)
-	{
-		config.height = new_height;
-	}
+	{ config.height = new_height; }
 
 	void Canvas::set_margin(unsigned& new_margin)
-	{
-		config.margin = new_margin;
-	}
+	{ config.margin = new_margin; }
 
 	void Canvas::open()
 	{
 		window.clear(config.colors[BACKGROUND_COLOR]);
 		if(window.isOpen())
-		{
-			return;
-		}
+		{ return; }
+
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
 
@@ -208,40 +167,46 @@ namespace graphics
 
 	void Canvas::setup_view()
 	{
-		Coordinate xm = bounding_box.get_min_abscissa();
-		Coordinate xM = bounding_box.get_max_abscissa();
-		Coordinate ym = -bounding_box.get_max_ordinate();
-		Coordinate yM = -bounding_box.get_min_ordinate();
+		Coordinate x_min = bounding_box.get_min_abscissa();
+		Coordinate x_max = bounding_box.get_max_abscissa();
+		Coordinate y_min = -bounding_box.get_max_ordinate();
+		Coordinate y_max = -bounding_box.get_min_ordinate();
 
-		if(xm == xM && ym == yM)
+		if(x_min == x_max && y_min == y_max)
 		{
-			xm -= 1;
-			xM += 1;
-			ym -= 1;
-			yM += 1;
+			x_min -= 1;
+			x_max += 1;
+			y_min -= 1;
+			y_max += 1;
 		}
 
 		float window_format = float(config.width) / float(config.height);
-		float figure_format = (xM - xm) / (yM - ym);
+		float figure_format = (x_max - x_min) / (y_max - y_min);
+		float x_length = (x_max - x_min) / zoom;
+		float y_length = (y_max - y_min) / zoom;
+
 		if(window_format < figure_format)
 		{
 			float margin_offset = 2 * config.margin / float(config.width);
 			margin_offset /= (1 - margin_offset);
-			margin_offset *= (xM - xm) / zoom;
-			view.setSize(margin_offset + (xM - xm) / zoom,
-						 margin_offset + (xM - xm) / window_format / zoom);
+			margin_offset *= x_length;
+			view.setSize(margin_offset + x_length,
+						 margin_offset + x_length / window_format);
 		}
 		else
 		{
 			float margin_offset = 2 * config.margin / float(config.height);
 			margin_offset /= (1 - margin_offset);
-			margin_offset *= (xM - xm) / zoom;
-			view.setSize(margin_offset + (yM - ym) * window_format / zoom,
-						 margin_offset + (yM - ym) / zoom);
+			margin_offset *= x_length;
+			view.setSize(margin_offset + y_length * window_format,
+						 margin_offset + y_length);
 		}
+
 		float ratio = view.getSize().x / float(config.width);
-		view.setCenter(-ratio * (offset_x + hold_offset_x) + (xm + xM) / 2,
-					   -ratio * (offset_y + hold_offset_y) + (ym + yM) / 2);
+		view.setCenter(-ratio * (offset_x + hold_offset_x)
+					   + (x_min + x_max) / 2,
+					   -ratio * (offset_y + hold_offset_y)
+					   + (y_min + y_max) / 2);
 
 		window.setView(view);
 	}

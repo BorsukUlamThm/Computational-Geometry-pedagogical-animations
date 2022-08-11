@@ -67,7 +67,7 @@ namespace general_tools
 	 * @param line a parsed line from a config file
 	 * @return the list of the words separated by whitespaces
 	 */
-	std::vector<std::string> split_line(std::string& line)
+	std::vector<std::string> split_line(const std::string& line)
 	{
 		std::istringstream iss(line);
 		std::vector<std::string> res;

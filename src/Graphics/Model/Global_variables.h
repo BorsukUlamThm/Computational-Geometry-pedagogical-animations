@@ -94,57 +94,11 @@ namespace graphics
 
 			for(;!is.eof(); std::getline(is, line))
 			{
-				if(line.empty())
-				{ continue; }
-
-				std::vector<std::string> words = gt::split_line(line);
-				if(words[0][0] == '#')
-				{ continue; }
-
-				if(words[0] == "DARK_GREY")
-				{ colors[DARK_GREY] = read_color(words); }
-				if(words[0] == "LIGHT_GREY")
-				{ colors[LIGHT_GREY] = read_color(words); }
-				if(words[0] == "RED")
-				{ colors[RED] = read_color(words); }
-				if(words[0] == "PURPLE")
-				{ colors[PURPLE] = read_color(words); }
-				if(words[0] == "BLUE")
-				{ colors[BLUE] = read_color(words); }
-				if(words[0] == "GREEN")
-				{ colors[GREEN] = read_color(words); }
-				if(words[0] == "YELLOW")
-				{ colors[YELLOW] = read_color(words); }
-				if(words[0] == "BACKGROUND_COLOR")
-				{ colors[BACKGROUND_COLOR] = read_color(words); }
-				if(words[0] == "PLOT_COLOR")
-				{ colors[DEFAULT_PLOT_COLOR] = read_color(words); }
-
-				if(words[0] == "FONT")
-				{
-					std::string font_file = config_dir.string()
-											+ "/Fonts/" + words[1] + ".ttf";
-					if(!font.loadFromFile(font_file))
-					{
-						std::cout << "No font found at "
-								  << font_file
-								  << std::endl;
-					}
-				}
-
-				if(words[0] == "WIDTH")
-				{ width = std::stoi(words[1]); }
-				if(words[0] == "HEIGHT")
-				{ height = std::stoi(words[1]); }
-				if(words[0] == "MARGIN")
-				{ margin = std::stoi(words[1]); }
+				parse_config_line(line, config_dir.string());
 			}
+			parse_config_line(line, config_dir.string());
 		}
 
-		/*!
-		 * @param words words parsed from a line in a config file
-		 * @return color defined from the r g b values
-		 */
 		static sf::Color read_color(const std::vector<std::string>& words)
 		{
 			unsigned r = std::stoi(words[1]);
@@ -153,16 +107,59 @@ namespace graphics
 			return sf::Color(r, g, b);
 		}
 
-		/*!
-		 * @param col an available colour
-		 * @return the SFML colour defined by the Config
-		 */
+		void parse_config_line(const std::string& line,
+							   const std::string& config_dir_path)
+		{
+			if(line.empty())
+			{ return; }
+
+			std::vector<std::string> words = gt::split_line(line);
+			if(words[0][0] == '#')
+			{ return; }
+
+			if(words[0] == "DARK_GREY")
+			{ colors[DARK_GREY] = read_color(words); }
+			if(words[0] == "LIGHT_GREY")
+			{ colors[LIGHT_GREY] = read_color(words); }
+			if(words[0] == "RED")
+			{ colors[RED] = read_color(words); }
+			if(words[0] == "PURPLE")
+			{ colors[PURPLE] = read_color(words); }
+			if(words[0] == "BLUE")
+			{ colors[BLUE] = read_color(words); }
+			if(words[0] == "GREEN")
+			{ colors[GREEN] = read_color(words); }
+			if(words[0] == "YELLOW")
+			{ colors[YELLOW] = read_color(words); }
+			if(words[0] == "BACKGROUND_COLOR")
+			{ colors[BACKGROUND_COLOR] = read_color(words); }
+			if(words[0] == "PLOT_COLOR")
+			{ colors[DEFAULT_PLOT_COLOR] = read_color(words); }
+
+			if(words[0] == "FONT")
+			{
+				std::string font_file = config_dir_path
+										+ "/Fonts/" + words[1] + ".ttf";
+				if(!font.loadFromFile(font_file))
+				{
+					std::cout << "No font found at "
+							  << font_file
+							  << std::endl;
+				}
+			}
+
+			if(words[0] == "WIDTH")
+			{ width = std::stoi(words[1]); }
+			if(words[0] == "HEIGHT")
+			{ height = std::stoi(words[1]); }
+			if(words[0] == "MARGIN")
+			{ margin = std::stoi(words[1]); }
+		}
+
 		sf::Color get_color(Color col) const
 		{
 			if (col < NB_COLORS)
-			{
-				return colors[col];
-			}
+			{ return colors[col]; }
 
 			return sf::Color(0, 0, 0);
 		}
