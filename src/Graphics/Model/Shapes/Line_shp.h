@@ -13,11 +13,11 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * Contains the needed information to draw a line\n
-	 * \n
-	 * -> parameters a b and c such that the line
-	 *    has equation ax + by + c = 0\n
-	 * -> color\n
+	 * A Line_shp is a line with equation ax + by + c = 0 drawn on a Canvas\n
+	 * It is defined by\n
+	 *
+	 * - The three numbers a, b, c
+	 * - The color of the line on the Canvas
 	 */
 	class Line_shp : public Shape
 	{
@@ -65,22 +65,21 @@ namespace graphics
 		Coordinate get_c() const;
 		Color get_color() const;
 
-		Coordinate get_min_abscissa() const override;
-		Coordinate get_max_abscissa() const override;
-		Coordinate get_min_ordinate() const override;
-		Coordinate get_max_ordinate() const override;
-
 		void draw(Canvas& canvas) const override;
 
-		friend std::istream& operator>>(std::istream& is,
-										Line_shp& line);
-
 	private:
+		// no need to have a make_bounding_box here
+		// since the line is unbounded
+
 		void aux_constructor(const Coordinate& x1,
 							 const Coordinate& y1,
 							 const Coordinate& x2,
 							 const Coordinate& y2,
 							 Color col);
+
+	public:
+		friend std::istream& operator>>(std::istream& is,
+										Line_shp& line);
 	};
 
 
@@ -99,16 +98,12 @@ namespace graphics
 		color = col;
 	}
 
-	void Line_shp::aux_constructor(const Coordinate& x1,
-								   const Coordinate& y1,
-								   const Coordinate& x2,
-								   const Coordinate& y2,
-								   Color col)
+	Line_shp::Line_shp(const Line_shp& other) : Shape(other)
 	{
-		a = y2 - y1;
-		b = x1 - x2;
-		c = - a * x1 - b * y1;
-		color = col;
+		a = Coordinate(other.a);
+		b = Coordinate(other.b);
+		c = Coordinate(other.c);
+		color = other.color;
 	}
 
 	Line_shp::Line_shp(const Segment_shp& segment,
@@ -141,52 +136,28 @@ namespace graphics
 		aux_constructor(x1, y1, x2, y2, col);
 	}
 
-	Line_shp::Line_shp(const Line_shp& other)
-	{
-		a = Coordinate(other.a);
-		b = Coordinate(other.b);
-		c = Coordinate(other.c);
-		color = other.color;
-	}
-
 	Coordinate Line_shp::get_a() const
-	{
-		return a;
-	}
+	{ return a; }
 
 	Coordinate Line_shp::get_b() const
-	{
-		return b;
-	}
+	{ return b; }
 
 	Coordinate Line_shp::get_c() const
-	{
-		return c;
-	}
+	{ return c; }
 
 	Color Line_shp::get_color() const
-	{
-		return color;
-	}
+	{ return color; }
 
-	Coordinate Line_shp::get_min_abscissa() const
+	void Line_shp::aux_constructor(const Coordinate& x1,
+								   const Coordinate& y1,
+								   const Coordinate& x2,
+								   const Coordinate& y2,
+								   Color col)
 	{
-		return MAX_COORDINATE;
-	}
-
-	Coordinate Line_shp::get_max_abscissa() const
-	{
-		return MIN_COORDINATE;
-	}
-
-	Coordinate Line_shp::get_min_ordinate() const
-	{
-		return MAX_COORDINATE;
-	}
-
-	Coordinate Line_shp::get_max_ordinate() const
-	{
-		return MIN_COORDINATE;
+		a = y2 - y1;
+		b = x1 - x2;
+		c = - a * x1 - b * y1;
+		color = col;
 	}
 
 	std::ostream& operator<<(std::ostream& os,

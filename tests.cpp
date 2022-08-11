@@ -1,56 +1,31 @@
 #include "Graphics/View/View.h"
+#include <boost/program_options.hpp>
 
-int main()
+namespace po = boost::program_options;
+using namespace std;
+
+int main(int argc, const char** argv)
 {
-	graphics::Point_shp point_plot(1, 1);
-	graphics::Segment_shp segment_plot(1, 2, 4, 5);
-	graphics::Vector_shp vector_plot(1, 2, 4, 5);
-	graphics::Polygon_shp polygon_plot;
+    // Declare the supported options.
+    po::options_description desc("Allowed options");
+    desc.add_options()
+            ("help", "produce help message")
+            ("compression", po::value<int>(), "set compression level")
+            ;
 
-	graphics::Bounding_box bounding_box;
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, desc), vm);
+    po::notify(vm);
 
-	bounding_box.extend(point_plot);
-	bounding_box.extend(vector_plot);
+    if (vm.count("help")) {
+        cout << desc << "\n";
+        return 1;
+    }
 
-	std::cout << bounding_box.get_min_abscissa() << " "
-			  << bounding_box.get_max_abscissa() << " "
-			  << bounding_box.get_min_ordinate() << " "
-			  << bounding_box.get_max_ordinate() << std::endl;
-
-
-	return 0;
+    if (vm.count("compression")) {
+        cout << "Compression level was set to "
+             << vm["compression"].as<int>() << ".\n";
+    } else {
+        cout << "Compression level was not set.\n";
+    }
 }
-
-
-
-
-
-
-//namespace po = boost::program_options;
-//using namespace std;
-//
-//int main(int argc, const char** argv)
-//{
-//    // Declare the supported options.
-//    po::options_description desc("Allowed options");
-//    desc.add_options()
-//            ("help", "produce help message")
-//            ("compression", po::value<int>(), "set compression level")
-//            ;
-//
-//    po::variables_map vm;
-//    po::store(po::parse_command_line(argc, argv, desc), vm);
-//    po::notify(vm);
-//
-//    if (vm.count("help")) {
-//        cout << desc << "\n";
-//        return 1;
-//    }
-//
-//    if (vm.count("compression")) {
-//        cout << "Compression level was set to "
-//             << vm["compression"].as<int>() << ".\n";
-//    } else {
-//        cout << "Compression level was not set.\n";
-//    }
-//}

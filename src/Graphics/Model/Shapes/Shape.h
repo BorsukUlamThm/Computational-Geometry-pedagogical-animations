@@ -5,6 +5,7 @@
 #include <SFML/Graphics.hpp>
 /** @endcond */
 #include "Graphics/Model/Global_variables.h"
+#include "Graphics/Model/Bounding_box.h"
 
 namespace graphics
 {
@@ -14,16 +15,34 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * Wrapper class for all the plots
+	 * Abstract class for the drawable shapes\n
+	 *
+	 * - Point_shp
+	 * - Segment_shp
+	 * - Line_shp
+	 * - Circle_shp
+	 * - Polygon_shp
+	 * - Vector_shp
+	 * - Text_shp
+	 *
+	 * Each Shape has a Bounding_box which is the smallest rectangle that
+	 * contains the Shape\n
 	 */
 	class Shape
 	{
-	public:
-		virtual Coordinate get_min_abscissa() const = 0;
-		virtual Coordinate get_max_abscissa() const = 0;
-		virtual Coordinate get_min_ordinate() const = 0;
-		virtual Coordinate get_max_ordinate() const = 0;
+	protected:
+		Bounding_box bounding_box;
 
+	public:
+		Bounding_box get_bounding_box() const;
 		virtual void draw(Canvas& canvas) const = 0;
 	};
+
+
+	// +-----------------------------------------------------------------------+
+	// |                              DEFINITIONS                              |
+	// +-----------------------------------------------------------------------+
+
+	Bounding_box Shape::get_bounding_box() const
+	{ return bounding_box; }
 }

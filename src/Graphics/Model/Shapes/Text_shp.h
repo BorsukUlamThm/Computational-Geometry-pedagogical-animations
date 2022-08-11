@@ -12,13 +12,29 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * Contains the needed information to draw a line\n
-	 * \n
-	 * -> content of the text\n
-	 * -> coordinate where the text should be displayed\n
-	 * -> font size, in pixel\n
-	 * -> vertical and horizontal offsets, in pixels\n
-	 * -> color\n
+	 * A Text_shape is a text drawn on a Canvas\n
+	 * It is designed to add some information about shapes. For example in order
+	 * to add a label above a point\n
+	 * It is defined by\n
+	 *
+	 * - A std::string with its content
+	 * - The x y coordinate of the place in the plane where the text should be
+	 * - The font size on the Canvas
+	 * - An offset, in pixel to move the text on the Canvas
+	 * - The text color
+	 *
+	 * For example, if you have a Point_shp point that you wish to label "Foo",
+	 * you can use a Text_shp as with content "Foo", the same x y coordinate as
+	 * point, and an a y offset large enough to place the text above the point
+	 * on the canvas\n
+	 * Actually you dont need to do this, you can use the constructor\n
+	 * ```C
+	 * Text_shp(const std::string& text,
+	 *          const Point_shp& point,
+	 *          unsigned size = 16,
+	 *          const Color col = DEFAULT_PLOT_COLOR)
+	 * ```
+	 * which was already designed for this usecase, but it gives you an idea\n
 	 */
 	class Text_shp : public Shape
 	{
@@ -33,7 +49,7 @@ namespace graphics
 
 	public:
 		// standard constructors
-		Text_shp() = default;
+		Text_shp();
 		Text_shp(const std::string& text,
 				 const Coordinate& x,
 				 const Coordinate& y,
@@ -79,17 +95,10 @@ namespace graphics
 		float get_offset_y() const;
 		Color get_color() const;
 
-		Coordinate get_min_abscissa() const override;
-		Coordinate get_max_abscissa() const override;
-		Coordinate get_min_ordinate() const override;
-		Coordinate get_max_ordinate() const override;
-
 		void draw(Canvas& canvas) const override;
 
-		friend std::istream& operator>>(std::istream& is,
-										Text_shp& text);
-
 	private:
+		void make_bounding_box();
 		void aux_constructor(const std::string& text,
 							 const Coordinate& x,
 							 const Coordinate& y,
@@ -97,6 +106,10 @@ namespace graphics
 							 float off_x,
 							 float off_y,
 							 Color col);
+
+	public:
+		friend std::istream& operator>>(std::istream& is,
+										Text_shp& text);
 	};
 
 
@@ -104,21 +117,9 @@ namespace graphics
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	void Text_shp::aux_constructor(const std::string& text,
-								   const Coordinate& x,
-								   const Coordinate& y,
-								   unsigned char_size,
-								   float off_x,
-								   float off_y,
-								   Color col)
+	Text_shp::Text_shp()
 	{
-		content = std::string(text);
-		abscissa = Coordinate(x);
-		ordinate = Coordinate(y);
-		size = char_size;
-		offset_x = off_x;
-		offset_y = off_y;
-		color = col;
+		make_bounding_box();
 	}
 
 	Text_shp::Text_shp(const std::string& text,
@@ -130,6 +131,17 @@ namespace graphics
 					   Color col)
 	{
 		aux_constructor(text, x, y, size, off_x, off_y, col);
+	}
+
+	Text_shp::Text_shp(const Text_shp& other) : Shape(other)
+	{
+		content = std::string(other.content);
+		abscissa = Coordinate(other.abscissa);
+		ordinate = Coordinate(other.ordinate);
+		size = other.size;
+		offset_x = other.offset_x;
+		offset_y = other.offset_y;
+		color = other.color;
 	}
 
 	Text_shp::Text_shp(const std::string& text,
@@ -165,70 +177,49 @@ namespace graphics
 						0, 0, col);
 	}
 
-	Text_shp::Text_shp(const Text_shp& other)
-	{
-		content = std::string(other.content);
-		abscissa = Coordinate(other.abscissa);
-		ordinate = Coordinate(other.ordinate);
-		size = other.size;
-		offset_x = other.offset_x;
-		offset_y = other.offset_y;
-		color = other.color;
-	}
-
 	std::string Text_shp::get_content() const
-	{
-		return content;
-	}
+	{ return content; }
 
 	Coordinate Text_shp::get_abscissa() const
-	{
-		return abscissa;
-	}
+	{ return abscissa; }
 
 	Coordinate Text_shp::get_ordinate() const
-	{
-		return ordinate;
-	}
+	{ return ordinate; }
 
 	unsigned Text_shp::get_size() const
-	{
-		return size;
-	}
+	{ return size; }
 
 	float Text_shp::get_offset_x() const
-	{
-		return offset_x;
-	}
+	{ return offset_x; }
 
 	float Text_shp::get_offset_y() const
-	{
-		return offset_y;
-	}
+	{ return offset_y; }
 
 	Color Text_shp::get_color() const
+	{ return color; }
+
+	void Text_shp::make_bounding_box()
 	{
-		return color;
+		bounding_box = Bounding_box(abscissa, abscissa, ordinate, ordinate);
 	}
 
-	Coordinate Text_shp::get_min_abscissa() const
+	void Text_shp::aux_constructor(const std::string& text,
+								   const Coordinate& x,
+								   const Coordinate& y,
+								   unsigned char_size,
+								   float off_x,
+								   float off_y,
+								   Color col)
 	{
-		return abscissa;
-	}
+		content = std::string(text);
+		abscissa = Coordinate(x);
+		ordinate = Coordinate(y);
+		size = char_size;
+		offset_x = off_x;
+		offset_y = off_y;
+		color = col;
 
-	Coordinate Text_shp::get_max_abscissa() const
-	{
-		return abscissa;
-	}
-
-	Coordinate Text_shp::get_min_ordinate() const
-	{
-		return ordinate;
-	}
-
-	Coordinate Text_shp::get_max_ordinate() const
-	{
-		return ordinate;
+		make_bounding_box();
 	}
 
 	std::ostream& operator<<(std::ostream& os,
@@ -268,10 +259,10 @@ namespace graphics
 		}
 
 		is >> text.abscissa
-		>> text.ordinate
-		>> text.size
-		>> text.offset_x
-		>> text.offset_y;
+		   >> text.ordinate
+		   >> text.size
+		   >> text.offset_x
+		   >> text.offset_y;
 
 		return is;
 	}

@@ -8,7 +8,6 @@
 #include "Shapes/Circle_shp.h"
 #include "Shapes/Line_shp.h"
 #include "Shapes/Text_shp.h"
-#include "Bounding_box.h"
 
 
 namespace graphics
@@ -21,9 +20,8 @@ namespace graphics
 
 	/*!
 	 * A Figure is a set of Shape that will be drawn on a Canvas\n
-	 * The plots are drawn in the same order they were added\n
-	 * All the add_X methods add an X plot
-	 * calling the appropriate constructor with the same signature
+	 * The shapes are drawn in the same order they were added\n
+	 * All the add_X methods add an X shape calling the appropriate constructor
 	 */
 	class Figure
 	{
@@ -228,7 +226,7 @@ namespace graphics
 	{
 		Plot_ptr plot = std::make_shared<Point_shp>(point);
 		plots.push_back(plot);
-		bounding_box.extend(point);
+		bounding_box.extend(point.get_bounding_box());
 	}
 
 	void Figure::add_point(const Coordinate& x,
@@ -252,7 +250,7 @@ namespace graphics
 	{
 		Plot_ptr plot = std::make_shared<Segment_shp>(segment);
 		plots.push_back(plot);
-		bounding_box.extend(segment);
+		bounding_box.extend(segment.get_bounding_box());
 	}
 
 	void Figure::add_segment(const Point_shp& ogn,
@@ -287,7 +285,7 @@ namespace graphics
 	{
 		Plot_ptr plot = std::make_shared<Vector_shp>(vector);
 		plots.push_back(plot);
-		bounding_box.extend(vector);
+		bounding_box.extend(vector.get_bounding_box());
 	}
 
 	void Figure::add_vector(const Coordinate& ogn_x,
@@ -327,7 +325,7 @@ namespace graphics
 	{
 		Plot_ptr plot = std::make_shared<Polygon_shp>(polygon);
 		plots.push_back(plot);
-		bounding_box.extend(polygon);
+		bounding_box.extend(polygon.get_bounding_box());
 	}
 
 	void Figure::add_polygon(const std::vector<Point_shp>& vertices,
@@ -349,7 +347,7 @@ namespace graphics
 	{
 		Plot_ptr plot = std::make_shared<Circle_shp>(circle);
 		plots.push_back(plot);
-		bounding_box.extend(circle);
+		bounding_box.extend(circle.get_bounding_box());
 	}
 
 	void Figure::add_circle(const Coordinate& x,
@@ -373,7 +371,7 @@ namespace graphics
 	{
 		Plot_ptr plot = std::make_shared<Line_shp>(line);
 		plots.push_back(plot);
-		bounding_box.extend(line);
+		bounding_box.extend(line.get_bounding_box());
 	}
 
 	void Figure::add_line(const Coordinate& a,
@@ -436,7 +434,7 @@ namespace graphics
 	{
 		Plot_ptr plot = std::make_shared<Text_shp>(text);
 		plots.push_back(plot);
-		bounding_box.extend(text);
+		bounding_box.extend(text.get_bounding_box());
 	}
 
 	void Figure::add_text(const std::string& text,
@@ -483,8 +481,8 @@ namespace graphics
 		for(unsigned i = 0; i < other.nb_plots(); ++i)
 		{
 			plots.push_back(other[i]);
-			bounding_box.extend(*other[i]);
 		}
+		bounding_box.extend(other.bounding_box);
 	}
 
 	template<typename... Figures>
@@ -501,10 +499,10 @@ namespace graphics
 		{
 			return;
 		}
-		Coordinate xM = plots.back()->get_max_abscissa();
-		Coordinate xm = plots.back()->get_min_abscissa();
-		Coordinate yM = plots.back()->get_max_ordinate();
-		Coordinate ym = plots.back()->get_min_ordinate();
+		Coordinate xM = plots.back()->get_bounding_box().get_max_abscissa();
+		Coordinate xm = plots.back()->get_bounding_box().get_min_abscissa();
+		Coordinate yM = plots.back()->get_bounding_box().get_max_ordinate();
+		Coordinate ym = plots.back()->get_bounding_box().get_min_ordinate();
 
 		if(xM == get_max_abscissa() || xm == get_min_abscissa() ||
 		   yM == get_max_ordinate() || ym == get_min_ordinate())
@@ -535,7 +533,7 @@ namespace graphics
 			bounding_box.clear();
 			for(unsigned i = 0; i < nb_plots(); ++i)
 			{
-				bounding_box.extend(*plots[i]);
+				bounding_box.extend(plots[i]->get_bounding_box());
 			}
 		}
 	}
@@ -568,10 +566,10 @@ namespace graphics
 		std::string plot_name;
 		Point_shp point;
 		Segment_shp segment;
-		Vector_shp vector;
-		Polygon_shp polygon;
-		Circle_shp circle;
 		Line_shp line;
+		Circle_shp circle;
+		Polygon_shp polygon;
+		Vector_shp vector;
 		Text_shp text;
 
 		while(!is.eof())
@@ -587,25 +585,25 @@ namespace graphics
 				is >> segment;
 				figure.add_segment(segment);
 			}
-			else if(plot_name == VECTOR_NAME)
+			else if(plot_name == LINE_NAME)
 			{
-				is >> vector;
-				figure.add_vector(vector);
-			}
-			else if(plot_name == POLYGON_NAME)
-			{
-				is >> polygon;
-				figure.add_polygon(polygon);
+				is >> line;
+				figure.add_line(line);
 			}
 			else if(plot_name == CIRCLE_NAME)
 			{
 				is >> circle;
 				figure.add_circle(circle);
 			}
-			else if(plot_name == LINE_NAME)
+			else if(plot_name == POLYGON_NAME)
 			{
-				is >> line;
-				figure.add_line(line);
+				is >> polygon;
+				figure.add_polygon(polygon);
+			}
+			else if(plot_name == VECTOR_NAME)
+			{
+				is >> vector;
+				figure.add_vector(vector);
 			}
 			else if(plot_name == TEXT_NAME)
 			{

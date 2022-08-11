@@ -10,10 +10,11 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * Contains the needed information to draw a circle\n
-	 * \n
-	 * -> endpoints of the segment\n
-	 * -> color
+	 * A Segment_shp is a segment drawn on a Canvas\n
+	 * It is defined by\n
+	 *
+	 * - Two Point_shp that represents its endpoints\n
+	 * - The color of the line between them on the Canvas\n
 	 */
 	class Segment_shp : public Shape
 	{
@@ -24,7 +25,7 @@ namespace graphics
 
 	public:
 		// standard constructors
-		Segment_shp() = default;
+		Segment_shp();
 		Segment_shp(const Point_shp& ogn,
 					const Point_shp& dst,
 					Color line_col = DEFAULT_PLOT_COLOR);
@@ -48,13 +49,12 @@ namespace graphics
 		Point_shp get_destination() const;
 		Color get_line_color() const;
 
-		Coordinate get_min_abscissa() const override;
-		Coordinate get_max_abscissa() const override;
-		Coordinate get_min_ordinate() const override;
-		Coordinate get_max_ordinate() const override;
-
 		void draw(Canvas& canvas) const override;
 
+	private:
+		void make_bounding_box();
+
+	public:
 		friend std::istream& operator>>(std::istream& is,
 										Segment_shp& segment);
 	};
@@ -64,6 +64,11 @@ namespace graphics
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
+	Segment_shp::Segment_shp()
+	{
+		make_bounding_box();
+	}
+
 	Segment_shp::Segment_shp(const Point_shp& ogn,
 							 const Point_shp& dst,
 							 Color line_col)
@@ -71,6 +76,15 @@ namespace graphics
 		origin = Point_shp(ogn);
 		destination = Point_shp(dst);
 		line_color = line_col;
+
+		make_bounding_box();
+	}
+
+	Segment_shp::Segment_shp(const Segment_shp& other) : Shape(other)
+	{
+		origin = Point_shp(other.origin);
+		destination = Point_shp(other.destination);
+		line_color = other.line_color;
 	}
 
 	Segment_shp::Segment_shp(const Coordinate& ogn_x,
@@ -83,52 +97,24 @@ namespace graphics
 		origin = Point_shp(ogn_x, ogn_y, end_points_col);
 		destination = Point_shp(dst_x, dst_y, end_points_col);
 		line_color = line_col;
-	}
 
-	Segment_shp::Segment_shp(const Segment_shp& other)
-	{
-		origin = Point_shp(other.origin);
-		destination = Point_shp(other.destination);
-		line_color = other.line_color;
+		make_bounding_box();
 	}
 
 	Point_shp Segment_shp::get_origin() const
-	{
-		return origin;
-	}
+	{ return origin; }
 
 	Point_shp Segment_shp::get_destination() const
-	{
-		return destination;
-	}
+	{ return destination; }
 
 	Color Segment_shp::get_line_color() const
-	{
-		return line_color;
-	}
+	{ return line_color; }
 
-	Coordinate Segment_shp::get_min_abscissa() const
+	void Segment_shp::make_bounding_box()
 	{
-		return std::min(origin.get_min_abscissa(),
-						destination.get_min_abscissa());
-	}
-
-	Coordinate Segment_shp::get_max_abscissa() const
-	{
-		return std::max(origin.get_max_abscissa(),
-						destination.get_max_abscissa());
-	}
-
-	Coordinate Segment_shp::get_min_ordinate() const
-	{
-		return std::min(origin.get_min_ordinate(),
-						destination.get_min_ordinate());
-	}
-
-	Coordinate Segment_shp::get_max_ordinate() const
-	{
-		return std::max(origin.get_max_ordinate(),
-						destination.get_max_ordinate());
+		bounding_box.clear();
+		bounding_box.extend(origin.get_bounding_box());
+		bounding_box.extend(destination.get_bounding_box());
 	}
 
 	std::ostream& operator<<(std::ostream& os,

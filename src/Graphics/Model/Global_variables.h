@@ -25,10 +25,10 @@ namespace graphics
 	// Class names for serialization
 	constexpr char POINT_NAME[] = "Point";
 	constexpr char SEGMENT_NAME[] = "Segment";
-	constexpr char VECTOR_NAME[] = "Vector";
-	constexpr char POLYGON_NAME[] = "Polygon";
-	constexpr char CIRCLE_NAME[] = "Circle";
 	constexpr char LINE_NAME[] = "Line";
+	constexpr char CIRCLE_NAME[] = "Circle";
+	constexpr char POLYGON_NAME[] = "Polygon";
+	constexpr char VECTOR_NAME[] = "Vector";
 	constexpr char TEXT_NAME[] = "Text";
 
 	/*!
@@ -49,13 +49,13 @@ namespace graphics
 	};
 
 	/*!
-	 * Contains all the needed information to draw shapes\n
-	 * \n
-	 * -> r g b values of each color\n
-	 * -> default background color\n
-	 * -> default plot color\n
-	 * -> font used for writings\n
-	 * -> size of the window and a margin\n
+	 * The Config class contains all the needed information to draw shapes\n
+	 *
+	 * - r g b values of each color
+	 * - background color
+	 * - default plot color
+	 * - font used for writings
+	 * - size of the window and margin
 	 */
 	struct Config
 	{
@@ -65,9 +65,9 @@ namespace graphics
 
 		sf::Font font;
 
-		unsigned width = 1600;
-		unsigned height = 900;
-		unsigned margin = 20;
+		unsigned width = -1;
+		unsigned height = -1;
+		unsigned margin = 50;
 
 		/*!
 		 * Constructs a Config object reading the values from the config file \n
@@ -142,8 +142,8 @@ namespace graphics
 		}
 
 		/*!
-		 * @param words the words parsed from a line in a config file
-		 * @return the color defined from the r g b values
+		 * @param words words parsed from a line in a config file
+		 * @return color defined from the r g b values
 		 */
 		static sf::Color read_color(const std::vector<std::string>& words)
 		{

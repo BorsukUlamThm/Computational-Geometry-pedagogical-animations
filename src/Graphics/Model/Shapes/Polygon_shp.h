@@ -13,10 +13,11 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * Contains the needed information to draw a circle\n
-	 * \n
-	 * -> list of the vertices\n
-	 * -> color\n
+	 * A Polygon_shp is a polygon drawn on a Canvas\n
+	 * It is defined by\n
+	 *
+	 * - A vector of Point_shp that represents its vertices\n
+	 * - The color of the line between them on the Canvas\n
 	 */
 	class Polygon_shp : public Shape
 	{
@@ -25,7 +26,7 @@ namespace graphics
 		Color lines_color = DEFAULT_PLOT_COLOR;
 
 	public:
-		Polygon_shp() = default;
+		Polygon_shp();
 		explicit Polygon_shp(Color lines_col);
 		explicit Polygon_shp(const std::vector<Point_shp>& vertices,
 							 Color lines_col = DEFAULT_PLOT_COLOR);
@@ -40,13 +41,12 @@ namespace graphics
 		const Point_shp& operator[](unsigned i) const;
 		Color get_lines_color() const;
 
-		Coordinate get_min_abscissa() const override;
-		Coordinate get_max_abscissa() const override;
-		Coordinate get_min_ordinate() const override;
-		Coordinate get_max_ordinate() const override;
-
 		void draw(Canvas& canvas) const override;
 
+	private:
+		void make_bounding_box();
+
+	public:
 		friend std::istream& operator>>(std::istream& is,
 										Polygon_shp& polygon);
 	};
@@ -56,9 +56,15 @@ namespace graphics
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
+	Polygon_shp::Polygon_shp()
+	{
+		make_bounding_box();
+	}
+
 	Polygon_shp::Polygon_shp(Color lines_col)
 	{
 		lines_color = lines_col;
+		make_bounding_box();
 	}
 
 	Polygon_shp::Polygon_shp(const std::vector<Point_shp>& vertices,
@@ -66,9 +72,10 @@ namespace graphics
 	{
 		this->vertices = std::vector<Point_shp>(vertices);
 		lines_color = lines_col;
+		make_bounding_box();
 	}
 
-	Polygon_shp::Polygon_shp(const Polygon_shp& other)
+	Polygon_shp::Polygon_shp(const Polygon_shp& other) : Shape(other)
 	{
 		for(unsigned i = 0; i < other.size(); ++i)
 		{
@@ -89,63 +96,24 @@ namespace graphics
 	}
 
 	unsigned Polygon_shp::size() const
-	{
-		return vertices.size();
-	}
+	{ return vertices.size(); }
 
 	Point_shp& Polygon_shp::operator[](unsigned int i)
-	{
-		return vertices[i];
-	}
+	{ return vertices[i]; }
 
 	const Point_shp& Polygon_shp::operator[](unsigned int i) const
-	{
-		return vertices[i];
-	}
+	{ return vertices[i]; }
 
 	Color Polygon_shp::get_lines_color() const
-	{
-		return lines_color;
-	}
+	{ return lines_color; }
 
-	Coordinate Polygon_shp::get_min_abscissa() const
+	void Polygon_shp::make_bounding_box()
 	{
-		Coordinate res = vertices[0].get_min_abscissa();
-		for(unsigned i = 1; i < size(); ++i)
+		bounding_box.clear();
+		for(auto& vertex : vertices)
 		{
-			res = std::min(res, vertices[i].get_min_abscissa());
+			bounding_box.extend(vertex.get_bounding_box());
 		}
-		return res;
-	}
-
-	Coordinate Polygon_shp::get_max_abscissa() const
-	{
-		Coordinate res = vertices[0].get_max_abscissa();
-		for(unsigned i = 1; i < size(); ++i)
-		{
-			res = std::max(res, vertices[i].get_max_abscissa());
-		}
-		return res;
-	}
-
-	Coordinate Polygon_shp::get_min_ordinate() const
-	{
-		Coordinate res = vertices[0].get_min_ordinate();
-		for(unsigned i = 1; i < size(); ++i)
-		{
-			res = std::min(res, vertices[i].get_min_ordinate());
-		}
-		return res;
-	}
-
-	Coordinate Polygon_shp::get_max_ordinate() const
-	{
-		Coordinate res = vertices[0].get_max_ordinate();
-		for(unsigned i = 1; i < size(); ++i)
-		{
-			res = std::max(res, vertices[i].get_max_ordinate());
-		}
-		return res;
 	}
 
 	std::ostream& operator<<(std::ostream& os,

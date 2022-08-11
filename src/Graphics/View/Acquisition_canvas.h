@@ -73,8 +73,8 @@ void Acquisition_canvas::setup_bounding_box()
         graphics::Point_shp q((Coordinate(config.width)), Coordinate(config.height));
 
         bounding_box.clear();
-        bounding_box.extend(p);
-        bounding_box.extend(q);
+        bounding_box.extend(p.get_bounding_box());
+        bounding_box.extend(q.get_bounding_box());
     }
     else
     {

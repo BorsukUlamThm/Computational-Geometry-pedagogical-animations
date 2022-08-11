@@ -10,8 +10,8 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * A Slide_show is a sequence of Figure that will be
-	 * displayed in the specified order\n
+	 * A Slide_show is a sequence of Figure that will be displayed in the
+	 * specified order\n
 	 */
 	class Slide_show
 	{

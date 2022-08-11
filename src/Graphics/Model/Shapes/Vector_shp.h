@@ -10,10 +10,11 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * Contains the needed information to draw a circle\n
-	 * \n
-	 * -> coordinates of the endpoints of the vector\n
-	 * -> color
+	 * A Vector_shp is a vector drawn on a Canvas\n
+	 * It is defined by\n
+	 *
+	 * - The x y coordinates of its endpoints
+	 * - The color of the vector on the canvas
 	 */
 	class Vector_shp : public Shape
 	{
@@ -26,7 +27,7 @@ namespace graphics
 
 	public:
 		// standard constructors
-		Vector_shp() = default;
+		Vector_shp();
 		Vector_shp(const Coordinate& ogn_x,
 				   const Coordinate& ogn_y,
 				   const Coordinate& dst_x,
@@ -55,13 +56,12 @@ namespace graphics
 		Coordinate get_destination_y() const;
 		Color get_color() const;
 
-		Coordinate get_min_abscissa() const override;
-		Coordinate get_max_abscissa() const override;
-		Coordinate get_min_ordinate() const override;
-		Coordinate get_max_ordinate() const override;
-
 		void draw(Canvas& canvas) const override;
 
+	private:
+		void make_bounding_box();
+
+	public:
 		friend std::istream& operator>>(std::istream& is,
 										Vector_shp& vector);
 	};
@@ -70,6 +70,11 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
+
+	Vector_shp::Vector_shp()
+	{
+		make_bounding_box();
+	}
 
 	Vector_shp::Vector_shp(const Coordinate& ogn_x,
 						   const Coordinate& ogn_y,
@@ -82,9 +87,11 @@ namespace graphics
 		destination_x = dst_x;
 		destination_y = dst_y;
 		color = col;
+
+		make_bounding_box();
 	}
 
-	Vector_shp::Vector_shp(const Vector_shp& other)
+	Vector_shp::Vector_shp(const Vector_shp& other) : Shape(other)
 	{
 		origin_x = Coordinate(other.origin_x);
 		origin_y = Coordinate(other.origin_y);
@@ -102,6 +109,8 @@ namespace graphics
 		destination_x = dst.get_abscissa();
 		destination_y = dst.get_ordinate();
 		color = col;
+
+		make_bounding_box();
 	}
 
 	Vector_shp::Vector_shp(const Segment_shp& segment,
@@ -112,51 +121,33 @@ namespace graphics
 		destination_x = segment.get_destination().get_abscissa();
 		destination_y = segment.get_destination().get_ordinate();
 		color = col;
+
+		make_bounding_box();
 	}
 
 	Coordinate Vector_shp::get_origin_x() const
-	{
-		return origin_x;
-	}
+	{ return origin_x; }
 
 	Coordinate Vector_shp::get_origin_y() const
-	{
-		return origin_y;
-	}
+	{ return origin_y; }
 
 	Coordinate Vector_shp::get_destination_x() const
-	{
-		return destination_x;
-	}
+	{ return destination_x; }
 
 	Coordinate Vector_shp::get_destination_y() const
-	{
-		return destination_y;
-	}
+	{ return destination_y; }
 
 	Color Vector_shp::get_color() const
-	{
-		return color;
-	}
+	{ return color; }
 
-	Coordinate Vector_shp::get_min_abscissa() const
+	void Vector_shp::make_bounding_box()
 	{
-		return std::min(origin_x, destination_x);
-	}
+		Coordinate x_min = std::min(origin_x, destination_x);
+		Coordinate x_max = std::max(origin_x, destination_x);
+		Coordinate y_min = std::min(origin_y, destination_y);
+		Coordinate y_max = std::max(origin_y, destination_y);
 
-	Coordinate Vector_shp::get_max_abscissa() const
-	{
-		return std::max(origin_x, destination_x);
-	}
-
-	Coordinate Vector_shp::get_min_ordinate() const
-	{
-		return std::min(origin_y, destination_y);
-	}
-
-	Coordinate Vector_shp::get_max_ordinate() const
-	{
-		return std::max(origin_y, destination_y);
+		bounding_box = Bounding_box(x_min, x_max, y_min, y_max);
 	}
 
 	std::ostream& operator<<(std::ostream& os,

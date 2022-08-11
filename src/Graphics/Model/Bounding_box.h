@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Shapes/Shape.h"
-
-
 namespace graphics
 {
 	// +-----------------------------------------------------------------------+
@@ -10,8 +7,7 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * This class represent the smallest rectangle needed to contain
-	 * a set of plots
+	 * A Bounding_box is the smallest rectangle that contains a set of Shape
 	 */
 	class Bounding_box
 	{
@@ -23,9 +19,13 @@ namespace graphics
 
 	public:
 		Bounding_box() = default;
+		Bounding_box(const Coordinate& x_min,
+					 const Coordinate& x_max,
+					 const Coordinate& y_min,
+					 const Coordinate& y_max);
 		Bounding_box(const Bounding_box& other);
 
-		void extend(const Shape& plot);
+		void extend(const Bounding_box& other);
 		void clear();
 
 		Coordinate get_min_abscissa() const;
@@ -39,6 +39,17 @@ namespace graphics
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
+	Bounding_box::Bounding_box(const Coordinate& x_min,
+							   const Coordinate& x_max,
+							   const Coordinate& y_min,
+							   const Coordinate& y_max)
+	{
+		min_abscissa = Coordinate(x_min);
+		max_abscissa = Coordinate(x_max);
+		min_ordinate = Coordinate(y_min);
+		max_ordinate = Coordinate(y_max);
+	}
+
 	Bounding_box::Bounding_box(const Bounding_box& other)
 	{
 		min_abscissa = Coordinate(other.min_abscissa);
@@ -47,12 +58,12 @@ namespace graphics
 		max_ordinate = Coordinate(other.max_ordinate);
 	}
 
-	void Bounding_box::extend(const Shape& plot)
+	void Bounding_box::extend(const Bounding_box& other)
 	{
-		min_abscissa = std::min(min_abscissa, plot.get_min_abscissa());
-		max_abscissa = std::max(max_abscissa, plot.get_max_abscissa());
-		min_ordinate = std::min(min_ordinate, plot.get_min_ordinate());
-		max_ordinate = std::max(max_ordinate, plot.get_max_ordinate());
+		min_abscissa = std::min(min_abscissa, other.get_min_abscissa());
+		max_abscissa = std::max(max_abscissa, other.get_max_abscissa());
+		min_ordinate = std::min(min_ordinate, other.get_min_ordinate());
+		max_ordinate = std::max(max_ordinate, other.get_max_ordinate());
 	}
 
 	void Bounding_box::clear()
@@ -64,22 +75,14 @@ namespace graphics
 	}
 
 	Coordinate Bounding_box::get_min_abscissa() const
-	{
-		return min_abscissa;
-	}
+	{ return min_abscissa; }
 
 	Coordinate Bounding_box::get_max_abscissa() const
-	{
-		return max_abscissa;
-	}
+	{ return max_abscissa; }
 
 	Coordinate Bounding_box::get_min_ordinate() const
-	{
-		return min_ordinate;
-	}
+	{ return min_ordinate; }
 
 	Coordinate Bounding_box::get_max_ordinate() const
-	{
-		return max_ordinate;
-	}
+	{ return max_ordinate; }
 }

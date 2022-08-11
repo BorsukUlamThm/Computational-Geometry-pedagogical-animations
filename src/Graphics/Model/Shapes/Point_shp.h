@@ -12,12 +12,15 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * Contains the needed information to draw a circle\n
-	 * \n
-	 * -> abscissa\n
-	 * -> ordinate\n
-	 * -> color\n
-	 * -> radius of the point plot, in pixel\n
+	 * A Point_shp is a point drawn on a Canvas\n
+	 * It is defined by\n
+	 *
+	 * - The x y coordinates of the represented point
+	 * - The color of the point on the Canvas
+	 * - The radius of the point on the Canvas, in pixel
+	 *
+	 * Note that the x y coordinate are the cartesian coordinate of the abstract
+	 * point, not its position on the Canvas in pixel\n
 	 */
 	class Point_shp : public Shape
 	{
@@ -28,7 +31,7 @@ namespace graphics
 		float radius = 3;
 
 	public:
-		Point_shp() = default;
+		Point_shp();
 		Point_shp(const Coordinate& x,
 				  const Coordinate& y,
 				  Color col = DEFAULT_PLOT_COLOR,
@@ -42,13 +45,12 @@ namespace graphics
 		Color get_color() const;
 		float get_radius() const;
 
-		Coordinate get_min_abscissa() const override;
-		Coordinate get_max_abscissa() const override;
-		Coordinate get_min_ordinate() const override;
-		Coordinate get_max_ordinate() const override;
-
 		void draw(Canvas& canvas) const override;
 
+	private:
+		void make_bounding_box();
+
+	public:
 		friend std::istream& operator>>(std::istream& is,
 										Point_shp& point);
 	};
@@ -57,6 +59,11 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
+
+	Point_shp::Point_shp()
+	{
+		make_bounding_box();
+	}
 
 	Point_shp::Point_shp(const Coordinate &x,
 						 const Coordinate &y,
@@ -67,9 +74,10 @@ namespace graphics
 		ordinate = Coordinate(y);
 		color = col;
 		radius = rad;
+		make_bounding_box();
 	}
 
-	Point_shp::Point_shp(const Point_shp& other)
+	Point_shp::Point_shp(const Point_shp& other) : Shape(other)
 	{
 		abscissa = Coordinate(other.abscissa);
 		ordinate = Coordinate(other.ordinate);
@@ -78,43 +86,20 @@ namespace graphics
 	}
 
 	Coordinate Point_shp::get_abscissa() const
-	{
-		return abscissa;
-	}
+	{ return abscissa; }
 
 	Coordinate Point_shp::get_ordinate() const
-	{
-		return ordinate;
-	}
+	{ return ordinate; }
 
 	Color Point_shp::get_color() const
-	{
-		return color;
-	}
+	{ return color; }
 
 	float Point_shp::get_radius() const
-	{
-		return radius;
-	}
+	{ return radius; }
 
-	Coordinate Point_shp::get_min_abscissa() const
+	void Point_shp::make_bounding_box()
 	{
-		return abscissa;
-	}
-
-	Coordinate Point_shp::get_max_abscissa() const
-	{
-		return abscissa;
-	}
-
-	Coordinate Point_shp::get_min_ordinate() const
-	{
-		return ordinate;
-	}
-
-	Coordinate Point_shp::get_max_ordinate() const
-	{
-		return ordinate;
+		bounding_box = Bounding_box(abscissa, abscissa, ordinate, ordinate);
 	}
 
 	std::ostream& operator<<(std::ostream& os,

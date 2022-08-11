@@ -13,11 +13,17 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	/*!
-	 * Contains the needed information to draw a circle\n
-	 * \n
-	 * -> x y coordinates of the center\n
-	 * -> radius\n
-	 * -> color\n
+	 * A Circle_shp is a circle drawn on a Canvas\n
+	 * It is defined by\n
+	 *
+	 * - The x y coordinates of the center of the represented circle
+	 * - The radius of the represented circle
+	 * - The color of the circle on the Canvas
+	 *
+	 * Note that the x y coordinate are the cartesian coordinate of the abstract
+	 * circle center, not its position on the Canvas in pixel\n
+	 * In the same way, the radius it the radius of the abstract circle, and not
+	 * the radius of the circle drawn on the canvas\n
 	 */
 	class Circle_shp : public Shape
 	{
@@ -28,7 +34,7 @@ namespace graphics
 		Color color = DEFAULT_PLOT_COLOR;
 
 	public:
-		Circle_shp() = default;
+		Circle_shp();
 		Circle_shp(const Coordinate& x,
 				   const Coordinate& y,
 				   const Coordinate& rad,
@@ -42,13 +48,12 @@ namespace graphics
 		Coordinate get_radius() const;
 		Color get_color() const;
 
-		Coordinate get_min_abscissa() const override;
-		Coordinate get_max_abscissa() const override;
-		Coordinate get_min_ordinate() const override;
-		Coordinate get_max_ordinate() const override;
-
 		void draw(Canvas& canvas) const override;
 
+	private:
+		void make_bounding_box();
+
+	public:
 		friend std::istream& operator>>(std::istream& is,
 										Circle_shp& circle);
 	};
@@ -57,6 +62,11 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
+
+	Circle_shp::Circle_shp()
+	{
+		make_bounding_box();
+	}
 
 	Circle_shp::Circle_shp(const Coordinate& x,
 						   const Coordinate& y,
@@ -67,9 +77,11 @@ namespace graphics
 		center_y = Coordinate(y);
 		radius = Coordinate(rad);
 		color = col;
+
+		make_bounding_box();
 	}
 
-	Circle_shp::Circle_shp(const Circle_shp& other)
+	Circle_shp::Circle_shp(const Circle_shp& other) : Shape(other)
 	{
 		center_x = Coordinate(other.center_x);
 		center_y = Coordinate(other.center_y);
@@ -78,43 +90,25 @@ namespace graphics
 	}
 
 	Coordinate Circle_shp::get_center_x() const
-	{
-		return center_x;
-	}
+	{ return center_x; }
 
 	Coordinate Circle_shp::get_center_y() const
-	{
-		return  center_y;
-	}
+	{ return  center_y; }
 
 	Coordinate Circle_shp::get_radius() const
-	{
-		return radius;
-	}
+	{ return radius; }
 
 	Color Circle_shp::get_color() const
-	{
-		return color;
-	}
+	{ return color; }
 
-	Coordinate Circle_shp::get_min_abscissa() const
+	void Circle_shp::make_bounding_box()
 	{
-		return center_x - radius;
-	}
+		Coordinate x_min = center_x - radius;
+		Coordinate x_max = center_x + radius;
+		Coordinate y_min = center_y - radius;
+		Coordinate y_max = center_y + radius;
 
-	Coordinate Circle_shp::get_max_abscissa() const
-	{
-		return center_x + radius;
-	}
-
-	Coordinate Circle_shp::get_min_ordinate() const
-	{
-		return center_y - radius;
-	}
-
-	Coordinate Circle_shp::get_max_ordinate() const
-	{
-		return center_y + radius;
+		bounding_box = Bounding_box(x_min, x_max, y_min, y_max);
 	}
 
 	std::ostream& operator<<(std::ostream& os,
