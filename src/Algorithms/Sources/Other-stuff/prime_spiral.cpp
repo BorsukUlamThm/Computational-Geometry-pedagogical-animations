@@ -12,30 +12,30 @@ namespace Other_stuff_prime_spiral
 		std::vector<integer> P;
 		P.push_back(2);
 		P.push_back(3);
-		for(integer k = 5; P.size() < n; k += 2 + 2 * ((k + 1) % 3) / 2)
+		for (integer k = 5; P.size() < n; k += 2 + 2 * ((k + 1) % 3) / 2)
 		{
 			bool is_prime = true;
-			for(auto& p : P)
+			for (auto& p : P)
 			{
-				if(p * p > k)
+				if (p * p > k)
 				{
 					break;
 				}
-				if(k % p == 0)
+				if (k % p == 0)
 				{
 					is_prime = false;
 					break;
 				}
 			}
 
-			if(is_prime)
+			if (is_prime)
 			{
 				P.push_back(k);
 			}
 		}
 
 		gr::Figure fig;
-		while(!P.empty())
+		while (!P.empty())
 		{
 			gr::Coordinate p_ = gr::Coordinate(P.back());
 			P.pop_back();
@@ -49,7 +49,7 @@ namespace Other_stuff_prime_spiral
 		gr::Display_canvas canvas;
 
 		std::vector<unsigned> numbers;
-		while(n >= 1000)
+		while (n >= 1000)
 		{
 			numbers.push_back(n % 1000);
 			n = n / 1000;
@@ -58,14 +58,14 @@ namespace Other_stuff_prime_spiral
 
 		std::string title = "p exp(i p) for the ";
 		title += std::to_string(numbers[numbers.size() - 1]);
-		for(unsigned i = numbers.size() - 2; i != -1; --i)
+		for (unsigned i = numbers.size() - 2; i != -1; --i)
 		{
 			title += " ";
-			if(numbers[i] < 100)
+			if (numbers[i] < 100)
 			{
 				title += "0";
 			}
-			if(numbers[i] < 10)
+			if (numbers[i] < 10)
 			{
 				title += "0";
 			}

@@ -10,17 +10,21 @@ namespace chap1_jarvis_convex_hull
 	typedef std::vector<point> convex_hull;
 	typedef std::vector<point> point_set;
 
-	gr::Slide_show slides;
-	gr::Figure fig_points;
-	gr::Figure fig_hull;
+	enum Figures
+	{
+		POINTS,
+		HULL,
+		NB_FIGURES
+	};
+	gr::Animation animation(NB_FIGURES);
 
 
 	point first_point(const point_set& P)
 	{
 		point p = P[0];
-		for(auto& q : P)
+		for (auto& q : P)
 		{
-			if(alg::point_left_point(q, p))
+			if (alg::point_left_point(q, p))
 			{
 				p = q;
 			}
@@ -34,36 +38,39 @@ namespace chap1_jarvis_convex_hull
 		point last = CH[CH.size() - 1];
 		unsigned i = 0;
 		point p = P[i];
-		while(p == last)
+		while (p == last)
 		{
 			i++;
 			p = P[i];
 		}
-		fig_hull.add_segment(last.x, last.y, p.x, p.y, gr::YELLOW);
-		slides.add_slide(fig_points, fig_hull);
+		animation[HULL].add_segment(last.x, last.y, p.x, p.y, gr::YELLOW);
+		animation.make_new_frame(POINTS, HULL);
 
-		for(unsigned j = i + 1; j < P.size(); ++j)
+		for (unsigned j = i + 1; j < P.size(); ++j)
 		{
-			if(P[j] == last || P[j] == p)
+			if (P[j] == last || P[j] == p)
 			{
 				continue;
 			}
 
-			if(alg::point_left_line(P[j], last, p))
+			if (alg::point_left_line(P[j], last, p))
 			{
-				fig_points.add_segment(last.x, last.y, P[j].x, P[j].y, gr::RED);
-				slides.add_slide(fig_points, fig_hull);
-				fig_hull.erase_last_shape();
-				fig_hull.add_segment(last.x, last.y, P[j].x, P[j].y, gr::YELLOW);
+				animation[POINTS].add_segment(last.x, last.y, P[j].x, P[j].y,
+											  gr::RED);
+				animation.make_new_frame(POINTS, HULL);
+				animation[HULL].erase_last_shape();
+				animation[HULL].add_segment(last.x, last.y, P[j].x, P[j].y,
+											gr::YELLOW);
 
 				p = P[j];
 			}
 			else
 			{
-				fig_points.add_segment(last.x, last.y, P[j].x, P[j].y, gr::GREEN);
-				slides.add_slide(fig_points, fig_hull);
+				animation[POINTS].add_segment(last.x, last.y, P[j].x, P[j].y,
+											  gr::GREEN);
+				animation.make_new_frame(POINTS, HULL);
 			}
-			fig_points.erase_last_shape();
+			animation[POINTS].erase_last_shape();
 		}
 
 		return p;
@@ -71,37 +78,37 @@ namespace chap1_jarvis_convex_hull
 
 	void jarvis_convex_hull(const point_set& P)
 	{
-		for(auto p : P)
+		for (auto p : P)
 		{
-			fig_points.add_point(p.x, p.y);
+			animation[POINTS].add_point(p.x, p.y);
 		}
-		slides.add_slide(fig_points);
+		animation.make_new_frame(POINTS);
 
 		convex_hull CH;
 		CH.push_back(first_point(P));
 		CH.push_back(next_point(CH, P));
-		fig_hull.add_segment(CH[0].x, CH[0].y,
-							 CH[1].x, CH[1].y, gr::YELLOW);
-		slides.add_slide(fig_points, fig_hull);
+		animation[HULL].add_segment(CH[0].x, CH[0].y,
+									CH[1].x, CH[1].y, gr::YELLOW);
+		animation.make_new_frame(POINTS, HULL);
 
-		while(CH[CH.size() - 1] != CH[0])
+		while (CH[CH.size() - 1] != CH[0])
 		{
 			point p = next_point(CH, P);
 			point q = CH[CH.size() - 1];
-			fig_hull.add_segment(p.x, p.y, q.x, q.y, gr::YELLOW);
-			slides.add_slide(fig_points, fig_hull);
+			animation[HULL].add_segment(p.x, p.y, q.x, q.y, gr::YELLOW);
+			animation.make_new_frame(POINTS, HULL);
 			CH.push_back(p);
 		}
 		CH.pop_back();
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
-		for(auto& v : CH)
+		for (auto& v : CH)
 		{
 			plot_CH.add_vertex(v.x, v.y);
 		}
-		fig_hull.clear();
-		fig_hull.add_polygon(plot_CH);
-		slides.add_slide(fig_points, fig_hull);
+		animation[HULL].clear();
+		animation[HULL].add_polygon(plot_CH);
+		animation.make_new_frame(POINTS, HULL);
 	}
 }
 
@@ -117,7 +124,7 @@ int main(int argc, char** argv)
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Jarvis convex hull - animation");
-	canvas.display_slide_show(slides);
+	canvas.run_animation(animation);
 
 	return 0;
 }

@@ -10,10 +10,14 @@ namespace chap1_rotating_convex_hull
 	typedef std::vector<point> convex_hull;
 	typedef std::vector<point> point_set;
 
-	gr::Slide_show slides;
-	gr::Figure fig_points;
-	gr::Figure fig_hull;
-	gr::Figure fig_line;
+	enum Figures
+	{
+		POINTS,
+		HULL,
+		LINE,
+		NB_FIGURES
+	};
+	gr::Animation animation(NB_FIGURES);
 
 
 	struct Rotation_order
@@ -23,9 +27,9 @@ namespace chap1_rotating_convex_hull
 		Rotation_order(const point_set& P)
 		{
 			leftmost_point = P[0];
-			for(auto& p : P)
+			for (auto& p : P)
 			{
-				if(alg::point_left_point(p, leftmost_point))
+				if (alg::point_left_point(p, leftmost_point))
 				{
 					leftmost_point = p;
 				}
@@ -34,15 +38,15 @@ namespace chap1_rotating_convex_hull
 
 		bool operator()(const point& p, const point& q) const
 		{
-			if(p == q)
+			if (p == q)
 			{
 				return true;
 			}
-			if(p == leftmost_point)
+			if (p == leftmost_point)
 			{
 				return true;
 			}
-			if(q == leftmost_point)
+			if (q == leftmost_point)
 			{
 				return false;
 			}
@@ -53,7 +57,7 @@ namespace chap1_rotating_convex_hull
 
 	bool right_turn(const convex_hull& hull, const point& p)
 	{
-		if(hull.size() < 2)
+		if (hull.size() < 2)
 		{
 			return false;
 		}
@@ -65,71 +69,70 @@ namespace chap1_rotating_convex_hull
 	convex_hull make_hull(const point_set& P)
 	{
 		unsigned n = P.size();
-		fig_line.add_vertical_line(P[0].x);
-		slides.add_slide(fig_points, fig_line);
+		animation[LINE].add_vertical_line(P[0].x);
+		animation.make_new_frame(POINTS, HULL);
 
 		convex_hull CH;
 		CH.push_back(P[0]);
 		CH.push_back(P[1]);
 
-		fig_hull.add_segment(P[0].x, P[0].y,
-							 P[1].x, P[1].y, gr::YELLOW);
-		fig_line.clear();
-		fig_line.add_line(P[0].x, P[0].y, P[1].x, P[1].y);
-		slides.add_slide(fig_points, fig_line, fig_hull);
+		animation[HULL].add_segment(P[0].x, P[0].y,
+									P[1].x, P[1].y, gr::YELLOW);
+		animation[LINE].clear();
+		animation[LINE].add_line(P[0].x, P[0].y, P[1].x, P[1].y);
+		animation.make_new_frame(POINTS, HULL, LINE);
 
-		for(unsigned i = 2; i < n; ++i)
+		for (unsigned i = 2; i < n; ++i)
 		{
 			unsigned k = CH.size();
-			fig_hull.erase_last_shape();
-			fig_hull.add_segment(CH[k - 2].x, CH[k - 2].y,
-								 CH[k - 1].x, CH[k - 1].y, gr::YELLOW);
-			fig_line.clear();
-			fig_line.add_line(P[0].x, P[0].y, P[i].x, P[i].y);
+			animation[HULL].erase_last_shape();
+			animation[HULL].add_segment(CH[k - 2].x, CH[k - 2].y,
+										CH[k - 1].x, CH[k - 1].y, gr::YELLOW);
+			animation[LINE].clear();
+			animation[LINE].add_line(P[0].x, P[0].y, P[i].x, P[i].y);
 
-			while(right_turn(CH, P[i]))
+			while (right_turn(CH, P[i]))
 			{
-				fig_hull.add_segment(CH.back().x, CH.back().y,
-									 P[i].x, P[i].y, gr::RED);
-				slides.add_slide(fig_points, fig_line, fig_hull);
-				fig_hull.erase_last_k_shapes(2);
+				animation[HULL].add_segment(CH.back().x, CH.back().y,
+											P[i].x, P[i].y, gr::RED);
+				animation.make_new_frame(POINTS, HULL, LINE);
+				animation[HULL].erase_last_k_shapes(2);
 				CH.pop_back();
 			}
-			fig_hull.add_segment(CH.back().x, CH.back().y,
-								 P[i].x, P[i].y, gr::GREEN);
+			animation[HULL].add_segment(CH.back().x, CH.back().y,
+										P[i].x, P[i].y, gr::GREEN);
 			CH.push_back(P[i]);
-			slides.add_slide(fig_points, fig_line, fig_hull);
+			animation.make_new_frame(POINTS, HULL, LINE);
 		}
 
 		unsigned k = CH.size();
-		fig_hull.erase_last_shape();
-		fig_hull.add_segment(CH[k - 2].x, CH[k - 2].y,
-							 CH[k - 1].x, CH[k - 1].y, gr::YELLOW);
+		animation[HULL].erase_last_shape();
+		animation[HULL].add_segment(CH[k - 2].x, CH[k - 2].y,
+									CH[k - 1].x, CH[k - 1].y, gr::YELLOW);
 
 		return CH;
 	}
 
 	void make_convex_hull(point_set& P)
 	{
-		for(auto p : P)
+		for (auto p : P)
 		{
-			fig_points.add_point(p.x, p.y);
+			animation[POINTS].add_point(p.x, p.y);
 		}
-		slides.add_slide(fig_points);
-
+		animation.make_new_frame(POINTS, HULL);
 		Rotation_order order(P);
 		std::sort(P.begin(), P.end(), order);
 
 		convex_hull CH = make_hull(P);
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
-		for(auto& v : CH)
+		for (auto& v : CH)
 		{
 			plot_CH.add_vertex(v.x, v.y);
 		}
-		fig_hull.clear();
-		fig_hull.add_polygon(plot_CH);
-		slides.add_slide(fig_points, fig_hull);
+		animation[HULL].clear();
+		animation[HULL].add_polygon(plot_CH);
+		animation.make_new_frame(POINTS, HULL);
 	}
 }
 
@@ -145,7 +148,7 @@ int main(int argc, char** argv)
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Rotating convex hull - animation");
-	canvas.display_slide_show(slides);
+	canvas.run_animation(animation);
 
 	return 0;
 }

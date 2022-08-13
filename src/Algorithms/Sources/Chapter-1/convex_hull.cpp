@@ -10,14 +10,19 @@ namespace chap1_convex_hull
 	typedef std::vector<point> convex_hull;
 	typedef std::vector<point> point_set;
 
-	gr::Slide_show slides;
-	gr::Figure fig_points;
-	gr::Figure fig_hull;
-	gr::Figure fig_line;
+	enum Figures
+	{
+		POINTS,
+		HULL,
+		LINE,
+		NB_FIGURES
+	};
+	gr::Animation animation(NB_FIGURES);
+
 
 	bool left_turn(const convex_hull& hull, const point& p)
 	{
-		if(hull.size() < 2)
+		if (hull.size() < 2)
 		{
 			return false;
 		}
@@ -29,46 +34,46 @@ namespace chap1_convex_hull
 	convex_hull make_upper_hull(const point_set& P)
 	{
 		unsigned n = P.size();
-		fig_line.add_vertical_line(P[0].x);
-		slides.add_slide(fig_points, fig_line);
+		animation[LINE].add_vertical_line(P[0].x);
+		animation.make_new_frame();
 
 		convex_hull U;
 		U.push_back(P[0]);
 		U.push_back(P[1]);
 
-		fig_hull.add_segment(P[0].x, P[0].y,
-							 P[1].x, P[1].y, gr::YELLOW);
-		fig_line.clear();
-		fig_line.add_vertical_line(P[1].x);
-		slides.add_slide(fig_points, fig_line, fig_hull);
+		animation[HULL].add_segment(P[0].x, P[0].y,
+									P[1].x, P[1].y, gr::YELLOW);
+		animation[LINE].clear();
+		animation[LINE].add_vertical_line(P[1].x);
+		animation.make_new_frame();
 
-		for(unsigned i = 2; i < n; ++i)
+		for (unsigned i = 2; i < n; ++i)
 		{
 			unsigned k = U.size();
-			fig_hull.erase_last_shape();
-			fig_hull.add_segment(U[k - 2].x, U[k - 2].y,
-								 U[k - 1].x, U[k - 1].y, gr::YELLOW);
-			fig_line.clear();
-			fig_line.add_vertical_line(P[i].x);
+			animation[HULL].erase_last_shape();
+			animation[HULL].add_segment(U[k - 2].x, U[k - 2].y,
+										U[k - 1].x, U[k - 1].y, gr::YELLOW);
+			animation[LINE].clear();
+			animation[LINE].add_vertical_line(P[i].x);
 
-			while(left_turn(U, P[i]))
+			while (left_turn(U, P[i]))
 			{
-				fig_hull.add_segment(U.back().x, U.back().y,
-									 P[i].x, P[i].y, gr::RED);
-				slides.add_slide(fig_points, fig_line, fig_hull);
-				fig_hull.erase_last_k_shapes(2);
+				animation[HULL].add_segment(U.back().x, U.back().y,
+											P[i].x, P[i].y, gr::RED);
+				animation.make_new_frame();
+				animation[HULL].erase_last_k_shapes(2);
 				U.pop_back();
 			}
-			fig_hull.add_segment(U.back().x, U.back().y,
-								 P[i].x, P[i].y, gr::GREEN);
+			animation[HULL].add_segment(U.back().x, U.back().y,
+										P[i].x, P[i].y, gr::GREEN);
 			U.push_back(P[i]);
-			slides.add_slide(fig_points, fig_line, fig_hull);
+			animation.make_new_frame();
 		}
 
 		unsigned k = U.size();
-		fig_hull.erase_last_shape();
-		fig_hull.add_segment(U[k - 2].x, U[k - 2].y,
-							 U[k - 1].x, U[k - 1].y, gr::YELLOW);
+		animation[HULL].erase_last_shape();
+		animation[HULL].add_segment(U[k - 2].x, U[k - 2].y,
+									U[k - 1].x, U[k - 1].y, gr::YELLOW);
 
 		return U;
 	}
@@ -76,57 +81,57 @@ namespace chap1_convex_hull
 	convex_hull make_lower_hull(const point_set& P)
 	{
 		unsigned n = P.size();
-		slides.add_slide(fig_points, fig_line, fig_hull);
+		animation.make_new_frame();
 
 		convex_hull L;
 		L.push_back(P[n - 1]);
 		L.push_back(P[n - 2]);
 
-		fig_hull.add_segment(P[n - 1].x, P[n - 1].y,
-							 P[n - 2].x, P[n - 2].y, gr::YELLOW);
-		fig_line.clear();
-		fig_line.add_vertical_line(P[n - 2].x);
-		slides.add_slide(fig_points, fig_line, fig_hull);
+		animation[HULL].add_segment(P[n - 1].x, P[n - 1].y,
+									P[n - 2].x, P[n - 2].y, gr::YELLOW);
+		animation[LINE].clear();
+		animation[LINE].add_vertical_line(P[n - 2].x);
+		animation.make_new_frame();
 
-		for(unsigned i = n - 3; i < n; --i)
+		for (unsigned i = n - 3; i < n; --i)
 		{
 			unsigned k = L.size();
-			fig_hull.erase_last_shape();
-			fig_hull.add_segment(L[k - 2].x, L[k - 2].y,
-								 L[k - 1].x, L[k - 1].y, gr::YELLOW);
-			fig_line.clear();
-			fig_line.add_vertical_line(P[i].x);
+			animation[HULL].erase_last_shape();
+			animation[HULL].add_segment(L[k - 2].x, L[k - 2].y,
+										L[k - 1].x, L[k - 1].y, gr::YELLOW);
+			animation[LINE].clear();
+			animation[LINE].add_vertical_line(P[i].x);
 
-			while(left_turn(L, P[i]))
+			while (left_turn(L, P[i]))
 			{
-				fig_hull.add_segment(L.back().x, L.back().y,
-									 P[i].x, P[i].y, gr::RED);
-				slides.add_slide(fig_points, fig_line, fig_hull);
-				fig_hull.erase_last_k_shapes(2);
+				animation[HULL].add_segment(L.back().x, L.back().y,
+											P[i].x, P[i].y, gr::RED);
+				animation.make_new_frame();
+				animation[HULL].erase_last_k_shapes(2);
 				L.pop_back();
 			}
-			fig_hull.add_segment(L.back().x, L.back().y,
-								 P[i].x, P[i].y, gr::GREEN);
+			animation[HULL].add_segment(L.back().x, L.back().y,
+										P[i].x, P[i].y, gr::GREEN);
 			L.push_back(P[i]);
-			slides.add_slide(fig_points, fig_line, fig_hull);
+			animation.make_new_frame();
 		}
 
 		unsigned k = L.size();
-		fig_hull.erase_last_shape();
-		fig_hull.add_segment(L[k - 2].x, L[k - 2].y,
-							 L[k - 1].x, L[k - 1].y, gr::YELLOW);
-		slides.add_slide(fig_points, fig_line, fig_hull);
+		animation[HULL].erase_last_shape();
+		animation[HULL].add_segment(L[k - 2].x, L[k - 2].y,
+									L[k - 1].x, L[k - 1].y, gr::YELLOW);
+		animation.make_new_frame();
 
 		return L;
 	}
 
 	void make_convex_hull(point_set& P)
 	{
-		for(auto p : P)
+		for (auto p : P)
 		{
-			fig_points.add_point(p.x, p.y);
+			animation[POINTS].add_point(p.x, p.y);
 		}
-		slides.add_slide(fig_points);
+		animation.make_new_frame();
 
 		std::sort(P.begin(), P.end(), alg::point_left_point<int>);
 
@@ -136,19 +141,19 @@ namespace chap1_convex_hull
 		U.pop_back();
 		L.pop_back();
 
-		for(auto& p : L)
+		for (auto& p : L)
 		{
 			U.push_back(p);
 		}
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
-		for(auto& v : U)
+		for (auto& v : U)
 		{
 			plot_CH.add_vertex(v.x, v.y);
 		}
-		fig_hull.clear();
-		fig_hull.add_polygon(plot_CH);
-		slides.add_slide(fig_points, fig_hull);
+		animation[HULL].clear();
+		animation[HULL].add_polygon(plot_CH);
+		animation.make_new_frame(POINTS, HULL);
 	}
 }
 
@@ -164,7 +169,7 @@ int main(int argc, char** argv)
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Convex hull - animation");
-	canvas.display_slide_show(slides);
+	canvas.run_animation(animation);
 
 	return 0;
 }

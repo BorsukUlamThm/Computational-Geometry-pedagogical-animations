@@ -13,56 +13,64 @@ namespace chap1_daq_convex_hull
 	typedef std::vector<point> point_set;
 	typedef std::list<point> half_hull;
 
-	gr::Slide_show slides;
-	gr::Figure fig_points;
-	gr::Figure fig_hull;
-	gr::Figure fig_half_hulls;
-	gr::Figure fig_turn;
+	enum Figures
+	{
+		POINTS,
+		HULL,
+		HALF_HULLS,
+		TURN,
+		NB_FIGURES
+	};
+	gr::Animation animation(NB_FIGURES);
 
-	void plot_turn(const half_hull& H, const half_hull::iterator it, gr::Color color)
+
+	void plot_turn(const half_hull& H,
+				   const half_hull::iterator it,
+				   gr::Color color)
 	{
 		point p2 = *it;
 		point p3 = *std::next(it);
 
-		if(it == H.begin())
+		if (it == H.begin())
 		{
-			fig_turn.add_segment(p2.x, p2.y, p3.x, p3.y, color, color);
+			animation[TURN].add_segment(p2.x, p2.y, p3.x, p3.y, color, color);
 			return;
 		}
 
 		point p1 = *std::prev(it);
 
-		fig_turn.add_segment(p1.x, p1.y, p2.x, p2.y, color, color);
-		fig_turn.add_segment(p2.x, p2.y, p3.x, p3.y, color, color);
+		animation[TURN].add_segment(p1.x, p1.y, p2.x, p2.y, color, color);
+		animation[TURN].add_segment(p2.x, p2.y, p3.x, p3.y, color, color);
 	}
 
-	void plot_half_hull(const half_hull& H, gr::Color color = gr::PURPLE)
+	void plot_half_hull(const half_hull& H,
+						gr::Color color = gr::PURPLE)
 	{
-		if(H.size() == 1)
+		if (H.size() == 1)
 		{
 			int x = H.begin()->x;
 			int y = H.begin()->y;
-			fig_half_hulls.add_point(x, y, color, 5);
+			animation[HALF_HULLS].add_point(x, y, color, 5);
 		}
 
 
 		auto it = H.begin();
 		it++;
 
-		for(;it != H.end(); ++it)
+		for (; it != H.end(); ++it)
 		{
 			int x1 = (std::prev(it))->x;
 			int y1 = (std::prev(it))->y;
 			int x2 = it->x;
 			int y2 = it->y;
-			fig_half_hulls.add_segment(x1, y1, x2, y2, color, color);
+			animation[HALF_HULLS].add_segment(x1, y1, x2, y2, color, color);
 		}
 	}
 
 	/// returns true iff the three points prev(it), it, next(it) make a left turn
 	bool left_turn(const half_hull& H, half_hull::iterator it)
 	{
-		if(it == H.begin())
+		if (it == H.begin())
 		{
 			return false;
 		}
@@ -76,23 +84,23 @@ namespace chap1_daq_convex_hull
 	{
 		auto it = std::next(H.begin());
 
-		while(it != std::prev(H.end()))
+		while (it != std::prev(H.end()))
 		{
-			while(left_turn(H, it))
+			while (left_turn(H, it))
 			{
 				plot_half_hull(H);
 				plot_turn(H, it, gr::RED);
-				slides.add_slide(fig_points, fig_half_hulls, fig_turn);
-				fig_half_hulls.clear();
-				fig_turn.clear();
+				animation.make_new_frame(POINTS, HALF_HULLS, TURN);
+				animation[HALF_HULLS].clear();
+				animation[TURN].clear();
 				it = H.erase(it);
 				--it;
 			}
 			plot_half_hull(H);
 			plot_turn(H, it, gr::GREEN);
-			slides.add_slide(fig_points, fig_half_hulls, fig_turn);
-			fig_half_hulls.clear();
-			fig_turn.clear();
+			animation.make_new_frame(POINTS, HALF_HULLS, TURN);
+			animation[HALF_HULLS].clear();
+			animation[TURN].clear();
 			++it;
 		}
 	}
@@ -101,18 +109,18 @@ namespace chap1_daq_convex_hull
 	{
 		plot_half_hull(UH1);
 		plot_half_hull(UH2);
-		slides.add_slide(fig_points, fig_half_hulls);
-		fig_half_hulls.clear();
+		animation.make_new_frame(POINTS, HALF_HULLS);
+		animation[HALF_HULLS].clear();
 
 		UH1.merge(UH2, alg::point_left_point<int>);
 		plot_half_hull(UH1);
-		slides.add_slide(fig_points, fig_half_hulls);
-		fig_half_hulls.clear();
+		animation.make_new_frame(POINTS, HALF_HULLS);
+		animation[HALF_HULLS].clear();
 
 		make_convex(UH1);
 		plot_half_hull(UH1, gr::YELLOW);
-		slides.add_slide(fig_points, fig_half_hulls);
-		fig_half_hulls.clear();
+		animation.make_new_frame(POINTS, HALF_HULLS);
+		animation[HALF_HULLS].clear();
 
 		return UH1;
 	}
@@ -121,18 +129,18 @@ namespace chap1_daq_convex_hull
 	{
 		plot_half_hull(LH1);
 		plot_half_hull(LH2);
-		slides.add_slide(fig_points, fig_half_hulls);
-		fig_half_hulls.clear();
+		animation.make_new_frame(POINTS, HALF_HULLS);
+		animation[HALF_HULLS].clear();
 
 		LH1.merge(LH2, alg::point_right_point<int>);
 		plot_half_hull(LH1);
-		slides.add_slide(fig_points, fig_half_hulls);
-		fig_half_hulls.clear();
+		animation.make_new_frame(POINTS, HALF_HULLS);
+		animation[HALF_HULLS].clear();
 
 		make_convex(LH1);
 		plot_half_hull(LH1, gr::YELLOW);
-		slides.add_slide(fig_points, fig_half_hulls);
-		fig_half_hulls.clear();
+		animation.make_new_frame(POINTS, HALF_HULLS);
+		animation[HALF_HULLS].clear();
 
 		return LH1;
 	}
@@ -140,11 +148,11 @@ namespace chap1_daq_convex_hull
 	half_hull daq_upper_hull(const point_set& P, unsigned i, unsigned j)
 	{
 		half_hull H;
-		if(j - i == 0)
+		if (j - i == 0)
 		{
 			return H;
 		}
-		if(j - i == 1)
+		if (j - i == 1)
 		{
 			H.push_back(P[i]);
 			return H;
@@ -159,11 +167,11 @@ namespace chap1_daq_convex_hull
 	half_hull daq_lower_hull(const point_set& P, unsigned i, unsigned j)
 	{
 		half_hull H;
-		if(j - i == 0)
+		if (j - i == 0)
 		{
 			return H;
 		}
-		if(j - i == 1)
+		if (j - i == 1)
 		{
 			H.push_back(P[i]);
 			return H;
@@ -177,11 +185,11 @@ namespace chap1_daq_convex_hull
 
 	void daq_convex_hull(const point_set& P)
 	{
-		for(auto p : P)
+		for (auto p : P)
 		{
-			fig_points.add_point(p.x, p.y);
+			animation[POINTS].add_point(p.x, p.y);
 		}
-		slides.add_slide(fig_points);
+		animation.make_new_frame(POINTS);
 
 		unsigned n = P.size();
 		half_hull U = daq_upper_hull(P, 0, n);
@@ -192,14 +200,14 @@ namespace chap1_daq_convex_hull
 		U.splice(U.end(), L);
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
-		for(auto& v : U)
+		for (auto& v : U)
 		{
 			plot_CH.add_vertex(v.x, v.y);
 		}
 
-		fig_hull.clear();
-		fig_hull.add_polygon(plot_CH);
-		slides.add_slide(fig_points, fig_hull);
+		animation[HULL].clear();
+		animation[HULL].add_polygon(plot_CH);
+		animation.make_new_frame(POINTS, HULL);
 	}
 }
 
@@ -215,7 +223,7 @@ int main(int argc, char** argv)
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Divide and conquer convex hull - animation");
-	canvas.display_slide_show(slides);
+	canvas.run_animation(animation);
 
 	return 0;
 }

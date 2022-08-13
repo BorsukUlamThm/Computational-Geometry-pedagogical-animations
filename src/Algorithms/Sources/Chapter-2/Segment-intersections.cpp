@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Segment intersections - animation");
-	canvas.display_slide_show(slides);
+	canvas.run_animation(slides);
 
 	return 0;
 }

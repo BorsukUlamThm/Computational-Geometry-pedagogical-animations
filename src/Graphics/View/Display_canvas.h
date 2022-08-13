@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Canvas.h"
-#include "Graphics/Model/Slide_show.h"
+#include "Graphics/Model/Animation.h"
 
 
 namespace graphics
@@ -24,7 +24,7 @@ namespace graphics
 		~Display_canvas() = default;
 
 		void display_figure(Figure& figure);
-		void display_slide_show(Slide_show& slide_show);
+		void run_animation(Animation& animation);
 
 	private:
 		void handle_events();
@@ -52,17 +52,17 @@ namespace graphics
 		}
 	}
 
-	void Display_canvas::display_slide_show(Slide_show& slide_show)
+	void Display_canvas::run_animation(Animation& animation)
 	{
-		slide_show[0].make_bounding_box();
-		bounding_box = slide_show[0].get_bounding_box();
-		nb_slides = slide_show.nb_slides();
+		animation.get_ith_frame(0).make_bounding_box();
+		bounding_box = animation.get_ith_frame(0).get_bounding_box();
+		nb_slides = animation.nb_frames();
 		open();
 		setup_view();
 		while (window.isOpen())
 		{
 			handle_events();
-			draw_figure(slide_show[slide_index]);
+			draw_figure(animation.get_ith_frame(slide_index));
 			window.display();
 		}
 	}
