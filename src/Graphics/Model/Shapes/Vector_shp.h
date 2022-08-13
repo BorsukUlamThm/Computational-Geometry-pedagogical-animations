@@ -23,7 +23,7 @@ namespace graphics
 		Coordinate origin_y = 0;
 		Coordinate destination_x = 0;
 		Coordinate destination_y = 0;
-		Color color = DEFAULT_PLOT_COLOR;
+		Color color = DEFAULT_SHAPE_COLOR;
 
 	public:
 		// standard constructors
@@ -32,7 +32,7 @@ namespace graphics
 				   const Coordinate& ogn_y,
 				   const Coordinate& dst_x,
 				   const Coordinate& dst_y,
-				   Color col = DEFAULT_PLOT_COLOR);
+				   Color col = DEFAULT_SHAPE_COLOR);
 		Vector_shp(const Vector_shp& other);
 
 		//other constructors
@@ -41,12 +41,12 @@ namespace graphics
 		 */
 		Vector_shp(const Point_shp& ogn,
 				   const Point_shp& dst,
-				   Color col = DEFAULT_PLOT_COLOR);
+				   Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs the segment whose endpoints are the segment's endpoints
 		 */
 		explicit Vector_shp(const Segment_shp& segment,
-							Color col = DEFAULT_PLOT_COLOR);
+							Color col = DEFAULT_SHAPE_COLOR);
 
 		~Vector_shp() = default;
 

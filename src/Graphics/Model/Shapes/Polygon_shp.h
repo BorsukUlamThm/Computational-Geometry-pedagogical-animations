@@ -23,13 +23,13 @@ namespace graphics
 	{
 	private:
 		std::vector<Point_shp> vertices;
-		Color lines_color = DEFAULT_PLOT_COLOR;
+		Color lines_color = DEFAULT_SHAPE_COLOR;
 
 	public:
 		Polygon_shp();
 		explicit Polygon_shp(Color lines_col);
 		explicit Polygon_shp(const std::vector<Point_shp>& vertices,
-							 Color lines_col = DEFAULT_PLOT_COLOR);
+							 Color lines_col = DEFAULT_SHAPE_COLOR);
 		Polygon_shp(const Polygon_shp& other);
 
 		void push_back(const Point_shp& vertex);

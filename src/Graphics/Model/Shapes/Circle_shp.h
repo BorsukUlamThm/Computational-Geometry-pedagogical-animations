@@ -31,14 +31,14 @@ namespace graphics
 		Coordinate center_x {};
 		Coordinate center_y {};
 		Coordinate radius {};
-		Color color = DEFAULT_PLOT_COLOR;
+		Color color = DEFAULT_SHAPE_COLOR;
 
 	public:
 		Circle_shp();
 		Circle_shp(const Coordinate& x,
 				   const Coordinate& y,
 				   const Coordinate& rad,
-				   Color col = DEFAULT_PLOT_COLOR);
+				   Color col = DEFAULT_SHAPE_COLOR);
 		Circle_shp(const Circle_shp& other);
 
 		~Circle_shp() = default;

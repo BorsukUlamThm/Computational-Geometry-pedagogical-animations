@@ -43,7 +43,7 @@ namespace Other_stuff_prime_spiral
 			gr::Coordinate x = p_ * std::cos(p_);
 			gr::Coordinate y = p_ * std::sin(p_);
 
-			fig.add_point(x, y, gr::DEFAULT_PLOT_COLOR, rad);
+			fig.add_point(x, y, gr::DEFAULT_SHAPE_COLOR, rad);
 		}
 
 		gr::Display_canvas canvas;

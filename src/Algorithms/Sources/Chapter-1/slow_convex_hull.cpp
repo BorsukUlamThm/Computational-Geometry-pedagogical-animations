@@ -43,18 +43,18 @@ namespace chap1_slow_convex_hull
 						fig_outside_segments.add_vector(
 								P[i].x, P[i].y, P[j].x, P[j].y, gr::RED);
 						slides.add_slide(fig_points, fig_outside_segments);
-						fig_points.erase_last_plot();
-						fig_outside_segments.erase_last_plot();
+						fig_points.erase_last_shape();
+						fig_outside_segments.erase_last_shape();
 						break;
 					}
 					else
 					{
 						fig_points.add_point(P[k].x, P[k].y, gr::GREEN, 7);
 						slides.add_slide(fig_points, fig_outside_segments);
-						fig_points.erase_last_plot();
+						fig_points.erase_last_shape();
 					}
 				}
-				fig_outside_segments.erase_last_plot();
+				fig_outside_segments.erase_last_shape();
 				if(is_ok)
 				{
 					E.emplace_back(P[i], P[j]);
@@ -100,7 +100,7 @@ namespace chap1_slow_convex_hull
 					fig_outside_segments.add_vector(
 							e.ogn.x, e.ogn.y, e.dst.x, e.dst.y, gr::GREEN);
 					slides.add_slide(fig_points, fig_outside_segments);
-					fig_outside_segments.erase_last_plot();
+					fig_outside_segments.erase_last_shape();
 					break;
 				}
 				else
@@ -108,7 +108,7 @@ namespace chap1_slow_convex_hull
 					fig_outside_segments.add_vector(
 							e.ogn.x, e.ogn.y, e.dst.x, e.dst.y, gr::RED);
 					slides.add_slide(fig_points, fig_outside_segments);
-					fig_outside_segments.erase_last_plot();
+					fig_outside_segments.erase_last_shape();
 				}
 			}
 			fig_outside_segments.add_vector(

@@ -16,7 +16,7 @@ namespace graphics
 	// |                             DECLARATIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	typedef std::shared_ptr<Shape> Plot_ptr;
+	typedef std::shared_ptr<Shape> Shape_ptr;
 
 	/*!
 	 * A Figure is a set of Shape that will be drawn on a Canvas\n
@@ -26,14 +26,14 @@ namespace graphics
 	class Figure
 	{
 	private:
-		std::vector<Plot_ptr> plots;
+		std::vector<Shape_ptr> shapes;
 		Bounding_box bounding_box {};
 		bool need_remake_bounding_box = false;
 
 	public:
 		Figure() = default;
 		/*!
-		 * Constructs a figures with the plots of all the given figures
+		 * Constructs a figures with the shapes of all the given figures
 		 */
 		template<typename... Figures>
 		explicit Figure(const Figure& figure,
@@ -46,12 +46,12 @@ namespace graphics
 		Coordinate get_max_abscissa() const;
 		Coordinate get_min_ordinate() const;
 		Coordinate get_max_ordinate() const;
-		Plot_ptr get_last_plot() const;
+		Shape_ptr get_last_shape() const;
 
 		void add_point(const Point_shp& point);
 		void add_point(const Coordinate& x,
 					   const Coordinate& y,
-					   Color col = DEFAULT_PLOT_COLOR,
+					   Color col = DEFAULT_SHAPE_COLOR,
 					   float rad = 3);
 		template<typename... Points>
 		void add_point(const Point_shp& point,
@@ -60,13 +60,13 @@ namespace graphics
 		void add_segment(const Segment_shp& segment);
 		void add_segment(const Point_shp& ogn,
 						 const Point_shp& dst,
-						 Color line_col = DEFAULT_PLOT_COLOR);
+						 Color line_col = DEFAULT_SHAPE_COLOR);
 		void add_segment(const Coordinate& ogn_x,
 						 const Coordinate& ogn_y,
 						 const Coordinate& dst_x,
 						 const Coordinate& dst_y,
-						 Color line_col = DEFAULT_PLOT_COLOR,
-						 Color end_points_col = DEFAULT_PLOT_COLOR);
+						 Color line_col = DEFAULT_SHAPE_COLOR,
+						 Color end_points_col = DEFAULT_SHAPE_COLOR);
 		template<typename... Segments>
 		void add_segment(const Segment_shp& segment,
 						 const Segments& ... segments);
@@ -76,19 +76,19 @@ namespace graphics
 						const Coordinate& ogn_y,
 						const Coordinate& dst_x,
 						const Coordinate& dst_y,
-						Color col = DEFAULT_PLOT_COLOR);
+						Color col = DEFAULT_SHAPE_COLOR);
 		void add_vector(const Point_shp& ogn,
 						const Point_shp& dst,
-						Color col = DEFAULT_PLOT_COLOR);
+						Color col = DEFAULT_SHAPE_COLOR);
 		void add_vector(const Segment_shp& segment,
-						Color col = DEFAULT_PLOT_COLOR);
+						Color col = DEFAULT_SHAPE_COLOR);
 		template<typename... Vectors>
 		void add_vector(const Vector_shp& vector,
 						const Vectors& ... vectors);
 
 		void add_polygon(const Polygon_shp& polygon);
 		void add_polygon(const std::vector<Point_shp>& vertices,
-						 Color lines_col = DEFAULT_PLOT_COLOR);
+						 Color lines_col = DEFAULT_SHAPE_COLOR);
 		template<typename... Polygons>
 		void add_polygon(const Polygon_shp& polygon,
 						 const Polygons& ... polygons);
@@ -97,7 +97,7 @@ namespace graphics
 		void add_circle(const Coordinate& x,
 						const Coordinate& y,
 						const Coordinate& rad,
-						Color col = DEFAULT_PLOT_COLOR);
+						Color col = DEFAULT_SHAPE_COLOR);
 		template<typename... Circles>
 		void add_circle(const Circle_shp& circle,
 						const Circles& ... circles);
@@ -106,25 +106,25 @@ namespace graphics
 		void add_line(const Coordinate& a,
 					  const Coordinate& b,
 					  const Coordinate& c,
-					  Color col = DEFAULT_PLOT_COLOR);
+					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_line(const Segment_shp& segment,
-					  Color col = DEFAULT_PLOT_COLOR);
+					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_line(const Point_shp& point1,
 					  const Point_shp& point2,
-					  Color col = DEFAULT_PLOT_COLOR);
+					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_line(const Coordinate& x1,
 					  const Coordinate& y1,
 					  const Coordinate& x2,
 					  const Coordinate& y2,
-					  Color col = DEFAULT_PLOT_COLOR);
+					  Color col = DEFAULT_SHAPE_COLOR);
 		template<typename... Lines>
 		void add_line(const Line_shp& line,
 					  const Lines& ... lines);
 
 		void add_vertical_line(const Coordinate& x,
-							   Color col = DEFAULT_PLOT_COLOR);
+							   Color col = DEFAULT_SHAPE_COLOR);
 		void add_horizontal_line(const Coordinate& y,
-								 Color col = DEFAULT_PLOT_COLOR);
+								 Color col = DEFAULT_SHAPE_COLOR);
 
 		void add_text(const Text_shp& text);
 		void add_text(const std::string& text,
@@ -133,22 +133,22 @@ namespace graphics
 					  unsigned size = 16,
 					  float off_x = 0,
 					  float off_y = 0,
-					  Color col = DEFAULT_PLOT_COLOR);
+					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_text(const std::string& text,
 					  const Point_shp& point,
 					  unsigned size = 16,
-					  Color col = DEFAULT_PLOT_COLOR);
+					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_text(const std::string& text,
 					  const Segment_shp& segment,
 					  unsigned size = 16,
-					  Color col = DEFAULT_PLOT_COLOR);
+					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_text(const std::string& text,
 					  const Vector_shp& vector,
 					  unsigned size = 16,
-					  Color col = DEFAULT_PLOT_COLOR);
+					  Color col = DEFAULT_SHAPE_COLOR);
 
 		/*!
-		 * Adds all the plots of the other Figure
+		 * Adds all the shapes of the other Figure
 		 */
 		void merge_figure(const Figure& other);
 		template<typename... Figures>
@@ -160,23 +160,23 @@ namespace graphics
 		 * This can affect the Bounding_box,
 		 * make_bounding_box() should be called before adding a new Shape
 		 */
-		void erase_last_plot();
+		void erase_last_shape();
 		/*!
-		 * Erases the last k added plot \n
+		 * Erases the last k added shape \n
 		 * This can affect the Bounding_box,
 		 * make_bounding_box() should be called before adding a new Shape
 		 */
-		void erase_last_k_plots(unsigned k);
+		void erase_last_k_shapes(unsigned k);
 		/*!
 		 * Updates the Bounding_box if needed\n
-		 * This should be called after erasing some plots
+		 * This should be called after erasing some shapes
 		 */
 		void make_bounding_box();
 		void clear();
 
-		unsigned nb_plots() const;
+		unsigned nb_shapes() const;
 		bool is_empty() const;
-		const Plot_ptr& operator[](unsigned i) const;
+		const Shape_ptr& operator[](unsigned i) const;
 	};
 
 
@@ -207,13 +207,13 @@ namespace graphics
 	Coordinate Figure::get_max_ordinate() const
 	{ return bounding_box.get_max_ordinate(); }
 
-	Plot_ptr Figure::get_last_plot() const
-	{ return plots.back(); }
+	Shape_ptr Figure::get_last_shape() const
+	{ return shapes.back(); }
 
 	void Figure::add_point(const Point_shp& point)
 	{
-		Plot_ptr plot = std::make_shared<Point_shp>(point);
-		plots.push_back(plot);
+		Shape_ptr shape = std::make_shared<Point_shp>(point);
+		shapes.push_back(shape);
 		bounding_box.extend(point.get_bounding_box());
 	}
 
@@ -236,8 +236,8 @@ namespace graphics
 
 	void Figure::add_segment(const Segment_shp& segment)
 	{
-		Plot_ptr plot = std::make_shared<Segment_shp>(segment);
-		plots.push_back(plot);
+		Shape_ptr shape = std::make_shared<Segment_shp>(segment);
+		shapes.push_back(shape);
 		bounding_box.extend(segment.get_bounding_box());
 	}
 
@@ -271,8 +271,8 @@ namespace graphics
 
 	void Figure::add_vector(const Vector_shp& vector)
 	{
-		Plot_ptr plot = std::make_shared<Vector_shp>(vector);
-		plots.push_back(plot);
+		Shape_ptr shape = std::make_shared<Vector_shp>(vector);
+		shapes.push_back(shape);
 		bounding_box.extend(vector.get_bounding_box());
 	}
 
@@ -311,8 +311,8 @@ namespace graphics
 
 	void Figure::add_polygon(const Polygon_shp& polygon)
 	{
-		Plot_ptr plot = std::make_shared<Polygon_shp>(polygon);
-		plots.push_back(plot);
+		Shape_ptr shape = std::make_shared<Polygon_shp>(polygon);
+		shapes.push_back(shape);
 		bounding_box.extend(polygon.get_bounding_box());
 	}
 
@@ -333,8 +333,8 @@ namespace graphics
 
 	void Figure::add_circle(const Circle_shp& circle)
 	{
-		Plot_ptr plot = std::make_shared<Circle_shp>(circle);
-		plots.push_back(plot);
+		Shape_ptr shape = std::make_shared<Circle_shp>(circle);
+		shapes.push_back(shape);
 		bounding_box.extend(circle.get_bounding_box());
 	}
 
@@ -357,8 +357,8 @@ namespace graphics
 
 	void Figure::add_line(const Line_shp& line)
 	{
-		Plot_ptr plot = std::make_shared<Line_shp>(line);
-		plots.push_back(plot);
+		Shape_ptr shape = std::make_shared<Line_shp>(line);
+		shapes.push_back(shape);
 		bounding_box.extend(line.get_bounding_box());
 	}
 
@@ -420,8 +420,8 @@ namespace graphics
 
 	void Figure::add_text(const Text_shp& text)
 	{
-		Plot_ptr plot = std::make_shared<Text_shp>(text);
-		plots.push_back(plot);
+		Shape_ptr shape = std::make_shared<Text_shp>(text);
+		shapes.push_back(shape);
 		bounding_box.extend(text.get_bounding_box());
 	}
 
@@ -466,9 +466,9 @@ namespace graphics
 
 	void Figure::merge_figure(const Figure& other)
 	{
-		for (unsigned i = 0; i < other.nb_plots(); ++i)
+		for (unsigned i = 0; i < other.nb_shapes(); ++i)
 		{
-			plots.push_back(other[i]);
+			shapes.push_back(other[i]);
 		}
 		bounding_box.extend(other.bounding_box);
 	}
@@ -481,16 +481,16 @@ namespace graphics
 		merge_figure(figures...);
 	}
 
-	void Figure::erase_last_plot()
+	void Figure::erase_last_shape()
 	{
 		if (is_empty())
 		{
 			return;
 		}
-		Coordinate xM = plots.back()->get_bounding_box().get_max_abscissa();
-		Coordinate xm = plots.back()->get_bounding_box().get_min_abscissa();
-		Coordinate yM = plots.back()->get_bounding_box().get_max_ordinate();
-		Coordinate ym = plots.back()->get_bounding_box().get_min_ordinate();
+		Coordinate xM = shapes.back()->get_bounding_box().get_max_abscissa();
+		Coordinate xm = shapes.back()->get_bounding_box().get_min_abscissa();
+		Coordinate yM = shapes.back()->get_bounding_box().get_max_ordinate();
+		Coordinate ym = shapes.back()->get_bounding_box().get_min_ordinate();
 
 		if (xM == get_max_abscissa() || xm == get_min_abscissa() ||
 			yM == get_max_ordinate() || ym == get_min_ordinate())
@@ -498,19 +498,19 @@ namespace graphics
 			need_remake_bounding_box = true;
 		}
 
-		plots.pop_back();
+		shapes.pop_back();
 	}
 
-	void Figure::erase_last_k_plots(unsigned int k)
+	void Figure::erase_last_k_shapes(unsigned int k)
 	{
-		if (k >= nb_plots())
+		if (k >= nb_shapes())
 		{
 			clear();
 			return;
 		}
 		for (unsigned i = 0; i < k; ++i)
 		{
-			erase_last_plot();
+			erase_last_shape();
 		}
 	}
 
@@ -519,33 +519,33 @@ namespace graphics
 		if (need_remake_bounding_box)
 		{
 			bounding_box.clear();
-			for (unsigned i = 0; i < nb_plots(); ++i)
+			for (unsigned i = 0; i < nb_shapes(); ++i)
 			{
-				bounding_box.extend(plots[i]->get_bounding_box());
+				bounding_box.extend(shapes[i]->get_bounding_box());
 			}
 		}
 	}
 
 	void Figure::clear()
 	{
-		plots.clear();
+		shapes.clear();
 		bounding_box.clear();
 	}
 
-	unsigned Figure::nb_plots() const
-	{ return plots.size(); }
+	unsigned Figure::nb_shapes() const
+	{ return shapes.size(); }
 
 	bool Figure::is_empty() const
-	{ return nb_plots() == 0; }
+	{ return nb_shapes() == 0; }
 
-	const Plot_ptr& Figure::operator[](unsigned int i) const
-	{ return plots[i]; }
+	const Shape_ptr& Figure::operator[](unsigned int i) const
+	{ return shapes[i]; }
 
 	std::istream& operator>>(std::istream& is,
 							 Figure& figure)
 	{
 		figure.clear();
-		std::string plot_name;
+		std::string shape_name;
 		Point_shp point;
 		Segment_shp segment;
 		Line_shp line;
@@ -556,43 +556,43 @@ namespace graphics
 
 		while (!is.eof())
 		{
-			is >> plot_name;
-			if (plot_name == POINT_NAME)
+			is >> shape_name;
+			if (shape_name == POINT_NAME)
 			{
 				is >> point;
 				figure.add_point(point);
 			}
-			else if (plot_name == SEGMENT_NAME)
+			else if (shape_name == SEGMENT_NAME)
 			{
 				is >> segment;
 				figure.add_segment(segment);
 			}
-			else if (plot_name == LINE_NAME)
+			else if (shape_name == LINE_NAME)
 			{
 				is >> line;
 				figure.add_line(line);
 			}
-			else if (plot_name == CIRCLE_NAME)
+			else if (shape_name == CIRCLE_NAME)
 			{
 				is >> circle;
 				figure.add_circle(circle);
 			}
-			else if (plot_name == POLYGON_NAME)
+			else if (shape_name == POLYGON_NAME)
 			{
 				is >> polygon;
 				figure.add_polygon(polygon);
 			}
-			else if (plot_name == VECTOR_NAME)
+			else if (shape_name == VECTOR_NAME)
 			{
 				is >> vector;
 				figure.add_vector(vector);
 			}
-			else if (plot_name == TEXT_NAME)
+			else if (shape_name == TEXT_NAME)
 			{
 				is >> text;
 				figure.add_text(text);
 			}
-			plot_name = "";
+			shape_name = "";
 		}
 		return is;
 	}

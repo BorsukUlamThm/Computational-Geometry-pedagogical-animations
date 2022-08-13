@@ -52,8 +52,9 @@ namespace graphics
 	void Acquisition_canvas::handle_point(Coordinate x,
 										  Coordinate y)
 	{
-		Acquisition acquisition = buffer[index];
-		graphics::Color color;
+		if (index >= buffer.size())
+		{ return; }
+
 		switch (state)
 		{
 			case BEGIN_ACQ:
@@ -61,28 +62,52 @@ namespace graphics
 				break;
 
 			case POINT_ACQ1:
-				acquisitions.add_point(x, y,
-									   acquisition.point().get_color(),
-									   acquisition.point().get_radius());
+				current_shapes.add_point
+						(x, y,
+						 std::dynamic_pointer_cast<Point_acq>
+								 (buffer[index])->get_color(),
+						 std::dynamic_pointer_cast<Point_acq>
+								 (buffer[index])->get_radius());
+
+				std::dynamic_pointer_cast<Point_acq>
+						(buffer[index])->add_point(x, y);
+
+				nb_acquired_shapes++;
+				set_next_state();
 				break;
 
 			case SEGMENT_ACQ1:
-				color = acquisition.segment().get_end_points_color();
-				acquisitions.add_point(x, y, color);
+				current_shapes.add_point
+						(x, y,
+						 std::dynamic_pointer_cast<Segment_acq>
+								 (buffer[index])->get_endpoints_color());
+
+				std::dynamic_pointer_cast<Segment_acq>
+						(buffer[index])->add_origin(x, y);
+
 				state = SEGMENT_ACQ2;
 				break;
 
 			case SEGMENT_ACQ2:
-				Point_shp p = *(std::dynamic_pointer_cast<Point_shp>(
-						acquisitions.get_last_plot()));
+				Point_shp p = *(std::dynamic_pointer_cast<Point_shp>
+						(current_shapes.get_last_shape()));
+				Point_shp q
+						(x, y,
+						 std::dynamic_pointer_cast<Segment_acq>
+								 (buffer[index])->get_endpoints_color());
 
-				color = acquisition.segment().get_end_points_color();
-				Point_shp q(x, y, color);
-				acquisitions.erase_last_plot();
+				current_shapes.erase_last_shape();
+				current_shapes.add_segment
+						(p, q,
+						 std::dynamic_pointer_cast<Segment_acq>
+								 (buffer[index])->get_line_color());
 
-				color = acquisition.segment().get_line_color();
-				acquisitions.add_segment(p, q, color);
+				std::dynamic_pointer_cast<Segment_acq>
+						(buffer[index])->add_destination(x, y);
+
 				state = SEGMENT_ACQ1;
+				nb_acquired_shapes++;
+				set_next_state();
 				break;
 		}
 	}
@@ -92,7 +117,14 @@ namespace graphics
 		switch (event.key.code)
 		{
 			case sf::Keyboard::Enter:
+				if (index >= buffer.size())
+				{ break; }
+				if (buffer[index]->get_nb_acquisitions() < -1 &&
+					buffer[index]->get_nb_acquisitions() > nb_acquired_shapes)
+				{ break; }
+
 				index++;
+				nb_acquired_shapes = 0;
 				set_next_state();
 				break;
 

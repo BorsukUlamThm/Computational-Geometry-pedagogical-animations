@@ -21,14 +21,14 @@ namespace graphics
 	private:
 		Point_shp origin;
 		Point_shp destination;
-		Color line_color = DEFAULT_PLOT_COLOR;
+		Color line_color = DEFAULT_SHAPE_COLOR;
 
 	public:
 		// standard constructors
 		Segment_shp();
 		Segment_shp(const Point_shp& ogn,
 					const Point_shp& dst,
-					Color line_col = DEFAULT_PLOT_COLOR);
+					Color line_col = DEFAULT_SHAPE_COLOR);
 		Segment_shp(const Segment_shp& other);
 
 		// other constructor
@@ -40,8 +40,8 @@ namespace graphics
 					const Coordinate& ogn_y,
 					const Coordinate& dst_x,
 					const Coordinate& dst_y,
-					Color line_col = DEFAULT_PLOT_COLOR,
-					Color end_points_col = DEFAULT_PLOT_COLOR);
+					Color line_col = DEFAULT_SHAPE_COLOR,
+					Color end_points_col = DEFAULT_SHAPE_COLOR);
 
 		~Segment_shp() = default;
 

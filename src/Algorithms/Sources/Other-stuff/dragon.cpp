@@ -106,7 +106,7 @@ namespace Other_stuff_dragon
         {
             gr::Coordinate x = gr::Coordinate(z.real);
             gr::Coordinate y = gr::Coordinate(z.imag);
-            fig.add_point(x, y, gr::DEFAULT_PLOT_COLOR, r);
+            fig.add_point(x, y, gr::DEFAULT_SHAPE_COLOR, r);
         }
 
         gr::Display_canvas canvas;

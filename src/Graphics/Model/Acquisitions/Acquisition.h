@@ -1,98 +1,55 @@
 #pragma once
 
-#include "Point_acq.h"
-#include "Segment_acq.h"
+/** @cond */
+#include <memory>
+/** @endcond */
+#include "Acquired_shape.h"
 
 
 namespace graphics
 {
-	enum Acquisition_type
+	enum State
 	{
-		POINT_ACQ,
-		SEGMENT_ACQ
+		BEGIN_ACQ,
+		POINT_ACQ1,
+		SEGMENT_ACQ1,
+		SEGMENT_ACQ2,
+		END_ACQ
 	};
+
+	typedef std::shared_ptr<Acquired_shape> Acquired_shape_ptr;
 
 	class Acquisition
 	{
-	private:
-		Acquisition_type acquisition_type;
-		union
-		{
-			Point_acq u_point;
-			Segment_acq u_segment;
-		};
+	protected:
+		unsigned nb_acquisitions = -1;
+		std::vector<Acquired_shape_ptr> acquired_shapes;
 
 	public:
-		explicit Acquisition(Acquisition_type type);
-		explicit Acquisition(const Point_acq& point);
-		explicit Acquisition(const Segment_acq& segment);
-		Acquisition(const Acquisition& other);
-		~Acquisition();
-
-		Acquisition_type type() const;
-		Point_acq point() const;
-		Segment_acq segment() const;
+		virtual State starting_state() const = 0;
+		unsigned get_nb_acquisitions() const;
+		unsigned get_size() const;
+		const Acquired_shape_ptr& operator[](unsigned i) const;
+		Acquired_shape_ptr& operator[](unsigned i);
+		const Acquired_shape_ptr& get(unsigned i) const;
+		Acquired_shape_ptr& get(unsigned i);
 	};
 
-	Acquisition::Acquisition(Acquisition_type type)
-	{
-		acquisition_type = type;
-		switch (type)
-		{
-			case POINT_ACQ:
-				new(&u_point) Point_acq();
-				break;
-			case SEGMENT_ACQ:
-				new(&u_segment) Segment_acq();
-				break;
-		}
-	}
+	unsigned Acquisition::get_nb_acquisitions() const
+	{ return nb_acquisitions; }
 
-	Acquisition::Acquisition(const Point_acq& point)
-	{
-		acquisition_type = POINT_ACQ;
-		u_point = Point_acq(point);
-	}
+	unsigned Acquisition::get_size() const
+	{ return acquired_shapes.size(); }
 
-	Acquisition::Acquisition(const Segment_acq& segment)
-	{
-		acquisition_type = SEGMENT_ACQ;
-		u_segment = Segment_acq(segment);
-	}
+	const Acquired_shape_ptr& Acquisition::operator[](unsigned i) const
+	{ return acquired_shapes[i]; }
 
-	Acquisition::Acquisition(const Acquisition& other)
-	{
-		acquisition_type = other.acquisition_type;
-		switch (acquisition_type)
-		{
-			case POINT_ACQ:
-				new(&u_point) Point_acq(other.u_point);
-				break;
-			case SEGMENT_ACQ:
-				new(&u_segment) Segment_acq(other.u_segment);
-				break;
-		}
-	}
+	Acquired_shape_ptr& Acquisition::operator[](unsigned i)
+	{ return acquired_shapes[i]; }
 
-	Acquisition::~Acquisition()
-	{
-		switch (acquisition_type)
-		{
-			case POINT_ACQ:
-				u_point.~Point_acq();
-				break;
-			case SEGMENT_ACQ:
-				u_segment.~Segment_acq();
-				break;
-		}
-	}
+	const Acquired_shape_ptr& Acquisition::get(unsigned i) const
+	{ return acquired_shapes[i]; }
 
-	Acquisition_type Acquisition::type() const
-	{ return acquisition_type; }
-
-	Point_acq Acquisition::point() const
-	{ return u_point; }
-
-	Segment_acq Acquisition::segment() const
-	{ return u_segment; }
+	Acquired_shape_ptr& Acquisition::get(unsigned i)
+	{ return acquired_shapes[i]; }
 }

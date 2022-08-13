@@ -3,6 +3,7 @@
 #include "Algorithms/Algorithms.h"
 #include "Graphics/View/View.h"
 
+
 namespace chs
 {
 	namespace gr = graphics;
@@ -30,19 +31,19 @@ namespace chs
 	{
 		Convex_hull_option opt;
 
-		for(unsigned i = 0; i < argc; ++i)
+		for (unsigned i = 0; i < argc; ++i)
 		{
-			if(argv[i][0] != '-')
+			if (argv[i][0] != '-')
 			{
 				continue;
 			}
 
-			if(std::string(argv[i]) == "-a")
+			if (std::string(argv[i]) == "-a")
 			{
 				opt.input_type = ACQUISITION;
 				continue;
 			}
-			if(std::string(argv[i]) == "-r")
+			if (std::string(argv[i]) == "-r")
 			{
 				opt.input_type = RANDOM;
 				++i;
@@ -58,7 +59,7 @@ namespace chs
 				{
 					opt.nb_random_points = std::stoi(std::string(argv[i]));
 				}
-				catch(const std::invalid_argument& ia)
+				catch (const std::invalid_argument& ia)
 				{
 					std::cerr << "invalid -r parameter, missing"
 							  << " number of random points"
@@ -67,7 +68,7 @@ namespace chs
 				}
 			}
 
-			if(std::string(argv[i]) == "-s")
+			if (std::string(argv[i]) == "-s")
 			{
 				++i;
 				if (i >= argc)
@@ -81,7 +82,7 @@ namespace chs
 				{
 					opt.seed = std::stoi(std::string(argv[i]));
 				}
-				catch(const std::invalid_argument& ia)
+				catch (const std::invalid_argument& ia)
 				{
 					std::cerr << "invalid -s parameter, missing seed"
 							  << std::endl;
@@ -89,7 +90,7 @@ namespace chs
 				}
 			}
 
-			if(std::string(argv[i]) == "-i")
+			if (std::string(argv[i]) == "-i")
 			{
 				opt.input_type = FILE;
 				++i;
@@ -105,7 +106,8 @@ namespace chs
 
 			else
 			{
-				std::cerr << "unknown " << argv[i] << " option ignored" << std::endl;
+				std::cerr << "unknown " << argv[i] << " option ignored"
+						  << std::endl;
 			}
 		}
 
@@ -116,25 +118,28 @@ namespace chs
 	{
 		if (opt.input_type == RANDOM)
 		{
-			std::cout << "initializing " << opt.nb_random_points << " random points"
+			std::cout << "initializing " << opt.nb_random_points
+					  << " random points"
 					  << std::endl << "seed : " << opt.seed << std::endl;
 
 			alg::Normal_number_generator<int> ng(opt.seed);
 			return alg::random_point_2_set<int>(opt.nb_random_points, ng);
 		}
 
-		if(opt.input_type == ACQUISITION)
+		if (opt.input_type == ACQUISITION)
 		{
 			gr::Acquisition_canvas canvas;
 			canvas.set_title("Convex hull - acquisition");
 			canvas.add_point_acquisition();
-			gr::Figure fig = canvas.acquire_buffer();
+			gr::Acquisitions acquisitions = canvas.acquire_buffer();
 
 			point_set P;
-			for (unsigned i = 0; i < fig.nb_plots(); ++i)
+			for (unsigned i = 0; i < acquisitions[0]->get_size(); ++i)
 			{
-				auto p = std::dynamic_pointer_cast<gr::Point_shp>(fig[i]);
-				P.emplace_back(p->get_abscissa(), p->get_ordinate());
+				auto p = std::dynamic_pointer_cast<gr::Acquired_point>
+						(acquisitions[0]->get(i));
+				P.emplace_back(int(p->abscissa),
+							   int(p->ordinate));
 			}
 
 			return P;

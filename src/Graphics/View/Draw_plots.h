@@ -11,7 +11,7 @@ namespace graphics
 	void Canvas::draw_figure(const Figure& figure)
 	{
 		window.clear(config.colors[BACKGROUND_COLOR]);
-		for (unsigned i = 0; i < figure.nb_plots(); ++i)
+		for (unsigned i = 0; i < figure.nb_shapes(); ++i)
 		{
 			figure[i]->draw(*this);
 		}

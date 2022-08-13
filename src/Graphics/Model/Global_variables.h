@@ -44,7 +44,7 @@ namespace graphics
 		GREEN,
 		YELLOW,
 		BACKGROUND_COLOR,
-		DEFAULT_PLOT_COLOR,
+		DEFAULT_SHAPE_COLOR,
 		NB_COLORS
 	};
 
@@ -83,7 +83,7 @@ namespace graphics
 			colors[GREEN] = sf::Color(39, 174, 96);
 			colors[YELLOW] = sf::Color(241, 196, 15);
 			colors[BACKGROUND_COLOR] = colors[DARK_GREY];
-			colors[DEFAULT_PLOT_COLOR] = colors[LIGHT_GREY];
+			colors[DEFAULT_SHAPE_COLOR] = colors[LIGHT_GREY];
 
 			std::filesystem::path config_dir = gt::get_config_directory();
 			if (config_dir.empty())
@@ -134,7 +134,7 @@ namespace graphics
 			if (words[0] == "BACKGROUND_COLOR")
 			{ colors[BACKGROUND_COLOR] = read_color(words); }
 			if (words[0] == "PLOT_COLOR")
-			{ colors[DEFAULT_PLOT_COLOR] = read_color(words); }
+			{ colors[DEFAULT_SHAPE_COLOR] = read_color(words); }
 
 			if (words[0] == "FONT")
 			{

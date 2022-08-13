@@ -1,11 +1,15 @@
 #pragma once
 
-#include "Graphics/Model/Acquisitions/Acquisition.h"
+#include "Graphics/Model/Acquisitions/Point_acq.h"
+#include "Graphics/Model/Acquisitions/Segment_acq.h"
 #include "Canvas.h"
 
 
 namespace graphics
 {
+	typedef std::shared_ptr<Acquisition> Acquisition_ptr;
+	typedef std::vector<Acquisition_ptr> Acquisitions;
+
 	// +-----------------------------------------------------------------------+
 	// |                             DECLARATIONS                              |
 	// +-----------------------------------------------------------------------+
@@ -13,40 +17,28 @@ namespace graphics
 	/*!
 	 * The Acquisition_canvas class allows to acquire shapes in order to perform
 	 * algorithms on them\n
-	 * \n
-	 * Usage :\n
-	 * First you declare the needed acquisitions using the add_X_acquisition
-	 * methods. Then the acquire_buffer method opens the canvas on which you can
-	 * draw the declared acquisitions. After all acquisitions are drawn, the
-	 * method returns a Figure that contains them
 	 */
 	class Acquisition_canvas : public Canvas
 	{
 	private:
-		enum State
-		{
-			BEGIN_ACQ,
-			POINT_ACQ1,
-			SEGMENT_ACQ1,
-			SEGMENT_ACQ2,
-			END_ACQ
-		};
-
-		std::vector<Acquisition> buffer;
+		Acquisitions buffer;
 		unsigned index = 0;
-		Figure acquisitions;
+		unsigned nb_acquired_shapes = 0;
+		Figure current_shapes;
 		State state = BEGIN_ACQ;
 
 	public:
 		Acquisition_canvas() = default;
 		~Acquisition_canvas() = default;
 
-		void add_point_acquisition(Color col = DEFAULT_PLOT_COLOR,
+		void add_point_acquisition(unsigned nb_points = -1,
+								   Color col = DEFAULT_SHAPE_COLOR,
 								   float rad = 3);
-		void add_segment_acquisition(Color line_col = DEFAULT_PLOT_COLOR,
-									 Color end_points_col = DEFAULT_PLOT_COLOR);
+		void add_segment_acquisition(unsigned nb_segments = -1,
+									 Color line_col = DEFAULT_SHAPE_COLOR,
+									 Color endpoints_col = DEFAULT_SHAPE_COLOR);
 
-		Figure acquire_buffer();
+		Acquisitions acquire_buffer();
 
 	private:
 		void setup_bounding_box();
@@ -65,41 +57,49 @@ namespace graphics
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	void Acquisition_canvas::add_point_acquisition(Color col,
+	void Acquisition_canvas::add_point_acquisition(unsigned nb_points,
+												   Color col,
 												   float rad)
 	{
-		Point_acq point(col, rad);
-		buffer.emplace_back(point);
+		auto point_acq = std::make_shared<Point_acq>(nb_points,
+													 col,
+													 rad);
+		buffer.push_back(point_acq);
 	}
 
-	void Acquisition_canvas::add_segment_acquisition(Color line_col,
-													 Color end_points_col)
+	void Acquisition_canvas::add_segment_acquisition(unsigned nb_segments,
+													 Color line_col,
+													 Color endpoints_col)
 	{
-		Segment_acq segment(line_col, end_points_col);
-		buffer.emplace_back(segment);
+		auto segment_acq = std::make_shared<Segment_acq>(nb_segments,
+														 line_col,
+														 endpoints_col);
+		buffer.push_back(segment_acq);
 	}
 
-	Figure Acquisition_canvas::acquire_buffer()
+	Acquisitions Acquisition_canvas::acquire_buffer()
 	{
 		config.margin = 0;
 		open();
 		set_next_state();
-		while (window.isOpen() && state != END_ACQ)
+		while (window.isOpen())
 		{
 			handle_events();
-			draw_figure(acquisitions);
+			draw_figure(current_shapes);
 			window.display();
 		}
 
-		return Figure(acquisitions);
+		Acquisitions acquisitions;
+		std::swap(buffer, acquisitions);
+		return acquisitions;
 	}
 
 	void Acquisition_canvas::setup_bounding_box()
 	{
-		if (acquisitions.is_empty())
+		if (current_shapes.is_empty())
 		{
 			graphics::Point_shp p(0, 0);
-			graphics::Point_shp q((Coordinate(config.width)),
+			graphics::Point_shp q(Coordinate(config.width),
 								  Coordinate(config.height));
 
 			bounding_box.clear();
@@ -108,28 +108,25 @@ namespace graphics
 		}
 		else
 		{
-			bounding_box = Bounding_box(acquisitions.get_bounding_box());
+			bounding_box = Bounding_box(current_shapes.get_bounding_box());
 		}
 	}
 
 	void Acquisition_canvas::set_next_state()
 	{
+		if (index < buffer.size() &&
+			nb_acquired_shapes == buffer[index]->get_nb_acquisitions())
+		{
+			nb_acquired_shapes = 0;
+			index++;
+		}
 		if (index >= buffer.size())
 		{
 			state = END_ACQ;
 			return;
 		}
 
-		switch (buffer[index].type())
-		{
-			case POINT_ACQ:
-				state = POINT_ACQ1;
-				break;
-
-			case SEGMENT_ACQ:
-				state = SEGMENT_ACQ1;
-				break;
-		}
+		state = buffer[index]->starting_state();
 	}
 
 	void Acquisition_canvas::acquire_point(Coordinate& x,
@@ -140,10 +137,10 @@ namespace graphics
 
 		float view_size_x = view.getSize().x;
 		float view_size_y = view.getSize().y;
-		float xm = view.getCenter().x - view.getSize().x / 2;
-		float ym = view.getCenter().y - view.getSize().y / 2;
+		float x_min = view.getCenter().x - view.getSize().x / 2;
+		float y_min = view.getCenter().y - view.getSize().y / 2;
 
-		x = xm + ratio_x * view_size_x;
-		y = -ym - ratio_y * view_size_y;
+		x = x_min + ratio_x * view_size_x;
+		y = -y_min - ratio_y * view_size_y;
 	}
 }

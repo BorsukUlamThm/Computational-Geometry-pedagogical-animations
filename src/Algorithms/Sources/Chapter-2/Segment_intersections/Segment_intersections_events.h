@@ -49,7 +49,7 @@ namespace chap2_segment_intersections
 		fig_line.add_horizontal_line(y);
 
 		slides.add_slide(fig_segments, fig_line);
-		fig_segments.erase_last_plot();
+		fig_segments.erase_last_shape();
 	}
 
 	Event make_upper_event(const point& p, unsigned i)

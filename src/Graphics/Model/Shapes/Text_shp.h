@@ -33,7 +33,7 @@ namespace graphics
 	 * Text_shp(const std::string& text,
 	 *          const Point_shp& point,
 	 *          unsigned size = 16,
-	 *          const Color col = DEFAULT_PLOT_COLOR)
+	 *          const Color col = DEFAULT_SHAPE_COLOR)
 	 * ```
 	 * which was already designed for this usecase, but it gives you an idea\n
 	 */
@@ -46,7 +46,7 @@ namespace graphics
 		unsigned size = 16;
 		float offset_x = 0;
 		float offset_y = 0;
-		Color color = DEFAULT_PLOT_COLOR;
+		Color color = DEFAULT_SHAPE_COLOR;
 
 	public:
 		// standard constructors
@@ -57,7 +57,7 @@ namespace graphics
 				 unsigned size = 16,
 				 float off_x = 0,
 				 float off_y = 0,
-				 const Color col = DEFAULT_PLOT_COLOR);
+				 const Color col = DEFAULT_SHAPE_COLOR);
 		Text_shp(const Text_shp& other);
 
 		// other constructors
@@ -68,7 +68,7 @@ namespace graphics
 		Text_shp(const std::string& text,
 				 const Point_shp& point,
 				 unsigned size = 16,
-				 const Color col = DEFAULT_PLOT_COLOR);
+				 const Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs a text that will be drawn
 		 * in the middle of the given segment
@@ -76,7 +76,7 @@ namespace graphics
 		Text_shp(const std::string& text,
 				 const Segment_shp& segment,
 				 unsigned size = 16,
-				 const Color col = DEFAULT_PLOT_COLOR);
+				 const Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs a text that will be drawn
 		 * in the middle of the given vector
@@ -84,7 +84,7 @@ namespace graphics
 		Text_shp(const std::string& text,
 				 const Vector_shp& vector,
 				 unsigned size = 16,
-				 const Color col = DEFAULT_PLOT_COLOR);
+				 const Color col = DEFAULT_SHAPE_COLOR);
 
 		~Text_shp() = default;
 

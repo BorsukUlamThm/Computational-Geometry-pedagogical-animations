@@ -25,7 +25,7 @@ namespace graphics
 		Coordinate a {};
 		Coordinate b {};
 		Coordinate c {};
-		Color color = DEFAULT_PLOT_COLOR;
+		Color color = DEFAULT_SHAPE_COLOR;
 
 	public:
 		// standard constructors
@@ -33,7 +33,7 @@ namespace graphics
 		Line_shp(const Coordinate& a,
 				 const Coordinate& b,
 				 const Coordinate& c,
-				 Color col = DEFAULT_PLOT_COLOR);
+				 Color col = DEFAULT_SHAPE_COLOR);
 		Line_shp(const Line_shp& other);
 
 		// other constructors
@@ -41,13 +41,13 @@ namespace graphics
 		 * Constructs the line containing the given segment
 		 */
 		explicit Line_shp(const Segment_shp& segment,
-						  Color col = DEFAULT_PLOT_COLOR);
+						  Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs the line containing the two given points
 		 */
 		Line_shp(const Point_shp& point1,
 				 const Point_shp& point2,
-				 Color col = DEFAULT_PLOT_COLOR);
+				 Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs the line containing the two points p1 and p2\n
 		 * where p1 has coordinate (x1, y1) and p2 (x2, y2)
@@ -56,7 +56,7 @@ namespace graphics
 				 const Coordinate& y1,
 				 const Coordinate& x2,
 				 const Coordinate& y2,
-				 Color col = DEFAULT_PLOT_COLOR);
+				 Color col = DEFAULT_SHAPE_COLOR);
 
 		~Line_shp() = default;
 

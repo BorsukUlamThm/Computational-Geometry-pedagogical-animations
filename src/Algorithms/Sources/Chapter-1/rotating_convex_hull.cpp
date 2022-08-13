@@ -81,7 +81,7 @@ namespace chap1_rotating_convex_hull
 		for(unsigned i = 2; i < n; ++i)
 		{
 			unsigned k = CH.size();
-			fig_hull.erase_last_plot();
+			fig_hull.erase_last_shape();
 			fig_hull.add_segment(CH[k - 2].x, CH[k - 2].y,
 								 CH[k - 1].x, CH[k - 1].y, gr::YELLOW);
 			fig_line.clear();
@@ -92,7 +92,7 @@ namespace chap1_rotating_convex_hull
 				fig_hull.add_segment(CH.back().x, CH.back().y,
 									 P[i].x, P[i].y, gr::RED);
 				slides.add_slide(fig_points, fig_line, fig_hull);
-				fig_hull.erase_last_k_plots(2);
+				fig_hull.erase_last_k_shapes(2);
 				CH.pop_back();
 			}
 			fig_hull.add_segment(CH.back().x, CH.back().y,
@@ -102,7 +102,7 @@ namespace chap1_rotating_convex_hull
 		}
 
 		unsigned k = CH.size();
-		fig_hull.erase_last_plot();
+		fig_hull.erase_last_shape();
 		fig_hull.add_segment(CH[k - 2].x, CH[k - 2].y,
 							 CH[k - 1].x, CH[k - 1].y, gr::YELLOW);
 

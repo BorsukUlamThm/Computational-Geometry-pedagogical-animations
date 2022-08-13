@@ -104,7 +104,7 @@ namespace graphics
 	{ return config.colors[BACKGROUND_COLOR]; }
 
 	sf::Color Canvas::get_default_plot_color() const
-	{ return config.colors[DEFAULT_PLOT_COLOR]; }
+	{ return config.colors[DEFAULT_SHAPE_COLOR]; }
 
 	sf::Font Canvas::get_font() const
 	{ return config.font; }
@@ -128,7 +128,7 @@ namespace graphics
 	{ config.colors[BACKGROUND_COLOR] = new_color; }
 
 	void Canvas::set_default_plot_color(const sf::Color& new_color)
-	{ config.colors[DEFAULT_PLOT_COLOR] = new_color; }
+	{ config.colors[DEFAULT_SHAPE_COLOR] = new_color; }
 
 	void Canvas::set_font(const sf::Font& new_font)
 	{ config.font = new_font; }

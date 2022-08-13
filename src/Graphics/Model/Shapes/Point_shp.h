@@ -28,14 +28,14 @@ namespace graphics
 	private:
 		Coordinate abscissa {};
 		Coordinate ordinate {};
-		Color color = DEFAULT_PLOT_COLOR;
+		Color color = DEFAULT_SHAPE_COLOR;
 		float radius = 3;
 
 	public:
 		Point_shp();
 		Point_shp(const Coordinate& x,
 				  const Coordinate& y,
-				  Color col = DEFAULT_PLOT_COLOR,
+				  Color col = DEFAULT_SHAPE_COLOR,
 				  float rad = 3);
 		Point_shp(const Point_shp& other);
 

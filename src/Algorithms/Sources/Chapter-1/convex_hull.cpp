@@ -45,7 +45,7 @@ namespace chap1_convex_hull
 		for(unsigned i = 2; i < n; ++i)
 		{
 			unsigned k = U.size();
-			fig_hull.erase_last_plot();
+			fig_hull.erase_last_shape();
 			fig_hull.add_segment(U[k - 2].x, U[k - 2].y,
 								 U[k - 1].x, U[k - 1].y, gr::YELLOW);
 			fig_line.clear();
@@ -56,7 +56,7 @@ namespace chap1_convex_hull
 				fig_hull.add_segment(U.back().x, U.back().y,
 									 P[i].x, P[i].y, gr::RED);
 				slides.add_slide(fig_points, fig_line, fig_hull);
-				fig_hull.erase_last_k_plots(2);
+				fig_hull.erase_last_k_shapes(2);
 				U.pop_back();
 			}
 			fig_hull.add_segment(U.back().x, U.back().y,
@@ -66,7 +66,7 @@ namespace chap1_convex_hull
 		}
 
 		unsigned k = U.size();
-		fig_hull.erase_last_plot();
+		fig_hull.erase_last_shape();
 		fig_hull.add_segment(U[k - 2].x, U[k - 2].y,
 							 U[k - 1].x, U[k - 1].y, gr::YELLOW);
 
@@ -91,7 +91,7 @@ namespace chap1_convex_hull
 		for(unsigned i = n - 3; i < n; --i)
 		{
 			unsigned k = L.size();
-			fig_hull.erase_last_plot();
+			fig_hull.erase_last_shape();
 			fig_hull.add_segment(L[k - 2].x, L[k - 2].y,
 								 L[k - 1].x, L[k - 1].y, gr::YELLOW);
 			fig_line.clear();
@@ -102,7 +102,7 @@ namespace chap1_convex_hull
 				fig_hull.add_segment(L.back().x, L.back().y,
 									 P[i].x, P[i].y, gr::RED);
 				slides.add_slide(fig_points, fig_line, fig_hull);
-				fig_hull.erase_last_k_plots(2);
+				fig_hull.erase_last_k_shapes(2);
 				L.pop_back();
 			}
 			fig_hull.add_segment(L.back().x, L.back().y,
@@ -112,7 +112,7 @@ namespace chap1_convex_hull
 		}
 
 		unsigned k = L.size();
-		fig_hull.erase_last_plot();
+		fig_hull.erase_last_shape();
 		fig_hull.add_segment(L[k - 2].x, L[k - 2].y,
 							 L[k - 1].x, L[k - 1].y, gr::YELLOW);
 		slides.add_slide(fig_points, fig_line, fig_hull);

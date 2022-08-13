@@ -53,7 +53,7 @@ namespace chap1_jarvis_convex_hull
 			{
 				fig_points.add_segment(last.x, last.y, P[j].x, P[j].y, gr::RED);
 				slides.add_slide(fig_points, fig_hull);
-				fig_hull.erase_last_plot();
+				fig_hull.erase_last_shape();
 				fig_hull.add_segment(last.x, last.y, P[j].x, P[j].y, gr::YELLOW);
 
 				p = P[j];
@@ -63,7 +63,7 @@ namespace chap1_jarvis_convex_hull
 				fig_points.add_segment(last.x, last.y, P[j].x, P[j].y, gr::GREEN);
 				slides.add_slide(fig_points, fig_hull);
 			}
-			fig_points.erase_last_plot();
+			fig_points.erase_last_shape();
 		}
 
 		return p;
