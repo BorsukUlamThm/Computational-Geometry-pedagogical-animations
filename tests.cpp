@@ -41,7 +41,7 @@ int main()
 	fig.add_text(text_shp);
 
 	gr::Display_canvas canvas;
-	canvas.display_figure(fig);
+//	canvas.display_figure(fig);
 
 	fig.save("test");
 

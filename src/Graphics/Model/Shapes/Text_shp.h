@@ -240,24 +240,13 @@ namespace graphics
 	{
 		text.content.clear();
 		std::string tmp;
-		is >> tmp;
-		text.content = tmp.substr(1, tmp.size() - 1);
-		if (text.content[text.content.size() - 1] == '\"')
+		is.get();
+		auto c = is.get();
+		do
 		{
-			text.content = text.content.substr(0, tmp.size() - 1);
-		}
-		else
-		{
-			is >> tmp;
-			while (tmp[tmp.size() - 1] != '\"')
-			{
-				text.content += " ";
-				text.content += tmp;
-				is >> tmp;
-			}
-			text.content += " ";
-			text.content += tmp.substr(0, tmp.size() - 1);
-		}
+			text.content.push_back(c);
+			c = is.get();
+		} while (c != '"');
 
 		is >> text.point.abscissa
 		   >> text.point.ordinate
