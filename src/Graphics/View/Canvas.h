@@ -23,6 +23,7 @@ namespace graphics
 		Bounding_box bounding_box;
 		sf::View view;
 
+		std::string window_title = "CGPA";
 		Config config;
 
 		float zoom = 1;
@@ -95,7 +96,7 @@ namespace graphics
 	// +-----------------------------------------------------------------------+
 
 	std::string Canvas::get_title() const
-	{ return config.window_title; }
+	{ return window_title; }
 
 	sf::Color Canvas::get_color(Color col) const
 	{ return config.get_color(col); }
@@ -119,7 +120,7 @@ namespace graphics
 	{ return config.margin; }
 
 	void Canvas::set_title(const std::string& new_title)
-	{ config.window_title = new_title; }
+	{ window_title = new_title; }
 
 	void Canvas::set_color(Color col, const sf::Color& new_col)
 	{ config.colors[col] = new_col; }
@@ -154,13 +155,13 @@ namespace graphics
 		if (config.width == -1 || config.height == -1)
 		{
 			window.create(sf::VideoMode::getDesktopMode(),
-						  config.window_title,
+						  window_title,
 						  sf::Style::Default, settings);
 		}
 		else
 		{
 			window.create(sf::VideoMode(config.width, config.height),
-						  config.window_title,
+						  window_title,
 						  sf::Style::Default, settings);
 		}
 	}

@@ -26,9 +26,12 @@ namespace general_tools
 		{
 			if (current_dir.parent_path() == current_dir.root_directory())
 			{
-				std::cerr << "Warning : Executable is not executed from " << PROJECT_NAME
-						  << " directory" << std::endl
-						  << "          Some graphics may not work properly" << std::endl;
+				std::cerr << "Warning : Executable is not executed from "
+						  << PROJECT_NAME
+						  << " directory"
+						  << std::endl
+						  << "          Some graphics may not work properly"
+						  << std::endl;
 
 				return {};
 			}
@@ -39,7 +42,7 @@ namespace general_tools
 	}
 
 	/*!
-	 * @return the root of the .config directory
+	 * @return the root of the .dark_mode.cfg directory
 	 */
 	fs::path get_config_directory()
 	{
@@ -54,8 +57,10 @@ namespace general_tools
 
 		if (!fs::exists(res))
 		{
-			std::cerr << "Warning : .config directory not found" << std::endl
-					  << "          Some graphics may not work properly" << std::endl;
+			std::cerr << "Warning : .config directory not found"
+					  << std::endl
+					  << "          Some graphics may not work properly"
+					  << std::endl;
 
 			return {};
 		}
@@ -64,7 +69,7 @@ namespace general_tools
 	}
 
 	/*!
-	 * @param line a parsed line from a config file
+	 * @param line a parsed line from a dark_mode.cfg file
 	 * @return the list of the words separated by whitespaces
 	 */
 	std::vector<std::string> split_line(const std::string& line)

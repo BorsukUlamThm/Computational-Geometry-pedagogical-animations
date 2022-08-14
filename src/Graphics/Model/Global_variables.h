@@ -36,8 +36,8 @@ namespace graphics
 	 */
 	enum Color
 	{
-		DARK_GREY,
-		LIGHT_GREY,
+		BLACK,
+		WHITE,
 		RED,
 		PURPLE,
 		BLUE,
@@ -59,8 +59,6 @@ namespace graphics
 	 */
 	struct Config
 	{
-		std::string window_title = "CGPA";
-
 		boost::array<sf::Color, NB_COLORS> colors;
 
 		sf::Font font;
@@ -70,26 +68,26 @@ namespace graphics
 		unsigned margin = 50;
 
 		/*!
-		 * Constructs a Config object reading the values from the config file \n
-		 * If the config file is not found, default values are set instead
+		 * Constructs a Config object reading the values from the config_file\n
+		 * If the config_file is not found, default values are set instead
 		 */
-		Config()
+		explicit Config(const std::string& config_file = "dark_mode.cfg")
 		{
-			colors[DARK_GREY] = sf::Color(33, 47, 60);
-			colors[LIGHT_GREY] = sf::Color(208, 211, 212);
+			colors[BLACK] = sf::Color(33, 47, 60);
+			colors[WHITE] = sf::Color(208, 211, 212);
 			colors[RED] = sf::Color(203, 67, 53);
 			colors[PURPLE] = sf::Color(175, 122, 197);
 			colors[BLUE] = sf::Color(52, 152, 219);
 			colors[GREEN] = sf::Color(39, 174, 96);
 			colors[YELLOW] = sf::Color(241, 196, 15);
-			colors[BACKGROUND_COLOR] = colors[DARK_GREY];
-			colors[DEFAULT_SHAPE_COLOR] = colors[LIGHT_GREY];
+			colors[BACKGROUND_COLOR] = colors[BLACK];
+			colors[DEFAULT_SHAPE_COLOR] = colors[WHITE];
 
 			std::filesystem::path config_dir = gt::get_config_directory();
 			if (config_dir.empty())
 			{ return; }
 
-			std::ifstream is(config_dir.string() + "/config");
+			std::ifstream is(config_dir.string() + "/" + config_file);
 			std::string line;
 
 			for (; !is.eof(); std::getline(is, line))
@@ -117,10 +115,10 @@ namespace graphics
 			if (words[0][0] == '#')
 			{ return; }
 
-			if (words[0] == "DARK_GREY")
-			{ colors[DARK_GREY] = read_color(words); }
-			if (words[0] == "LIGHT_GREY")
-			{ colors[LIGHT_GREY] = read_color(words); }
+			if (words[0] == "BLACK")
+			{ colors[BLACK] = read_color(words); }
+			if (words[0] == "WHITE")
+			{ colors[WHITE] = read_color(words); }
 			if (words[0] == "RED")
 			{ colors[RED] = read_color(words); }
 			if (words[0] == "PURPLE")

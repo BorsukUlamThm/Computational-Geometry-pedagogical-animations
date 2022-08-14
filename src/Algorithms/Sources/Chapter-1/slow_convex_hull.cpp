@@ -26,11 +26,11 @@ namespace chap1_slow_convex_hull
 	{
 		unsigned n = P.size();
 		segment_set E;
-		for (unsigned i = 0; i < n; ++i)
+		for(unsigned i = 0; i < n; ++i)
 		{
-			for (unsigned j = 0; j < n; ++j)
+			for(unsigned j = 0; j < n; ++j)
 			{
-				if (i == j)
+				if(i == j)
 					continue;
 
 				animation[OUTSIDE_SEGMENTS].add_vector(
@@ -38,13 +38,12 @@ namespace chap1_slow_convex_hull
 				animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 
 				bool is_ok = true;
-				for (unsigned k = 0; k < n; ++k)
+				for(unsigned k = 0; k < n; ++k)
 				{
-					if (alg::point_strictly_left_line(P[k], P[i], P[j]))
+					if(alg::point_strictly_left_line(P[k], P[i], P[j]))
 					{
 						is_ok = false;
-						animation[POINTS].add_point(P[k].x, P[k].y, gr::RED,
-													20);
+						animation[POINTS].add_point(P[k].x, P[k].y, gr::RED, 20);
 						animation[OUTSIDE_SEGMENTS].add_vector(
 								P[i].x, P[i].y, P[j].x, P[j].y, gr::RED);
 						animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
@@ -54,14 +53,13 @@ namespace chap1_slow_convex_hull
 					}
 					else
 					{
-						animation[POINTS].add_point(P[k].x, P[k].y, gr::GREEN,
-													20);
+						animation[POINTS].add_point(P[k].x, P[k].y, gr::GREEN, 7);
 						animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 						animation[POINTS].erase_last_shape();
 					}
 				}
 				animation[OUTSIDE_SEGMENTS].erase_last_shape();
-				if (is_ok)
+				if(is_ok)
 				{
 					E.emplace_back(P[i], P[j]);
 					animation[OUTSIDE_SEGMENTS].add_vector(
@@ -72,9 +70,9 @@ namespace chap1_slow_convex_hull
 		}
 
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
-		for (unsigned i = 0; i < E.size(); ++i)
+		for(unsigned i = 0; i < E.size(); ++i)
 		{
-			gr::Vector_shp v(E[i].ogn.x, E[i].ogn.y, E[i].dst.x, E[i].dst.y);
+			gr::Vector_shp v (E[i].ogn.x, E[i].ogn.y, E[i].dst.x, E[i].dst.y);
 			animation[OUTSIDE_SEGMENTS].add_text(std::to_string(i), v);
 		}
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
@@ -94,11 +92,11 @@ namespace chap1_slow_convex_hull
 				s.ogn.x, s.ogn.y, s.dst.x, s.dst.y, gr::YELLOW);
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 
-		while (CH.size() < E.size())
+		while(CH.size() < E.size())
 		{
-			for (auto& e : E)
+			for(auto & e : E)
 			{
-				if (e.ogn == s.dst)
+				if(e.ogn == s.dst)
 				{
 					CH.push_back(s.dst);
 					s = e;
@@ -127,7 +125,7 @@ namespace chap1_slow_convex_hull
 
 	void slow_convex_hull(const point_set& P)
 	{
-		for (auto p : P)
+		for(auto p : P)
 		{
 			animation[POINTS].add_point(p.x, p.y);
 		}
@@ -137,7 +135,7 @@ namespace chap1_slow_convex_hull
 		convex_hull CH = sort_outside_segment(E);
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
-		for (auto& v : CH)
+		for(auto& v : CH)
 		{
 			plot_CH.add_vertex(v.x, v.y);
 		}
