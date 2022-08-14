@@ -64,6 +64,7 @@ namespace graphics
 		Color get_color() const;
 
 		void draw(Canvas& canvas) const override;
+		void write(std::ostream& os) const override;
 
 	private:
 		// no need to have a make_bounding_box here
@@ -142,6 +143,15 @@ namespace graphics
 	Color Line_shp::get_color() const
 	{ return color; }
 
+	void Line_shp::write(std::ostream& os) const
+	{
+		os << LINE_NAME << " "
+		   << line.a << " "
+		   << line.b << " "
+		   << line.c << " "
+		   << color;
+	}
+
 	void Line_shp::aux_constructor(const Coordinate& x1,
 								   const Coordinate& y1,
 								   const Coordinate& x2,
@@ -157,11 +167,7 @@ namespace graphics
 	std::ostream& operator<<(std::ostream& os,
 							 const Line_shp& line)
 	{
-		os << LINE_NAME << " "
-		   << line.get_a() << " "
-		   << line.get_b() << " "
-		   << line.get_c() << " "
-		   << line.get_color();
+		line.write(os);
 		return os;
 	}
 

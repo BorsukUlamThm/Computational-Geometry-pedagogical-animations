@@ -23,14 +23,14 @@ namespace graphics
 	constexpr Coordinate MAX_COORDINATE = limits::max();
 
 
-	// Class names for serialization
-	constexpr char POINT_NAME[] = "Point";
-	constexpr char SEGMENT_NAME[] = "Segment";
-	constexpr char LINE_NAME[] = "Line";
-	constexpr char CIRCLE_NAME[] = "Circle";
-	constexpr char POLYGON_NAME[] = "Polygon";
-	constexpr char VECTOR_NAME[] = "Vector";
-	constexpr char TEXT_NAME[] = "Text";
+	// Shapes names for serialization
+	constexpr char POINT_NAME[] = "[Point]";
+	constexpr char SEGMENT_NAME[] = "[Segment]";
+	constexpr char LINE_NAME[] = "[Line]";
+	constexpr char CIRCLE_NAME[] = "[Circle]";
+	constexpr char POLYGON_NAME[] = "[Polygon]";
+	constexpr char VECTOR_NAME[] = "[Vector]";
+	constexpr char TEXT_NAME[] = "[Text]";
 
 	/*!
 	 * Available colours
@@ -131,10 +131,10 @@ namespace graphics
 			if (config_dir.empty())
 			{ return; }
 
-			std::ifstream is(config_dir.string() + "/" + config_file);
+			std::ifstream ifs(config_dir.string() + "/" + config_file);
 			std::string line;
 
-			for (; !is.eof(); std::getline(is, line))
+			for (; !ifs.eof(); std::getline(ifs, line))
 			{
 				parse_config_line(line, config_dir.string());
 			}
@@ -161,21 +161,21 @@ namespace graphics
 
 			if (words[0] == "BLACK")
 			{ colors[BLACK] = read_color(words); }
-			if (words[0] == "WHITE")
+			else if (words[0] == "WHITE")
 			{ colors[WHITE] = read_color(words); }
-			if (words[0] == "RED")
+			else if (words[0] == "RED")
 			{ colors[RED] = read_color(words); }
-			if (words[0] == "PURPLE")
+			else if (words[0] == "PURPLE")
 			{ colors[PURPLE] = read_color(words); }
-			if (words[0] == "BLUE")
+			else if (words[0] == "BLUE")
 			{ colors[BLUE] = read_color(words); }
-			if (words[0] == "GREEN")
+			else if (words[0] == "GREEN")
 			{ colors[GREEN] = read_color(words); }
-			if (words[0] == "YELLOW")
+			else if (words[0] == "YELLOW")
 			{ colors[YELLOW] = read_color(words); }
-			if (words[0] == "BACKGROUND_COLOR")
+			else if (words[0] == "BACKGROUND_COLOR")
 			{ colors[BACKGROUND_COLOR] = read_color(words); }
-			if (words[0] == "PLOT_COLOR")
+			else if (words[0] == "PLOT_COLOR")
 			{ colors[DEFAULT_SHAPE_COLOR] = read_color(words); }
 
 			if (words[0] == "FONT")

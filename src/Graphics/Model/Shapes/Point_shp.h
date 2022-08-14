@@ -46,6 +46,7 @@ namespace graphics
 		float get_radius() const;
 
 		void draw(Canvas& canvas) const override;
+		void write(std::ostream& os) const override;
 
 	public:
 		friend std::istream& operator>>(std::istream& is,
@@ -93,14 +94,19 @@ namespace graphics
 	float Point_shp::get_radius() const
 	{ return radius; }
 
+	void Point_shp::write(std::ostream& os) const
+	{
+		os << POINT_NAME << " "
+		   << point.abscissa << " "
+		   << point.ordinate << " "
+		   << color << " "
+		   << radius;
+	}
+
 	std::ostream& operator<<(std::ostream& os,
 							 const Point_shp& point)
 	{
-		os << POINT_NAME << " "
-		   << point.get_abscissa() << " "
-		   << point.get_ordinate() << " "
-		   << point.get_color() << " "
-		   << point.get_radius();
+		point.write(os);
 		return os;
 	}
 

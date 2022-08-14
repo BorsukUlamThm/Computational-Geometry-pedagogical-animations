@@ -172,9 +172,15 @@ namespace graphics
 		void make_bounding_box();
 		void clear();
 
+		void load(const std::string& name);
+		void save(const std::string& name);
+
 		unsigned nb_shapes() const;
 		bool is_empty() const;
 		const Shape_ptr& operator[](unsigned i) const;
+
+	private:
+		void parse_shape(std::ifstream& ifs);
 	};
 
 
@@ -521,6 +527,81 @@ namespace graphics
 	{
 		shapes.clear();
 		bounding_box.clear();
+	}
+
+	void Figure::parse_shape(std::ifstream& ifs)
+	{
+		std::string shape_name;
+
+		ifs >> shape_name;
+		if (shape_name == POINT_NAME)
+		{
+			Point_shp point;
+			ifs >> point;
+			add_point(point);
+			return;
+		}
+		if (shape_name == SEGMENT_NAME)
+		{
+			Segment_shp segment;
+			ifs >> segment;
+			add_segment(segment);
+		}
+		if (shape_name == LINE_NAME)
+		{
+			Line_shp line;
+			ifs >> line;
+			add_line(line);
+		}
+		if (shape_name == CIRCLE_NAME)
+		{
+			Circle_shp circle;
+			ifs >> circle;
+			add_circle(circle);
+		}
+		if (shape_name == POLYGON_NAME)
+		{
+			Polygon_shp polygon;
+			ifs >> polygon;
+			add_polygon(polygon);
+		}
+		if (shape_name == VECTOR_NAME)
+		{
+			Vector_shp vector;
+			ifs >> vector;
+			add_vector(vector);
+		}
+		if (shape_name == TEXT_NAME)
+		{
+			Text_shp text;
+			ifs >> text;
+			add_text(text);
+		}
+	}
+
+	void Figure::load(const std::string& name)
+	{
+		std::filesystem::path project_dir = gt::get_project_directory();
+		std::ifstream ifs(project_dir / ("saved_figures/" + name));
+		std::string line;
+
+		while (!ifs.eof())
+		{
+			parse_shape(ifs);
+		}
+		parse_shape(ifs);
+	}
+
+	void Figure::save(const std::string& name)
+	{
+		std::filesystem::path project_dir = gt::get_project_directory();
+		std::ofstream ofs(project_dir / ("saved_figures/" + name));
+
+		for (auto & shape : shapes)
+		{
+			shape->write(ofs);
+			ofs << std::endl;
+		}
 	}
 
 	unsigned Figure::nb_shapes() const

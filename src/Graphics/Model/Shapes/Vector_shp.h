@@ -54,6 +54,7 @@ namespace graphics
 		Color get_color() const;
 
 		void draw(Canvas& canvas) const override;
+		void write(std::ostream& os) const override;
 
 	private:
 		void make_bounding_box();
@@ -128,15 +129,20 @@ namespace graphics
 	Color Vector_shp::get_color() const
 	{ return color; }
 
+	void Vector_shp::write(std::ostream& os) const
+	{
+		os << VECTOR_NAME << " "
+		   << vector.origin_x << " "
+		   << vector.origin_y << " "
+		   << vector.destination_x << " "
+		   << vector.destination_y << " "
+		   << color;
+	}
+
 	std::ostream& operator<<(std::ostream& os,
 							 const Vector_shp& vector)
 	{
-		os << VECTOR_NAME << " "
-		   << vector.get_origin_x() << " "
-		   << vector.get_origin_y() << " "
-		   << vector.get_destination_x() << " "
-		   << vector.get_destination_y() << " "
-		   << vector.get_color();
+		vector.write(os);
 		return os;
 	}
 

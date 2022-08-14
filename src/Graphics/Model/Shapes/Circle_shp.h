@@ -47,6 +47,7 @@ namespace graphics
 		Color get_color() const;
 
 		void draw(Canvas& canvas) const override;
+		void write(std::ostream& os) const override;
 
 	public:
 		friend std::istream& operator>>(std::istream& is,
@@ -95,14 +96,19 @@ namespace graphics
 	Color Circle_shp::get_color() const
 	{ return color; }
 
+	void Circle_shp::write(std::ostream& os) const
+	{
+		os << CIRCLE_NAME << " "
+		   << circle.center_x << " "
+		   << circle.center_y << " "
+		   << circle.radius << " "
+		   << color;
+	}
+
 	std::ostream& operator<<(std::ostream& os,
 							 const Circle_shp& circle)
 	{
-		os << CIRCLE_NAME << " "
-		   << circle.get_center_x() << " "
-		   << circle.get_center_y() << " "
-		   << circle.get_radius() << " "
-		   << circle.get_color();
+		circle.write(os);
 		return os;
 	}
 

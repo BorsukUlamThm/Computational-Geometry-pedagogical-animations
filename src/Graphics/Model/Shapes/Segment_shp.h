@@ -38,7 +38,7 @@ namespace graphics
 		Segment_shp(const Point_obj& ogn,
 					const Point_obj& dst,
 					Color line_col = DEFAULT_SHAPE_COLOR,
-					Color end_points_col = DEFAULT_SHAPE_COLOR);
+					Color endpoints_col = DEFAULT_SHAPE_COLOR);
 
 		~Segment_shp() = default;
 
@@ -50,6 +50,7 @@ namespace graphics
 		Color get_endpoints_color() const;
 
 		void draw(Canvas& canvas) const override;
+		void write(std::ostream& os) const override;
 
 	public:
 		friend std::istream& operator>>(std::istream& is,
@@ -115,16 +116,21 @@ namespace graphics
 	Color Segment_shp::get_endpoints_color() const
 	{ return line_color; }
 
+	void Segment_shp::write(std::ostream& os) const
+	{
+		os << SEGMENT_NAME << " "
+		   << segment.origin_x << " "
+		   << segment.origin_y << " "
+		   << segment.destination_x << " "
+		   << segment.destination_y << " "
+		   << line_color << " "
+		   << endpoints_color;
+	}
+
 	std::ostream& operator<<(std::ostream& os,
 							 const Segment_shp& segment)
 	{
-		os << SEGMENT_NAME << " "
-		   << segment.get_origin_x() << " "
-		   << segment.get_origin_y() << " "
-		   << segment.get_destination_x() << " "
-		   << segment.get_destination_y() << " "
-		   << segment.get_line_color() << " "
-		   << segment.get_endpoints_color();
+		segment.write(os);
 		return os;
 	}
 

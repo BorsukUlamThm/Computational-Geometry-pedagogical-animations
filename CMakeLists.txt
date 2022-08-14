@@ -18,6 +18,9 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 # Some directories
 set(bin ${CMAKE_SOURCE_DIR}/bin)
 set(log ${CMAKE_SOURCE_DIR}/log)
+file(MAKE_DIRECTORY bin)
+file(MAKE_DIRECTORY log)
+file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/saved_figures)
 
 # Test executable
 add_executable(tests tests.cpp ${algorithms_sources} ${general_tools_sources} ${graphics_sources})

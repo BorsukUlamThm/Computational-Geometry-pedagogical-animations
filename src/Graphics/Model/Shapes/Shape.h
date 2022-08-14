@@ -36,6 +36,7 @@ namespace graphics
 	public:
 		Bounding_box get_bounding_box() const;
 		virtual void draw(Canvas& canvas) const = 0;
+		virtual void write(std::ostream& os) const = 0;
 	};
 
 

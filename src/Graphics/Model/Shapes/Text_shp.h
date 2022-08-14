@@ -96,6 +96,7 @@ namespace graphics
 		Color get_color() const;
 
 		void draw(Canvas& canvas) const override;
+		void write(std::ostream& os) const override;
 
 	private:
 		void aux_constructor(const std::string& text,
@@ -197,6 +198,18 @@ namespace graphics
 	Color Text_shp::get_color() const
 	{ return color; }
 
+	void Text_shp::write(std::ostream& os) const
+	{
+		os << TEXT_NAME << " \""
+		   << content << "\" "
+		   << point.abscissa << " "
+		   << point.ordinate << " "
+		   << size << " "
+		   << offset_x << " "
+		   << offset_y << " "
+		   << color;
+	}
+
 	void Text_shp::aux_constructor(const std::string& text,
 								   const Coordinate& x,
 								   const Coordinate& y,
@@ -218,14 +231,7 @@ namespace graphics
 	std::ostream& operator<<(std::ostream& os,
 							 const Text_shp& text)
 	{
-		os << TEXT_NAME << " \""
-		   << text.get_content() << "\" "
-		   << text.get_abscissa() << " "
-		   << text.get_ordinate() << " "
-		   << text.get_size() << " "
-		   << text.get_offset_x() << " "
-		   << text.get_offset_y() << " "
-		   << text.get_color();
+		text.write(os);
 		return os;
 	}
 
@@ -245,9 +251,11 @@ namespace graphics
 			is >> tmp;
 			while (tmp[tmp.size() - 1] != '\"')
 			{
+				text.content += " ";
 				text.content += tmp;
 				is >> tmp;
 			}
+			text.content += " ";
 			text.content += tmp.substr(0, tmp.size() - 1);
 		}
 

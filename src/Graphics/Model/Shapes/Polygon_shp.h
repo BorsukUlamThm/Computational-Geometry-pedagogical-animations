@@ -45,6 +45,7 @@ namespace graphics
 		Color get_vertices_color() const;
 
 		void draw(Canvas& canvas) const override;
+		void write(std::ostream& os) const override;
 
 	public:
 		friend std::istream& operator>>(std::istream& is,
@@ -107,19 +108,24 @@ namespace graphics
 	Color Polygon_shp::get_vertices_color() const
 	{ return vertices_color; }
 
+	void Polygon_shp::write(std::ostream& os) const
+	{
+		os << POLYGON_NAME << " "
+		   << vertices.size() << " ";
+		for (unsigned i = 0; i < vertices.size(); ++i)
+		{
+			os << vertices[i].abscissa << " "
+			   << vertices[i].ordinate << " ";
+		}
+
+		os << lines_color << " "
+		   << vertices_color;
+	}
+
 	std::ostream& operator<<(std::ostream& os,
 							 const Polygon_shp& polygon)
 	{
-		os << POLYGON_NAME << " "
-		   << polygon.size() << " ";
-		for (unsigned i = 0; i < polygon.size(); ++i)
-		{
-			os << polygon[i].abscissa << " "
-			   << polygon[i].ordinate << " ";
-		}
-
-		os << polygon.get_lines_color() << " "
-		   << polygon.get_vertices_color();
+		polygon.write(os);
 		return os;
 	}
 

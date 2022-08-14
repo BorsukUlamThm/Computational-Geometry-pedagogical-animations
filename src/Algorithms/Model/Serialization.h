@@ -113,8 +113,8 @@ std::ostream& operator<<(std::ostream& os, const Segment_2<Real>& s)
 template<typename Real>
 void save_point_2_set(const std::string& path, const std::vector<Point_2<Real>>& points)
 {
-    std::filesystem::path Project_dir = general_tools::get_project_directory();
-    std::ofstream ofs(Project_dir / path);
+    std::filesystem::path project_dir = general_tools::get_project_directory();
+    std::ofstream ofs(project_dir / path);
 
     unsigned n = points.size();
     ofs << n << std::endl;
@@ -128,8 +128,8 @@ void save_point_2_set(const std::string& path, const std::vector<Point_2<Real>>&
 template<typename Real>
 void save_segment_2_set(const std::string& path, const std::vector<Segment_2<Real>>& segments)
 {
-    std::filesystem::path Project_dir = general_tools::get_project_directory();
-    std::ofstream ofs(Project_dir / path);
+    std::filesystem::path project_dir = general_tools::get_project_directory();
+    std::ofstream ofs(project_dir / path);
 
     unsigned n = segments.size();
     ofs << n << std::endl;
