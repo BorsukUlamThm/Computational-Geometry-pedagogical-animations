@@ -17,9 +17,13 @@ namespace chap2_segment_intersections
 	typedef alg::Point_2<rational> point;
 	typedef alg::Segment_2<rational> segment;
 
-	extern gr::Slide_show slides;
-	extern gr::Figure fig_segments;
-	extern gr::Figure fig_line;
+	enum Figures
+	{
+		SEGMENTS,
+		LINE,
+		NB_FIGURES
+	};
+	extern gr::Animation animation;
 
 	struct Event
 	{
@@ -43,13 +47,13 @@ namespace chap2_segment_intersections
 	{
 		auto x = boost::rational_cast<float>(p.x);
 		auto y = boost::rational_cast<float>(p.y);
-		fig_segments.add_point(x, y, gr::RED, 5);
+		animation[SEGMENTS].add_point(x, y, gr::RED, 5);
 
-		fig_line.clear();
-		fig_line.add_horizontal_line(y);
+		animation[LINE].clear();
+		animation[LINE].add_horizontal_line(y);
 
-		slides.add_slide(fig_segments, fig_line);
-		fig_segments.erase_last_shape();
+		animation.make_new_frame();
+		animation[SEGMENTS].erase_last_shape();
 	}
 
 	Event make_upper_event(const point& p, unsigned i)

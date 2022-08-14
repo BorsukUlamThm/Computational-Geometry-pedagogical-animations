@@ -7,9 +7,7 @@ namespace chap2_segment_intersections
 	namespace gr = graphics;
 	namespace alg = algorithms;
 
-	gr::Slide_show slides;
-	gr::Figure fig_segments;
-	gr::Figure fig_line;
+	gr::Animation animation(NB_FIGURES);
 
 
 	void clean_segment_set(segment_set& S)
@@ -35,9 +33,9 @@ namespace chap2_segment_intersections
 			auto y1 = boost::rational_cast<float>(s.ogn.y);
 			auto x2 = boost::rational_cast<float>(s.dst.x);
 			auto y2 = boost::rational_cast<float>(s.dst.y);
-			fig_segments.add_segment(x1, y1, x2, y2);
+			animation[SEGMENTS].add_segment(x1, y1, x2, y2);
 		}
-		slides.add_slide(fig_segments);
+		animation.make_new_frame(SEGMENTS);
 
 		Event_queue Q;
 		for(unsigned i = 0; i < S.size(); ++i)
@@ -72,7 +70,7 @@ int main(int argc, char** argv)
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Segment intersections - animation");
-	canvas.run_animation(slides);
+	canvas.run_animation(animation);
 
 	return 0;
 }
