@@ -28,9 +28,7 @@ namespace graphics
 	class Circle_shp : public Shape
 	{
 	private:
-		Coordinate center_x {};
-		Coordinate center_y {};
-		Coordinate radius {};
+		Circle_obj circle;
 		Color color = DEFAULT_SHAPE_COLOR;
 
 	public:
@@ -50,9 +48,6 @@ namespace graphics
 
 		void draw(Canvas& canvas) const override;
 
-	private:
-		void make_bounding_box();
-
 	public:
 		friend std::istream& operator>>(std::istream& is,
 										Circle_shp& circle);
@@ -65,7 +60,7 @@ namespace graphics
 
 	Circle_shp::Circle_shp()
 	{
-		make_bounding_box();
+		bounding_box = Bounding_box(circle);
 	}
 
 	Circle_shp::Circle_shp(const Coordinate& x,
@@ -73,43 +68,32 @@ namespace graphics
 						   const Coordinate& rad,
 						   Color col)
 	{
-		center_x = Coordinate(x);
-		center_y = Coordinate(y);
-		radius = Coordinate(rad);
+		circle.center_x = Coordinate(x);
+		circle.center_y = Coordinate(y);
+		circle.radius = Coordinate(rad);
 		color = col;
-
-		make_bounding_box();
+		bounding_box = Bounding_box(circle);
 	}
 
 	Circle_shp::Circle_shp(const Circle_shp& other) : Shape(other)
 	{
-		center_x = Coordinate(other.center_x);
-		center_y = Coordinate(other.center_y);
-		radius = Coordinate(other.radius);
+		circle.center_x = Coordinate(other.circle.center_x);
+		circle.center_y = Coordinate(other.circle.center_y);
+		circle.radius = Coordinate(other.circle.radius);
 		color = other.color;
 	}
 
 	Coordinate Circle_shp::get_center_x() const
-	{ return center_x; }
+	{ return circle.center_x; }
 
 	Coordinate Circle_shp::get_center_y() const
-	{ return center_y; }
+	{ return circle.center_y; }
 
 	Coordinate Circle_shp::get_radius() const
-	{ return radius; }
+	{ return circle.radius; }
 
 	Color Circle_shp::get_color() const
 	{ return color; }
-
-	void Circle_shp::make_bounding_box()
-	{
-		Coordinate x_min = center_x - radius;
-		Coordinate x_max = center_x + radius;
-		Coordinate y_min = center_y - radius;
-		Coordinate y_max = center_y + radius;
-
-		bounding_box = Bounding_box(x_min, x_max, y_min, y_max);
-	}
 
 	std::ostream& operator<<(std::ostream& os,
 							 const Circle_shp& circle)
@@ -117,16 +101,18 @@ namespace graphics
 		os << CIRCLE_NAME << " "
 		   << circle.get_center_x() << " "
 		   << circle.get_center_y() << " "
-		   << circle.get_radius();
+		   << circle.get_radius() << " "
+		   << circle.get_color();
 		return os;
 	}
 
 	std::istream& operator>>(std::istream& is,
 							 Circle_shp& circle)
 	{
-		is >> circle.center_x
-		   >> circle.center_y
-		   >> circle.radius;
+		is >> circle.circle.center_x
+		   >> circle.circle.center_y
+		   >> circle.circle.radius
+		   >> circle.color;
 		return is;
 	}
 }

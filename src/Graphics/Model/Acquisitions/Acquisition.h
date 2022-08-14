@@ -3,7 +3,7 @@
 /** @cond */
 #include <memory>
 /** @endcond */
-#include "Acquired_shape.h"
+#include "Graphics/Model/Geometric_object.h"
 
 
 namespace graphics
@@ -17,22 +17,22 @@ namespace graphics
 		END_ACQ
 	};
 
-	typedef std::shared_ptr<Acquired_shape> Acquired_shape_ptr;
+	typedef std::shared_ptr<Geometric_object> Geometric_object_ptr;
 
 	class Acquisition
 	{
 	protected:
 		unsigned nb_acquisitions = -1;
-		std::vector<Acquired_shape_ptr> acquired_shapes;
+		std::vector<Geometric_object_ptr> acquired_shapes;
 
 	public:
 		virtual State starting_state() const = 0;
 		unsigned get_nb_acquisitions() const;
 		unsigned get_size() const;
-		const Acquired_shape_ptr& operator[](unsigned i) const;
-		Acquired_shape_ptr& operator[](unsigned i);
-		const Acquired_shape_ptr& get(unsigned i) const;
-		Acquired_shape_ptr& get(unsigned i);
+		const Geometric_object_ptr& operator[](unsigned i) const;
+		Geometric_object_ptr& operator[](unsigned i);
+		const Geometric_object_ptr& get(unsigned i) const;
+		Geometric_object_ptr& get(unsigned i);
 	};
 
 	unsigned Acquisition::get_nb_acquisitions() const
@@ -41,15 +41,15 @@ namespace graphics
 	unsigned Acquisition::get_size() const
 	{ return acquired_shapes.size(); }
 
-	const Acquired_shape_ptr& Acquisition::operator[](unsigned i) const
+	const Geometric_object_ptr& Acquisition::operator[](unsigned i) const
 	{ return acquired_shapes[i]; }
 
-	Acquired_shape_ptr& Acquisition::operator[](unsigned i)
+	Geometric_object_ptr& Acquisition::operator[](unsigned i)
 	{ return acquired_shapes[i]; }
 
-	const Acquired_shape_ptr& Acquisition::get(unsigned i) const
+	const Geometric_object_ptr& Acquisition::get(unsigned i) const
 	{ return acquired_shapes[i]; }
 
-	Acquired_shape_ptr& Acquisition::get(unsigned i)
+	Geometric_object_ptr& Acquisition::get(unsigned i)
 	{ return acquired_shapes[i]; }
 }

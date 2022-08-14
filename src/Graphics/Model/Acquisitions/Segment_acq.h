@@ -56,8 +56,8 @@ namespace graphics
 								  const Coordinate& dst_x,
 								  const Coordinate& dst_y)
 	{
-		Acquired_shape_ptr segment =
-				std::make_shared<Acquired_segment>(ogn_x, ogn_y, dst_x, dst_y);
+		Geometric_object_ptr segment =
+				std::make_shared<Segment_obj>(ogn_x, ogn_y, dst_x, dst_y);
 		acquired_shapes.emplace_back(segment);
 	}
 

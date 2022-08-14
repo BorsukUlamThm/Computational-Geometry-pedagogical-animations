@@ -136,7 +136,7 @@ namespace chs
 			point_set P;
 			for (unsigned i = 0; i < acquisitions[0]->get_size(); ++i)
 			{
-				auto p = std::dynamic_pointer_cast<gr::Acquired_point>
+				auto p = std::dynamic_pointer_cast<gr::Point_obj>
 						(acquisitions[0]->get(i));
 				P.emplace_back(int(p->abscissa),
 							   int(p->ordinate));

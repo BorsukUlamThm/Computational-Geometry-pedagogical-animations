@@ -19,40 +19,37 @@ namespace graphics
 	class Segment_shp : public Shape
 	{
 	private:
-		Point_shp origin;
-		Point_shp destination;
+		Segment_obj segment;
 		Color line_color = DEFAULT_SHAPE_COLOR;
+		Color endpoints_color = DEFAULT_SHAPE_COLOR;
 
 	public:
 		// standard constructors
 		Segment_shp();
-		Segment_shp(const Point_shp& ogn,
-					const Point_shp& dst,
-					Color line_col = DEFAULT_SHAPE_COLOR);
-		Segment_shp(const Segment_shp& other);
-
-		// other constructor
-		/*!
-		 * Constructs the segment whose endpoints are ogn and dst\n
-		 * where ogn coordinate (ogn_x, ogn_y) and dst (dst_x, dst_y)
-		 */
 		Segment_shp(const Coordinate& ogn_x,
 					const Coordinate& ogn_y,
 					const Coordinate& dst_x,
 					const Coordinate& dst_y,
 					Color line_col = DEFAULT_SHAPE_COLOR,
 					Color end_points_col = DEFAULT_SHAPE_COLOR);
+		Segment_shp(const Segment_shp& other);
+
+		//other constructor
+		Segment_shp(const Point_obj& ogn,
+					const Point_obj& dst,
+					Color line_col = DEFAULT_SHAPE_COLOR,
+					Color end_points_col = DEFAULT_SHAPE_COLOR);
 
 		~Segment_shp() = default;
 
-		Point_shp get_origin() const;
-		Point_shp get_destination() const;
+		Coordinate get_origin_x() const;
+		Coordinate get_origin_y() const;
+		Coordinate get_destination_x() const;
+		Coordinate get_destination_y() const;
 		Color get_line_color() const;
+		Color get_endpoints_color() const;
 
 		void draw(Canvas& canvas) const override;
-
-	private:
-		void make_bounding_box();
 
 	public:
 		friend std::istream& operator>>(std::istream& is,
@@ -66,25 +63,7 @@ namespace graphics
 
 	Segment_shp::Segment_shp()
 	{
-		make_bounding_box();
-	}
-
-	Segment_shp::Segment_shp(const Point_shp& ogn,
-							 const Point_shp& dst,
-							 Color line_col)
-	{
-		origin = Point_shp(ogn);
-		destination = Point_shp(dst);
-		line_color = line_col;
-
-		make_bounding_box();
-	}
-
-	Segment_shp::Segment_shp(const Segment_shp& other) : Shape(other)
-	{
-		origin = Point_shp(other.origin);
-		destination = Point_shp(other.destination);
-		line_color = other.line_color;
+		bounding_box = Bounding_box(segment);
 	}
 
 	Segment_shp::Segment_shp(const Coordinate& ogn_x,
@@ -94,46 +73,70 @@ namespace graphics
 							 Color line_col,
 							 Color end_points_col)
 	{
-		origin = Point_shp(ogn_x, ogn_y, end_points_col);
-		destination = Point_shp(dst_x, dst_y, end_points_col);
+		segment = Segment_obj(ogn_x, ogn_y, dst_x, dst_y);
 		line_color = line_col;
-
-		make_bounding_box();
+		endpoints_color = end_points_col;
+		bounding_box = Bounding_box(segment);
 	}
 
-	Point_shp Segment_shp::get_origin() const
-	{ return origin; }
+	Segment_shp::Segment_shp(const Segment_shp& other) : Shape(other)
+	{
+		segment = Segment_obj(other.segment);
+		line_color = other.line_color;
+		endpoints_color = other.endpoints_color;
+	}
 
-	Point_shp Segment_shp::get_destination() const
-	{ return destination; }
+	Segment_shp::Segment_shp(const Point_obj& ogn,
+							 const Point_obj& dst,
+							 Color line_col,
+							 Color endpoints_col)
+	{
+		segment = Segment_obj(ogn, dst);
+		line_color = line_col;
+		endpoints_color = endpoints_col;
+		bounding_box = Bounding_box(segment);
+	}
+
+	Coordinate Segment_shp::get_origin_x() const
+	{ return segment.origin_x; }
+
+	Coordinate Segment_shp::get_origin_y() const
+	{ return segment.origin_y; }
+
+	Coordinate Segment_shp::get_destination_x() const
+	{ return segment.destination_x; }
+
+	Coordinate Segment_shp::get_destination_y() const
+	{ return segment.destination_y; }
 
 	Color Segment_shp::get_line_color() const
 	{ return line_color; }
 
-	void Segment_shp::make_bounding_box()
-	{
-		bounding_box.clear();
-		bounding_box.extend(origin.get_bounding_box());
-		bounding_box.extend(destination.get_bounding_box());
-	}
+	Color Segment_shp::get_endpoints_color() const
+	{ return line_color; }
 
 	std::ostream& operator<<(std::ostream& os,
 							 const Segment_shp& segment)
 	{
 		os << SEGMENT_NAME << " "
-		   << segment.get_origin() << " "
-		   << segment.get_destination();
+		   << segment.get_origin_x() << " "
+		   << segment.get_origin_y() << " "
+		   << segment.get_destination_x() << " "
+		   << segment.get_destination_y() << " "
+		   << segment.get_line_color() << " "
+		   << segment.get_endpoints_color();
 		return os;
 	}
 
 	std::istream& operator>>(std::istream& is,
 							 Segment_shp& segment)
 	{
-		std::string dummy;
-		is >> dummy
-		   >> segment.origin
-		   >> dummy
-		   >> segment.destination;
+		is >> segment.segment.origin_x
+		   >> segment.segment.origin_y
+		   >> segment.segment.destination_x
+		   >> segment.segment.destination_y
+		   >> segment.line_color
+		   >> segment.endpoints_color;
 		return is;
 	}
 }

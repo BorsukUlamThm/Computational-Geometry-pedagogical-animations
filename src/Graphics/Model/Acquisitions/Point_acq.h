@@ -45,7 +45,7 @@ namespace graphics
 	void Point_acq::add_point(const Coordinate& x,
 							  const Coordinate& y)
 	{
-		Acquired_shape_ptr point = std::make_shared<Acquired_point>(x, y);
+		Geometric_object_ptr point = std::make_shared<Point_obj>(x, y);
 		acquired_shapes.emplace_back(point);
 	}
 }

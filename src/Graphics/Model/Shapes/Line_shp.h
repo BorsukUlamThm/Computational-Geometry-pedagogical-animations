@@ -22,9 +22,7 @@ namespace graphics
 	class Line_shp : public Shape
 	{
 	private:
-		Coordinate a {};
-		Coordinate b {};
-		Coordinate c {};
+		Line_obj line;
 		Color color = DEFAULT_SHAPE_COLOR;
 
 	public:
@@ -40,13 +38,13 @@ namespace graphics
 		/*!
 		 * Constructs the line containing the given segment
 		 */
-		explicit Line_shp(const Segment_shp& segment,
+		explicit Line_shp(const Segment_obj& segment,
 						  Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs the line containing the two given points
 		 */
-		Line_shp(const Point_shp& point1,
-				 const Point_shp& point2,
+		Line_shp(const Point_obj& point1,
+				 const Point_obj& point2,
 				 Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs the line containing the two points p1 and p2\n
@@ -92,38 +90,34 @@ namespace graphics
 					   const Coordinate& c,
 					   Color col)
 	{
-		this->a = Coordinate(a);
-		this->b = Coordinate(b);
-		this->c = Coordinate(c);
+		line = Line_obj(a, b, c);
 		color = col;
 	}
 
 	Line_shp::Line_shp(const Line_shp& other) : Shape(other)
 	{
-		a = Coordinate(other.a);
-		b = Coordinate(other.b);
-		c = Coordinate(other.c);
+		line = Line_obj(other.line);
 		color = other.color;
 	}
 
-	Line_shp::Line_shp(const Segment_shp& segment,
+	Line_shp::Line_shp(const Segment_obj& segment,
 					   Color col)
 	{
-		Coordinate x1 = segment.get_origin().get_abscissa();
-		Coordinate y1 = segment.get_origin().get_ordinate();
-		Coordinate x2 = segment.get_destination().get_abscissa();
-		Coordinate y2 = segment.get_destination().get_ordinate();
-		aux_constructor(x1, y1, x2, y2, col);
+		Coordinate ogn_x = segment.origin_x;
+		Coordinate ogn_y = segment.origin_y;
+		Coordinate dst_x = segment.destination_x;
+		Coordinate dst_y = segment.destination_y;
+		aux_constructor(ogn_x, ogn_y, dst_x, dst_y, col);
 	}
 
-	Line_shp::Line_shp(const Point_shp& point1,
-					   const Point_shp& point2,
+	Line_shp::Line_shp(const Point_obj& point1,
+					   const Point_obj& point2,
 					   Color col)
 	{
-		Coordinate x1 = point1.get_abscissa();
-		Coordinate y1 = point1.get_ordinate();
-		Coordinate x2 = point2.get_abscissa();
-		Coordinate y2 = point2.get_ordinate();
+		Coordinate x1 = point1.abscissa;
+		Coordinate y1 = point1.ordinate;
+		Coordinate x2 = point2.abscissa;
+		Coordinate y2 = point2.ordinate;
 		aux_constructor(x1, y1, x2, y2, col);
 	}
 
@@ -137,13 +131,13 @@ namespace graphics
 	}
 
 	Coordinate Line_shp::get_a() const
-	{ return a; }
+	{ return line.a; }
 
 	Coordinate Line_shp::get_b() const
-	{ return b; }
+	{ return line.b; }
 
 	Coordinate Line_shp::get_c() const
-	{ return c; }
+	{ return line.c; }
 
 	Color Line_shp::get_color() const
 	{ return color; }
@@ -154,9 +148,9 @@ namespace graphics
 								   const Coordinate& y2,
 								   Color col)
 	{
-		a = y2 - y1;
-		b = x1 - x2;
-		c = -a * x1 - b * y1;
+		line.a = y2 - y1;
+		line.b = x1 - x2;
+		line.c = -line.a * x1 - line.b * y1;
 		color = col;
 	}
 
@@ -166,16 +160,18 @@ namespace graphics
 		os << LINE_NAME << " "
 		   << line.get_a() << " "
 		   << line.get_b() << " "
-		   << line.get_c();
+		   << line.get_c() << " "
+		   << line.get_color();
 		return os;
 	}
 
 	std::istream& operator>>(std::istream& is,
 							 Line_shp& line)
 	{
-		is >> line.a
-		   >> line.b
-		   >> line.c;
+		is >> line.line.a
+		   >> line.line.b
+		   >> line.line.c
+		   >> line.color;
 		return is;
 	}
 }

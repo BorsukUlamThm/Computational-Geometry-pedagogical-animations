@@ -4,7 +4,6 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 /** @endcond */
-#include "Graphics/Model/Global_variables.h"
 #include "Graphics/Model/Bounding_box.h"
 
 

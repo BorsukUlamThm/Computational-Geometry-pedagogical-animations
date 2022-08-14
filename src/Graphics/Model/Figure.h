@@ -58,9 +58,6 @@ namespace graphics
 					   const Points& ... points);
 
 		void add_segment(const Segment_shp& segment);
-		void add_segment(const Point_shp& ogn,
-						 const Point_shp& dst,
-						 Color line_col = DEFAULT_SHAPE_COLOR);
 		void add_segment(const Coordinate& ogn_x,
 						 const Coordinate& ogn_y,
 						 const Coordinate& dst_x,
@@ -77,18 +74,19 @@ namespace graphics
 						const Coordinate& dst_x,
 						const Coordinate& dst_y,
 						Color col = DEFAULT_SHAPE_COLOR);
-		void add_vector(const Point_shp& ogn,
-						const Point_shp& dst,
+		void add_vector(const Point_obj& ogn,
+						const Point_obj& dst,
 						Color col = DEFAULT_SHAPE_COLOR);
-		void add_vector(const Segment_shp& segment,
+		void add_vector(const Segment_obj& segment,
 						Color col = DEFAULT_SHAPE_COLOR);
 		template<typename... Vectors>
 		void add_vector(const Vector_shp& vector,
 						const Vectors& ... vectors);
 
 		void add_polygon(const Polygon_shp& polygon);
-		void add_polygon(const std::vector<Point_shp>& vertices,
-						 Color lines_col = DEFAULT_SHAPE_COLOR);
+		void add_polygon(const Polygon_obj& vertices,
+						 Color lines_col = DEFAULT_SHAPE_COLOR,
+						 Color vertices_col = DEFAULT_SHAPE_COLOR);
 		template<typename... Polygons>
 		void add_polygon(const Polygon_shp& polygon,
 						 const Polygons& ... polygons);
@@ -107,10 +105,10 @@ namespace graphics
 					  const Coordinate& b,
 					  const Coordinate& c,
 					  Color col = DEFAULT_SHAPE_COLOR);
-		void add_line(const Segment_shp& segment,
+		void add_line(const Segment_obj& segment,
 					  Color col = DEFAULT_SHAPE_COLOR);
-		void add_line(const Point_shp& point1,
-					  const Point_shp& point2,
+		void add_line(const Point_obj& point1,
+					  const Point_obj& point2,
 					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_line(const Coordinate& x1,
 					  const Coordinate& y1,
@@ -241,14 +239,6 @@ namespace graphics
 		bounding_box.extend(segment.get_bounding_box());
 	}
 
-	void Figure::add_segment(const Point_shp& ogn,
-							 const Point_shp& dst,
-							 Color line_col)
-	{
-		Segment_shp segment(ogn, dst, line_col);
-		add_segment(segment);
-	}
-
 	void Figure::add_segment(const Coordinate& ogn_x,
 							 const Coordinate& ogn_y,
 							 const Coordinate& dst_x,
@@ -286,15 +276,15 @@ namespace graphics
 		add_vector(vector);
 	}
 
-	void Figure::add_vector(const Point_shp& ogn,
-							const Point_shp& dst,
+	void Figure::add_vector(const Point_obj& ogn,
+							const Point_obj& dst,
 							Color col)
 	{
 		Vector_shp vector(ogn, dst, col);
 		add_vector(vector);
 	}
 
-	void Figure::add_vector(const Segment_shp& segment,
+	void Figure::add_vector(const Segment_obj& segment,
 							Color col)
 	{
 		Vector_shp vector(segment, col);
@@ -316,10 +306,11 @@ namespace graphics
 		bounding_box.extend(polygon.get_bounding_box());
 	}
 
-	void Figure::add_polygon(const std::vector<Point_shp>& vertices,
-							 Color lines_col)
+	void Figure::add_polygon(const Polygon_obj& vertices,
+							 Color lines_col,
+							 Color vertices_col)
 	{
-		Polygon_shp polygon(vertices, lines_col);
+		Polygon_shp polygon(vertices, lines_col, vertices_col);
 		add_polygon(polygon);
 	}
 
@@ -371,15 +362,15 @@ namespace graphics
 		add_line(line);
 	}
 
-	void Figure::add_line(const Segment_shp& segment,
+	void Figure::add_line(const Segment_obj& segment,
 						  Color col)
 	{
 		Line_shp line(segment, col);
 		add_line(line);
 	}
 
-	void Figure::add_line(const Point_shp& point1,
-						  const Point_shp& point2,
+	void Figure::add_line(const Point_obj& point1,
+						  const Point_obj& point2,
 						  Color col)
 	{
 		Line_shp line(point1, point2, col);

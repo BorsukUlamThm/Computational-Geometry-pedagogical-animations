@@ -19,10 +19,7 @@ namespace graphics
 	class Vector_shp : public Shape
 	{
 	private:
-		Coordinate origin_x = 0;
-		Coordinate origin_y = 0;
-		Coordinate destination_x = 0;
-		Coordinate destination_y = 0;
+		Segment_obj vector;
 		Color color = DEFAULT_SHAPE_COLOR;
 
 	public:
@@ -39,13 +36,13 @@ namespace graphics
 		/*!
 		 * Constructs the segment whose endpoints are ogn and dst
 		 */
-		Vector_shp(const Point_shp& ogn,
-				   const Point_shp& dst,
+		Vector_shp(const Point_obj& ogn,
+				   const Point_obj& dst,
 				   Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs the segment whose endpoints are the segment's endpoints
 		 */
-		explicit Vector_shp(const Segment_shp& segment,
+		explicit Vector_shp(const Segment_obj& segment,
 							Color col = DEFAULT_SHAPE_COLOR);
 
 		~Vector_shp() = default;
@@ -73,7 +70,7 @@ namespace graphics
 
 	Vector_shp::Vector_shp()
 	{
-		make_bounding_box();
+		bounding_box = Bounding_box(vector);
 	}
 
 	Vector_shp::Vector_shp(const Coordinate& ogn_x,
@@ -82,73 +79,54 @@ namespace graphics
 						   const Coordinate& dst_y,
 						   Color col)
 	{
-		origin_x = ogn_x;
-		origin_y = ogn_y;
-		destination_x = dst_x;
-		destination_y = dst_y;
+		vector.origin_x = ogn_x;
+		vector.origin_y = ogn_y;
+		vector.destination_x = dst_x;
+		vector.destination_y = dst_y;
 		color = col;
-
-		make_bounding_box();
+		bounding_box = Bounding_box(vector);
 	}
 
 	Vector_shp::Vector_shp(const Vector_shp& other) : Shape(other)
 	{
-		origin_x = Coordinate(other.origin_x);
-		origin_y = Coordinate(other.origin_y);
-		destination_x = Coordinate(other.destination_x);
-		destination_y = Coordinate(other.destination_y);
+		vector.origin_x = Coordinate(other.vector.origin_x);
+		vector.origin_y = Coordinate(other.vector.origin_y);
+		vector.destination_x = Coordinate(other.vector.destination_x);
+		vector.destination_y = Coordinate(other.vector.destination_y);
 		color = other.color;
 	}
 
-	Vector_shp::Vector_shp(const Point_shp& ogn,
-						   const Point_shp& dst,
+	Vector_shp::Vector_shp(const Point_obj& ogn,
+						   const Point_obj& dst,
 						   Color col)
 	{
-		origin_x = ogn.get_abscissa();
-		origin_y = ogn.get_ordinate();
-		destination_x = dst.get_abscissa();
-		destination_y = dst.get_ordinate();
+		vector = Segment_obj(ogn, dst);
 		color = col;
-
-		make_bounding_box();
+		bounding_box = Bounding_box(vector);
 	}
 
-	Vector_shp::Vector_shp(const Segment_shp& segment,
+	Vector_shp::Vector_shp(const Segment_obj& segment,
 						   Color col)
 	{
-		origin_x = segment.get_origin().get_abscissa();
-		origin_y = segment.get_origin().get_ordinate();
-		destination_x = segment.get_destination().get_abscissa();
-		destination_y = segment.get_destination().get_ordinate();
+		vector = Segment_obj(segment);
 		color = col;
-
-		make_bounding_box();
+		bounding_box = Bounding_box(vector);
 	}
 
 	Coordinate Vector_shp::get_origin_x() const
-	{ return origin_x; }
+	{ return vector.origin_x; }
 
 	Coordinate Vector_shp::get_origin_y() const
-	{ return origin_y; }
+	{ return vector.origin_y; }
 
 	Coordinate Vector_shp::get_destination_x() const
-	{ return destination_x; }
+	{ return vector.destination_x; }
 
 	Coordinate Vector_shp::get_destination_y() const
-	{ return destination_y; }
+	{ return vector.destination_y; }
 
 	Color Vector_shp::get_color() const
 	{ return color; }
-
-	void Vector_shp::make_bounding_box()
-	{
-		Coordinate x_min = std::min(origin_x, destination_x);
-		Coordinate x_max = std::max(origin_x, destination_x);
-		Coordinate y_min = std::min(origin_y, destination_y);
-		Coordinate y_max = std::max(origin_y, destination_y);
-
-		bounding_box = Bounding_box(x_min, x_max, y_min, y_max);
-	}
 
 	std::ostream& operator<<(std::ostream& os,
 							 const Vector_shp& vector)
@@ -157,17 +135,19 @@ namespace graphics
 		   << vector.get_origin_x() << " "
 		   << vector.get_origin_y() << " "
 		   << vector.get_destination_x() << " "
-		   << vector.get_destination_y();
+		   << vector.get_destination_y() << " "
+		   << vector.get_color();
 		return os;
 	}
 
 	std::istream& operator>>(std::istream& is,
 							 Vector_shp& vector)
 	{
-		is >> vector.origin_x
-		   >> vector.origin_y
-		   >> vector.destination_x
-		   >> vector.destination_y;
+		is >> vector.vector.origin_x
+		   >> vector.vector.origin_y
+		   >> vector.vector.destination_x
+		   >> vector.vector.destination_y
+		   >> vector.color;
 		return is;
 	}
 }

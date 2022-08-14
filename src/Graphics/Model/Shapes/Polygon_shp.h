@@ -22,29 +22,29 @@ namespace graphics
 	class Polygon_shp : public Shape
 	{
 	private:
-		std::vector<Point_shp> vertices;
+		Polygon_obj vertices;
 		Color lines_color = DEFAULT_SHAPE_COLOR;
+		Color vertices_color = DEFAULT_SHAPE_COLOR;
 
 	public:
-		Polygon_shp();
-		explicit Polygon_shp(Color lines_col);
-		explicit Polygon_shp(const std::vector<Point_shp>& vertices,
-							 Color lines_col = DEFAULT_SHAPE_COLOR);
+		explicit Polygon_shp(Color lines_col = DEFAULT_SHAPE_COLOR,
+							 Color vertices_col = DEFAULT_SHAPE_COLOR);
+		explicit Polygon_shp(const Polygon_obj& vertices,
+							 Color lines_col = DEFAULT_SHAPE_COLOR,
+							 Color vertices_col = DEFAULT_SHAPE_COLOR);
 		Polygon_shp(const Polygon_shp& other);
 
-		void push_back(const Point_shp& vertex);
+		void push_back(const Point_obj& vertex);
 		void add_vertex(const Coordinate& x,
 						const Coordinate& y);
 
 		unsigned size() const;
-		Point_shp& operator[](unsigned i);
-		const Point_shp& operator[](unsigned i) const;
+		Point_obj& operator[](unsigned i);
+		const Point_obj& operator[](unsigned i) const;
 		Color get_lines_color() const;
+		Color get_vertices_color() const;
 
 		void draw(Canvas& canvas) const override;
-
-	private:
-		void make_bounding_box();
 
 	public:
 		friend std::istream& operator>>(std::istream& is,
@@ -56,65 +56,56 @@ namespace graphics
 	// |                              DEFINITIONS                              |
 	// +-----------------------------------------------------------------------+
 
-	Polygon_shp::Polygon_shp()
-	{
-		make_bounding_box();
-	}
-
-	Polygon_shp::Polygon_shp(Color lines_col)
+	Polygon_shp::Polygon_shp(Color lines_col,
+							 Color vertices_col)
 	{
 		lines_color = lines_col;
-		make_bounding_box();
+		vertices_color = vertices_col;
 	}
 
-	Polygon_shp::Polygon_shp(const std::vector<Point_shp>& vertices,
-							 Color lines_col)
+	Polygon_shp::Polygon_shp(const Polygon_obj& vertices,
+							 Color lines_col,
+							 Color vertices_col)
 	{
-		this->vertices = std::vector<Point_shp>(vertices);
+		this->vertices = Polygon_obj(vertices);
 		lines_color = lines_col;
-		make_bounding_box();
+		vertices_color = vertices_col;
+		bounding_box = Bounding_box(vertices);
 	}
 
 	Polygon_shp::Polygon_shp(const Polygon_shp& other) : Shape(other)
 	{
-		for (unsigned i = 0; i < other.size(); ++i)
-		{
-			vertices.emplace_back(other[i]);
-		}
+		vertices = Polygon_obj(other.vertices);
 		lines_color = other.lines_color;
+		vertices_color = other.vertices_color;
 	}
 
-	void Polygon_shp::push_back(const Point_shp& vertex)
+	void Polygon_shp::push_back(const Point_obj& vertex)
 	{
-		vertices.emplace_back(vertex);
+		vertices.push_back(vertex);
 	}
 
 	void Polygon_shp::add_vertex(const Coordinate& x,
 								 const Coordinate& y)
 	{
 		vertices.emplace_back(x, y);
+		bounding_box.extend(x, y);
 	}
 
 	unsigned Polygon_shp::size() const
 	{ return vertices.size(); }
 
-	Point_shp& Polygon_shp::operator[](unsigned int i)
+	Point_obj& Polygon_shp::operator[](unsigned int i)
 	{ return vertices[i]; }
 
-	const Point_shp& Polygon_shp::operator[](unsigned int i) const
+	const Point_obj& Polygon_shp::operator[](unsigned int i) const
 	{ return vertices[i]; }
 
 	Color Polygon_shp::get_lines_color() const
 	{ return lines_color; }
 
-	void Polygon_shp::make_bounding_box()
-	{
-		bounding_box.clear();
-		for (auto& vertex : vertices)
-		{
-			bounding_box.extend(vertex.get_bounding_box());
-		}
-	}
+	Color Polygon_shp::get_vertices_color() const
+	{ return vertices_color; }
 
 	std::ostream& operator<<(std::ostream& os,
 							 const Polygon_shp& polygon)
@@ -123,8 +114,12 @@ namespace graphics
 		   << polygon.size() << " ";
 		for (unsigned i = 0; i < polygon.size(); ++i)
 		{
-			os << polygon[i] << " ";
+			os << polygon[i].abscissa << " "
+			   << polygon[i].ordinate << " ";
 		}
+
+		os << polygon.get_lines_color() << " "
+		   << polygon.get_vertices_color();
 		return os;
 	}
 
@@ -135,15 +130,15 @@ namespace graphics
 		unsigned nb_vertices;
 		is >> nb_vertices;
 
-		Point_shp tmp;
-		std::string dummy;
-
+		Coordinate x, y;
 		for (unsigned i = 0; i < nb_vertices; ++i)
 		{
-			is >> dummy;
-			is >> tmp;
-			polygon.push_back(tmp);
+			is >> x >> y;
+			polygon.add_vertex(x, y);
 		}
+
+		is >> polygon.lines_color
+		   >> polygon.vertices_color;
 		return is;
 	}
 }

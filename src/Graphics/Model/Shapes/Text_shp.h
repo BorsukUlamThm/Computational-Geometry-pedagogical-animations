@@ -41,8 +41,7 @@ namespace graphics
 	{
 	private:
 		std::string content {};
-		Coordinate abscissa {};
-		Coordinate ordinate {};
+		Point_obj point;
 		unsigned size = 16;
 		float offset_x = 0;
 		float offset_y = 0;
@@ -99,7 +98,6 @@ namespace graphics
 		void draw(Canvas& canvas) const override;
 
 	private:
-		void make_bounding_box();
 		void aux_constructor(const std::string& text,
 							 const Coordinate& x,
 							 const Coordinate& y,
@@ -120,7 +118,7 @@ namespace graphics
 
 	Text_shp::Text_shp()
 	{
-		make_bounding_box();
+		bounding_box = Bounding_box(point);
 	}
 
 	Text_shp::Text_shp(const std::string& text,
@@ -137,8 +135,8 @@ namespace graphics
 	Text_shp::Text_shp(const Text_shp& other) : Shape(other)
 	{
 		content = std::string(other.content);
-		abscissa = Coordinate(other.abscissa);
-		ordinate = Coordinate(other.ordinate);
+		point.abscissa = Coordinate(other.point.abscissa);
+		point.ordinate = Coordinate(other.point.ordinate);
 		size = other.size;
 		offset_x = other.offset_x;
 		offset_y = other.offset_y;
@@ -159,10 +157,10 @@ namespace graphics
 					   unsigned int size,
 					   Color col)
 	{
-		Coordinate x = (segment.get_origin().get_abscissa() +
-						segment.get_destination().get_abscissa()) / 2;
-		Coordinate y = (segment.get_origin().get_ordinate() +
-						segment.get_destination().get_ordinate()) / 2;
+		Coordinate x = (segment.get_origin_x() +
+						segment.get_destination_x()) / 2;
+		Coordinate y = (segment.get_origin_y() +
+						segment.get_destination_y()) / 2;
 		aux_constructor(text, x, y, size,
 						0, 0, col);
 	}
@@ -182,10 +180,10 @@ namespace graphics
 	{ return content; }
 
 	Coordinate Text_shp::get_abscissa() const
-	{ return abscissa; }
+	{ return point.abscissa; }
 
 	Coordinate Text_shp::get_ordinate() const
-	{ return ordinate; }
+	{ return point.ordinate; }
 
 	unsigned Text_shp::get_size() const
 	{ return size; }
@@ -199,11 +197,6 @@ namespace graphics
 	Color Text_shp::get_color() const
 	{ return color; }
 
-	void Text_shp::make_bounding_box()
-	{
-		bounding_box = Bounding_box(abscissa, abscissa, ordinate, ordinate);
-	}
-
 	void Text_shp::aux_constructor(const std::string& text,
 								   const Coordinate& x,
 								   const Coordinate& y,
@@ -213,14 +206,13 @@ namespace graphics
 								   Color col)
 	{
 		content = std::string(text);
-		abscissa = Coordinate(x);
-		ordinate = Coordinate(y);
+		point = Point_obj(x, y);
 		size = char_size;
 		offset_x = off_x;
 		offset_y = off_y;
 		color = col;
 
-		make_bounding_box();
+		bounding_box = Bounding_box(point);
 	}
 
 	std::ostream& operator<<(std::ostream& os,
@@ -259,11 +251,12 @@ namespace graphics
 			text.content += tmp.substr(0, tmp.size() - 1);
 		}
 
-		is >> text.abscissa
-		   >> text.ordinate
+		is >> text.point.abscissa
+		   >> text.point.ordinate
 		   >> text.size
 		   >> text.offset_x
-		   >> text.offset_y;
+		   >> text.offset_y
+		   >> text.color;
 
 		return is;
 	}

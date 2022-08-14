@@ -23,7 +23,7 @@ namespace graphics
 		float rad = radius * ratio;
 
 		sf::CircleShape shape(rad);
-		shape.move(abscissa - rad, -ordinate - rad);
+		shape.move(point.abscissa - rad, -point.ordinate - rad);
 		shape.setFillColor(canvas.get_color(color));
 
 		canvas.window.draw(shape);
@@ -32,14 +32,19 @@ namespace graphics
 	void Segment_shp::draw(Canvas& canvas) const
 	{
 		sf::VertexArray shape(sf::LineStrip, 2);
-		shape[0].position = sf::Vector2f(origin.get_abscissa(),
-										 -origin.get_ordinate());
-		shape[1].position = sf::Vector2f(destination.get_abscissa(),
-										 -destination.get_ordinate());
+		shape[0].position = sf::Vector2f(segment.origin_x,
+										 -segment.origin_y);
+		shape[1].position = sf::Vector2f(segment.destination_x,
+										 -segment.destination_y);
 		shape[0].color = canvas.get_color(line_color);
 		shape[1].color = canvas.get_color(line_color);
 
 		canvas.window.draw(shape);
+
+		Point_shp origin(segment.origin_x, segment.origin_y,
+						 endpoints_color);
+		Point_shp destination(segment.destination_x, segment.destination_y,
+							  endpoints_color);
 		origin.draw(canvas);
 		destination.draw(canvas);
 	}
@@ -47,8 +52,10 @@ namespace graphics
 	void Vector_shp::draw(graphics::Canvas& canvas) const
 	{
 		sf::VertexArray shape(sf::LineStrip, 2);
-		shape[0].position = sf::Vector2f(origin_x, -origin_y);
-		shape[1].position = sf::Vector2f(destination_x, -destination_y);
+		shape[0].position = sf::Vector2f(vector.origin_x,
+										 -vector.origin_y);
+		shape[1].position = sf::Vector2f(vector.destination_x,
+										 -vector.destination_y);
 		shape[0].color = canvas.get_color(color);
 		shape[1].color = canvas.get_color(color);
 		canvas.window.draw(shape);
@@ -57,8 +64,9 @@ namespace graphics
 		float tri_height = 12.0f * ratio;
 		float tri_width = 9.0f * ratio;
 
-		sf::Vector2f destination(destination_x, -destination_y);
-		sf::Vector2f u(destination_x - origin_x, -destination_y + origin_y);
+		sf::Vector2f destination(vector.destination_x, -vector.destination_y);
+		sf::Vector2f u(vector.destination_x - vector.origin_x,
+					   -vector.destination_y + vector.origin_y);
 		u *= 1.0f / std::sqrt(u.x * u.x + u.y * u.y);
 		sf::Vector2f v(-u.y, u.x);
 
@@ -78,11 +86,11 @@ namespace graphics
 		sf::VertexArray shape(sf::LineStrip, n + 1);
 		for (unsigned i = 0; i < n; ++i)
 		{
-			shape[i].position = sf::Vector2f(vertices[i].get_abscissa(),
-											 -vertices[i].get_ordinate());
+			shape[i].position = sf::Vector2f(vertices[i].abscissa,
+											 -vertices[i].ordinate);
 		}
-		shape[n].position = sf::Vector2f(vertices[0].get_abscissa(),
-										 -vertices[0].get_ordinate());
+		shape[n].position = sf::Vector2f(vertices[0].abscissa,
+										 -vertices[0].ordinate);
 
 		for (unsigned i = 0; i <= n; ++i)
 		{
@@ -92,7 +100,9 @@ namespace graphics
 
 		for (unsigned i = 0; i < n; ++i)
 		{
-			vertices[i].draw(canvas);
+			Point_shp point (vertices[i].abscissa, vertices[i].ordinate,
+							 vertices_color);
+			point.draw(canvas);
 		}
 	}
 
@@ -103,12 +113,12 @@ namespace graphics
 		sf::VertexArray shape(sf::LineStrip, nb_vertices + 1);
 		for (unsigned i = 0; i < nb_vertices; ++i)
 		{
-			Coordinate x = center_x + radius * std::cos(i * a);
-			Coordinate y = -center_y - radius * std::sin(i * a);
+			Coordinate x = circle.center_x + circle.radius * std::cos(i * a);
+			Coordinate y = -circle.center_y - circle.radius * std::sin(i * a);
 			shape[i].position = sf::Vector2f(x, y);
 		}
-		Coordinate x = center_x + radius;
-		Coordinate y = -center_y;
+		Coordinate x = circle.center_x + circle.radius;
+		Coordinate y = -circle.center_y;
 		shape[nb_vertices].position = sf::Vector2f(x, y);
 
 		for (unsigned i = 0; i <= nb_vertices; ++i)
@@ -121,10 +131,10 @@ namespace graphics
 	void Line_shp::draw(Canvas& canvas) const
 	{
 		float x1, y1, x2, y2;
-		if (b == 0)
+		if (line.b == 0)
 		{
-			x1 = -c / a;
-			x2 = -c / a;
+			x1 = -line.c / line.a;
+			x2 = -line.c / line.a;
 			y1 = -canvas.view.getCenter().y + canvas.view.getSize().y / 2;
 			y2 = -canvas.view.getCenter().y - canvas.view.getSize().y / 2;
 		}
@@ -132,8 +142,8 @@ namespace graphics
 		{
 			x1 = canvas.view.getCenter().x - canvas.view.getSize().x / 2;
 			x2 = canvas.view.getCenter().x + canvas.view.getSize().x / 2;
-			y1 = -(a * x1 + c) / b;
-			y2 = -(a * x2 + c) / b;
+			y1 = -(line.a * x1 + line.c) / line.b;
+			y2 = -(line.a * x2 + line.c) / line.b;
 		}
 
 		sf::VertexArray shape(sf::LineStrip, 2);
@@ -161,8 +171,8 @@ namespace graphics
 
 		float text_offset_x = offset_x * ratio;
 		float text_offset_y = offset_y * ratio;
-		shape.move(abscissa + text_offset_x - text_width * ratio / 2,
-				   -ordinate - text_offset_y - float(size) * ratio / 2);
+		shape.move(point.abscissa + text_offset_x - text_width * ratio / 2,
+				   -point.ordinate - text_offset_y - float(size) * ratio / 2);
 		canvas.window.draw(shape);
 	}
 }

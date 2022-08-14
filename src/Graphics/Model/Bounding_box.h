@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Geometric_object.h"
+
+
 namespace graphics
 {
 	// +-----------------------------------------------------------------------+
@@ -25,6 +28,13 @@ namespace graphics
 					 const Coordinate& y_max);
 		Bounding_box(const Bounding_box& other);
 
+		explicit Bounding_box(const Point_obj& point);
+		explicit Bounding_box(const Segment_obj& segment);
+		explicit Bounding_box(const Circle_obj& circle);
+		explicit Bounding_box(const Polygon_obj& polygon);
+
+		void extend(const Coordinate& x,
+					const Coordinate& y);
 		void extend(const Bounding_box& other);
 		void clear();
 
@@ -56,6 +66,46 @@ namespace graphics
 		max_abscissa = Coordinate(other.max_abscissa);
 		min_ordinate = Coordinate(other.min_ordinate);
 		max_ordinate = Coordinate(other.max_ordinate);
+	}
+
+	Bounding_box::Bounding_box(const Point_obj& point)
+	{
+		min_abscissa = Coordinate(point.abscissa);
+		max_abscissa = Coordinate(point.abscissa);
+		min_ordinate = Coordinate(point.ordinate);
+		max_ordinate = Coordinate(point.ordinate);
+	}
+
+	Bounding_box::Bounding_box(const Segment_obj& segment)
+	{
+		min_abscissa = std::min(segment.origin_x, segment.destination_x);
+		max_abscissa = std::max(segment.origin_x, segment.destination_x);
+		min_ordinate = std::min(segment.origin_y, segment.destination_y);
+		max_ordinate = std::max(segment.origin_y, segment.destination_y);
+	}
+
+	Bounding_box::Bounding_box(const Circle_obj& circle)
+	{
+		min_abscissa = circle.center_x - circle.radius;
+		max_abscissa = circle.center_x + circle.radius;
+		min_ordinate = circle.center_y - circle.radius;
+		min_ordinate = circle.center_y + circle.radius;
+	}
+
+	Bounding_box::Bounding_box(const Polygon_obj& polygon)
+	{
+		for (auto& point : polygon)
+		{
+			extend(point.abscissa, point.ordinate);
+		}
+	}
+
+	void Bounding_box::extend(const Coordinate& x, const Coordinate& y)
+	{
+		min_abscissa = std::min(min_abscissa, x);
+		max_abscissa = std::max(max_abscissa, x);
+		min_ordinate = std::min(min_ordinate, y);
+		max_ordinate = std::max(max_ordinate, y);
 	}
 
 	void Bounding_box::extend(const Bounding_box& other)

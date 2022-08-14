@@ -91,16 +91,15 @@ namespace graphics
 			case SEGMENT_ACQ2:
 				Point_shp p = *(std::dynamic_pointer_cast<Point_shp>
 						(current_shapes.get_last_shape()));
-				Point_shp q
-						(x, y,
-						 std::dynamic_pointer_cast<Segment_acq>
-								 (buffer[index])->get_endpoints_color());
 
 				current_shapes.erase_last_shape();
 				current_shapes.add_segment
-						(p, q,
+						(p.get_abscissa(), p.get_ordinate(),
+						 x, y,
 						 std::dynamic_pointer_cast<Segment_acq>
-								 (buffer[index])->get_line_color());
+								 (buffer[index])->get_line_color(),
+						 std::dynamic_pointer_cast<Segment_acq>
+								 (buffer[index])->get_endpoints_color());
 
 				std::dynamic_pointer_cast<Segment_acq>
 						(buffer[index])->add_destination(x, y);

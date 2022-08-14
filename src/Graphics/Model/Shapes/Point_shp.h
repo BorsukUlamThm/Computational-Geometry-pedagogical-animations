@@ -26,8 +26,7 @@ namespace graphics
 	class Point_shp : public Shape
 	{
 	private:
-		Coordinate abscissa {};
-		Coordinate ordinate {};
+		Point_obj point;
 		Color color = DEFAULT_SHAPE_COLOR;
 		float radius = 3;
 
@@ -48,9 +47,6 @@ namespace graphics
 
 		void draw(Canvas& canvas) const override;
 
-	private:
-		void make_bounding_box();
-
 	public:
 		friend std::istream& operator>>(std::istream& is,
 										Point_shp& point);
@@ -63,7 +59,7 @@ namespace graphics
 
 	Point_shp::Point_shp()
 	{
-		make_bounding_box();
+		bounding_box = Bounding_box(point);
 	}
 
 	Point_shp::Point_shp(const Coordinate& x,
@@ -71,26 +67,25 @@ namespace graphics
 						 Color col,
 						 float rad)
 	{
-		abscissa = Coordinate(x);
-		ordinate = Coordinate(y);
+		point.abscissa = Coordinate(x);
+		point.ordinate = Coordinate(y);
 		color = col;
 		radius = rad;
-		make_bounding_box();
+		bounding_box = Bounding_box(point);
 	}
 
 	Point_shp::Point_shp(const Point_shp& other) : Shape(other)
 	{
-		abscissa = Coordinate(other.abscissa);
-		ordinate = Coordinate(other.ordinate);
+		point = Point_obj(other.point);
 		color = other.color;
 		radius = other.radius;
 	}
 
 	Coordinate Point_shp::get_abscissa() const
-	{ return abscissa; }
+	{ return point.abscissa; }
 
 	Coordinate Point_shp::get_ordinate() const
-	{ return ordinate; }
+	{ return point.ordinate; }
 
 	Color Point_shp::get_color() const
 	{ return color; }
@@ -98,25 +93,24 @@ namespace graphics
 	float Point_shp::get_radius() const
 	{ return radius; }
 
-	void Point_shp::make_bounding_box()
-	{
-		bounding_box = Bounding_box(abscissa, abscissa, ordinate, ordinate);
-	}
-
 	std::ostream& operator<<(std::ostream& os,
 							 const Point_shp& point)
 	{
 		os << POINT_NAME << " "
 		   << point.get_abscissa() << " "
-		   << point.get_ordinate();
+		   << point.get_ordinate() << " "
+		   << point.get_color() << " "
+		   << point.get_radius();
 		return os;
 	}
 
 	std::istream& operator>>(std::istream& is,
 							 Point_shp& point)
 	{
-		is >> point.abscissa
-		   >> point.ordinate;
+		is >> point.point.abscissa
+		   >> point.point.ordinate
+		   >> point.color
+		   >> point.radius;
 		return is;
 	}
 }

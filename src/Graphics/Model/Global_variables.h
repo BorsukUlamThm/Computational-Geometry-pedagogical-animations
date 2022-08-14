@@ -3,6 +3,7 @@
 /** @cond */
 #include <limits>
 #include <string>
+#include <map>
 #include <fstream>
 #include <SFML/Graphics.hpp>
 #include <boost/array.hpp>
@@ -48,6 +49,50 @@ namespace graphics
 		NB_COLORS
 	};
 
+	constexpr boost::array<const char*, NB_COLORS> colors_to_names
+			{
+					(const char*) "BLACK",
+					(const char*) "WHITE",
+					(const char*) "RED",
+					(const char*) "PURPLE",
+					(const char*) "BLUE",
+					(const char*) "GREEN",
+					(const char*) "YELLOW",
+					(const char*) "BACKGROUND_COLOR",
+					(const char*) "DEFAULT_SHAPE_COLOR"
+			};
+
+	std::map<std::string, Color> names_to_colors
+			{
+					{"BLACK",               BLACK},
+					{"WHITE",               WHITE},
+					{"RED",                 RED},
+					{"PURPLE",              PURPLE},
+					{"BLUE",                BLUE},
+					{"GREEN",               GREEN},
+					{"YELLOW",              YELLOW},
+					{"BACKGROUND_COLOR",    BACKGROUND_COLOR},
+					{"DEFAULT_SHAPE_COLOR", DEFAULT_SHAPE_COLOR}
+			};
+	// std::map cannot be constexpr RIP :'(
+	// will have to wait for someone to add it to the std or boost ...
+
+	std::ostream& operator<<(std::ostream& os,
+							 const Color& color)
+	{
+		os << colors_to_names[color];
+		return os;
+	}
+
+	std::istream& operator>>(std::istream& is,
+							 Color& color)
+	{
+		std::string tmp;
+		is >> tmp;
+		color = names_to_colors[tmp];
+		return is;
+	}
+
 	/*!
 	 * The Config class contains all the needed information to draw shapes\n
 	 *
@@ -60,7 +105,6 @@ namespace graphics
 	struct Config
 	{
 		boost::array<sf::Color, NB_COLORS> colors;
-
 		sf::Font font;
 
 		unsigned width = -1;
