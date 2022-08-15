@@ -72,7 +72,7 @@ namespace chap1_slow_convex_hull
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 		for(unsigned i = 0; i < E.size(); ++i)
 		{
-			gr::Vector_shp v (E[i].ogn.x, E[i].ogn.y, E[i].dst.x, E[i].dst.y);
+			gr::Vector_shp v (E[i].p1.x, E[i].p1.y, E[i].p2.x, E[i].p2.y);
 			animation[OUTSIDE_SEGMENTS].add_text(std::to_string(i), v);
 		}
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
@@ -85,24 +85,24 @@ namespace chap1_slow_convex_hull
 	{
 		convex_hull CH;
 		segment s = E[0];
-		CH.push_back(s.ogn);
+		CH.push_back(s.p1);
 
 		animation[OUTSIDE_SEGMENTS].clear();
 		animation[OUTSIDE_SEGMENTS].add_vector(
-				s.ogn.x, s.ogn.y, s.dst.x, s.dst.y, gr::YELLOW);
+				s.p1.x, s.p1.y, s.p2.x, s.p2.y, gr::YELLOW);
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 
 		while(CH.size() < E.size())
 		{
 			for(auto & e : E)
 			{
-				if(e.ogn == s.dst)
+				if(e.p1 == s.p2)
 				{
-					CH.push_back(s.dst);
+					CH.push_back(s.p2);
 					s = e;
 
 					animation[OUTSIDE_SEGMENTS].add_vector(
-							e.ogn.x, e.ogn.y, e.dst.x, e.dst.y, gr::GREEN);
+							e.p1.x, e.p1.y, e.p2.x, e.p2.y, gr::GREEN);
 					animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 					animation[OUTSIDE_SEGMENTS].erase_last_shape();
 					break;
@@ -110,13 +110,13 @@ namespace chap1_slow_convex_hull
 				else
 				{
 					animation[OUTSIDE_SEGMENTS].add_vector(
-							e.ogn.x, e.ogn.y, e.dst.x, e.dst.y, gr::RED);
+							e.p1.x, e.p1.y, e.p2.x, e.p2.y, gr::RED);
 					animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 					animation[OUTSIDE_SEGMENTS].erase_last_shape();
 				}
 			}
 			animation[OUTSIDE_SEGMENTS].add_vector(
-					s.ogn.x, s.ogn.y, s.dst.x, s.dst.y, gr::YELLOW);
+					s.p1.x, s.p1.y, s.p2.x, s.p2.y, gr::YELLOW);
 			animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 		}
 

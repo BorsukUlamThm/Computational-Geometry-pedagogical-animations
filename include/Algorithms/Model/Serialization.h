@@ -12,28 +12,36 @@
 namespace algorithms
 {
 	template<typename Real>
-	Point_2<Real> read_point_2(std::istream& is);
+	std::istream& operator>>(std::istream& is,
+							 Point_2<Real>& p);
 	template<typename Real>
-	Segment_2<Real> read_segment_2(std::istream& is);
+	std::istream& operator>>(std::istream& is,
+							 Segment_2<Real>& s);
+
 	template<typename Real>
-	std::vector<Point_2<Real>> read_point_2_set(std::ifstream& ifs);
+	std::istream& operator>>(std::istream& is,
+							 std::vector<Point_2<Real>>& points);
 	template<typename Real>
-	std::vector<Point_2<Real>> read_point_2_set(const std::string& path);
+	std::istream& operator>>(std::istream& is,
+							 std::vector<Segment_2<Real>>& segments);
+
 	template<typename Real>
-	std::vector<Segment_2<Real>> read_segment_2_set(std::ifstream& ifs);
+	std::vector<Point_2<Real>> load_point_2_set(const std::string& file);
 	template<typename Real>
-	std::vector<Segment_2<Real>> read_segment_2_set(const std::string& path);
+	std::vector<Segment_2<Real>> load_segment_2_set(const std::string& file);
+
 	template<typename Real>
 	std::ostream& operator<<(std::ostream& os,
 							 const Point_2<Real>& p);
 	template<typename Real>
 	std::ostream& operator<<(std::ostream& os,
 							 const Segment_2<Real>& s);
+
 	template<typename Real>
-	void save_point_2_set(const std::string& path,
+	void save_point_2_set(const std::string& file,
 						  const std::vector<Point_2<Real>>& points);
 	template<typename Real>
-	void save_segment_2_set(const std::string& path,
+	void save_segment_2_set(const std::string& file,
 							const std::vector<Segment_2<Real>>& segments);
 
 
@@ -42,69 +50,82 @@ namespace algorithms
 	// +-----------------------------------------------------------------------+
 
 	template<typename Real>
-	Point_2<Real> read_point_2(std::istream& is)
+	std::istream& operator>>(std::istream& is,
+							 Point_2<Real>& p)
 	{
-		Real x, y;
-		is >> x >> y;
-		return Point_2<Real>(x, y);
+		is >> p.x
+		   >> p.y;
+		return is;
 	}
 
 	template<typename Real>
-	Segment_2<Real> read_segment_2(std::istream& is)
+	std::istream& operator>>(std::istream& is,
+							 Segment_2<Real>& s)
 	{
-		Real x1, y1, x2, y2;
-		is >> x1 >> y1 >> x2 >> y2;
-		return Segment_2<Real>(x1, y1, x2, y2);
+		is >> s.p1.x
+		   >> s.p1.y
+		   >> s.p2.x
+		   >> s.p2.y;
+		return is;
 	}
 
 	template<typename Real>
-	std::vector<Point_2<Real>> read_point_2_set(std::ifstream& ifs)
+	std::istream& operator>>(std::istream& is,
+							 std::vector<Point_2<Real>>& points)
 	{
-		std::vector<Point_2<Real>> points;
+		points.clear();
 		unsigned n;
-		ifs >> n;
+		is >> n;
 
 		for (unsigned i = 0; i < n; ++i)
 		{
-			points.push_back(read_point_2<Real>(ifs));
+			points.template emplace_back();
+			is >> points.back();
 		}
+
+		return is;
+	}
+
+	template<typename Real>
+	std::istream& operator>>(std::istream& is,
+							 std::vector<Segment_2<Real>>& segments)
+	{
+		segments.clear();
+		unsigned n;
+		is >> n;
+
+		for (unsigned i = 0; i < n; ++i)
+		{
+			segments.template emplace_back();
+			is >> segments.back();
+		}
+
+		return is;
+	}
+
+	template<typename Real>
+	std::vector<Point_2<Real>> load_point_2_set(const std::string& file)
+	{
+		std::filesystem::path project_dir
+				= general_tools::get_project_directory();
+		std::ifstream ifs(project_dir / file);
+
+		std::vector<Point_2<Real>> points;
+		ifs >> points;
 
 		return points;
 	}
 
 	template<typename Real>
-	std::vector<Point_2<Real>> read_point_2_set(const std::string& path)
+	std::vector<Segment_2<Real>> load_segment_2_set(const std::string& file)
 	{
 		std::filesystem::path project_dir
 				= general_tools::get_project_directory();
-		std::ifstream ifs(project_dir / path);
+		std::ifstream ifs(project_dir / file);
 
-		return read_point_2_set<Real>(ifs);
-	}
-
-	template<typename Real>
-	std::vector<Segment_2<Real>> read_segment_2_set(std::ifstream& ifs)
-	{
 		std::vector<Segment_2<Real>> segments;
-		unsigned n;
-		ifs >> n;
-
-		for (unsigned i = 0; i < n; ++i)
-		{
-			segments.push_back(read_segment_2<Real>(ifs));
-		}
-
+		ifs >> segments;
 		return segments;
-	}
-
-	template<typename Real>
-	std::vector<Segment_2<Real>> read_segment_2_set(const std::string& path)
-	{
-		std::filesystem::path project_dir
-				= general_tools::get_project_directory();
-		std::ifstream ifs(project_dir / path);
-
-		return read_segment_2_set<Real>(ifs);
 	}
 
 	template<typename Real>
@@ -119,16 +140,16 @@ namespace algorithms
 	std::ostream& operator<<(std::ostream& os,
 							 const Segment_2<Real>& s)
 	{
-		os << s.ogn << " " << s.dst;
+		os << s.p1 << " " << s.p2;
 		return os;
 	}
 
 	template<typename Real>
-	void save_point_2_set(const std::string& path,
+	void save_point_2_set(const std::string& file,
 						  const std::vector<Point_2<Real>>& points)
 	{
 		std::filesystem::path data_dir = general_tools::get_data_directory();
-		std::ofstream ofs(data_dir / path);
+		std::ofstream ofs(data_dir / file);
 
 		unsigned n = points.size();
 		ofs << n << std::endl;
@@ -140,11 +161,11 @@ namespace algorithms
 	}
 
 	template<typename Real>
-	void save_segment_2_set(const std::string& path,
+	void save_segment_2_set(const std::string& file,
 							const std::vector<Segment_2<Real>>& segments)
 	{
 		std::filesystem::path data_dir = general_tools::get_data_directory();
-		std::ofstream ofs(data_dir / path);
+		std::ofstream ofs(data_dir / file);
 
 		unsigned n = segments.size();
 		ofs << n << std::endl;

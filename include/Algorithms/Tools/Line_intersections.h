@@ -27,8 +27,8 @@ namespace algorithms
 	bool segment_intersect(const Segment_2<Real>& s1,
 						   const Segment_2<Real>& s2)
 	{
-		return akward_det(s1.ogn, s1.dst, s2.ogn) *
-			   akward_det(s1.ogn, s1.dst, s2.dst) <= 0;
+		return akward_det(s1.p1, s1.p2, s2.p1) *
+			   akward_det(s1.p1, s1.p2, s2.p2) <= 0;
 	}
 
 	template<typename Real>
@@ -36,15 +36,15 @@ namespace algorithms
 	line_intersection(const Segment_2<Real>& s1,
 					  const Segment_2<Real>& s2)
 	{
-		Point_2<Real> v1 = s1.dst() - s1.ogn();
+		Point_2<Real> v1 = s1.p2() - s1.p1();
 		Real a1 = v1.ord();
 		Real b1 = -v1.abs();
-		Real c1 = a1 * s1.ogn().abs() + b1 * s1.ogn().ord();
+		Real c1 = a1 * s1.p1().abs() + b1 * s1.p1().ord();
 
-		Point_2<Real> v2 = s2.dst() - s2.ogn();
+		Point_2<Real> v2 = s2.p2() - s2.p1();
 		Real a2 = v2.ord();
 		Real b2 = -v2.abs();
-		Real c2 = a2 * s2.ogn().abs() + b2 * s2.ogn().ord();
+		Real c2 = a2 * s2.p1().abs() + b2 * s2.p1().ord();
 
 		Real x = (b2 * c1 - b1 * c2) / (a1 * b2 - a2 * b1);
 		Real y = (a2 * c1 - a1 * c2) / (a2 * b1 - a1 * b2);
@@ -55,23 +55,23 @@ namespace algorithms
 	Real x_intersection(const Segment_2<Real>& s,
 						const Real& y)
 	{
-		if (s.ogn.y == s.dst.y)
+		if (s.p1.y == s.p2.y)
 		{
-			if (s.ogn.y != y)
+			if (s.p1.y != y)
 			{
 				std::cerr << "Error : Line does not intersect x axis for y = "
 						  << y << std::endl;
 				return 0;
 			}
-			if (s.ogn.x < s.dst.x)
+			if (s.p1.x < s.p2.x)
 			{
-				return s.ogn.x;
+				return s.p1.x;
 			}
-			return s.dst.x;
+			return s.p2.x;
 		}
 
-		Real a = (s.dst.y - s.ogn.y) / (s.dst.x - s.ogn.x);
-		Real b = s.ogn.y - a * s.ogn.x;
+		Real a = (s.p2.y - s.p1.y) / (s.p2.x - s.p1.x);
+		Real b = s.p1.y - a * s.p1.x;
 		return (y - b) / a;
 	}
 }

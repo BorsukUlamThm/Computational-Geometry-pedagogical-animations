@@ -22,15 +22,13 @@ namespace graphics
 	}
 
 	Segment_obj::Segment_obj(const graphics::Point_obj& ogn,
-							 const graphics::Point_obj& dst)
-	{
-		origin_x = ogn.abscissa;
-		origin_y = ogn.ordinate;
-		destination_x = ogn.abscissa;
-		destination_y = ogn.ordinate;
-	}
+							 const graphics::Point_obj& dst) :
+			Segment_obj(ogn.abscissa, ogn.ordinate,
+						dst.abscissa, dst.ordinate)
+	{}
 
-	Circle_obj::Circle_obj(const Coordinate& x, const Coordinate& y,
+	Circle_obj::Circle_obj(const Coordinate& x,
+						   const Coordinate& y,
 						   const Coordinate& rad)
 	{
 		center_x = x;
@@ -38,11 +36,35 @@ namespace graphics
 		radius = rad;
 	}
 
-	Line_obj::Line_obj(const Coordinate& a, const Coordinate& b,
+	Line_obj::Line_obj(const Coordinate& a,
+					   const Coordinate& b,
 					   const Coordinate& c)
 	{
-		this->a = a;
-		this->b = b;
-		this->c = c;
+		param_a = a;
+		param_b = b;
+		param_c = c;
 	}
+
+	Line_obj::Line_obj(const Coordinate& x1,
+					   const Coordinate& y1,
+					   const Coordinate& x2,
+					   const Coordinate& y2)
+	{
+		param_a = y2 - y1;
+		param_b = x1 - x2;
+		param_c = -param_a * x1 - param_b * y1;
+	}
+
+	Line_obj::Line_obj(const Point_obj& point1,
+					   const Point_obj& point2) :
+			Line_obj(point1.abscissa, point1.ordinate,
+					 point2.abscissa, point2.ordinate)
+	{}
+
+	Line_obj::Line_obj(const Segment_obj& segment) :
+			Line_obj(segment.origin_x,
+					 segment.origin_y,
+					 segment.destination_x,
+					 segment.destination_y)
+	{}
 }

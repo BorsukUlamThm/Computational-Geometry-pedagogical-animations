@@ -53,14 +53,21 @@ namespace graphics
 	struct Line_obj : Geometric_object
 	{
 		// line defined by the equation ax + by + c = 0
-		Coordinate a = 1;
-		Coordinate b = -1;
-		Coordinate c = 0;
+		Coordinate param_a = 1;
+		Coordinate param_b = -1;
+		Coordinate param_c = 0;
 
 		Line_obj() = default;
 
 		Line_obj(const Coordinate& a,
 				 const Coordinate& b,
 				 const Coordinate& c);
+		Line_obj(const Coordinate& x1,
+				 const Coordinate& y1,
+				 const Coordinate& x2,
+				 const Coordinate& y2);
+		Line_obj(const Point_obj& point1,
+				 const Point_obj& point2);
+		explicit Line_obj(const Segment_obj& segment);
 	};
 }

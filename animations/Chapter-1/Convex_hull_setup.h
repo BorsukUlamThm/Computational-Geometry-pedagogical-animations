@@ -145,6 +145,6 @@ namespace chs
 			return P;
 		}
 
-		return alg::read_point_2_set<int>(opt.input_path);
+		return alg::load_point_2_set<int>(opt.input_path);
 	}
 }

@@ -7,10 +7,12 @@
 
 namespace algorithms
 {
+	/*!
+	 * A Point_2 is a 2D point defined by its (x, y) coordinate
+	 */
 	template<typename Real>
-	class Point_2
+	struct Point_2
 	{
-	public:
 		Real x {};
 		Real y {};
 
@@ -28,7 +30,8 @@ namespace algorithms
 	template<typename Real>
 	Point_2<Real>::Point_2(const Real& x,
 						   const Real& y):
-			x(x), y(y)
+			x(x),
+			y(y)
 	{}
 
 	template<typename Real>

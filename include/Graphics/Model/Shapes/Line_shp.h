@@ -62,17 +62,9 @@ namespace graphics
 		void draw(Canvas& canvas) const override;
 		void write(std::ostream& os) const override;
 
-	private:
 		// no need to have a make_bounding_box here
 		// since the line is unbounded
 
-		void aux_constructor(const Coordinate& x1,
-							 const Coordinate& y1,
-							 const Coordinate& x2,
-							 const Coordinate& y2,
-							 Color col);
-
-	public:
 		friend std::istream& operator>>(std::istream& is,
 										Line_shp& line);
 	};

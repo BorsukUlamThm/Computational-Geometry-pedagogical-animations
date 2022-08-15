@@ -5,21 +5,24 @@
 
 namespace algorithms
 {
+	/*!
+	 * A Segment_2 is a 2D segment defined by the (x, y) coordinate of its
+	 * endpoints
+	 */
 	template<typename Real>
-	class Segment_2
+	struct Segment_2
 	{
-		typedef Point_2<Real> End_point;
-	public:
-		End_point ogn {};
-		End_point dst {};
+		typedef Point_2<Real> Endpoint;
+		Endpoint p1 {};
+		Endpoint p2 {};
 
 		Segment_2() = default;
-		Segment_2(const End_point& ogn,
-				  const End_point& dst);
-		Segment_2(const Real& x1,
-				  const Real& y1,
-				  const Real& x2,
-				  const Real& y2);
+		Segment_2(const Endpoint& p1,
+				  const Endpoint& p2);
+		Segment_2(const Real& p1_x,
+				  const Real& p1_y,
+				  const Real& p2_x,
+				  const Real& p2_y);
 		~Segment_2() = default;
 	};
 
@@ -29,25 +32,25 @@ namespace algorithms
 	// +-----------------------------------------------------------------------+
 
 	template<typename Real>
-	Segment_2<Real>::Segment_2(const End_point& ogn,
-							   const End_point& dst):
-			ogn(ogn), dst(dst)
+	Segment_2<Real>::Segment_2(const Endpoint& p1,
+							   const Endpoint& p2):
+			p1(p1),
+			p2(p2)
 	{}
 
 	template<typename Real>
-	Segment_2<Real>::Segment_2(const Real& x1,
-							   const Real& y1,
-							   const Real& x2,
-							   const Real& y2)
-	{
-		ogn = Point_2<Real>(x1, y1);
-		dst = Point_2<Real>(x2, y2);
-	}
+	Segment_2<Real>::Segment_2(const Real& p1_x,
+							   const Real& p1_y,
+							   const Real& p2_x,
+							   const Real& p2_y):
+			p1(p1_x, p1_y),
+			p2(p2_x, p2_y)
+	{}
 
 	template<typename Real>
 	bool operator==(const Segment_2<Real>& s1,
 					const Segment_2<Real> s2)
 	{
-		return s1.ogn == s2.ogn && s1.dst == s2.dst;
+		return s1.p1 == s2.p1 && s1.p2 == s2.p2;
 	}
 }

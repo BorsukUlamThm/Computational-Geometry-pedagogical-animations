@@ -132,17 +132,17 @@ namespace chap2_segment_intersections
 			segment_set S;
 			for (auto& s : tmp)
 			{
-				S.emplace_back(s.ogn.x, s.ogn.y, s.dst.x, s.dst.y);
+				S.emplace_back(s.p1.x, s.p1.y, s.p2.x, s.p2.y);
 			}
 
 			return S;
 		}
 
-		auto tmp = alg::read_segment_2_set<int>(opt.input_path);
+		auto tmp = alg::load_segment_2_set<int>(opt.input_path);
 		segment_set S;
 		for(auto& s : tmp)
 		{
-			S.emplace_back(s.ogn.x, s.ogn.y, s.dst.x, s.dst.y);
+			S.emplace_back(s.p1.x, s.p1.y, s.p2.x, s.p2.y);
 		}
 		return S;
 	}

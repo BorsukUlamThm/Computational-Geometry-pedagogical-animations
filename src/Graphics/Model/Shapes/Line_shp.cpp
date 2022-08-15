@@ -21,22 +21,16 @@ namespace graphics
 	Line_shp::Line_shp(const Segment_obj& segment,
 					   Color col)
 	{
-		Coordinate ogn_x = segment.origin_x;
-		Coordinate ogn_y = segment.origin_y;
-		Coordinate dst_x = segment.destination_x;
-		Coordinate dst_y = segment.destination_y;
-		aux_constructor(ogn_x, ogn_y, dst_x, dst_y, col);
+		line = Line_obj(segment);
+		color = col;
 	}
 
 	Line_shp::Line_shp(const Point_obj& point1,
 					   const Point_obj& point2,
 					   Color col)
 	{
-		Coordinate x1 = point1.abscissa;
-		Coordinate y1 = point1.ordinate;
-		Coordinate x2 = point2.abscissa;
-		Coordinate y2 = point2.ordinate;
-		aux_constructor(x1, y1, x2, y2, col);
+		line = Line_obj(point1, point2);
+		color = col;
 	}
 
 	Line_shp::Line_shp(const Coordinate& x1,
@@ -45,17 +39,18 @@ namespace graphics
 					   const Coordinate& y2,
 					   Color col)
 	{
-		aux_constructor(x1, y1, x2, y2, col);
+		line = Line_obj(x1, y1, x2, y2);
+		color = col;
 	}
 
 	Coordinate Line_shp::get_a() const
-	{ return line.a; }
+	{ return line.param_a; }
 
 	Coordinate Line_shp::get_b() const
-	{ return line.b; }
+	{ return line.param_b; }
 
 	Coordinate Line_shp::get_c() const
-	{ return line.c; }
+	{ return line.param_c; }
 
 	Color Line_shp::get_color() const
 	{ return color; }
@@ -63,22 +58,10 @@ namespace graphics
 	void Line_shp::write(std::ostream& os) const
 	{
 		os << LINE_NAME << " "
-		   << line.a << " "
-		   << line.b << " "
-		   << line.c << " "
+		   << line.param_a << " "
+		   << line.param_b << " "
+		   << line.param_c << " "
 		   << color;
-	}
-
-	void Line_shp::aux_constructor(const Coordinate& x1,
-								   const Coordinate& y1,
-								   const Coordinate& x2,
-								   const Coordinate& y2,
-								   Color col)
-	{
-		line = Line_obj(y2 - y1,
-						x1 - x2,
-						-line.a * x1 - line.b * y1);
-		color = col;
 	}
 
 	std::ostream& operator<<(std::ostream& os,
@@ -91,9 +74,9 @@ namespace graphics
 	std::istream& operator>>(std::istream& is,
 							 Line_shp& line)
 	{
-		is >> line.line.a
-		   >> line.line.b
-		   >> line.line.c
+		is >> line.line.param_a
+		   >> line.line.param_b
+		   >> line.line.param_c
 		   >> line.color;
 		return is;
 	}

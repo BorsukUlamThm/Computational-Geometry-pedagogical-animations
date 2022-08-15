@@ -129,10 +129,10 @@ namespace graphics
 	void Line_shp::draw(Canvas& canvas) const
 	{
 		float x1, y1, x2, y2;
-		if (line.b == 0)
+		if (line.param_b == 0)
 		{
-			x1 = -line.c / line.a;
-			x2 = -line.c / line.a;
+			x1 = -line.param_c / line.param_a;
+			x2 = -line.param_c / line.param_a;
 			y1 = -canvas.view.getCenter().y + canvas.view.getSize().y / 2;
 			y2 = -canvas.view.getCenter().y - canvas.view.getSize().y / 2;
 		}
@@ -140,8 +140,8 @@ namespace graphics
 		{
 			x1 = canvas.view.getCenter().x - canvas.view.getSize().x / 2;
 			x2 = canvas.view.getCenter().x + canvas.view.getSize().x / 2;
-			y1 = -(line.a * x1 + line.c) / line.b;
-			y2 = -(line.a * x2 + line.c) / line.b;
+			y1 = -(line.param_a * x1 + line.param_c) / line.param_b;
+			y2 = -(line.param_a * x2 + line.param_c) / line.param_b;
 		}
 
 		sf::VertexArray shape(sf::LineStrip, 2);
