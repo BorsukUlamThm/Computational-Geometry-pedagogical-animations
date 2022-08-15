@@ -10,6 +10,7 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 file(GLOB_RECURSE includes ${CMAKE_SOURCE_DIR}/include/*.h)
 file(GLOB_RECURSE sources ${CMAKE_SOURCE_DIR}/src/*.cpp)
 include_directories(${CMAKE_SOURCE_DIR}/include)
+add_library(lib_CGPA ${includes} ${sources})
 
 # Some directories
 set(bin ${CMAKE_SOURCE_DIR}/bin)
@@ -24,6 +25,7 @@ file(MAKE_DIRECTORY ${data}/saved_inputs)
 add_executable(tests tests.cpp ${includes} ${sources})
 set_target_properties(tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${bin})
 target_link_libraries(tests -lsfml-graphics -lsfml-window -lsfml-system ${Boost_LIBRARIES})
+target_link_libraries(tests ${lib_CGPA})
 
 # All other executables
 file(GLOB chapters ${CMAKE_SOURCE_DIR}/animations/*)
@@ -38,5 +40,6 @@ foreach(chapter ${chapters})
         set_target_properties(${source_name} PROPERTIES
                 RUNTIME_OUTPUT_DIRECTORY ${bin}/${chapter_name})
         target_link_libraries(${source_name} -lsfml-graphics -lsfml-window -lsfml-system ${Boost_LIBRARIES})
+        target_link_libraries(${source_name} ${lib_CGPA})
     endforeach()
 endforeach()
