@@ -4,39 +4,37 @@ set(CMAKE_CXX_STANDARD 20)
 
 # Boost include
 FIND_PACKAGE(Boost 1.74 COMPONENTS program_options REQUIRED)
-INCLUDE_DIRECTORIES( ${Boost_INCLUDE_DIR} )
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
-# Some variables for the includes
-set(Graphics_dir ${CMAKE_SOURCE_DIR}/src/Graphics)
-set(General_tools_dir ${CMAKE_SOURCE_DIR}/src/General_tools)
-set(Algorithms_dir ${CMAKE_SOURCE_DIR}/src/Algorithms)
-file(GLOB_RECURSE graphics_sources ${Graphics_dir}/*.h)
-file(GLOB_RECURSE general_tools_sources ${General_tools_dir}/*.h)
-file(GLOB_RECURSE algorithms_sources ${Algorithms_dir}/*.h)
-include_directories(${CMAKE_SOURCE_DIR}/src)
+# Some variables for the executables
+file(GLOB_RECURSE includes ${CMAKE_SOURCE_DIR}/include/*.h)
+file(GLOB_RECURSE sources ${CMAKE_SOURCE_DIR}/src/*.cpp)
+include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Some directories
 set(bin ${CMAKE_SOURCE_DIR}/bin)
-set(log ${CMAKE_SOURCE_DIR}/log)
-file(MAKE_DIRECTORY bin)
-file(MAKE_DIRECTORY log)
-file(MAKE_DIRECTORY ${CMAKE_SOURCE_DIR}/saved_figures)
+set(data ${CMAKE_SOURCE_DIR}/data)
+set(log ${data}/log)
+file(MAKE_DIRECTORY ${bin})
+file(MAKE_DIRECTORY ${log})
+file(MAKE_DIRECTORY ${data}/saved_figures)
+file(MAKE_DIRECTORY ${data}/saved_inputs)
 
 # Test executable
-add_executable(tests tests.cpp ${algorithms_sources} ${general_tools_sources} ${graphics_sources})
+add_executable(tests tests.cpp ${includes} ${sources})
 set_target_properties(tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${bin})
 target_link_libraries(tests -lsfml-graphics -lsfml-window -lsfml-system ${Boost_LIBRARIES})
 
 # All other executables
-file(GLOB chapters ${CMAKE_SOURCE_DIR}/src/Algorithms/Sources/*)
+file(GLOB chapters ${CMAKE_SOURCE_DIR}/animations/*)
 foreach(chapter ${chapters})
     get_filename_component(chapter_name ${chapter} NAME_WE)
     file(MAKE_DIRECTORY ${log}/${chapter_name})
-    file(GLOB sources ${chapter}/*.cpp)
+    file(GLOB animation_sources ${chapter}/*.cpp)
 
-    foreach(source ${sources})
+    foreach(source ${animation_sources})
         get_filename_component(source_name ${source} NAME_WE)
-        add_executable(${source_name} ${source} ${algorithms_sources} ${general_tools_sources} ${graphics_sources})
+        add_executable(${source_name} ${source} ${includes} ${sources})
         set_target_properties(${source_name} PROPERTIES
                 RUNTIME_OUTPUT_DIRECTORY ${bin}/${chapter_name})
         target_link_libraries(${source_name} -lsfml-graphics -lsfml-window -lsfml-system ${Boost_LIBRARIES})

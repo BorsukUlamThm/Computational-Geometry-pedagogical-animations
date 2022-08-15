@@ -33,9 +33,11 @@
 
 # Custom directories
 bin
-log
-saved_figures
+build
+data/log
+data/saved_figures
+data/saved_inputs
+docs
 
-# Clion stuff
-cmake-build-debug
+# ide stuff
 .idea

@@ -24,10 +24,10 @@ int main()
 	gr::Text_shp text_shp("Les étoiles sont plus belles les yeux fermés",
 						  0, -1, 30);
 
-//	std::cout << text_shp << std::endl;
-//	gr::Text_shp text_shp2;
-//	std::cin >> text_shp2;
-//	std::cout << text_shp2 << std::endl;
+//	std::cout << circle_shp << std::endl;
+//	gr::Circle_shp circle_shp2;
+//	std::cin >> circle_shp2;
+//	std::cout << circle_shp2 << std::endl;
 //
 //	return 0;
 
@@ -41,7 +41,7 @@ int main()
 	fig.add_text(text_shp);
 
 	gr::Display_canvas canvas;
-//	canvas.display_figure(fig);
+	canvas.display_figure(fig);
 
 	fig.save("test");
 

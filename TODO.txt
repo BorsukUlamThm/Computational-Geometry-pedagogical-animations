@@ -1,0 +1,15 @@
+TODO :
+
+Rajouter des std::cout dans les sous classes de Canvas
+
+Et du coup refaire les sources en mieux
+
+Documenter le dossier Algo
+
+Faire les program options en mieux
+
+faire des implémentations dans des .cpp
+et après :
+faire une bibliothèque pour pas que ça rebuild les .o https://stackoverflow.com/questions/43304332/c-multiple-definitions-even-though-only-one-definition-is-given
+
+utiliser les constructeurs des X_obj dans les constructeurs des X_shp mdr
