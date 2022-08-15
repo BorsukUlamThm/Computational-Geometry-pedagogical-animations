@@ -1,14 +1,8 @@
-#include "Graphics/View/View.h"
-//#include "Algorithms/Algorithms.h"
-//#include <boost/program_options.hpp>
-#include <map>
-#include <iostream>
-
+#include "graphics/View/Display_canvas.h"
+#include "graphics/View/Acquisition_canvas.h"
 
 namespace gr = graphics;
-//namespace alg = algorithms;
-
-int main()
+void display_tests()
 {
 	gr::Point_shp point_shp(0, 0, gr::BLUE, 20);
 	gr::Segment_shp segment_shp(1, 0, 2, 1, gr::RED, gr::GREEN);
@@ -24,12 +18,12 @@ int main()
 	gr::Text_shp text_shp("Les étoiles sont plus belles les yeux fermés",
 						  0, -1, 30);
 
-//	std::cout << circle_shp << std::endl;
-//	gr::Circle_shp circle_shp2;
-//	std::cin >> circle_shp2;
-//	std::cout << circle_shp2 << std::endl;
-//
-//	return 0;
+	//	std::cout << circle_shp << std::endl;
+	//	gr::Circle_shp circle_shp2;
+	//	std::cin >> circle_shp2;
+	//	std::cout << circle_shp2 << std::endl;
+	//
+	//	return 0;
 
 	gr::Figure fig;
 	fig.add_point(point_shp);
@@ -48,6 +42,23 @@ int main()
 	gr::Figure fig2;
 	fig2.load("test");
 	canvas.display_figure(fig2);
+}
+void acquisition_tests()
+{
+	gr::Acquisition_canvas canvas;
+	canvas.add_point_acquisition(3, gr::BLUE, 20);
+	canvas.add_segment_acquisition(-1, gr::RED, gr::YELLOW);
+
+	auto acq = canvas.acquire_buffer();
+
+	std::cout << std::endl;
+}
+
+int main()
+{
+	acquisition_tests();
+
+	return 0;
 }
 
 
