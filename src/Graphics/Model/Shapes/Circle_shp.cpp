@@ -13,18 +13,14 @@ namespace graphics
 						   const Coordinate& rad,
 						   Color col)
 	{
-		circle.center_x = Coordinate(x);
-		circle.center_y = Coordinate(y);
-		circle.radius = Coordinate(rad);
+		circle = Circle_obj(x, y, rad);
 		color = col;
 		bounding_box = Bounding_box(circle);
 	}
 
 	Circle_shp::Circle_shp(const Circle_shp& other) : Shape(other)
 	{
-		circle.center_x = Coordinate(other.circle.center_x);
-		circle.center_y = Coordinate(other.circle.center_y);
-		circle.radius = Coordinate(other.circle.radius);
+		circle = Circle_obj(other.circle);
 		color = other.color;
 	}
 

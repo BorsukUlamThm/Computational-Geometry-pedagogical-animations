@@ -14,20 +14,14 @@ namespace graphics
 						   const Coordinate& dst_y,
 						   Color col)
 	{
-		vector.origin_x = ogn_x;
-		vector.origin_y = ogn_y;
-		vector.destination_x = dst_x;
-		vector.destination_y = dst_y;
+		vector = Segment_obj(ogn_x, ogn_y, dst_x, dst_y);
 		color = col;
 		bounding_box = Bounding_box(vector);
 	}
 
 	Vector_shp::Vector_shp(const Vector_shp& other) : Shape(other)
 	{
-		vector.origin_x = Coordinate(other.vector.origin_x);
-		vector.origin_y = Coordinate(other.vector.origin_y);
-		vector.destination_x = Coordinate(other.vector.destination_x);
-		vector.destination_y = Coordinate(other.vector.destination_y);
+		vector = Segment_obj(other.vector);
 		color = other.color;
 	}
 

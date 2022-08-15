@@ -22,8 +22,7 @@ namespace graphics
 	Text_shp::Text_shp(const Text_shp& other) : Shape(other)
 	{
 		content = std::string(other.content);
-		point.abscissa = Coordinate(other.point.abscissa);
-		point.ordinate = Coordinate(other.point.ordinate);
+		point = Point_obj(other.point);
 		size = other.size;
 		offset_x = other.offset_x;
 		offset_y = other.offset_y;

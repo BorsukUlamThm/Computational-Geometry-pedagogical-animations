@@ -75,9 +75,9 @@ namespace graphics
 								   const Coordinate& y2,
 								   Color col)
 	{
-		line.a = y2 - y1;
-		line.b = x1 - x2;
-		line.c = -line.a * x1 - line.b * y1;
+		line = Line_obj(y2 - y1,
+						x1 - x2,
+						-line.a * x1 - line.b * y1);
 		color = col;
 	}
 

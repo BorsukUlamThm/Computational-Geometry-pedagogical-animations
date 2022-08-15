@@ -13,8 +13,7 @@ namespace graphics
 						 Color col,
 						 float rad)
 	{
-		point.abscissa = Coordinate(x);
-		point.ordinate = Coordinate(y);
+		point = Point_obj(x, y);
 		color = col;
 		radius = rad;
 		bounding_box = Bounding_box(point);
