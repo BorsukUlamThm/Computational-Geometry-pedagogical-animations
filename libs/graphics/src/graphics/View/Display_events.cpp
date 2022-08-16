@@ -1,6 +1,3 @@
-/** @cond */
-#include <cmath>
-/** @endcond */
 #include "graphics/View/Display_canvas.h"
 
 

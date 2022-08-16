@@ -1,9 +1,7 @@
 #pragma once
 
-/** @cond */
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-/** @endcond */
 #include "graphics/Model/Figure.h"
 
 

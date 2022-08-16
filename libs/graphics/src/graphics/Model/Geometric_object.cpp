@@ -10,21 +10,19 @@ namespace graphics
 		ordinate = y;
 	}
 
+	Segment_obj::Segment_obj(const graphics::Point_obj& ogn,
+							 const graphics::Point_obj& dst)
+	{
+		origin = ogn;
+		destination = dst;
+	}
+
 	Segment_obj::Segment_obj(const graphics::Coordinate& ogn_x,
 							 const graphics::Coordinate& ogn_y,
 							 const graphics::Coordinate& dst_x,
-							 const graphics::Coordinate& dst_y)
-	{
-		origin_x = ogn_x;
-		origin_y = ogn_y;
-		destination_x = dst_x;
-		destination_y = dst_y;
-	}
-
-	Segment_obj::Segment_obj(const graphics::Point_obj& ogn,
-							 const graphics::Point_obj& dst) :
-			Segment_obj(ogn.abscissa, ogn.ordinate,
-						dst.abscissa, dst.ordinate)
+							 const graphics::Coordinate& dst_y) :
+			Segment_obj(Point_obj(ogn_x, ogn_y),
+						Point_obj(dst_x, dst_y))
 	{}
 
 	Circle_obj::Circle_obj(const Coordinate& x,
@@ -62,9 +60,9 @@ namespace graphics
 	{}
 
 	Line_obj::Line_obj(const Segment_obj& segment) :
-			Line_obj(segment.origin_x,
-					 segment.origin_y,
-					 segment.destination_x,
-					 segment.destination_y)
+			Line_obj(segment.origin.abscissa,
+					 segment.origin.ordinate,
+					 segment.destination.abscissa,
+					 segment.destination.ordinate)
 	{}
 }

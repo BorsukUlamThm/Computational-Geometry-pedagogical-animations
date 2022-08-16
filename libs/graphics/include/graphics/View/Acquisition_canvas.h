@@ -1,7 +1,6 @@
 #pragma once
 
-#include "graphics/Model/Acquisitions/Point_acq.h"
-#include "graphics/Model/Acquisitions/Segment_acq.h"
+#include "graphics/Model/Acquisitions/Acquisition.h"
 #include "Canvas.h"
 
 

@@ -1,9 +1,9 @@
 #pragma once
 
-/** @cond */
 #include <iostream>
-/** @endcond */
 #include "Point_comparisons.h"
+#include "geometry/Model/Point_2.h"
+#include "geometry/Model/Segment_2.h"
 
 
 namespace geometry
@@ -27,8 +27,8 @@ namespace geometry
 	bool segment_intersect(const Segment_2<Real>& s1,
 						   const Segment_2<Real>& s2)
 	{
-		return akward_det(s1.p1, s1.p2, s2.p1) *
-			   akward_det(s1.p1, s1.p2, s2.p2) <= 0;
+		return weird_det(s1.p1, s1.p2, s2.p1) *
+			   weird_det(s1.p1, s1.p2, s2.p2) <= 0;
 	}
 
 	template<typename Real>

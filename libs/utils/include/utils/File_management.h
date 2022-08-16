@@ -1,11 +1,8 @@
 #pragma once
 
-/** @cond */
-#include <iostream>
 #include <string>
 #include <vector>
 #include <filesystem>
-/** @endcond */
 
 
 namespace utils
@@ -32,7 +29,6 @@ namespace utils
 	fs::path get_config_directory();
 
 	/*!
-	 * @param line a parsed line from a config file
 	 * @return the list of the words separated by whitespaces
 	 */
 	std::vector<std::string> split_line(const std::string& line);

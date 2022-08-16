@@ -32,10 +32,14 @@ namespace graphics
 
 	Bounding_box::Bounding_box(const Segment_obj& segment)
 	{
-		min_abscissa = std::min(segment.origin_x, segment.destination_x);
-		max_abscissa = std::max(segment.origin_x, segment.destination_x);
-		min_ordinate = std::min(segment.origin_y, segment.destination_y);
-		max_ordinate = std::max(segment.origin_y, segment.destination_y);
+		min_abscissa = std::min(segment.origin.abscissa,
+								segment.destination.abscissa);
+		max_abscissa = std::max(segment.origin.abscissa,
+								segment.destination.abscissa);
+		min_ordinate = std::min(segment.origin.ordinate,
+								segment.destination.ordinate);
+		max_ordinate = std::max(segment.origin.ordinate,
+								segment.destination.ordinate);
 	}
 
 	Bounding_box::Bounding_box(const Circle_obj& circle)

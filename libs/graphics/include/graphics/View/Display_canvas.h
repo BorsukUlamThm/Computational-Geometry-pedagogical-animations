@@ -7,7 +7,7 @@
 namespace graphics
 {
 	/*!
-	 * The Display_canvas class handles the display of a Slide_show
+	 * The Display_canvas class handles the display of an Animation
 	 */
 	class Display_canvas : public Canvas
 	{

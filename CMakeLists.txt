@@ -13,6 +13,7 @@ file(MAKE_DIRECTORY ${data}/saved_inputs)
 
 # Libs setup
 include_directories(
+        ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/libs/geometry/include
         ${CMAKE_SOURCE_DIR}/libs/graphics/include
         ${CMAKE_SOURCE_DIR}/libs/utils/include

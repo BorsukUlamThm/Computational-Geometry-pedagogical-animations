@@ -1,3 +1,4 @@
+#include <iostream>
 #include "graphics/View/Display_canvas.h"
 
 

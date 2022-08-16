@@ -1,4 +1,6 @@
 #include "graphics/View/Acquisition_canvas.h"
+#include "graphics/Model/Acquisitions/Point_acq.h"
+#include "graphics/Model/Acquisitions/Segment_acq.h"
 
 
 namespace graphics

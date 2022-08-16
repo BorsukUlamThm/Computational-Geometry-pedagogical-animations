@@ -1,4 +1,5 @@
 #include "graphics/Model/Figure.h"
+#include "utils/File_management.h"
 
 
 namespace graphics
@@ -44,6 +45,15 @@ namespace graphics
 		bounding_box.extend(segment.get_bounding_box());
 	}
 
+	void Figure::add_segment(const Point_obj& ogn,
+							 const Point_obj& dst,
+							 Color line_col,
+							 Color endpoints_col)
+	{
+		Segment_shp segment(ogn, dst, line_col, endpoints_col);
+		add_segment(segment);
+	}
+
 	void Figure::add_segment(const Coordinate& ogn_x,
 							 const Coordinate& ogn_y,
 							 const Coordinate& dst_x,
@@ -63,6 +73,14 @@ namespace graphics
 		bounding_box.extend(vector.get_bounding_box());
 	}
 
+	void Figure::add_vector(const Point_obj& ogn,
+							const Point_obj& dst,
+							Color col)
+	{
+		Vector_shp vector(ogn, dst, col);
+		add_vector(vector);
+	}
+
 	void Figure::add_vector(const Coordinate& ogn_x,
 							const Coordinate& ogn_y,
 							const Coordinate& dst_x,
@@ -70,14 +88,6 @@ namespace graphics
 							Color col)
 	{
 		Vector_shp vector(ogn_x, ogn_y, dst_x, dst_y, col);
-		add_vector(vector);
-	}
-
-	void Figure::add_vector(const Point_obj& ogn,
-							const Point_obj& dst,
-							Color col)
-	{
-		Vector_shp vector(ogn, dst, col);
 		add_vector(vector);
 	}
 
@@ -194,6 +204,15 @@ namespace graphics
 	}
 
 	void Figure::add_text(const std::string& text,
+						  const Point_obj& point,
+						  unsigned size,
+						  Color col)
+	{
+		Text_shp txt(text, point, size, col);
+		add_text(txt);
+	}
+
+	void Figure::add_text(const std::string& text,
 						  const Point_shp& point,
 						  unsigned size,
 						  Color col)
@@ -203,20 +222,11 @@ namespace graphics
 	}
 
 	void Figure::add_text(const std::string& text,
-						  const Segment_shp& segment,
+						  const Segment_obj& segment,
 						  unsigned size,
 						  Color col)
 	{
 		Text_shp txt(text, segment, size, col);
-		add_text(txt);
-	}
-
-	void Figure::add_text(const std::string& text,
-						  const Vector_shp& vector,
-						  unsigned size,
-						  Color col)
-	{
-		Text_shp txt(text, vector, size, col);
 		add_text(txt);
 	}
 

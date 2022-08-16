@@ -128,7 +128,7 @@ namespace chap2_segment_intersections
 			std::cout << "initializing " << opt.nb_random_segments << " random points"
 					  << std::endl << "seed : " << opt.seed << std::endl;
 
-			geo::Normal_number_generator<int> ng(opt.seed);
+			geo::Number_generator<int> ng(opt.seed);
 			auto tmp = geo::random_segment_2_set < int > (opt.nb_random_segments, ng);
 
 			segment_set S;

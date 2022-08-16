@@ -1,9 +1,5 @@
 #pragma once
 
-/** @cond */
-#include <iostream>
-#include <SFML/Graphics.hpp>
-/** @endcond */
 #include "graphics/Model/Bounding_box.h"
 
 

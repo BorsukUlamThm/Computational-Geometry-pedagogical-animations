@@ -1,14 +1,12 @@
 #pragma once
 
-/** @cond */
-#include <limits>
 #include <string>
 #include <map>
+#include <limits>
 #include <fstream>
+#include <iostream>
 #include <SFML/Graphics.hpp>
 #include <boost/array.hpp>
-/** @endcond */
-#include "utils/File_management.h"
 
 
 namespace graphics

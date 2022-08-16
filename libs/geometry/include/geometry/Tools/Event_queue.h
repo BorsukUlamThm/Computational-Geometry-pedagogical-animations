@@ -1,8 +1,6 @@
 #pragma once
 
-/** @cond */
 #include <boost/heap/priority_queue.hpp>
-/** @endcond */
 
 
 namespace geometry
@@ -31,9 +29,7 @@ namespace geometry
 
 	template<typename Event>
 	void Event_queue<Event>::push_event(const Event& event)
-	{
-		heap.push(event);
-	}
+	{ heap.push(event); }
 
 	template<typename Event>
 	void Event_queue<Event>::handle_events()

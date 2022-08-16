@@ -1,4 +1,4 @@
-#include "../../include/Convex_hull_setup.h"
+#include "Convex_hull_setup.h"
 #include "graphics/View/Display_canvas.h"
 #include "geometry/Tools/Point_comparisons.h"
 
@@ -74,8 +74,8 @@ namespace chap1_slow_convex_hull
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 		for(unsigned i = 0; i < E.size(); ++i)
 		{
-			gr::Vector_shp v (E[i].p1.x, E[i].p1.y, E[i].p2.x, E[i].p2.y);
-			animation[OUTSIDE_SEGMENTS].add_text(std::to_string(i), v);
+			gr::Segment_obj s (E[i].p1.x, E[i].p1.y, E[i].p2.x, E[i].p2.y);
+			animation[OUTSIDE_SEGMENTS].add_text(std::to_string(i), s);
 		}
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 		animation[OUTSIDE_SEGMENTS].erase_last_k_shapes(E.size());

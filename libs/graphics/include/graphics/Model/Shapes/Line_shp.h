@@ -1,8 +1,5 @@
 #pragma once
 
-/** @cond */
-#include <SFML/Graphics.hpp>
-/** @endcond */
 #include "Shape.h"
 
 

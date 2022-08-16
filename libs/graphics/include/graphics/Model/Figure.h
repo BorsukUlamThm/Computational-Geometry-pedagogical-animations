@@ -1,11 +1,16 @@
 #pragma once
 
-/** @cond */
 #include <memory>
-/** @endcond */
+#include <vector>
+#include <string>
+#include <fstream>
+#include "Bounding_box.h"
+#include "Shapes/Point_shp.h"
+#include "Shapes/Segment_shp.h"
+#include "Shapes/Vector_shp.h"
+#include "Shapes/Polygon_shp.h"
 #include "Shapes/Circle_shp.h"
 #include "Shapes/Line_shp.h"
-#include "Shapes/Polygon_shp.h"
 #include "Shapes/Text_shp.h"
 
 
@@ -53,6 +58,10 @@ namespace graphics
 					   const Points& ... points);
 
 		void add_segment(const Segment_shp& segment);
+		void add_segment(const Point_obj& ogn,
+						 const Point_obj& dst,
+						 Color line_col = DEFAULT_SHAPE_COLOR,
+						 Color endpoints_col = DEFAULT_SHAPE_COLOR);
 		void add_segment(const Coordinate& ogn_x,
 						 const Coordinate& ogn_y,
 						 const Coordinate& dst_x,
@@ -64,13 +73,13 @@ namespace graphics
 						 const Segments& ... segments);
 
 		void add_vector(const Vector_shp& vector);
+		void add_vector(const Point_obj& ogn,
+						const Point_obj& dst,
+						Color col = DEFAULT_SHAPE_COLOR);
 		void add_vector(const Coordinate& ogn_x,
 						const Coordinate& ogn_y,
 						const Coordinate& dst_x,
 						const Coordinate& dst_y,
-						Color col = DEFAULT_SHAPE_COLOR);
-		void add_vector(const Point_obj& ogn,
-						const Point_obj& dst,
 						Color col = DEFAULT_SHAPE_COLOR);
 		void add_vector(const Segment_obj& segment,
 						Color col = DEFAULT_SHAPE_COLOR);
@@ -128,15 +137,15 @@ namespace graphics
 					  float off_y = 0,
 					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_text(const std::string& text,
+					  const Point_obj& point,
+					  unsigned size,
+					  Color col);
+		void add_text(const std::string& text,
 					  const Point_shp& point,
 					  unsigned size = 16,
 					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_text(const std::string& text,
-					  const Segment_shp& segment,
-					  unsigned size = 16,
-					  Color col = DEFAULT_SHAPE_COLOR);
-		void add_text(const std::string& text,
-					  const Vector_shp& vector,
+					  const Segment_obj& segment,
 					  unsigned size = 16,
 					  Color col = DEFAULT_SHAPE_COLOR);
 

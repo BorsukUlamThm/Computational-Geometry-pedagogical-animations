@@ -11,12 +11,19 @@ namespace graphics
 	Text_shp::Text_shp(const std::string& text,
 					   const Coordinate& x,
 					   const Coordinate& y,
-					   unsigned size,
+					   unsigned char_size,
 					   float off_x,
 					   float off_y,
 					   Color col)
 	{
-		aux_constructor(text, x, y, size, off_x, off_y, col);
+		content = std::string(text);
+		point = Point_obj(x, y);
+		size = char_size;
+		offset_x = off_x;
+		offset_y = off_y;
+		color = col;
+
+		bounding_box = Bounding_box(point);
 	}
 
 	Text_shp::Text_shp(const Text_shp& other) : Shape(other)
@@ -30,37 +37,32 @@ namespace graphics
 	}
 
 	Text_shp::Text_shp(const std::string& text,
+					   const Point_obj& point,
+					   unsigned int size,
+					   const Color col) :
+			Text_shp(text, point.abscissa, point.ordinate,
+					 size, 0, 0, col)
+	{}
+
+	Text_shp::Text_shp(const std::string& text,
 					   const Point_shp& point,
 					   unsigned int size,
-					   Color col)
-	{
-		aux_constructor(text, point.get_abscissa(), point.get_ordinate(), size,
-						0, 3 + point.get_radius() + float(size) / 2, col);
-	}
+					   Color col) :
+			Text_shp(text, point.get_abscissa(), point.get_ordinate(),
+					 size, 0, 3 + point.get_radius() + float(size) / 2, col)
+	{}
 
 	Text_shp::Text_shp(const std::string& text,
-					   const Segment_shp& segment,
+					   const Segment_obj& segment,
 					   unsigned int size,
-					   Color col)
-	{
-		Coordinate x = (segment.get_origin_x() +
-						segment.get_destination_x()) / 2;
-		Coordinate y = (segment.get_origin_y() +
-						segment.get_destination_y()) / 2;
-		aux_constructor(text, x, y, size,
-						0, 0, col);
-	}
-
-	Text_shp::Text_shp(const std::string& text,
-					   const Vector_shp& vector,
-					   unsigned int size,
-					   Color col)
-	{
-		Coordinate x = (vector.get_origin_x() + vector.get_destination_x()) / 2;
-		Coordinate y = (vector.get_origin_y() + vector.get_destination_y()) / 2;
-		aux_constructor(text, x, y, size,
-						0, 0, col);
-	}
+					   Color col) :
+			Text_shp(text,
+					 (segment.origin.abscissa +
+					  segment.destination.abscissa) / 2,
+					 (segment.origin.ordinate +
+					  segment.destination.ordinate) / 2,
+					 size, 0, 0, col)
+	{}
 
 	std::string Text_shp::get_content() const
 	{ return content; }
@@ -93,24 +95,6 @@ namespace graphics
 		   << offset_x << " "
 		   << offset_y << " "
 		   << color;
-	}
-
-	void Text_shp::aux_constructor(const std::string& text,
-								   const Coordinate& x,
-								   const Coordinate& y,
-								   unsigned char_size,
-								   float off_x,
-								   float off_y,
-								   Color col)
-	{
-		content = std::string(text);
-		point = Point_obj(x, y);
-		size = char_size;
-		offset_x = off_x;
-		offset_y = off_y;
-		color = col;
-
-		bounding_box = Bounding_box(point);
 	}
 
 	std::ostream& operator<<(std::ostream& os,

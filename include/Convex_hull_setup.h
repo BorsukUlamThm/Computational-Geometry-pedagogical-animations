@@ -124,7 +124,7 @@ namespace chs
 					  << " random points"
 					  << std::endl << "seed : " << opt.seed << std::endl;
 
-			geo::Normal_number_generator<int> ng(opt.seed);
+			geo::Number_generator<int> ng(opt.seed);
 			return geo::random_point_2_set<int>(opt.nb_random_points, ng);
 		}
 

@@ -5,6 +5,10 @@
 
 namespace graphics
 {
+	/*!
+	 * A Point_acq is an Acquisition of points. It is defined by the color and
+	 * radius of the drawn points during the acquisition
+	 */
 	class Point_acq : public Acquisition
 	{
 	private:

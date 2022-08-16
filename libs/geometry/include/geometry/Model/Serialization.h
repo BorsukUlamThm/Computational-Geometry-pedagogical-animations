@@ -1,11 +1,9 @@
 #pragma once
 
-/** @cond */
-#include <filesystem>
 #include <fstream>
 #include <vector>
-/** @endcond */
 #include "utils/File_management.h"
+#include "Point_2.h"
 #include "Segment_2.h"
 
 
@@ -25,8 +23,21 @@ namespace geometry
 	std::istream& operator>>(std::istream& is,
 							 std::vector<Segment_2<Real>>& segments);
 
+	/*!
+	 * Construct a vector of Point_2 from a file\n
+	 * Format :\n
+	 * - first an integer n, the number of points to read
+	 * - then n pairs of numbers (x, y) which represent the n points
+	 */
 	template<typename Real>
 	std::vector<Point_2<Real>> load_point_2_set(const std::string& file);
+	/*!
+	 * Construct a vector of Segment_2 from a file\n
+	 * Format :\n
+	 * - first an integer n, the number of segments to read
+	 * - then n lists of four numbers (x1, y1, x2, y2) which represent the n
+	 * segments
+	 */
 	template<typename Real>
 	std::vector<Segment_2<Real>> load_segment_2_set(const std::string& file);
 
@@ -37,9 +48,22 @@ namespace geometry
 	std::ostream& operator<<(std::ostream& os,
 							 const Segment_2<Real>& s);
 
+	/*!
+	 * Saves the points in a file\n
+	 * Format :\n
+	 * - first an integer n, the number of points to save
+	 * - then n pairs of numbers (x, y) which represent the n points
+	 */
 	template<typename Real>
 	void save_point_2_set(const std::string& file,
 						  const std::vector<Point_2<Real>>& points);
+	/*!
+	 * Saves the segments in a file\n
+	 * Format :\n
+	 * - first an integer n, the number of segments to save
+	 * - then n lists of four numbers (x1, y1, x2, y2) which represent the n
+	 * segments
+	 */
 	template<typename Real>
 	void save_segment_2_set(const std::string& file,
 							const std::vector<Segment_2<Real>>& segments);

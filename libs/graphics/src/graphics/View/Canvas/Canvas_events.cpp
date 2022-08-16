@@ -1,7 +1,5 @@
-/** @cond */
-#include <cmath>
-/** @endcond */
 #include "graphics/View/Canvas.h"
+#include <cmath>
 
 
 namespace graphics

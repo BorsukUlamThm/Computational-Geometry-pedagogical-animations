@@ -1,8 +1,5 @@
 #pragma once
 
-/** @cond */
-#include <SFML/Graphics.hpp>
-/** @endcond */
 #include "Point_shp.h"
 #include "Segment_shp.h"
 #include "Vector_shp.h"
@@ -59,27 +56,25 @@ namespace graphics
 
 		// other constructors
 		/*!
-		 * Constructs a text that will be drawn
-		 * just above the given point
+		 * Constructs a text that will be drawn on the given point
+		 */
+		Text_shp(const std::string& text,
+				 const Point_obj& point,
+				 unsigned size = 16,
+				 const Color col = DEFAULT_SHAPE_COLOR);
+		/*!
+		 * Constructs a text that will be drawn just above the given point
 		 */
 		Text_shp(const std::string& text,
 				 const Point_shp& point,
 				 unsigned size = 16,
 				 const Color col = DEFAULT_SHAPE_COLOR);
 		/*!
-		 * Constructs a text that will be drawn
-		 * in the middle of the given segment
+		 * Constructs a text that will be drawn in the middle of the given
+		 * segment
 		 */
 		Text_shp(const std::string& text,
-				 const Segment_shp& segment,
-				 unsigned size = 16,
-				 const Color col = DEFAULT_SHAPE_COLOR);
-		/*!
-		 * Constructs a text that will be drawn
-		 * in the middle of the given vector
-		 */
-		Text_shp(const std::string& text,
-				 const Vector_shp& vector,
+				 const Segment_obj& segment,
 				 unsigned size = 16,
 				 const Color col = DEFAULT_SHAPE_COLOR);
 
@@ -95,15 +90,6 @@ namespace graphics
 
 		void draw(Canvas& canvas) const override;
 		void write(std::ostream& os) const override;
-
-	private:
-		void aux_constructor(const std::string& text,
-							 const Coordinate& x,
-							 const Coordinate& y,
-							 unsigned size,
-							 float off_x,
-							 float off_y,
-							 Color col);
 
 	public:
 		friend std::istream& operator>>(std::istream& is,

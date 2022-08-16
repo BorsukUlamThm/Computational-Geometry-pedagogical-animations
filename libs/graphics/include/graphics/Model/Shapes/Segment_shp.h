@@ -38,10 +38,8 @@ namespace graphics
 
 		~Segment_shp() = default;
 
-		Coordinate get_origin_x() const;
-		Coordinate get_origin_y() const;
-		Coordinate get_destination_x() const;
-		Coordinate get_destination_y() const;
+		Point_obj get_origin() const;
+		Point_obj get_destination() const;
 		Color get_line_color() const;
 		Color get_endpoints_color() const;
 

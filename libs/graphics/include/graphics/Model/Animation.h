@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "Figure.h"
 
 

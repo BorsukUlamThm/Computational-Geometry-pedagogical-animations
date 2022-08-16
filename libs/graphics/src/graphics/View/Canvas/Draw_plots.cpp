@@ -1,7 +1,5 @@
-/** @cond */
-#include <cmath>
-/** @endcond */
 #include "graphics/View/Canvas.h"
+#include <cmath>
 
 
 namespace graphics
@@ -30,18 +28,20 @@ namespace graphics
 	void Segment_shp::draw(Canvas& canvas) const
 	{
 		sf::VertexArray shape(sf::LineStrip, 2);
-		shape[0].position = sf::Vector2f(segment.origin_x,
-										 -segment.origin_y);
-		shape[1].position = sf::Vector2f(segment.destination_x,
-										 -segment.destination_y);
+		shape[0].position = sf::Vector2f(segment.origin.abscissa,
+										 -segment.origin.ordinate);
+		shape[1].position = sf::Vector2f(segment.destination.abscissa,
+										 -segment.destination.ordinate);
 		shape[0].color = canvas.get_color(line_color);
 		shape[1].color = canvas.get_color(line_color);
 
 		canvas.window.draw(shape);
 
-		Point_shp origin(segment.origin_x, segment.origin_y,
+		Point_shp origin(segment.origin.abscissa,
+						 segment.origin.ordinate,
 						 endpoints_color);
-		Point_shp destination(segment.destination_x, segment.destination_y,
+		Point_shp destination(segment.destination.abscissa,
+							  segment.destination.ordinate,
 							  endpoints_color);
 		origin.draw(canvas);
 		destination.draw(canvas);
@@ -50,10 +50,10 @@ namespace graphics
 	void Vector_shp::draw(graphics::Canvas& canvas) const
 	{
 		sf::VertexArray shape(sf::LineStrip, 2);
-		shape[0].position = sf::Vector2f(vector.origin_x,
-										 -vector.origin_y);
-		shape[1].position = sf::Vector2f(vector.destination_x,
-										 -vector.destination_y);
+		shape[0].position = sf::Vector2f(vector.origin.abscissa,
+										 -vector.origin.ordinate);
+		shape[1].position = sf::Vector2f(vector.destination.abscissa,
+										 -vector.destination.ordinate);
 		shape[0].color = canvas.get_color(color);
 		shape[1].color = canvas.get_color(color);
 		canvas.window.draw(shape);
@@ -62,9 +62,10 @@ namespace graphics
 		float tri_height = 12.0f * ratio;
 		float tri_width = 9.0f * ratio;
 
-		sf::Vector2f destination(vector.destination_x, -vector.destination_y);
-		sf::Vector2f u(vector.destination_x - vector.origin_x,
-					   -vector.destination_y + vector.origin_y);
+		sf::Vector2f destination(vector.destination.abscissa,
+								 -vector.destination.ordinate);
+		sf::Vector2f u(vector.destination.abscissa - vector.origin.abscissa,
+					   -vector.destination.ordinate + vector.origin.ordinate);
 		u *= 1.0f / std::sqrt(u.x * u.x + u.y * u.y);
 		sf::Vector2f v(-u.y, u.x);
 

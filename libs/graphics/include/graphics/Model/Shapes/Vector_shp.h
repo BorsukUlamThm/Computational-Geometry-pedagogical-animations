@@ -21,19 +21,20 @@ namespace graphics
 	public:
 		// standard constructors
 		Vector_shp();
-		Vector_shp(const Coordinate& ogn_x,
-				   const Coordinate& ogn_y,
-				   const Coordinate& dst_x,
-				   const Coordinate& dst_y,
+		Vector_shp(const Point_obj& ogn,
+				   const Point_obj& dst,
 				   Color col = DEFAULT_SHAPE_COLOR);
 		Vector_shp(const Vector_shp& other);
 
 		//other constructors
 		/*!
-		 * Constructs the segment whose endpoints are ogn and dst
+		 * Constructs the segment whose endpoints are (ogn_x, ogn_y) and (dst_x,
+		 * dst_y)
 		 */
-		Vector_shp(const Point_obj& ogn,
-				   const Point_obj& dst,
+		Vector_shp(const Coordinate& ogn_x,
+				   const Coordinate& ogn_y,
+				   const Coordinate& dst_x,
+				   const Coordinate& dst_y,
 				   Color col = DEFAULT_SHAPE_COLOR);
 		/*!
 		 * Constructs the segment whose endpoints are the segment's endpoints
@@ -43,10 +44,8 @@ namespace graphics
 
 		~Vector_shp() = default;
 
-		Coordinate get_origin_x() const;
-		Coordinate get_origin_y() const;
-		Coordinate get_destination_x() const;
-		Coordinate get_destination_y() const;
+		Point_obj get_origin() const;
+		Point_obj get_destination() const;
 		Color get_color() const;
 
 		void draw(Canvas& canvas) const override;

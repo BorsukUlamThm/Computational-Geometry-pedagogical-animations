@@ -1,4 +1,4 @@
-#include "../../include/Convex_hull_setup.h"
+#include "Convex_hull_setup.h"
 #include "graphics/View/Display_canvas.h"
 #include "geometry/Tools/Point_comparisons.h"
 

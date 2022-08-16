@@ -8,13 +8,11 @@ namespace graphics
 		bounding_box = Bounding_box(vector);
 	}
 
-	Vector_shp::Vector_shp(const Coordinate& ogn_x,
-						   const Coordinate& ogn_y,
-						   const Coordinate& dst_x,
-						   const Coordinate& dst_y,
+	Vector_shp::Vector_shp(const Point_obj& ogn,
+						   const Point_obj& dst,
 						   Color col)
 	{
-		vector = Segment_obj(ogn_x, ogn_y, dst_x, dst_y);
+		vector = Segment_obj(ogn, dst);
 		color = col;
 		bounding_box = Bounding_box(vector);
 	}
@@ -25,11 +23,13 @@ namespace graphics
 		color = other.color;
 	}
 
-	Vector_shp::Vector_shp(const Point_obj& ogn,
-						   const Point_obj& dst,
+	Vector_shp::Vector_shp(const Coordinate& ogn_x,
+						   const Coordinate& ogn_y,
+						   const Coordinate& dst_x,
+						   const Coordinate& dst_y,
 						   Color col)
 	{
-		vector = Segment_obj(ogn, dst);
+		vector = Segment_obj(ogn_x, ogn_y, dst_x, dst_y);
 		color = col;
 		bounding_box = Bounding_box(vector);
 	}
@@ -42,17 +42,11 @@ namespace graphics
 		bounding_box = Bounding_box(vector);
 	}
 
-	Coordinate Vector_shp::get_origin_x() const
-	{ return vector.origin_x; }
+	Point_obj Vector_shp::get_origin() const
+	{ return vector.origin; }
 
-	Coordinate Vector_shp::get_origin_y() const
-	{ return vector.origin_y; }
-
-	Coordinate Vector_shp::get_destination_x() const
-	{ return vector.destination_x; }
-
-	Coordinate Vector_shp::get_destination_y() const
-	{ return vector.destination_y; }
+	Point_obj Vector_shp::get_destination() const
+	{ return vector.destination; }
 
 	Color Vector_shp::get_color() const
 	{ return color; }
@@ -60,10 +54,10 @@ namespace graphics
 	void Vector_shp::write(std::ostream& os) const
 	{
 		os << VECTOR_NAME << " "
-		   << vector.origin_x << " "
-		   << vector.origin_y << " "
-		   << vector.destination_x << " "
-		   << vector.destination_y << " "
+		   << vector.origin.abscissa << " "
+		   << vector.origin.ordinate << " "
+		   << vector.destination.abscissa << " "
+		   << vector.destination.ordinate << " "
 		   << color;
 	}
 
@@ -77,10 +71,10 @@ namespace graphics
 	std::istream& operator>>(std::istream& is,
 							 Vector_shp& vector)
 	{
-		is >> vector.vector.origin_x
-		   >> vector.vector.origin_y
-		   >> vector.vector.destination_x
-		   >> vector.vector.destination_y
+		is >> vector.vector.origin.abscissa
+		   >> vector.vector.origin.ordinate
+		   >> vector.vector.destination.abscissa
+		   >> vector.vector.destination.ordinate
 		   >> vector.color;
 		return is;
 	}

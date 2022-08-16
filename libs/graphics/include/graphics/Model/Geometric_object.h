@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "graphics/Model/Global_variables.h"
 
 
@@ -22,18 +23,16 @@ namespace graphics
 
 	struct Segment_obj : public Geometric_object
 	{
-		Coordinate origin_x = 0;
-		Coordinate origin_y = 0;
-		Coordinate destination_x = 0;
-		Coordinate destination_y = 0;
+		Point_obj origin;
+		Point_obj destination;
 
 		Segment_obj() = default;
+		Segment_obj(const Point_obj& ogn,
+					const Point_obj& dst);
 		Segment_obj(const Coordinate& ogn_x,
 					const Coordinate& ogn_y,
 					const Coordinate& dst_x,
 					const Coordinate& dst_y);
-		Segment_obj(const Point_obj& ogn,
-					const Point_obj& dst);
 	};
 
 	struct Circle_obj : Geometric_object

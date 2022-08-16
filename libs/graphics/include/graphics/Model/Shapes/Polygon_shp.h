@@ -1,8 +1,5 @@
 #pragma once
 
-/** @cond */
-#include <vector>
-/** @endcond */
 #include "Shape.h"
 
 

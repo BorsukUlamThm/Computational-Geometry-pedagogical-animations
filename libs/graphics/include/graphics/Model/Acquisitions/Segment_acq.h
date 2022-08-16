@@ -5,6 +5,10 @@
 
 namespace graphics
 {
+	/*!
+	 * A Segment_acq is an Acquisition of segments. It is defined by the color
+	 * of the lines and endpoints of the drawn segments during the acquisition
+	 */
 	class Segment_acq : public Acquisition
 	{
 	private:

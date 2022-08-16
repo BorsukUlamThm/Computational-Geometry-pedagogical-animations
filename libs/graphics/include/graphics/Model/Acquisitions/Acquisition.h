@@ -1,8 +1,6 @@
 #pragma once
 
-/** @cond */
 #include <memory>
-/** @endcond */
 #include "graphics/Model/Geometric_object.h"
 
 
@@ -19,6 +17,11 @@ namespace graphics
 
 	typedef std::shared_ptr<Geometric_object> Geometric_object_ptr;
 
+	/*!
+	 * An acquisition is a set of Geometric_object that will be acquired on an
+	 * Acquisition_canvas. It also contains the number of desired objects to
+	 * acquire
+	 */
 	class Acquisition
 	{
 	protected:
@@ -27,10 +30,10 @@ namespace graphics
 
 	public:
 		virtual State starting_state() const = 0;
+
 		unsigned get_nb_acquisitions() const;
 		unsigned get_size() const;
-		const Geometric_object_ptr& operator[](unsigned i) const;
-		Geometric_object_ptr& operator[](unsigned i);
+
 		const Geometric_object_ptr& get(unsigned i) const;
 		Geometric_object_ptr& get(unsigned i);
 	};

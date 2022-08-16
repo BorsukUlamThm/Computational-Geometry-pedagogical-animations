@@ -1,9 +1,5 @@
 #pragma once
 
-/** @cond */
-#include <ostream>
-/** @endcond */
-
 
 namespace geometry
 {
