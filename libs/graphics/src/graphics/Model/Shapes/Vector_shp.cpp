@@ -54,10 +54,7 @@ namespace graphics
 	void Vector_shp::write(std::ostream& os) const
 	{
 		os << VECTOR_NAME << " "
-		   << vector.origin.abscissa << " "
-		   << vector.origin.ordinate << " "
-		   << vector.destination.abscissa << " "
-		   << vector.destination.ordinate << " "
+		   << vector << " "
 		   << color;
 	}
 
@@ -71,10 +68,7 @@ namespace graphics
 	std::istream& operator>>(std::istream& is,
 							 Vector_shp& vector)
 	{
-		is >> vector.vector.origin.abscissa
-		   >> vector.vector.origin.ordinate
-		   >> vector.vector.destination.abscissa
-		   >> vector.vector.destination.ordinate
+		is >> vector.vector
 		   >> vector.color;
 		return is;
 	}

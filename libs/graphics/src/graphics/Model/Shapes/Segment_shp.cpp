@@ -54,10 +54,7 @@ namespace graphics
 	void Segment_shp::write(std::ostream& os) const
 	{
 		os << SEGMENT_NAME << " "
-		   << segment.origin.abscissa << " "
-		   << segment.origin.ordinate << " "
-		   << segment.destination.abscissa << " "
-		   << segment.destination.ordinate << " "
+		   << segment << " "
 		   << line_color << " "
 		   << endpoints_color;
 	}
@@ -72,10 +69,7 @@ namespace graphics
 	std::istream& operator>>(std::istream& is,
 							 Segment_shp& segment)
 	{
-		is >> segment.segment.origin.abscissa
-		   >> segment.segment.origin.ordinate
-		   >> segment.segment.destination.abscissa
-		   >> segment.segment.destination.ordinate
+		is >> segment.segment
 		   >> segment.line_color
 		   >> segment.endpoints_color;
 		return is;

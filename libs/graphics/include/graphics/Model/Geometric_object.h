@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
 #include "graphics/Model/Global_variables.h"
 
@@ -69,4 +70,22 @@ namespace graphics
 				 const Point_obj& point2);
 		explicit Line_obj(const Segment_obj& segment);
 	};
+
+	std::ostream& operator<<(std::ostream& os,
+							 const Point_obj& point);
+	std::ostream& operator<<(std::ostream& os,
+							 const Segment_obj& segment);
+	std::ostream& operator<<(std::ostream& os,
+							 const Circle_obj& circle);
+	std::ostream& operator<<(std::ostream& os,
+							 const Line_obj& line);
+
+	std::istream& operator>>(std::istream& is,
+							 Point_obj& point);
+	std::istream& operator>>(std::istream& is,
+							 Segment_obj& segment);
+	std::istream& operator>>(std::istream& is,
+							 Circle_obj& circle);
+	std::istream& operator>>(std::istream& is,
+							 Line_obj& line);
 }

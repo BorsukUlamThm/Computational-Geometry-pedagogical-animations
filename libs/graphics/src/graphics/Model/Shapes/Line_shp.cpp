@@ -58,9 +58,7 @@ namespace graphics
 	void Line_shp::write(std::ostream& os) const
 	{
 		os << LINE_NAME << " "
-		   << line.param_a << " "
-		   << line.param_b << " "
-		   << line.param_c << " "
+		   << line << " "
 		   << color;
 	}
 
@@ -74,9 +72,7 @@ namespace graphics
 	std::istream& operator>>(std::istream& is,
 							 Line_shp& line)
 	{
-		is >> line.line.param_a
-		   >> line.line.param_b
-		   >> line.line.param_c
+		is >> line.line
 		   >> line.color;
 		return is;
 	}

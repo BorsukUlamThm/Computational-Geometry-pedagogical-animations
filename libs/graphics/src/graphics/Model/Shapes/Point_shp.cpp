@@ -41,8 +41,7 @@ namespace graphics
 	void Point_shp::write(std::ostream& os) const
 	{
 		os << POINT_NAME << " "
-		   << point.abscissa << " "
-		   << point.ordinate << " "
+		   << point << " "
 		   << color << " "
 		   << radius;
 	}
@@ -57,8 +56,7 @@ namespace graphics
 	std::istream& operator>>(std::istream& is,
 							 Point_shp& point)
 	{
-		is >> point.point.abscissa
-		   >> point.point.ordinate
+		is >> point.point
 		   >> point.color
 		   >> point.radius;
 		return is;

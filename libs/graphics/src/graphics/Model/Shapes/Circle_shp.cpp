@@ -39,9 +39,7 @@ namespace graphics
 	void Circle_shp::write(std::ostream& os) const
 	{
 		os << CIRCLE_NAME << " "
-		   << circle.center_x << " "
-		   << circle.center_y << " "
-		   << circle.radius << " "
+		   << circle << " "
 		   << color;
 	}
 
@@ -55,9 +53,7 @@ namespace graphics
 	std::istream& operator>>(std::istream& is,
 							 Circle_shp& circle)
 	{
-		is >> circle.circle.center_x
-		   >> circle.circle.center_y
-		   >> circle.circle.radius
+		is >> circle.circle
 		   >> circle.color;
 		return is;
 	}

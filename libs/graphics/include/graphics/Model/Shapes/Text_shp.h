@@ -1,8 +1,8 @@
 #pragma once
 
+#include <SFML/System/String.hpp>
 #include "Point_shp.h"
-#include "Segment_shp.h"
-#include "Vector_shp.h"
+#include "Point_shp.h"
 
 
 namespace graphics

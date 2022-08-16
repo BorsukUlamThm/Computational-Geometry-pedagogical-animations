@@ -60,8 +60,7 @@ namespace graphics
 		   << vertices.size() << " ";
 		for (const auto & vertex : vertices)
 		{
-			os << vertex.abscissa << " "
-			   << vertex.ordinate << " ";
+			os << vertex << " ";
 		}
 
 		os << lines_color << " "

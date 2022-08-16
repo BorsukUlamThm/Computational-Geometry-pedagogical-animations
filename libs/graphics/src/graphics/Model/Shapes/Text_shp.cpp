@@ -89,8 +89,7 @@ namespace graphics
 	{
 		os << TEXT_NAME << " \""
 		   << content << "\" "
-		   << point.abscissa << " "
-		   << point.ordinate << " "
+		   << point << " "
 		   << size << " "
 		   << offset_x << " "
 		   << offset_y << " "
@@ -108,7 +107,6 @@ namespace graphics
 							 Text_shp& text)
 	{
 		text.content.clear();
-		std::string tmp;
 		is.get();
 		auto c = is.get();
 		do
@@ -117,8 +115,7 @@ namespace graphics
 			c = is.get();
 		} while (c != '"');
 
-		is >> text.point.abscissa
-		   >> text.point.ordinate
+		is >> text.point
 		   >> text.size
 		   >> text.offset_x
 		   >> text.offset_y

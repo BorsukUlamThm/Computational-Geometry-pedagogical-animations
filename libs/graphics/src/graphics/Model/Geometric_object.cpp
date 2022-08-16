@@ -65,4 +65,80 @@ namespace graphics
 					 segment.destination.abscissa,
 					 segment.destination.ordinate)
 	{}
+
+	std::ostream& operator<<(std::ostream& os,
+							 const Point_obj& point)
+	{
+		os << point.abscissa << " "
+		   << point.ordinate;
+
+		return os;
+	}
+
+	std::ostream& operator<<(std::ostream& os,
+							 const Segment_obj& segment)
+	{
+		os << segment.origin << " "
+		   << segment.destination;
+
+		return os;
+	}
+
+	std::ostream& operator<<(std::ostream& os,
+							 const Circle_obj& circle)
+	{
+		os << circle.center_x << " "
+		   << circle.center_y << " "
+		   << circle.radius;
+
+		return os;
+	}
+
+	std::ostream& operator<<(std::ostream& os,
+							 const Line_obj& line)
+	{
+		os << line.param_a << " "
+		   << line.param_b << " "
+		   << line.param_c;
+
+		return os;
+	}
+
+	std::istream& operator>>(std::istream& is,
+							 Point_obj& point)
+	{
+		is >> point.abscissa
+		   >> point.ordinate;
+
+		return is;
+	}
+
+	std::istream& operator>>(std::istream& is,
+							 Segment_obj& segment)
+	{
+		is >> segment.origin
+		   >> segment.destination;
+
+		return is;
+	}
+
+	std::istream& operator>>(std::istream& is,
+							 Circle_obj& circle)
+	{
+		is >> circle.center_x
+		   >> circle.center_y
+		   >> circle.radius;
+
+		return is;
+	}
+
+	std::istream& operator>>(std::istream& is,
+							 Line_obj& line)
+	{
+		is >> line.param_a
+		   >> line.param_b
+		   >> line.param_c;
+
+		return is;
+	}
 }
