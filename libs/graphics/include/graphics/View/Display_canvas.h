@@ -27,5 +27,7 @@ namespace graphics
 		void next_slide();
 		void prev_slide();
 		void key_pressed_event(const sf::Event& event);
+
+		void display_help();
 	};
 }

@@ -45,5 +45,7 @@ namespace graphics
 		void handle_point(Coordinate x,
 						  Coordinate y);
 		void key_pressed_event(const sf::Event& event);
+
+		void display_help();
 	};
 }

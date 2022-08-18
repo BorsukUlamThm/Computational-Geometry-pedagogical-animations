@@ -30,7 +30,7 @@ namespace graphics
 	 *          unsigned size = 16,
 	 *          const Color col = DEFAULT_SHAPE_COLOR)
 	 * ```
-	 * which was already designed for this usecase, but it gives you an idea\n
+	 * which was already designed for this use case, but it gives you an idea\n
 	 */
 	class Text_shp : public Shape
 	{

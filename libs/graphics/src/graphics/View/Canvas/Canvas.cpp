@@ -96,7 +96,8 @@ namespace graphics
 
 		if (window_format < figure_format)
 		{
-			float margin_offset = 2 * config.margin / float(config.width);
+			float double_margin = 2.f * float(config.margin);
+			float margin_offset = double_margin / float(config.width);
 			margin_offset /= (1 - margin_offset);
 			margin_offset *= x_length;
 			view.setSize(margin_offset + x_length,
@@ -104,7 +105,8 @@ namespace graphics
 		}
 		else
 		{
-			float margin_offset = 2 * config.margin / float(config.height);
+			float double_margin = 2.f * float(config.margin);
+			float margin_offset = double_margin / float(config.height);
 			margin_offset /= (1 - margin_offset);
 			margin_offset *= x_length;
 			view.setSize(margin_offset + y_length * window_format,

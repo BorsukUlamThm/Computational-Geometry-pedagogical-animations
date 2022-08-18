@@ -19,9 +19,6 @@ void display_tests()
 	gr::Text_shp text_shp("Les étoiles sont plus belles les yeux fermés",
 						  0, -1, 30);
 
-	std::string str = "é";
-	sf::String s (str);
-
 	//	std::cout << circle_shp << std::endl;
 	//	gr::Circle_shp circle_shp2;
 	//	std::cin >> circle_shp2;

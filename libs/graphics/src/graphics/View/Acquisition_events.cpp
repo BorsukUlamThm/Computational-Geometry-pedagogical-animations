@@ -135,6 +135,7 @@ namespace graphics
 				break;
 
 			case sf::Keyboard::Escape:
+			case sf::Keyboard::Q:
 				window.clear();
 				window.close();
 				break;

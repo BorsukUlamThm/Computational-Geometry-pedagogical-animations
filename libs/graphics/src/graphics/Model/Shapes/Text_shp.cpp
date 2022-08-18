@@ -111,7 +111,7 @@ namespace graphics
 		auto c = is.get();
 		do
 		{
-			text.content.push_back(c);
+			text.content += std::to_string(c);
 			c = is.get();
 		} while (c != '"');
 

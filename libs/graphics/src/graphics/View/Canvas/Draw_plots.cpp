@@ -108,13 +108,17 @@ namespace graphics
 	void Circle_shp::draw(Canvas& canvas) const
 	{
 		unsigned nb_vertices = 64;
-		float a = 4 * std::acos(0) / nb_vertices;
+		float a = 4.f * float(std::acos(0)) / float(nb_vertices);
 		sf::VertexArray shape(sf::LineStrip, nb_vertices + 1);
+
+		float f = 0;
 		for (unsigned i = 0; i < nb_vertices; ++i)
 		{
-			Coordinate x = circle.center_x + circle.radius * std::cos(i * a);
-			Coordinate y = -circle.center_y - circle.radius * std::sin(i * a);
+			Coordinate x = circle.center_x + circle.radius * std::cos(f * a);
+			Coordinate y = -circle.center_y - circle.radius * std::sin(f * a);
 			shape[i].position = sf::Vector2f(x, y);
+
+			f += 1;
 		}
 		Coordinate x = circle.center_x + circle.radius;
 		Coordinate y = -circle.center_y;
