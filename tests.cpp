@@ -18,15 +18,8 @@ int display_tests()
 	polygon_shp.add_vertex(7.5, 1.5);
 	polygon_shp.add_vertex(7, 1);
 	gr::Line_shp line_shp(0, 1, -2, gr::BLUE);
-	gr::Text_shp text_shp("Les étoiles sont plus belles les yeux fermés",
+	gr::Text_shp text_shp("some random text",
 						  0, -1, 30);
-
-	//	std::cout << circle_shp << std::endl;
-	//	gr::Circle_shp circle_shp2;
-	//	std::cin >> circle_shp2;
-	//	std::cout << circle_shp2 << std::endl;
-	//
-	//	return 0;
 
 	gr::Figure fig;
 	fig.add_point(point_shp);
@@ -48,22 +41,6 @@ int display_tests()
 
 	return 0;
 }
-int acquisition_tests()
-{
-	gr::Acquisition_canvas canvas;
-	canvas.add_point_acquisition(3, gr::BLUE, 20);
-	canvas.add_segment_acquisition(-1, gr::RED, gr::YELLOW);
-
-	auto acq = canvas.acquire_buffer();
-
-	auto dummy = acq[0]->get_objects<gr::Point_obj>();
-	for(auto& pt : dummy)
-	{
-		std::cout << pt << std::endl;
-	}
-
-	return 0;
-}
 
 int program_option_tests(int argc, char** argv)
 {
@@ -79,5 +56,5 @@ int program_option_tests(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-	return acquisition_tests();
+	return 0;
 }
