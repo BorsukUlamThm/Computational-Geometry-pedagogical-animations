@@ -165,12 +165,10 @@ namespace chs
 			gr::Acquisitions acquisitions = canvas.acquire_buffer();
 
 			point_set P;
-			for (unsigned i = 0; i < acquisitions[0]->get_size(); ++i)
+			for (auto& p : acquisitions[0]->get_objects<gr::Point_obj>())
 			{
-				auto p = std::dynamic_pointer_cast<gr::Point_obj>
-						(acquisitions[0]->get(i));
-				P.emplace_back(int(p->abscissa),
-							   int(p->ordinate));
+				P.emplace_back(int(p.abscissa),
+							   int(p.ordinate));
 			}
 
 			return P;

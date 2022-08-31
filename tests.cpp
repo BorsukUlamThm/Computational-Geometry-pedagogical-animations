@@ -56,7 +56,11 @@ int acquisition_tests()
 
 	auto acq = canvas.acquire_buffer();
 
-	std::cout << std::endl;
+	auto dummy = acq[0]->get_objects<gr::Point_obj>();
+	for(auto& pt : dummy)
+	{
+		std::cout << pt << std::endl;
+	}
 
 	return 0;
 }
@@ -75,5 +79,5 @@ int program_option_tests(int argc, char** argv)
 
 int main(int argc, char** argv)
 {
-	return program_option_tests(argc, argv);
+	return acquisition_tests();
 }

@@ -36,5 +36,21 @@ namespace graphics
 
 		const Geometric_object_ptr& get(unsigned i) const;
 		Geometric_object_ptr& get(unsigned i);
+
+		template<typename Object>
+		std::vector<Object> get_objects() const;
 	};
+
+	template<typename Object>
+	std::vector<Object> Acquisition::get_objects() const
+	{
+		std::vector<Object> objects;
+		for(auto& as : acquired_shapes)
+		{
+			std::shared_ptr<Object> obj = std::dynamic_pointer_cast<Object>(as);
+			objects.template emplace_back(*obj);
+		}
+
+		return objects;
+	}
 }
