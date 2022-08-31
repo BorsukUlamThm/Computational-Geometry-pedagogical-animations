@@ -130,9 +130,8 @@ namespace geometry
 	template<typename Real>
 	std::vector<Point_2<Real>> load_point_2_set(const std::string& file)
 	{
-		std::filesystem::path project_dir
-				= utils::get_project_directory();
-		std::ifstream ifs(project_dir / file);
+		std::filesystem::path data_dir = utils::get_data_directory();
+		std::ifstream ifs(data_dir / file);
 
 		std::vector<Point_2<Real>> points;
 		ifs >> points;
@@ -143,9 +142,8 @@ namespace geometry
 	template<typename Real>
 	std::vector<Segment_2<Real>> load_segment_2_set(const std::string& file)
 	{
-		std::filesystem::path project_dir
-				= utils::get_project_directory();
-		std::ifstream ifs(project_dir / file);
+		std::filesystem::path data_dir = utils::get_data_directory();
+		std::ifstream ifs(data_dir / file);
 
 		std::vector<Segment_2<Real>> segments;
 		ifs >> segments;

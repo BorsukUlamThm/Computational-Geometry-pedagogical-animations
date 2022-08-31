@@ -1,9 +1,11 @@
 #include <iostream>
+#include <boost/program_options.hpp>
 #include "graphics/View/Display_canvas.h"
 #include "graphics/View/Acquisition_canvas.h"
+#include "utils/Program_options.h"
 
 namespace gr = graphics;
-void display_tests()
+int display_tests()
 {
 	gr::Point_shp point_shp(0, 0, gr::BLUE, 20);
 	gr::Segment_shp segment_shp(1, 0, 2, 1, gr::RED, gr::GREEN);
@@ -43,8 +45,10 @@ void display_tests()
 	gr::Figure fig2;
 	fig2.load("test");
 	canvas.display_figure(fig2);
+
+	return 0;
 }
-void acquisition_tests()
+int acquisition_tests()
 {
 	gr::Acquisition_canvas canvas;
 	canvas.add_point_acquisition(3, gr::BLUE, 20);
@@ -53,43 +57,23 @@ void acquisition_tests()
 	auto acq = canvas.acquire_buffer();
 
 	std::cout << std::endl;
-}
-
-int main()
-{
-	display_tests();
 
 	return 0;
 }
 
-
-/*
-namespace po = boost::program_options;
-using namespace std;
-
-int main(int argc, const char** argv)
+int program_option_tests(int argc, char** argv)
 {
-    // Declare the supported options.
-    po::options_description desc("Allowed options");
-    desc.add_options()
-            ("help", "produce help message")
-            ("compression", po::value<int>(), "set compression level")
-            ;
+	utils::Program_options options;
+	options.add_option("aaaa", "a");
+	options.add_option("bbbb", "b");
+	options.add_option("cccc", "c");
 
-    po::variables_map vm;
-    po::store(po::parse_command_line(argc, argv, desc), vm);
-    po::notify(vm);
+	options.parse_command_line(argc, argv);
 
-    if (vm.count("help")) {
-        cout << desc << "\n";
-        return 1;
-    }
-
-    if (vm.count("compression")) {
-        cout << "Compression level was set to "
-             << vm["compression"].as<int>() << ".\n";
-    } else {
-        cout << "Compression level was not set.\n";
-    }
+	return 0;
 }
- */
+
+int main(int argc, char** argv)
+{
+	return program_option_tests(argc, argv);
+}
