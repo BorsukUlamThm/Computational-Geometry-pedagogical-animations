@@ -6,6 +6,12 @@
 
 namespace graphics
 {
+	enum State_dsp
+	{
+		RUN,
+		PAUSE
+	};
+
 	/*!
 	 * The Display_canvas class handles the display of an Animation
 	 */
@@ -14,6 +20,7 @@ namespace graphics
 	private:
 		unsigned nb_slides = 0;
 		unsigned slide_index = 0;
+		State_dsp state = PAUSE;
 
 	public:
 		Display_canvas() = default;

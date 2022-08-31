@@ -25,7 +25,7 @@ namespace chs
 	struct Convex_hull_option
 	{
 		Input_type input_type = RANDOM;
-		unsigned nb_random_points = 50;
+		unsigned nb_random_points = 500;
 		unsigned long seed = time_seed;
 		std::string input_file {};
 	};

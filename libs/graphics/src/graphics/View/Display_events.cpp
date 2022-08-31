@@ -51,8 +51,11 @@ namespace graphics
 		float index_fraction = float(nb_slides) / 10;
 		switch (event.key.code)
 		{
-			case sf::Keyboard::Right:
 			case sf::Keyboard::Space:
+				state = (state == RUN ? PAUSE : RUN);
+				break;
+				
+			case sf::Keyboard::Right:
 				next_slide();
 				break;
 

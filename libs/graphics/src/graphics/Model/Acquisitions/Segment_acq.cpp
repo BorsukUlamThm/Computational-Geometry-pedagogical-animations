@@ -12,7 +12,7 @@ namespace graphics
 		endpoints_color = endpoints_col;
 	}
 
-	State Segment_acq::starting_state() const
+	State_acq Segment_acq::starting_state() const
 	{ return SEGMENT_ACQ1; }
 
 	Color Segment_acq::get_line_color() const

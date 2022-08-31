@@ -20,7 +20,7 @@ namespace graphics
 		unsigned index = 0;
 		unsigned nb_acquired_shapes = 0;
 		Figure current_shapes;
-		State state = BEGIN_ACQ;
+		State_acq state = BEGIN_ACQ;
 
 	public:
 		Acquisition_canvas() = default;

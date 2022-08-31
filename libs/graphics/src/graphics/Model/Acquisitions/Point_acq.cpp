@@ -12,7 +12,7 @@ namespace graphics
 		radius = rad;
 	}
 
-	State Point_acq::starting_state() const
+	State_acq Point_acq::starting_state() const
 	{ return POINT_ACQ1; }
 
 	Color Point_acq::get_color() const

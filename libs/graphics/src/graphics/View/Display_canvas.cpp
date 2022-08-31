@@ -1,4 +1,6 @@
 #include "graphics/View/Display_canvas.h"
+#include <chrono>
+#include <thread>
 
 
 namespace graphics
@@ -33,6 +35,11 @@ namespace graphics
 			handle_events();
 			draw_figure(animation.get_ith_frame(slide_index));
 			window.display();
+			if (state == RUN)
+			{
+				next_slide();
+				std::this_thread::sleep_for(std::chrono::milliseconds(5));
+			}
 		}
 	}
 

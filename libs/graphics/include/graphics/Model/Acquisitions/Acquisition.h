@@ -6,7 +6,7 @@
 
 namespace graphics
 {
-	enum State
+	enum State_acq
 	{
 		BEGIN_ACQ,
 		POINT_ACQ1,
@@ -29,7 +29,7 @@ namespace graphics
 		std::vector<Geometric_object_ptr> acquired_shapes;
 
 	public:
-		virtual State starting_state() const = 0;
+		virtual State_acq starting_state() const = 0;
 
 		unsigned get_nb_acquisitions() const;
 		unsigned get_size() const;
@@ -45,7 +45,7 @@ namespace graphics
 	std::vector<Object> Acquisition::get_objects() const
 	{
 		std::vector<Object> objects;
-		for(auto& as : acquired_shapes)
+		for (auto& as : acquired_shapes)
 		{
 			std::shared_ptr<Object> obj = std::dynamic_pointer_cast<Object>(as);
 			objects.template emplace_back(*obj);

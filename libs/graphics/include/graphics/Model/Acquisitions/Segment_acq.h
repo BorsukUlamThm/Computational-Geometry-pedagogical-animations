@@ -23,7 +23,7 @@ namespace graphics
 							 Color line_col = DEFAULT_SHAPE_COLOR,
 							 Color endpoints_col = DEFAULT_SHAPE_COLOR);
 
-		State starting_state() const override;
+		State_acq starting_state() const override;
 		Color get_line_color() const;
 		Color get_endpoints_color() const;
 

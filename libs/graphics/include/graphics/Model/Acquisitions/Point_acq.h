@@ -20,7 +20,7 @@ namespace graphics
 						   Color col = DEFAULT_SHAPE_COLOR,
 						   float rad = 3);
 
-		State starting_state() const override;
+		State_acq starting_state() const override;
 		Color get_color() const;
 		float get_radius() const;
 
