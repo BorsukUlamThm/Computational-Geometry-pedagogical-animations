@@ -13,29 +13,44 @@ namespace geometry::DCEL
 	struct Hedge;
 	struct Face;
 
-	typedef std::shared_ptr<Vertex> Vertex_ptr;
-	typedef std::shared_ptr<Hedge> Hedge_ptr;
-	typedef std::shared_ptr<Face> Face_ptr;
-
 	struct Vertex
 	{
 		rational x;
 		rational y;
-		Hedge_ptr inc_edge;
+		Hedge* inc_edge = nullptr;
+
+		Vertex() = default;
+		Vertex(rational x,
+			   rational y,
+			   Hedge* inc_edge = nullptr);
+		~Vertex() = default;
 	};
 
 	struct Hedge
 	{
-		Vertex_ptr origin;
-		Hedge_ptr prev;
-		Hedge_ptr next;
-		Hedge_ptr twin;
-		Face_ptr inc_face;
+		Vertex* origin = nullptr;
+		Hedge* prev = nullptr;
+		Hedge* next = nullptr;
+		Hedge* twin = nullptr;
+		Face* inc_face = nullptr;
+
+		Hedge() = default;
+		Hedge(Vertex* origin,
+			  Hedge* prev,
+			  Hedge* next,
+			  Hedge* twin,
+			  Face* inc_face);
+		~Hedge() = default;
 	};
 
 	struct Face
 	{
-		Hedge_ptr inner_comp;
-		Hedge_ptr outer_comp;
+		Hedge* inner_comp = nullptr;
+		Hedge* outer_comp = nullptr;
+
+		Face() = default;
+		Face(Hedge* inner_comp,
+			 Hedge* outer_comp);
+		~Face() = default;
 	};
 }

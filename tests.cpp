@@ -3,6 +3,8 @@
 #include "utils/Program_options.h"
 #include "geometry/DCEL/DCEL.h"
 #include "geometry/model/serialization.h"
+#include "geometry/utils/polygon_utils.h"
+
 
 namespace gr = graphics;
 namespace geo = geometry;
@@ -46,11 +48,15 @@ int display_tests()
 
 int main(int argc, char** argv)
 {
-	geo::DCEL::DCEL dcel;
-	dcel.test();
+	typedef geo::DCEL::rational rational;
 
-	geo::Point_2<int> p;
-	std::cout << p << std::endl;
+	geo::Polygon<rational> P;
+	P.emplace_back(0, 0);
+	P.emplace_back(1, 0);
+	P.emplace_back(0, 1);
+
+	geo::DCEL::DCEL dcel(P);
+	std::cout << dcel << std::endl;
 
 	return 0;
 }

@@ -1,7 +1,9 @@
 #pragma once
 
 #include "geometry/DCEL/DCEL_components.h"
+#include "geometry/model/Point_2.h"
 #include <vector>
+#include <iostream>
 
 
 namespace geometry::DCEL
@@ -9,11 +11,19 @@ namespace geometry::DCEL
 	class DCEL
 	{
 	private:
-		std::vector<Vertex_ptr> vertices{};
-		std::vector<Hedge_ptr> half_edges{};
-		std::vector<Face_ptr> faces{};
+		std::vector<Vertex*> vertices {};
+		std::vector<Hedge*> half_edges {};
+		std::vector<Face*> faces {};
 
 	public:
-		void test();
+		DCEL() = default;
+		explicit DCEL(const std::vector<Point_2<rational>>& P);
+		~DCEL();
+
+		friend std::ostream& operator<<(std::ostream& os,
+									   const DCEL& dcel);
 	};
+
+	std::ostream& operator<<(std::ostream& os,
+							const DCEL& dcel);
 }
