@@ -46,7 +46,7 @@ int display_tests()
 
 int main(int argc, char** argv)
 {
-	geo::DCEL dcel;
+	geo::DCEL::DCEL dcel;
 	dcel.test();
 
 	geo::Point_2<int> p;

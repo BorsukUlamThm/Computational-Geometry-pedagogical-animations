@@ -1,9 +1,7 @@
 #pragma once
 
-/** @cond */
 #include <boost/rational.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
-/** @endcond */
 #include "geometry/model/Segment_2.h"
 #include "geometry/utils/random_generation.h"
 #include "geometry/model/serialization.h"

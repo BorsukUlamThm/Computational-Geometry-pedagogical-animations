@@ -6,14 +6,11 @@
 namespace geometry
 {
 	template<typename Event>
-	class Event_queue
+	class Event_queue : public boost::heap::priority_queue<Event>
 	{
 		// The Event class needs to have two things
 		// An overload of the operator <
 		// and a method void handle() const
-	private:
-		boost::heap::priority_queue <Event> heap;
-
 	public:
 		Event_queue() = default;
 		~Event_queue() = default;
@@ -29,15 +26,15 @@ namespace geometry
 
 	template<typename Event>
 	void Event_queue<Event>::push_event(const Event& event)
-	{ heap.push(event); }
+	{ push(event); }
 
 	template<typename Event>
 	void Event_queue<Event>::handle_events()
 	{
-		while (!heap.empty())
+		while (!boost::heap::priority_queue<Event>::empty())
 		{
-			heap.top().handle();
-			heap.pop();
+			boost::heap::priority_queue<Event>::top().handle();
+			boost::heap::priority_queue<Event>::pop();
 		}
 	}
 }

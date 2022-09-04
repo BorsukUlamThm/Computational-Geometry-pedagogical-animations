@@ -1,5 +1,6 @@
 #include "segment_intersections_events.h"
 #include "segment_intersections_setup.h"
+#include "geometry/utils/Event_queue.h"
 
 
 namespace chap2_segment_intersections
