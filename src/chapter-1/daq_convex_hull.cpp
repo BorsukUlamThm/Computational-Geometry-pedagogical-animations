@@ -233,7 +233,7 @@ int main(int argc, char** argv)
 	chs::Convex_hull_option opt = chs::process_command_line(argc, argv);
 	point_set P = chs::make_point_set(opt);
 
-	geo::save_point_2_set("log/Chapter-1/daq_convex_hull", P);
+	geo::save_point_2_set("log/chapter-1/daq_convex_hull", P);
 	gr::Animation animation(NB_FIGURES);
 	daq_convex_hull(P, animation);
 

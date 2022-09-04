@@ -66,7 +66,7 @@ int main(int argc, char** argv)
 		tmp.emplace_back(x1, y1, x2, y2);
 	}
 
-	geo::save_segment_2_set("log/Chapter-2/segment_intersections", tmp);
+	geo::save_segment_2_set("log/chapter-2/segment_intersections", tmp);
 	compute_intersections(S);
 
 	gr::Display_canvas canvas;
