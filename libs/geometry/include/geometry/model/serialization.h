@@ -9,19 +9,19 @@
 
 namespace geometry
 {
-	template<typename Real>
+	template<typename real>
 	std::istream& operator>>(std::istream& is,
-							 Point_2<Real>& p);
-	template<typename Real>
+							 Point_2<real>& p);
+	template<typename real>
 	std::istream& operator>>(std::istream& is,
-							 Segment_2<Real>& s);
+							 Segment_2<real>& s);
 
-	template<typename Real>
+	template<typename real>
 	std::istream& operator>>(std::istream& is,
-							 std::vector<Point_2<Real>>& points);
-	template<typename Real>
+							 std::vector<Point_2<real>>& points);
+	template<typename real>
 	std::istream& operator>>(std::istream& is,
-							 std::vector<Segment_2<Real>>& segments);
+							 std::vector<Segment_2<real>>& segments);
 
 	/*!
 	 * Construct a vector of Point_2 from a file\n
@@ -29,8 +29,8 @@ namespace geometry
 	 * - first an integer n, the number of points to read
 	 * - then n pairs of numbers (x, y) which represent the n points
 	 */
-	template<typename Real>
-	std::vector<Point_2<Real>> load_point_2_set(const std::string& file);
+	template<typename real>
+	std::vector<Point_2<real>> load_point_2_set(const std::string& file);
 	/*!
 	 * Construct a vector of Segment_2 from a file\n
 	 * Format :\n
@@ -38,15 +38,15 @@ namespace geometry
 	 * - then n lists of four numbers (x1, y1, x2, y2) which represent the n
 	 * segments
 	 */
-	template<typename Real>
-	std::vector<Segment_2<Real>> load_segment_2_set(const std::string& file);
+	template<typename real>
+	std::vector<Segment_2<real>> load_segment_2_set(const std::string& file);
 
-	template<typename Real>
+	template<typename real>
 	std::ostream& operator<<(std::ostream& os,
-							 const Point_2<Real>& p);
-	template<typename Real>
+							 const Point_2<real>& p);
+	template<typename real>
 	std::ostream& operator<<(std::ostream& os,
-							 const Segment_2<Real>& s);
+							 const Segment_2<real>& s);
 
 	/*!
 	 * Saves the points in a file\n
@@ -54,9 +54,9 @@ namespace geometry
 	 * - first an integer n, the number of points to save
 	 * - then n pairs of numbers (x, y) which represent the n points
 	 */
-	template<typename Real>
+	template<typename real>
 	void save_point_2_set(const std::string& file,
-						  const std::vector<Point_2<Real>>& points);
+						  const std::vector<Point_2<real>>& points);
 	/*!
 	 * Saves the segments in a file\n
 	 * Format :\n
@@ -64,27 +64,27 @@ namespace geometry
 	 * - then n lists of four numbers (x1, y1, x2, y2) which represent the n
 	 * segments
 	 */
-	template<typename Real>
+	template<typename real>
 	void save_segment_2_set(const std::string& file,
-							const std::vector<Segment_2<Real>>& segments);
+							const std::vector<Segment_2<real>>& segments);
 
 
 	// +-----------------------------------------------------------------------+
 	// |                         TEMPLATE DEFINITIONS                          |
 	// +-----------------------------------------------------------------------+
 
-	template<typename Real>
+	template<typename real>
 	std::istream& operator>>(std::istream& is,
-							 Point_2<Real>& p)
+							 Point_2<real>& p)
 	{
 		is >> p.x
 		   >> p.y;
 		return is;
 	}
 
-	template<typename Real>
+	template<typename real>
 	std::istream& operator>>(std::istream& is,
-							 Segment_2<Real>& s)
+							 Segment_2<real>& s)
 	{
 		is >> s.p1.x
 		   >> s.p1.y
@@ -93,9 +93,9 @@ namespace geometry
 		return is;
 	}
 
-	template<typename Real>
+	template<typename real>
 	std::istream& operator>>(std::istream& is,
-							 std::vector<Point_2<Real>>& points)
+							 std::vector<Point_2<real>>& points)
 	{
 		points.clear();
 		unsigned n;
@@ -110,9 +110,9 @@ namespace geometry
 		return is;
 	}
 
-	template<typename Real>
+	template<typename real>
 	std::istream& operator>>(std::istream& is,
-							 std::vector<Segment_2<Real>>& segments)
+							 std::vector<Segment_2<real>>& segments)
 	{
 		segments.clear();
 		unsigned n;
@@ -127,48 +127,48 @@ namespace geometry
 		return is;
 	}
 
-	template<typename Real>
-	std::vector<Point_2<Real>> load_point_2_set(const std::string& file)
+	template<typename real>
+	std::vector<Point_2<real>> load_point_2_set(const std::string& file)
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ifstream ifs(data_dir / file);
 
-		std::vector<Point_2<Real>> points;
+		std::vector<Point_2<real>> points;
 		ifs >> points;
 
 		return points;
 	}
 
-	template<typename Real>
-	std::vector<Segment_2<Real>> load_segment_2_set(const std::string& file)
+	template<typename real>
+	std::vector<Segment_2<real>> load_segment_2_set(const std::string& file)
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ifstream ifs(data_dir / file);
 
-		std::vector<Segment_2<Real>> segments;
+		std::vector<Segment_2<real>> segments;
 		ifs >> segments;
 		return segments;
 	}
 
-	template<typename Real>
+	template<typename real>
 	std::ostream& operator<<(std::ostream& os,
-							 const Point_2<Real>& p)
+							 const Point_2<real>& p)
 	{
 		os << p.x << " " << p.y;
 		return os;
 	}
 
-	template<typename Real>
+	template<typename real>
 	std::ostream& operator<<(std::ostream& os,
-							 const Segment_2<Real>& s)
+							 const Segment_2<real>& s)
 	{
 		os << s.p1 << " " << s.p2;
 		return os;
 	}
 
-	template<typename Real>
+	template<typename real>
 	void save_point_2_set(const std::string& file,
-						  const std::vector<Point_2<Real>>& points)
+						  const std::vector<Point_2<real>>& points)
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ofstream ofs(data_dir / file);
@@ -182,9 +182,9 @@ namespace geometry
 		}
 	}
 
-	template<typename Real>
+	template<typename real>
 	void save_segment_2_set(const std::string& file,
-							const std::vector<Segment_2<Real>>& segments)
+							const std::vector<Segment_2<real>>& segments)
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ofstream ofs(data_dir / file);
