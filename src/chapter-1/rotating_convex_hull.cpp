@@ -17,9 +17,9 @@ namespace chap1_rotating_convex_hull
 		POINTS,
 		HULL,
 		LINE,
+		TEXT,
 		NB_FIGURES
 	};
-	gr::Animation animation(NB_FIGURES);
 
 
 	struct Rotation_order
@@ -57,7 +57,9 @@ namespace chap1_rotating_convex_hull
 		}
 	};
 
-	bool right_turn(const convex_hull& hull, const point& p)
+	bool right_turn(const convex_hull& hull,
+					const point& p,
+					gr::Animation& animation)
 	{
 		if (hull.size() < 2)
 		{
@@ -68,7 +70,8 @@ namespace chap1_rotating_convex_hull
 		return geo::point_right_line(p, hull[n - 2], hull[n - 1]);
 	}
 
-	convex_hull make_hull(const point_set& P)
+	convex_hull make_hull(const point_set& P,
+						  gr::Animation& animation)
 	{
 		unsigned n = P.size();
 		animation[LINE].add_vertical_line(P[0].x);
@@ -93,18 +96,23 @@ namespace chap1_rotating_convex_hull
 			animation[LINE].clear();
 			animation[LINE].add_line(P[0].x, P[0].y, P[i].x, P[i].y);
 
-			while (right_turn(CH, P[i]))
+			while (right_turn(CH, P[i], animation))
 			{
 				animation[HULL].add_segment(CH.back().x, CH.back().y,
 											P[i].x, P[i].y, gr::RED);
-				animation.make_new_frame(POINTS, HULL, LINE);
+				gr::Point_shp point_shp(CH.back().x, CH.back().y);
+				animation[TEXT].add_text("deleted", point_shp, 16, gr::RED);
+				animation.make_new_frame();
 				animation[HULL].erase_last_k_shapes(2);
 				CH.pop_back();
 			}
+			gr::Point_shp point_shp(CH.back().x, CH.back().y);
+			animation[TEXT].add_text("ok", point_shp, 16, gr::GREEN);
 			animation[HULL].add_segment(CH.back().x, CH.back().y,
 										P[i].x, P[i].y, gr::GREEN);
 			CH.push_back(P[i]);
-			animation.make_new_frame(POINTS, HULL, LINE);
+			animation.make_new_frame();
+			animation[TEXT].clear();
 		}
 
 		unsigned k = CH.size();
@@ -115,7 +123,8 @@ namespace chap1_rotating_convex_hull
 		return CH;
 	}
 
-	void make_convex_hull(point_set& P)
+	void make_convex_hull(point_set& P,
+						  gr::Animation& animation)
 	{
 		for (auto p : P)
 		{
@@ -125,7 +134,7 @@ namespace chap1_rotating_convex_hull
 		Rotation_order order(P);
 		std::sort(P.begin(), P.end(), order);
 
-		convex_hull CH = make_hull(P);
+		convex_hull CH = make_hull(P, animation);
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
 		for (auto& v : CH)
@@ -146,7 +155,8 @@ int main(int argc, char** argv)
 	point_set P = chs::make_point_set(opt);
 
 	geo::save_point_2_set("log/Chapter-1/rotating_convex_hull", P);
-	make_convex_hull(P);
+	gr::Animation animation(NB_FIGURES);
+	make_convex_hull(P, animation);
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Rotating convex hull - animation");

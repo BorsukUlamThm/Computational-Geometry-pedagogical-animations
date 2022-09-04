@@ -18,7 +18,6 @@ namespace chap1_jarvis_convex_hull
 		HULL,
 		NB_FIGURES
 	};
-	gr::Animation animation(NB_FIGURES);
 
 
 	point first_point(const point_set& P)
@@ -35,7 +34,9 @@ namespace chap1_jarvis_convex_hull
 		return p;
 	}
 
-	point next_point(const convex_hull& CH, const point_set& P)
+	point next_point(const convex_hull& CH,
+					 const point_set& P,
+					 gr::Animation& animation)
 	{
 		point last = CH[CH.size() - 1];
 		unsigned i = 0;
@@ -45,15 +46,13 @@ namespace chap1_jarvis_convex_hull
 			i++;
 			p = P[i];
 		}
-		animation[HULL].add_segment(last.x, last.y, p.x, p.y, gr::YELLOW);
+		animation[HULL].add_segment(last.x, last.y, p.x, p.y, gr::PURPLE);
 		animation.make_new_frame(POINTS, HULL);
 
 		for (unsigned j = i + 1; j < P.size(); ++j)
 		{
 			if (P[j] == last || P[j] == p)
-			{
-				continue;
-			}
+			{ continue; }
 
 			if (geo::point_left_line(P[j], last, p))
 			{
@@ -62,7 +61,7 @@ namespace chap1_jarvis_convex_hull
 				animation.make_new_frame(POINTS, HULL);
 				animation[HULL].erase_last_shape();
 				animation[HULL].add_segment(last.x, last.y, P[j].x, P[j].y,
-											gr::YELLOW);
+											gr::PURPLE);
 
 				p = P[j];
 			}
@@ -78,7 +77,8 @@ namespace chap1_jarvis_convex_hull
 		return p;
 	}
 
-	void jarvis_convex_hull(const point_set& P)
+	void jarvis_convex_hull(const point_set& P,
+							gr::Animation& animation)
 	{
 		for (auto p : P)
 		{
@@ -88,14 +88,14 @@ namespace chap1_jarvis_convex_hull
 
 		convex_hull CH;
 		CH.push_back(first_point(P));
-		CH.push_back(next_point(CH, P));
+		CH.push_back(next_point(CH, P, animation));
 		animation[HULL].add_segment(CH[0].x, CH[0].y,
 									CH[1].x, CH[1].y, gr::YELLOW);
 		animation.make_new_frame(POINTS, HULL);
 
 		while (CH[CH.size() - 1] != CH[0])
 		{
-			point p = next_point(CH, P);
+			point p = next_point(CH, P, animation);
 			point q = CH[CH.size() - 1];
 			animation[HULL].add_segment(p.x, p.y, q.x, q.y, gr::YELLOW);
 			animation.make_new_frame(POINTS, HULL);
@@ -122,7 +122,8 @@ int main(int argc, char** argv)
 	point_set P = chs::make_point_set(opt);
 
 	geo::save_point_2_set("log/Chapter-1/jarvis_convex_hull", P);
-	jarvis_convex_hull(P);
+	gr::Animation animation(NB_FIGURES);
+	jarvis_convex_hull(P, animation);
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Jarvis convex hull - animation");

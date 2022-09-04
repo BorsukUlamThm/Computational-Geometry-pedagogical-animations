@@ -17,12 +17,13 @@ namespace chap1_convex_hull
 		POINTS,
 		HULL,
 		LINE,
+		TEXT,
 		NB_FIGURES
 	};
-	gr::Animation animation(NB_FIGURES);
 
 
-	bool left_turn(const convex_hull& hull, const point& p)
+	bool left_turn(const convex_hull& hull,
+				   const point& p)
 	{
 		if (hull.size() < 2)
 		{
@@ -33,7 +34,8 @@ namespace chap1_convex_hull
 		return geo::point_left_line(p, hull[n - 2], hull[n - 1]);
 	}
 
-	convex_hull make_upper_hull(const point_set& P)
+	convex_hull make_upper_hull(const point_set& P,
+								gr::Animation& animation)
 	{
 		unsigned n = P.size();
 		animation[LINE].add_vertical_line(P[0].x);
@@ -62,14 +64,19 @@ namespace chap1_convex_hull
 			{
 				animation[HULL].add_segment(U.back().x, U.back().y,
 											P[i].x, P[i].y, gr::RED);
+				gr::Point_shp point_shp(U.back().x, U.back().y);
+				animation[TEXT].add_text("deleted", point_shp, 16, gr::RED);
 				animation.make_new_frame();
 				animation[HULL].erase_last_k_shapes(2);
 				U.pop_back();
 			}
 			animation[HULL].add_segment(U.back().x, U.back().y,
 										P[i].x, P[i].y, gr::GREEN);
-			U.push_back(P[i]);
+			gr::Point_shp point_shp(U.back().x, U.back().y);
+			animation[TEXT].add_text("ok", point_shp, 16, gr::GREEN);
 			animation.make_new_frame();
+			animation[TEXT].clear();
+			U.push_back(P[i]);
 		}
 
 		unsigned k = U.size();
@@ -80,7 +87,8 @@ namespace chap1_convex_hull
 		return U;
 	}
 
-	convex_hull make_lower_hull(const point_set& P)
+	convex_hull make_lower_hull(const point_set& P,
+								gr::Animation& animation)
 	{
 		unsigned n = P.size();
 		animation.make_new_frame();
@@ -108,14 +116,19 @@ namespace chap1_convex_hull
 			{
 				animation[HULL].add_segment(L.back().x, L.back().y,
 											P[i].x, P[i].y, gr::RED);
+				gr::Point_shp point_shp(L.back().x, L.back().y);
+				animation[TEXT].add_text("deleted", point_shp, 16, gr::RED);
 				animation.make_new_frame();
 				animation[HULL].erase_last_k_shapes(2);
 				L.pop_back();
 			}
+			gr::Point_shp point_shp(L.back().x, L.back().y);
+			animation[TEXT].add_text("ok", point_shp, 16, gr::GREEN);
 			animation[HULL].add_segment(L.back().x, L.back().y,
 										P[i].x, P[i].y, gr::GREEN);
 			L.push_back(P[i]);
 			animation.make_new_frame();
+			animation[TEXT].clear();
 		}
 
 		unsigned k = L.size();
@@ -127,7 +140,8 @@ namespace chap1_convex_hull
 		return L;
 	}
 
-	void make_convex_hull(point_set& P)
+	void make_convex_hull(point_set& P,
+						  gr::Animation& animation)
 	{
 		for (auto p : P)
 		{
@@ -137,8 +151,8 @@ namespace chap1_convex_hull
 
 		std::sort(P.begin(), P.end(), geo::point_left_point<int>);
 
-		convex_hull U = make_upper_hull(P);
-		convex_hull L = make_lower_hull(P);
+		convex_hull U = make_upper_hull(P, animation);
+		convex_hull L = make_lower_hull(P, animation);
 
 		U.pop_back();
 		L.pop_back();
@@ -167,7 +181,8 @@ int main(int argc, char** argv)
 	point_set P = chs::make_point_set(opt);
 
 	geo::save_point_2_set("log/Chapter-1/convex_hull", P);
-	make_convex_hull(P);
+	gr::Animation animation(NB_FIGURES);
+	make_convex_hull(P, animation);
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Convex hull - animation");

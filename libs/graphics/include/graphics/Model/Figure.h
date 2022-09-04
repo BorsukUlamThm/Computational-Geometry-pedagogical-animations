@@ -138,8 +138,8 @@ namespace graphics
 					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_text(const std::string& text,
 					  const Point_obj& point,
-					  unsigned size,
-					  Color col);
+					  unsigned size = 16,
+					  Color col = DEFAULT_SHAPE_COLOR);
 		void add_text(const std::string& text,
 					  const Point_shp& point,
 					  unsigned size = 16,
