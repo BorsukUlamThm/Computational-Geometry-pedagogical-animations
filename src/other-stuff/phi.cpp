@@ -1,5 +1,5 @@
 #include <iostream>
-#include "graphics/View/Display_canvas.h"
+#include "graphics/view/Display_canvas.h"
 
 
 namespace Other_stuff_phi

@@ -1,8 +1,6 @@
-/** @cond */
 #include <cmath>
 #include <boost/multiprecision/cpp_int.hpp>
-/** @endcond */
-#include "graphics/View/Display_canvas.h"
+#include "graphics/view/Display_canvas.h"
 
 
 namespace Other_stuff_syracuse

@@ -1,10 +1,12 @@
-#include <iostream>
-#include <boost/program_options.hpp>
-#include "graphics/View/Display_canvas.h"
-#include "graphics/View/Acquisition_canvas.h"
+#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Acquisition_canvas.h"
 #include "utils/Program_options.h"
+#include "geometry/model/DCEL.h"
+#include "geometry/model/serialization.h"
 
 namespace gr = graphics;
+namespace geo = geometry;
+
 int display_tests()
 {
 	gr::Point_shp point_shp(0, 0, gr::BLUE, 20);
@@ -42,19 +44,13 @@ int display_tests()
 	return 0;
 }
 
-int program_option_tests(int argc, char** argv)
-{
-	utils::Program_options options;
-	options.add_option("aaaa", "a");
-	options.add_option("bbbb", "b");
-	options.add_option("cccc", "c");
-
-	options.parse_command_line(argc, argv);
-
-	return 0;
-}
-
 int main(int argc, char** argv)
 {
+	geo::DCEL dcel;
+	dcel.test();
+
+	geo::Point_2<int> p;
+	std::cout << p << std::endl;
+
 	return 0;
 }

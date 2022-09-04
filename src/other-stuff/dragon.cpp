@@ -1,7 +1,7 @@
 /** @cond */
 #include <set>
 /** @endcond */
-#include "graphics/View/Display_canvas.h"
+#include "graphics/view/Display_canvas.h"
 
 
 namespace Other_stuff_dragon

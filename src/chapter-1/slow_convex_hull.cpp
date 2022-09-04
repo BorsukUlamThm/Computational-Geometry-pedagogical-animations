@@ -1,6 +1,6 @@
-#include "Convex_hull_setup.h"
-#include "graphics/View/Display_canvas.h"
-#include "geometry/Tools/Point_comparisons.h"
+#include "convex_hull_setup.h"
+#include "graphics/view/Display_canvas.h"
+#include "geometry/utils/point_comparisons.h"
 
 
 namespace chap1_slow_convex_hull

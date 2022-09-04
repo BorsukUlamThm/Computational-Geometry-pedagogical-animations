@@ -1,4 +1,4 @@
-#include "graphics/View/Acquisition_canvas.h"
+#include "graphics/view/Acquisition_canvas.h"
 
 
 namespace gr = graphics;
