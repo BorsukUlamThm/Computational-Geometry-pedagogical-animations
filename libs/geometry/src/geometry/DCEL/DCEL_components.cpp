@@ -25,9 +25,9 @@ namespace geometry::DCEL
 			inc_face(inc_face)
 	{}
 
-	Face::Face(Hedge* inner_comp,
+	Face::Face(std::vector<Hedge*> inner_comp,
 			   Hedge* outer_comp) :
-			inner_comp(inner_comp),
+			inner_comp(std::move(inner_comp)),
 			outer_comp(outer_comp)
 	{}
 }

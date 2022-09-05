@@ -20,6 +20,8 @@ namespace geometry::DCEL
 		explicit DCEL(const std::vector<Point_2<rational>>& P);
 		~DCEL();
 
+		bool is_valid();
+
 		friend std::ostream& operator<<(std::ostream& os,
 									   const DCEL& dcel);
 	};

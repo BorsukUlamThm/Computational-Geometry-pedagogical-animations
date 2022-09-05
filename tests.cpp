@@ -58,5 +58,8 @@ int main(int argc, char** argv)
 	geo::DCEL::DCEL dcel(P);
 	std::cout << dcel << std::endl;
 
+	std::cout << "dcel is " << (dcel.is_valid() ? "" : "NOT ")
+			  << "valid" << std::endl;
+
 	return 0;
 }

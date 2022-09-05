@@ -46,7 +46,7 @@ namespace geometry::DCEL
 		if (clockwise_orientation(P))
 		{
 			bounded->outer_comp = half_edges[n];
-			unbounded->inner_comp = half_edges[0];
+			unbounded->inner_comp.push_back(half_edges[0]);
 			for (unsigned i = 0; i < n; ++i)
 			{
 				half_edges[i]->inc_face = unbounded;
@@ -56,7 +56,7 @@ namespace geometry::DCEL
 		else
 		{
 			bounded->outer_comp = half_edges[0];
-			unbounded->inner_comp = half_edges[n];
+			unbounded->inner_comp.push_back(half_edges[n]);
 			for (unsigned i = 0; i < n; ++i)
 			{
 				half_edges[i]->inc_face = bounded;
@@ -78,6 +78,87 @@ namespace geometry::DCEL
 
 		for (auto& ptr : faces)
 		{ delete ptr; }
+	}
+
+	bool DCEL::is_valid()
+	{
+		bool valid = true;
+
+		for (unsigned i = 0; i < vertices.size(); ++i)
+		{
+			Hedge* h = vertices[i]->inc_edge;
+			do
+			{
+				if (h->origin != vertices[i])
+				{
+					std::cerr << "Invalid DCEL " << i << "-th vertex incident"
+							  << " edges are note all invalid" << std::endl;
+					valid = false;
+				}
+				h = h->prev->twin;
+			}
+			while (h != vertices[i]->inc_edge);
+		}
+
+		for (unsigned i = 0; i < half_edges.size(); ++i)
+		{
+			if (half_edges[i]->prev->next != half_edges[i])
+			{
+				std::cerr << "Invalid DCEL " << i << "-th half edge prev is"
+						  << " invalid" << std::endl;
+				valid = false;
+			}
+			if (half_edges[i]->next->prev != half_edges[i])
+			{
+				std::cerr << "Invalid DCEL " << i << "-th half edge next is"
+						  << " invalid" << std::endl;
+				valid = false;
+			}
+			if (half_edges[i]->twin->twin != half_edges[i])
+			{
+				std::cerr << "Invalid DCEL " << i << "-th half edge twin is"
+						  << " invalid" << std::endl;
+				valid = false;
+			}
+		}
+
+		for (unsigned i = 0; i < faces.size(); ++i)
+		{
+			if (faces[i]->outer_comp)
+			{
+				Hedge* h = faces[i]->outer_comp;
+				do
+				{
+					if (h->inc_face != faces[i])
+					{
+						std::cerr << "Invalid DCEL " << i << "-th face"
+								  << " outer_comp boundary is invalid"
+								  << std::endl;
+						valid = false;
+					}
+					h = h->next;
+				}
+				while (h != faces[i]->outer_comp);
+			}
+			for (Hedge* it : faces[i]->inner_comp)
+			{
+				Hedge* h = it;
+				do
+				{
+					if (h->inc_face != faces[i])
+					{
+						std::cerr << "Invalid DCEL " << i << "-th face"
+								  << " inner_comp boundary is invalid"
+								  << std::endl;
+						valid = false;
+					}
+					h = h->next;
+				}
+				while (h != it);
+			}
+		}
+
+		return valid;
 	}
 
 	std::ostream& operator<<(std::ostream& os,
@@ -119,9 +200,13 @@ namespace geometry::DCEL
 
 		for (int i = 0; i < dcel.faces.size(); ++i)
 		{
-			os << "f" << i << " : "
-			   << indexes[dcel.faces[i]->inner_comp] << " "
-			   << indexes[dcel.faces[i]->outer_comp] << std::endl;
+			os << "f" << i << " : [";
+			auto vec = dcel.faces[i]->inner_comp;
+			for (unsigned j = 0; j < vec.size(); ++j)
+			{
+				os << indexes[vec[j]] << (j == vec.size() - 1 ? "" : " ");
+			}
+			os << "] " << indexes[dcel.faces[i]->outer_comp] << std::endl;
 		}
 
 		return os;

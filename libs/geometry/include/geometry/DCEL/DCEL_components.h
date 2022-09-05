@@ -45,11 +45,11 @@ namespace geometry::DCEL
 
 	struct Face
 	{
-		Hedge* inner_comp = nullptr;
+		std::vector<Hedge*> inner_comp {};
 		Hedge* outer_comp = nullptr;
 
 		Face() = default;
-		Face(Hedge* inner_comp,
+		Face(std::vector<Hedge*> inner_comp,
 			 Hedge* outer_comp);
 		~Face() = default;
 	};
