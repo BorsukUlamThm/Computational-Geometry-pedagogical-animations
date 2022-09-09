@@ -30,7 +30,8 @@ namespace chs
 		std::string input_file {};
 	};
 
-	Convex_hull_option process_command_line(int argc, char** argv)
+	Convex_hull_option process_command_line(int argc,
+											char** argv)
 	{
 		Convex_hull_option opt;
 		utils::Program_options program_options;
@@ -160,7 +161,7 @@ namespace chs
 		if (opt.input_type == ACQUISITION)
 		{
 			gr::Acquisition_canvas canvas;
-			canvas.set_title("Convex hull - acquisition");
+			canvas.set_title("Convex Hull - acquisition");
 			canvas.add_point_acquisition();
 			gr::Acquisitions acquisitions = canvas.acquire_buffer();
 
