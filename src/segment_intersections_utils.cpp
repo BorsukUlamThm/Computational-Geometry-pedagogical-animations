@@ -1,43 +1,12 @@
-#pragma once
-
-#include <boost/rational.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
-#include "geometry/model/Segment_2.h"
-#include "geometry/utils/random_generation.h"
-#include "geometry/model/serialization.h"
-#include "graphics/view/Acquisition_canvas.h"
-#include "utils/Program_options.h"
+#include "segment_intersections_utils.h"
 
 
-namespace chap2_segment_intersections
+namespace segment_intersections_utils
 {
-	namespace geo = geometry;
-
-	typedef boost::rational<boost::multiprecision::cpp_int> rational;
-	typedef geo::Point_2<rational> point;
-	typedef geo::Segment_2<rational> segment;
-	typedef std::vector<segment> segment_set;
-
-
-	enum Input_type
+	Options process_command_line(int argc,
+								 char** argv)
 	{
-		RANDOM,
-		ACQUISITION,
-		FILE
-	};
-
-	struct Segment_intersections_options
-	{
-		Input_type input_type = FILE;
-		unsigned nb_random_segments = 20;
-		unsigned long seed = time_seed;
-		std::string input_file;
-	};
-
-	Segment_intersections_options process_command_line(int argc,
-													   char** argv)
-	{
-		Segment_intersections_options opt;
+		Options opt;
 		utils::Program_options program_options;
 
 		enum Options
@@ -133,15 +102,15 @@ namespace chap2_segment_intersections
 				  << "input type : ";
 		switch (opt.input_type)
 		{
-			case (FILE):
+			case FILE:
 				std::cout << "file ("
 						  << opt.input_file
 						  << ")";
 				break;
-			case (ACQUISITION):
+			case ACQUISITION:
 				std::cout << "acquisition";
 				break;
-			case (RANDOM):
+			case RANDOM:
 				std::cout << "random ("
 						  << opt.nb_random_segments
 						  << " segments, with seed "
@@ -154,7 +123,7 @@ namespace chap2_segment_intersections
 		return opt;
 	}
 
-	segment_set make_segment_set(const Segment_intersections_options& opt)
+	segment_set make_segment_set(const Options& opt)
 	{
 		if (opt.input_type == RANDOM)
 		{
@@ -164,10 +133,10 @@ namespace chap2_segment_intersections
 			segment_set set;
 			for (auto& s : vec)
 			{
-				rational x1 (s.p1.x);
-				rational y1 (s.p1.y);
-				rational x2 (s.p2.x);
-				rational y2 (s.p2.y);
+				rational x1(s.p1.x);
+				rational y1(s.p1.y);
+				rational x2(s.p2.x);
+				rational y2(s.p2.y);
 				set.emplace_back(x1, y1, x2, y2);
 			}
 			return set;
@@ -196,10 +165,10 @@ namespace chap2_segment_intersections
 		segment_set set;
 		for (auto& s : vec)
 		{
-			rational x1 (s.p1.x);
-			rational y1 (s.p1.y);
-			rational x2 (s.p2.x);
-			rational y2 (s.p2.y);
+			rational x1(s.p1.x);
+			rational y1(s.p1.y);
+			rational x2(s.p2.x);
+			rational y2(s.p2.y);
 			set.emplace_back(x1, y1, x2, y2);
 		}
 		return set;

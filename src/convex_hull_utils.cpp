@@ -1,39 +1,12 @@
-#pragma once
-
-#include "geometry/model/Point_2.h"
-#include "geometry/utils/random_generation.h"
-#include "geometry/model/serialization.h"
-#include "graphics/view/Acquisition_canvas.h"
-#include "utils/Program_options.h"
+#include "convex_hull_utils.h"
 
 
-namespace chs
+namespace convex_hull_utils
 {
-	namespace gr = graphics;
-	namespace geo = geometry;
-
-	typedef geo::Point_2<int> point;
-	typedef std::vector<point> point_set;
-
-	enum Input_type
+	Options process_command_line(int argc,
+								 char** argv)
 	{
-		RANDOM,
-		ACQUISITION,
-		FILE
-	};
-
-	struct Convex_hull_option
-	{
-		Input_type input_type = RANDOM;
-		unsigned nb_random_points = 500;
-		unsigned long seed = time_seed;
-		std::string input_file {};
-	};
-
-	Convex_hull_option process_command_line(int argc,
-											char** argv)
-	{
-		Convex_hull_option opt;
+		Options opt;
 		utils::Program_options program_options;
 
 		enum Options
@@ -129,15 +102,15 @@ namespace chs
 				  << "input type : ";
 		switch (opt.input_type)
 		{
-			case (FILE):
+			case FILE:
 				std::cout << "file ("
 						  << opt.input_file
 						  << ")";
 				break;
-			case (ACQUISITION):
+			case ACQUISITION:
 				std::cout << "acquisition";
 				break;
-			case (RANDOM):
+			case RANDOM:
 				std::cout << "random ("
 						  << opt.nb_random_points
 						  << " points, with seed "
@@ -150,7 +123,7 @@ namespace chs
 		return opt;
 	}
 
-	point_set make_point_set(const Convex_hull_option& opt)
+	point_set make_point_set(const Options& opt)
 	{
 		if (opt.input_type == RANDOM)
 		{

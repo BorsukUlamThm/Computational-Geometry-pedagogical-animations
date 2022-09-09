@@ -1,5 +1,5 @@
 #include "segment_intersections_events.h"
-#include "segment_intersections_setup.h"
+#include "segment_intersections_utils.h"
 #include "geometry/utils/Event_queue.h"
 
 
@@ -7,11 +7,12 @@ namespace chap2_segment_intersections
 {
 	namespace gr = graphics;
 	namespace geo = geometry;
+	namespace siu = segment_intersections_utils;
 
 	gr::Animation animation(NB_FIGURES);
 
 
-	void clean_segment_set(segment_set& S)
+	void clean_segment_set(siu::segment_set& S)
 	{
 		for (auto& s : S)
 		{
@@ -24,7 +25,7 @@ namespace chap2_segment_intersections
 		}
 	}
 
-	void compute_intersections(segment_set& S)
+	void compute_intersections(siu::segment_set& S)
 	{
 		clean_segment_set(S);
 
@@ -53,8 +54,8 @@ int main(int argc, char** argv)
 {
 	using namespace chap2_segment_intersections;
 
-	Segment_intersections_options opt = process_command_line(argc, argv);
-	segment_set S = make_segment_set(opt);
+	siu::Options opt = siu::process_command_line(argc, argv);
+	siu::segment_set S = make_segment_set(opt);
 
 	std::vector<geo::Segment_2<int>> tmp;
 	for (auto& s : S)

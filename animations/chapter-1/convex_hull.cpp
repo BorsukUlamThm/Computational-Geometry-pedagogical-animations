@@ -1,4 +1,4 @@
-#include "convex_hull_setup.h"
+#include "convex_hull_utils.h"
 #include "graphics/view/Display_canvas.h"
 #include "geometry/utils/point_comparisons.h"
 
@@ -7,10 +7,7 @@ namespace chap1_convex_hull
 {
 	namespace gr = graphics;
 	namespace geo = geometry;
-
-	typedef geo::Point_2<int> point;
-	typedef std::vector<point> convex_hull;
-	typedef std::vector<point> point_set;
+	using namespace convex_hull_utils;
 
 	enum Figures
 	{
@@ -175,10 +172,11 @@ namespace chap1_convex_hull
 
 int main(int argc, char** argv)
 {
+	using namespace convex_hull_utils;
 	using namespace chap1_convex_hull;
 
-	chs::Convex_hull_option opt = chs::process_command_line(argc, argv);
-	point_set P = chs::make_point_set(opt);
+	Options opt = process_command_line(argc, argv);
+	point_set P = make_point_set(opt);
 
 	geo::save_point_2_set("log/chapter-1/convex_hull", P);
 	gr::Animation animation(NB_FIGURES);

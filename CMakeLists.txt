@@ -22,8 +22,9 @@ add_subdirectory(libs/geometry)
 add_subdirectory(libs/graphics)
 add_subdirectory(libs/utils)
 
-# Includes
+# Includes and sources
 file(GLOB_RECURSE includes ${CMAKE_SOURCE_DIR}/include/*.h)
+file(GLOB_RECURSE sources ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 # Test
 add_executable(tests tests.cpp ${includes})
@@ -47,18 +48,18 @@ foreach (example ${examples})
 endforeach ()
 
 # All other executables
-file(GLOB chapters ${CMAKE_SOURCE_DIR}/src/*)
+file(GLOB chapters ${CMAKE_SOURCE_DIR}/animations/*)
 foreach (chapter ${chapters})
     get_filename_component(chapter_name ${chapter} NAME_WE)
     file(MAKE_DIRECTORY ${log}/${chapter_name})
-    file(GLOB sources ${chapter}/*.cpp)
+    file(GLOB animations ${chapter}/*.cpp)
 
-    foreach (source ${sources})
-        get_filename_component(source_name ${source} NAME_WE)
-        add_executable(${source_name} ${source} ${includes})
-        set_target_properties(${source_name} PROPERTIES
+    foreach (animation ${animations})
+        get_filename_component(animation_name ${animation} NAME_WE)
+        add_executable(${animation_name} ${animation} ${sources})
+        set_target_properties(${animation_name} PROPERTIES
                 RUNTIME_OUTPUT_DIRECTORY ${bin}/${chapter_name})
-        target_link_libraries(${source_name}
+        target_link_libraries(${animation_name}
                 CGPA_utils
                 CGPA_graphics
                 CGPA_geometry)
