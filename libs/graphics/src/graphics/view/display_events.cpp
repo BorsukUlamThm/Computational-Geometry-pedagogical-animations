@@ -54,7 +54,7 @@ namespace graphics
 			case sf::Keyboard::Space:
 				state = (state == RUN ? PAUSE : RUN);
 				break;
-				
+
 			case sf::Keyboard::Right:
 				next_slide();
 				break;

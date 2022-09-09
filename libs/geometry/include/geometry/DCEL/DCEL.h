@@ -23,9 +23,9 @@ namespace geometry::DCEL
 		bool is_valid();
 
 		friend std::ostream& operator<<(std::ostream& os,
-									   const DCEL& dcel);
+										const DCEL& dcel);
 	};
 
 	std::ostream& operator<<(std::ostream& os,
-							const DCEL& dcel);
+							 const DCEL& dcel);
 }

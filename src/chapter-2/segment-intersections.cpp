@@ -13,9 +13,9 @@ namespace chap2_segment_intersections
 
 	void clean_segment_set(segment_set& S)
 	{
-		for(auto& s : S)
+		for (auto& s : S)
 		{
-			if(geo::point_above_point(s.p2, s.p1))
+			if (geo::point_above_point(s.p2, s.p1))
 			{
 				point tmp = s.p1;
 				s.p1 = s.p2;
@@ -28,7 +28,7 @@ namespace chap2_segment_intersections
 	{
 		clean_segment_set(S);
 
-		for(auto& s : S)
+		for (auto& s : S)
 		{
 			auto x1 = boost::rational_cast<float>(s.p1.x);
 			auto y1 = boost::rational_cast<float>(s.p1.y);
@@ -39,7 +39,7 @@ namespace chap2_segment_intersections
 		animation.make_new_frame(SEGMENTS);
 
 		Event_queue Q;
-		for(unsigned i = 0; i < S.size(); ++i)
+		for (unsigned i = 0; i < S.size(); ++i)
 		{
 			Q.insert_upper_point(S[i].p1, i);
 			Q.insert_lower_point(S[i].p2, i);
@@ -57,7 +57,7 @@ int main(int argc, char** argv)
 	segment_set S = make_segment_set(opt);
 
 	std::vector<geo::Segment_2<int>> tmp;
-	for(auto& s : S)
+	for (auto& s : S)
 	{
 		auto x1 = boost::rational_cast<int>(s.p1.x);
 		auto y1 = boost::rational_cast<int>(s.p1.y);

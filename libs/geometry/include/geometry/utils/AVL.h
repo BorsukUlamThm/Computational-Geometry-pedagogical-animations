@@ -329,7 +329,7 @@ namespace geometry
 	}
 
 	template<typename T, typename Order>
-	void AVL_tree<T, Order>::balance(Node * &node)
+	void AVL_tree<T, Order>::balance(Node*& node)
 	{
 		if (node == nullptr)
 		{ return; }

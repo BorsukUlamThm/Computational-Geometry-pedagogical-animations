@@ -24,7 +24,7 @@ namespace geometry
 		}
 
 		return point_right_line(P[(i_max + 1) % n],
-								P[(n + i_max - 1)%n],
+								P[(n + i_max - 1) % n],
 								P[i_max]);
 	}
 }

@@ -348,7 +348,8 @@ namespace graphics
 		do
 		{
 			parse_shape(ifs);
-		} while (!ifs.eof());
+		}
+		while (!ifs.eof());
 	}
 
 	void Figure::save(const std::string& name)

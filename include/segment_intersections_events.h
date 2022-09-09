@@ -40,7 +40,7 @@ namespace chap2_segment_intersections
 		void handle() const;
 	};
 
-	Event::Event(const point& p):
+	Event::Event(const point& p) :
 			p(p)
 	{}
 
@@ -59,7 +59,7 @@ namespace chap2_segment_intersections
 
 	Event make_upper_event(const point& p, unsigned i)
 	{
-		Event event (p);
+		Event event(p);
 		event.U.push_back(i);
 
 		return event;
@@ -67,7 +67,7 @@ namespace chap2_segment_intersections
 
 	Event make_lower_event(const point& p, unsigned i)
 	{
-		Event event (p);
+		Event event(p);
 		event.L.push_back(i);
 
 		return event;
@@ -82,6 +82,7 @@ namespace chap2_segment_intersections
 		{
 			return geo::point_above_point(event1.p, event2.p);
 		}
+
 		bool greater_than(const Event& event1, const point& p)
 		{
 			return geo::point_above_point(event1.p, p);
@@ -91,6 +92,7 @@ namespace chap2_segment_intersections
 		{
 			return event1.p == event2.p;
 		}
+
 		bool are_equal(const Event& event1, const point& p)
 		{
 			return event1.p == p;
@@ -113,21 +115,22 @@ namespace chap2_segment_intersections
 		void aux_insert_lower_point(const point& p, unsigned i, Node*& node);
 	};
 
-	void Event_queue::aux_insert_upper_point(const point& p, unsigned int i, Node*& node)
+	void Event_queue::aux_insert_upper_point(const point& p, unsigned int i,
+											 Node*& node)
 	{
-		if(node == nullptr)
+		if (node == nullptr)
 		{
 			node = new Node(make_upper_event(p, i));
 			return;
 		}
 
-		if(comp.are_equal(node->root, p))
+		if (comp.are_equal(node->root, p))
 		{
 			node->root.U.push_back(i);
 			return;
 		}
 
-		if(comp.greater_than(node->root, p))
+		if (comp.greater_than(node->root, p))
 		{
 			aux_insert_upper_point(p, i, node->left);
 			node->update_depth();
@@ -145,21 +148,22 @@ namespace chap2_segment_intersections
 		aux_insert_upper_point(p, i, root);
 	}
 
-	void Event_queue::aux_insert_lower_point(const point& p, unsigned int i, Node*& node)
+	void Event_queue::aux_insert_lower_point(const point& p, unsigned int i,
+											 Node*& node)
 	{
-		if(node == nullptr)
+		if (node == nullptr)
 		{
 			node = new Node(make_lower_event(p, i));
 			return;
 		}
 
-		if(comp.are_equal(node->root, p))
+		if (comp.are_equal(node->root, p))
 		{
 			node->root.L.push_back(i);
 			return;
 		}
 
-		if(comp.greater_than(node->root, p))
+		if (comp.greater_than(node->root, p))
 		{
 			aux_insert_lower_point(p, i, node->left);
 			node->update_depth();
@@ -179,7 +183,7 @@ namespace chap2_segment_intersections
 
 	void Event_queue::handle_events()
 	{
-		while(!is_empty())
+		while (!is_empty())
 		{
 			Event event = extract_max(root);
 			event.handle();

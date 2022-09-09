@@ -99,8 +99,8 @@ namespace graphics
 
 		for (unsigned i = 0; i < n; ++i)
 		{
-			Point_shp point (vertices[i].abscissa, vertices[i].ordinate,
-							 vertices_color);
+			Point_shp point(vertices[i].abscissa, vertices[i].ordinate,
+							vertices_color);
 			point.draw(canvas);
 		}
 	}

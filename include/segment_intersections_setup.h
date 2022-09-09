@@ -36,19 +36,19 @@ namespace chap2_segment_intersections
 	{
 		Segment_intersections_options opt;
 
-		for(unsigned i = 0; i < argc; ++i)
+		for (unsigned i = 0; i < argc; ++i)
 		{
-			if(argv[i][0] != '-')
+			if (argv[i][0] != '-')
 			{
 				continue;
 			}
 
-			if(std::string(argv[i]) == "-a")
+			if (std::string(argv[i]) == "-a")
 			{
 				opt.input_type = ACQUISITION;
 				continue;
 			}
-			if(std::string(argv[i]) == "-r")
+			if (std::string(argv[i]) == "-r")
 			{
 				opt.input_type = RANDOM;
 				++i;
@@ -64,7 +64,7 @@ namespace chap2_segment_intersections
 				{
 					opt.nb_random_segments = std::stoi(std::string(argv[i]));
 				}
-				catch(const std::invalid_argument& ia)
+				catch (const std::invalid_argument& ia)
 				{
 					std::cerr << "invalid -r parameter, missing"
 							  << " number of random points"
@@ -73,7 +73,7 @@ namespace chap2_segment_intersections
 				}
 			}
 
-			if(std::string(argv[i]) == "-s")
+			if (std::string(argv[i]) == "-s")
 			{
 				++i;
 				if (i >= argc)
@@ -87,7 +87,7 @@ namespace chap2_segment_intersections
 				{
 					opt.seed = std::stoi(std::string(argv[i]));
 				}
-				catch(const std::invalid_argument& ia)
+				catch (const std::invalid_argument& ia)
 				{
 					std::cerr << "invalid -s parameter, missing seed"
 							  << std::endl;
@@ -95,7 +95,7 @@ namespace chap2_segment_intersections
 				}
 			}
 
-			if(std::string(argv[i]) == "-i")
+			if (std::string(argv[i]) == "-i")
 			{
 				opt.input_type = FILE;
 				++i;
@@ -111,7 +111,8 @@ namespace chap2_segment_intersections
 
 			else
 			{
-				std::cerr << "unknown " << argv[i] << " option ignored" << std::endl;
+				std::cerr << "unknown " << argv[i] << " option ignored"
+						  << std::endl;
 			}
 		}
 
@@ -123,11 +124,13 @@ namespace chap2_segment_intersections
 	{
 		if (opt.input_type == RANDOM)
 		{
-			std::cout << "initializing " << opt.nb_random_segments << " random points"
+			std::cout << "initializing " << opt.nb_random_segments
+					  << " random points"
 					  << std::endl << "seed : " << opt.seed << std::endl;
 
 			geo::Number_generator<int> ng(opt.seed);
-			auto tmp = geo::random_segment_2_set < int > (opt.nb_random_segments, ng);
+			auto tmp = geo::random_segment_2_set<int>(opt.nb_random_segments,
+													  ng);
 
 			segment_set S;
 			for (auto& s : tmp)
@@ -140,7 +143,7 @@ namespace chap2_segment_intersections
 
 		auto tmp = geo::load_segment_2_set<int>(opt.input_path);
 		segment_set S;
-		for(auto& s : tmp)
+		for (auto& s : tmp)
 		{
 			S.emplace_back(s.p1.x, s.p1.y, s.p2.x, s.p2.y);
 		}
