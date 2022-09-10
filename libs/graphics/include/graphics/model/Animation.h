@@ -29,6 +29,8 @@ namespace graphics
 
 		Figure operator[](unsigned i) const;
 		Figure& operator[](unsigned i);
+		Figure get(unsigned i) const;
+		Figure& get(unsigned i);
 
 	private:
 		void aux_make_new_frame(unsigned index);

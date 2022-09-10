@@ -26,13 +26,18 @@ add_subdirectory(libs/utils)
 file(GLOB_RECURSE includes ${CMAKE_SOURCE_DIR}/include/*.h)
 file(GLOB_RECURSE sources ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
-# Test
-add_executable(tests tests.cpp ${includes})
-set_target_properties(tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${bin})
-target_link_libraries(tests
-        CGPA_utils
-        CGPA_graphics
-        CGPA_geometry)
+# Tests
+file(GLOB tests ${CMAKE_SOURCE_DIR}/tests/*.cpp)
+foreach (test ${tests})
+    get_filename_component(test_name ${test} NAME_WE)
+    add_executable(${test_name} ${test})
+    set_target_properties(${test_name} PROPERTIES
+            RUNTIME_OUTPUT_DIRECTORY ${bin}/tests)
+    target_link_libraries(${test_name}
+            CGPA_utils
+            CGPA_graphics
+            CGPA_geometry)
+endforeach ()
 
 # Examples
 file(GLOB examples ${CMAKE_SOURCE_DIR}/examples/*.cpp)

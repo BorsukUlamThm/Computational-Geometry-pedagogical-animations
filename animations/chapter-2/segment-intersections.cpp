@@ -1,18 +1,16 @@
 #include "segment_intersections_events.h"
 #include "segment_intersections_utils.h"
-#include "geometry/utils/Event_queue.h"
+#include "geometry/utils/point_comparisons.h"
 
 
 namespace chap2_segment_intersections
 {
 	namespace gr = graphics;
 	namespace geo = geometry;
-	namespace siu = segment_intersections_utils;
+	using namespace segment_intersections_utils;
+	using namespace segment_intersections_events;
 
-	gr::Animation animation(NB_FIGURES);
-
-
-	void clean_segment_set(siu::segment_set& S)
+	void clean_segment_set(segment_set& S)
 	{
 		for (auto& s : S)
 		{
@@ -25,27 +23,11 @@ namespace chap2_segment_intersections
 		}
 	}
 
-	void compute_intersections(siu::segment_set& S)
+	void compute_intersections(segment_set& S,
+							   gr::Animation& animation)
 	{
 		clean_segment_set(S);
-
-		for (auto& s : S)
-		{
-			auto x1 = boost::rational_cast<float>(s.p1.x);
-			auto y1 = boost::rational_cast<float>(s.p1.y);
-			auto x2 = boost::rational_cast<float>(s.p2.x);
-			auto y2 = boost::rational_cast<float>(s.p2.y);
-			animation[SEGMENTS].add_segment(x1, y1, x2, y2);
-		}
-		animation.make_new_frame(SEGMENTS);
-
-		Event_queue Q;
-		for (unsigned i = 0; i < S.size(); ++i)
-		{
-			Q.insert_upper_point(S[i].p1, i);
-			Q.insert_lower_point(S[i].p2, i);
-		}
-
+		queue Q = init_queue_and_tree(S, animation);
 		Q.handle_events();
 	}
 }
@@ -54,8 +36,8 @@ int main(int argc, char** argv)
 {
 	using namespace chap2_segment_intersections;
 
-	siu::Options opt = siu::process_command_line(argc, argv);
-	siu::segment_set S = make_segment_set(opt);
+	Options opt = process_command_line(argc, argv);
+	segment_set S = make_segment_set(opt);
 
 	std::vector<geo::Segment_2<int>> tmp;
 	for (auto& s : S)
@@ -64,11 +46,16 @@ int main(int argc, char** argv)
 		auto y1 = boost::rational_cast<int>(s.p1.y);
 		auto x2 = boost::rational_cast<int>(s.p2.x);
 		auto y2 = boost::rational_cast<int>(s.p2.y);
+		//		auto x1 = s.p1.x;
+		//		auto y1 = s.p1.y;
+		//		auto x2 = s.p2.x;
+		//		auto y2 = s.p2.y;
 		tmp.emplace_back(x1, y1, x2, y2);
 	}
 
 	geo::save_segment_2_set("log/chapter-2/segment_intersections", tmp);
-	compute_intersections(S);
+	gr::Animation animation(NB_FIGURES);
+	compute_intersections(S, animation);
 
 	gr::Display_canvas canvas;
 	canvas.set_title("Segment intersections - animation");

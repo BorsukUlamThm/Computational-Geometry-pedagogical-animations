@@ -38,6 +38,12 @@ namespace graphics
 	Figure& Animation::operator[](unsigned i)
 	{ return figures[i]; }
 
+	Figure Animation::get(unsigned i) const
+	{ return figures[i]; }
+
+	Figure& Animation::get(unsigned i)
+	{ return figures[i]; }
+
 	void Animation::aux_make_new_frame(unsigned int index)
 	{
 		frames.back().merge_figure(figures[index]);

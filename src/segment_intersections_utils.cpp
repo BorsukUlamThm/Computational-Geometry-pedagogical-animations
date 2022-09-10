@@ -1,8 +1,44 @@
 #include "segment_intersections_utils.h"
+#include "geometry/utils/point_comparisons.h"
+#include "geometry/utils/line_intersections.h"
 
 
 namespace segment_intersections_utils
 {
+	tree_cmp::tree_cmp(segment_set& S) :
+			S(S)
+	{}
+
+	rational x_intersection(const segment& s,
+							const rational& y_line)
+	{
+		if (s.p1.y == s.p2.y)
+		{
+			return s.p1.x;
+		}
+		return geo::x_intersection(s, y_line);
+	}
+
+	bool tree_cmp::operator()(unsigned i, unsigned j) const
+	{
+		rational xi = x_intersection(S[i], y_line);
+		rational xj = x_intersection(S[j], y_line);
+		if (xi == xj)
+		{
+			if (just_above)
+			{
+				return geo::point_right_line(S[i].p1, S[j].p1, S[j].p2);
+			}
+			return geo::point_right_line(S[j].p1, S[i].p1, S[i].p2);
+		}
+		return xi < xj;
+	}
+
+	bool tree_cmp::are_equal(unsigned int i, unsigned int j) const
+	{
+		return i == j;
+	}
+
 	Options process_command_line(int argc,
 								 char** argv)
 	{
