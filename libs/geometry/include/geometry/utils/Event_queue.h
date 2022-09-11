@@ -1,18 +1,16 @@
 #pragma once
 
-#include <queue>
-#include <vector>
+#include "AVL.h"
 
 
 namespace geometry
 {
 	template<typename Event, typename Compare>
-	class Event_queue
-			: public std::priority_queue<Event, std::vector<Event>, Compare>
+	class Event_queue: public AVL_tree<Event, Compare>
 	{
 		// The Event class needs to have a method void handle() const
 
-		typedef std::priority_queue<Event, std::vector<Event>, Compare> super;
+		typedef AVL_tree<Event, Compare> super;
 
 	public:
 		Event_queue() = default;
@@ -35,15 +33,14 @@ namespace geometry
 
 	template<typename Event, typename Compare>
 	void Event_queue<Event, Compare>::push_event(const Event& event)
-	{ super::push(event); }
+	{ super::insert(event); }
 
 	template<typename Event, typename Compare>
 	void Event_queue<Event, Compare>::handle_events()
 	{
-		while (!super::empty())
+		while (!super::is_empty())
 		{
-			Event event = super::top();
-			super::pop();
+			Event event = super::extract_max(super::root);
 			event.handle();
 		}
 	}

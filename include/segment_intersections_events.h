@@ -15,11 +15,13 @@ namespace segment_intersections_events
 
 	struct queue_cmp
 	{
-		bool operator()(const event& e1,
-						const event& e2) const;
+		bool operator()(const event& evt1,
+						const event& evt2) const;
+		bool are_equal(const event& evt1,
+					   const event& evt2) const;
 	};
 
-	typedef geo::Event_queue<event, queue_cmp> queue;
+	class queue;
 
 	struct event
 	{
@@ -28,9 +30,9 @@ namespace segment_intersections_events
 		std::vector<unsigned> L;
 		std::vector<unsigned> C;
 
-		gr::Animation* animation;
-		tree* T;
-		queue* Q;
+		gr::Animation* animation = nullptr;
+		tree* T = nullptr;
+		queue* Q = nullptr;
 
 		event() = default;
 		event(const point& p,
@@ -41,6 +43,33 @@ namespace segment_intersections_events
 		void handle() const;
 	};
 
-	queue init_queue_and_tree(segment_set& S,
-							  gr::Animation& animation);
+	class queue : public geo::Event_queue<event, queue_cmp>
+	{
+	public:
+		queue(segment_set& S,
+			  gr::Animation& animation,
+			  tree& T);
+
+	private:
+		void insert_upper_point(const point& p,
+								unsigned i,
+								gr::Animation* animation,
+								tree* T);
+		void insert_lower_point(const point& p,
+								unsigned i,
+								gr::Animation* animation,
+								tree* T);
+
+		void aux_insert_upper_point(const point& p,
+									unsigned i,
+									gr::Animation* animation,
+									tree* T,
+									Node*& node);
+		void aux_insert_lower_point(const point& p,
+									unsigned i,
+									gr::Animation* animation,
+									tree* T,
+									Node*& node);
+
+	};
 }

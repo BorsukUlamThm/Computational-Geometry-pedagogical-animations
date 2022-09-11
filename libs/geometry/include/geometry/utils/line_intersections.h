@@ -59,19 +59,16 @@ namespace geometry
 		{
 			if (s.p1.y != y)
 			{
-				std::cerr << "Error : Line does not intersect x axis for y = "
+				std::cerr << "Error : Line does not intersect the line y = "
 						  << y << std::endl;
 				return 0;
 			}
-			if (s.p1.x < s.p2.x)
-			{
-				return s.p1.x;
-			}
-			return s.p2.x;
+			return std::min(s.p1.x, s.p2.x);
 		}
 
-		real a = (s.p2.y - s.p1.y) / (s.p2.x - s.p1.x);
-		real b = s.p1.y - a * s.p1.x;
-		return (y - b) / a;
+		real a = s.p2.y - s.p1.y;
+		real b = s.p1.x - s.p2.x;
+		real c = -(a * s.p1.x + b * s.p1.y);
+		return -(c + b * y) / a;
 	}
 }

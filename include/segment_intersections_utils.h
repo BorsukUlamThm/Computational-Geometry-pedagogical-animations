@@ -16,15 +16,14 @@ namespace segment_intersections_utils
 	namespace geo = geometry;
 
 	typedef boost::rational<boost::multiprecision::cpp_int> rational;
-	//	typedef int rational;
 	typedef geo::Point_2<rational> point;
 	typedef geo::Segment_2<rational> segment;
 	typedef std::vector<segment> segment_set;
 
 	enum Figures
 	{
-		LINE,
-		POINTS,
+		SEGMENTS,
+		EVENT,
 		INTERSECTIONS,
 		NB_FIGURES
 	};

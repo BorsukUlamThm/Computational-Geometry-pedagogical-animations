@@ -9,20 +9,10 @@ namespace segment_intersections_utils
 			S(S)
 	{}
 
-	rational x_intersection(const segment& s,
-							const rational& y_line)
-	{
-		if (s.p1.y == s.p2.y)
-		{
-			return s.p1.x;
-		}
-		return geo::x_intersection(s, y_line);
-	}
-
 	bool tree_cmp::operator()(unsigned i, unsigned j) const
 	{
-		rational xi = x_intersection(S[i], y_line);
-		rational xj = x_intersection(S[j], y_line);
+		rational xi = geo::x_intersection(S[i], y_line);
+		rational xj = geo::x_intersection(S[j], y_line);
 		if (xi == xj)
 		{
 			if (just_above)

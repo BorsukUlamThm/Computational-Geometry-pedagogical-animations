@@ -56,7 +56,5 @@ int main()
 	queue.push_event(e3);
 	queue.handle_events();
 
-//	delete queue;
-
 	return 0;
 }

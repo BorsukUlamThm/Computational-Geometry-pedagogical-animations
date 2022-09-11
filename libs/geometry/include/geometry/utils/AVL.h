@@ -23,11 +23,11 @@ namespace geometry
 	template<typename T>
 	AVL_node<T>::AVL_node(const T& val,
 						  AVL_node* left_node,
-						  AVL_node* right_node)
+						  AVL_node* right_node):
+			root(T(val)),
+			left(left_node),
+			right(right_node)
 	{
-		root = T(val);
-		left = left_node;
-		right = right_node;
 		update_depth();
 	}
 
@@ -61,8 +61,9 @@ namespace geometry
 
 	public:
 		AVL_tree() = default;
-		AVL_tree(const Compare& comp);
+		explicit AVL_tree(const Compare& comp);
 		~AVL_tree();
+
 		Compare& get_order();
 
 		bool is_empty() const;

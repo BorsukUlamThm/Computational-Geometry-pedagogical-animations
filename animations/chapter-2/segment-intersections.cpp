@@ -10,6 +10,7 @@ namespace chap2_segment_intersections
 	using namespace segment_intersections_utils;
 	using namespace segment_intersections_events;
 
+
 	void clean_segment_set(segment_set& S)
 	{
 		for (auto& s : S)
@@ -23,11 +24,32 @@ namespace chap2_segment_intersections
 		}
 	}
 
+	void make_first_frame(segment_set& S,
+						  gr::Animation& animation)
+	{
+		for (auto& s : S)
+		{
+			auto x1 = boost::rational_cast<gr::Coordinate>(s.p1.x);
+			auto y1 = boost::rational_cast<gr::Coordinate>(s.p1.y);
+			auto x2 = boost::rational_cast<gr::Coordinate>(s.p2.x);
+			auto y2 = boost::rational_cast<gr::Coordinate>(s.p2.y);
+
+			animation[SEGMENTS].add_segment(x1, y1, x2, y2);
+		}
+
+		animation.make_new_frame();
+	}
+
 	void compute_intersections(segment_set& S,
 							   gr::Animation& animation)
 	{
 		clean_segment_set(S);
-		queue Q = init_queue_and_tree(S, animation);
+		make_first_frame(S, animation);
+
+		tree_cmp comp(S);
+		tree T(comp);
+		queue Q (S, animation, T);
+
 		Q.handle_events();
 	}
 }
@@ -46,10 +68,6 @@ int main(int argc, char** argv)
 		auto y1 = boost::rational_cast<int>(s.p1.y);
 		auto x2 = boost::rational_cast<int>(s.p2.x);
 		auto y2 = boost::rational_cast<int>(s.p2.y);
-		//		auto x1 = s.p1.x;
-		//		auto y1 = s.p1.y;
-		//		auto x2 = s.p2.x;
-		//		auto y2 = s.p2.y;
 		tmp.emplace_back(x1, y1, x2, y2);
 	}
 
