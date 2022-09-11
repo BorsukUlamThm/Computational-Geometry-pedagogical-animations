@@ -1,15 +1,14 @@
 #pragma once
 
-#include "segment_intersections_utils.h"
+#include "tree.h"
 #include "graphics/view/Display_canvas.h"
 #include "geometry/utils/Event_queue.h"
 
 
-namespace segment_intersections_events
+namespace segment_intersections
 {
 	namespace gr = graphics;
 	namespace geo = geometry;
-	using namespace segment_intersections_utils;
 
 	struct event;
 
@@ -28,7 +27,7 @@ namespace segment_intersections_events
 		point p;
 		std::vector<unsigned> U;
 		std::vector<unsigned> L;
-		std::vector<unsigned> C;
+		std::set<unsigned> C;
 
 		gr::Animation* animation = nullptr;
 		tree* T = nullptr;
@@ -41,6 +40,12 @@ namespace segment_intersections_events
 			  queue* Q);
 
 		void handle() const;
+
+	private:
+		void find_new_event(unsigned i,
+							unsigned j) const;
+		unsigned leftmost_segment() const;
+		unsigned rightmost_segment() const;
 	};
 
 	class queue : public geo::Event_queue<event, queue_cmp>
@@ -50,7 +55,6 @@ namespace segment_intersections_events
 			  gr::Animation& animation,
 			  tree& T);
 
-	private:
 		void insert_upper_point(const point& p,
 								unsigned i,
 								gr::Animation* animation,
@@ -59,7 +63,12 @@ namespace segment_intersections_events
 								unsigned i,
 								gr::Animation* animation,
 								tree* T);
+		void insert_contained_point(const point& p,
+									unsigned i,
+									gr::Animation* animation,
+									tree* T);
 
+	private:
 		void aux_insert_upper_point(const point& p,
 									unsigned i,
 									gr::Animation* animation,
@@ -70,6 +79,10 @@ namespace segment_intersections_events
 									gr::Animation* animation,
 									tree* T,
 									Node*& node);
-
+		void aux_insert_contained_point(const point& p,
+										unsigned i,
+										gr::Animation* animation,
+										tree* T,
+										Node*& node);
 	};
 }

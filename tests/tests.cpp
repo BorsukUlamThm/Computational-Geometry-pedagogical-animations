@@ -5,64 +5,62 @@
 #include "geometry/model/serialization.h"
 #include "geometry/utils/polygon_utils.h"
 #include "geometry/utils/Event_queue.h"
+#include "geometry/utils/line_intersections.h"
 
 
 namespace gr = graphics;
 namespace geo = geometry;
 
-struct Event;
+typedef geo::Point_2<long int> point;
+typedef geo::Segment_2<long int> segment;
 
-struct Comp
+void test()
 {
-	bool reverse = false;
+	gr::Acquisition_canvas canvas;
+	canvas.add_segment_acquisition(2);
+	gr::Acquisitions acquisitions = canvas.acquire_buffer();
+	auto segments = acquisitions[0]->get_objects<gr::Segment_obj>();
 
-	bool operator()(const Event& e1, const Event& e2) const;
-};
+	segment s0(segments[0].origin.abscissa,
+			   segments[0].origin.ordinate,
+			   segments[0].destination.abscissa,
+			   segments[0].destination.ordinate);
+	segment s1(segments[1].origin.abscissa,
+			   segments[1].origin.ordinate,
+			   segments[1].destination.abscissa,
+			   segments[1].destination.ordinate);
+	point p = geo::line_intersection(s0, s1);
 
-typedef geo::Event_queue<Event, Comp> Event_queue;
+	std::cout << "s0 : " << s0 << std::endl
+			  << "s1 : " << s1 << std::endl << std::endl;
 
-struct Event
-{
-	int a = 0;
-	Event_queue* queue;
-
-	explicit Event(int a, Event_queue* queue) : a(a), queue(queue) {}
-
-	void handle() const
-	{
-		std::cout << a << std::endl;
-		if (a == 0)
-		{ return; }
-
-		Event e1 (a - 1, queue);
-		Event e2 (a - 1, queue);
-		queue->push_event(e1);
-		queue->push_event(e2);
-	}
-};
-
-bool Comp::operator()(const Event& e1, const Event& e2) const
-{
-	int epsilon = reverse ? -1 : 1;
-	return epsilon * e1.a < epsilon * e2.a;
+	gr::Figure fig;
+	fig.add_segment(s0.p1.x, s0.p1.y, s0.p2.x, s0.p2.y);
+	fig.add_segment(s1.p1.x, s1.p1.y, s1.p2.x, s1.p2.y);
+	fig.add_point(p.x, p.y,
+				  geo::segment_intersect(s0, s1) ? gr::YELLOW : gr::RED);
+	gr::Display_canvas canvas_;
+	canvas_.display_figure(fig);
 }
 
 int main(int argc, char** argv)
 {
-	Comp comp;
-//	comp.reverse = true;
-	auto* queue = new Event_queue (comp);
+	//	while (true)
+	//	{
+	//		test();
+	//	}
 
-	Event e1 (1, queue);
-	Event e2 (2, queue);
-	Event e3 (3, queue);
+	std::cout << std::numeric_limits<long int>::min() << std::endl;
 
-	queue->push_event(e1);
-	queue->push_event(e2);
-	queue->push_event(e3);
-	queue->handle_events();
+	segment s0(1536, 238, 1575, 832);
+	segment s1(1037, 808, 1820, 977);
+	std::cout << geo::segment_intersect(s0, s1);
 
-	delete queue;
+	gr::Figure fig;
+	fig.add_segment(s0.p1.x, s0.p1.y, s0.p2.x, s0.p2.y);
+	fig.add_segment(s1.p1.x, s1.p1.y, s1.p2.x, s1.p2.y);
+	gr::Display_canvas canvas_;
+	canvas_.display_figure(fig);
 
 	return 0;
 }

@@ -1,34 +1,10 @@
-#include "segment_intersections_utils.h"
+#include "segment_intersections/utils.h"
 #include "geometry/utils/point_comparisons.h"
 #include "geometry/utils/line_intersections.h"
 
 
-namespace segment_intersections_utils
+namespace segment_intersections
 {
-	tree_cmp::tree_cmp(segment_set& S) :
-			S(S)
-	{}
-
-	bool tree_cmp::operator()(unsigned i, unsigned j) const
-	{
-		rational xi = geo::x_intersection(S[i], y_line);
-		rational xj = geo::x_intersection(S[j], y_line);
-		if (xi == xj)
-		{
-			if (just_above)
-			{
-				return geo::point_right_line(S[i].p1, S[j].p1, S[j].p2);
-			}
-			return geo::point_right_line(S[j].p1, S[i].p1, S[i].p2);
-		}
-		return xi < xj;
-	}
-
-	bool tree_cmp::are_equal(unsigned int i, unsigned int j) const
-	{
-		return i == j;
-	}
-
 	Options process_command_line(int argc,
 								 char** argv)
 	{

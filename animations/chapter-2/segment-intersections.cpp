@@ -1,5 +1,6 @@
-#include "segment_intersections_events.h"
-#include "segment_intersections_utils.h"
+#include "segment_intersections/events.h"
+#include "segment_intersections/tree.h"
+#include "segment_intersections/utils.h"
 #include "geometry/utils/point_comparisons.h"
 
 
@@ -7,8 +8,7 @@ namespace chap2_segment_intersections
 {
 	namespace gr = graphics;
 	namespace geo = geometry;
-	using namespace segment_intersections_utils;
-	using namespace segment_intersections_events;
+	using namespace segment_intersections;
 
 
 	void clean_segment_set(segment_set& S)
@@ -48,9 +48,12 @@ namespace chap2_segment_intersections
 
 		tree_cmp comp(S);
 		tree T(comp);
-		queue Q (S, animation, T);
+		queue Q(S, animation, T);
 
 		Q.handle_events();
+
+		animation[EVENT].clear();
+		animation.make_new_frame();
 	}
 }
 

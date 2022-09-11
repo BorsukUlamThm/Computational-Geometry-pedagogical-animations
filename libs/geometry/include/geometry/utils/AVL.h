@@ -64,7 +64,7 @@ namespace geometry
 		explicit AVL_tree(const Compare& comp);
 		~AVL_tree();
 
-		Compare& get_order();
+		Compare& get_comp();
 
 		bool is_empty() const;
 		unsigned depth() const;
@@ -121,7 +121,7 @@ namespace geometry
 	{ delete_node(root); }
 
 	template<typename T, typename Compare>
-	Compare& AVL_tree<T, Compare>::get_order()
+	Compare& AVL_tree<T, Compare>::get_comp()
 	{ return comp; }
 
 	template<typename T, typename Compare>
@@ -178,9 +178,6 @@ namespace geometry
 		if (node == nullptr)
 		{ return candidate; }
 
-		if (comp.are_equal(node->root, val))
-		{ return node; }
-
 		if (comp(val, node->root))
 		{ return aux_find_left_neighbour(val, node->left, candidate); }
 
@@ -201,13 +198,10 @@ namespace geometry
 		if (node == nullptr)
 		{ return candidate; }
 
-		if (comp.are_equal(node->root, val))
-		{ return node; }
+		if (comp(node->root, val))
+		{ return aux_find_right_neighbour(val, node->right, candidate); }
 
-		if (comp(val, node->root))
-		{ return aux_find_right_neighbour(val, node->left, node); }
-
-		return aux_find_right_neighbour(val, node->right, candidate);
+		return aux_find_right_neighbour(val, node->left, node);
 	}
 
 	template<typename T, typename Compare>

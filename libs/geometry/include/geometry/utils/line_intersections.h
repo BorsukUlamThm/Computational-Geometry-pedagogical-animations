@@ -27,8 +27,11 @@ namespace geometry
 	bool segment_intersect(const Segment_2<real>& s1,
 						   const Segment_2<real>& s2)
 	{
-		return weird_det(s1.p1, s1.p2, s2.p1) *
-			   weird_det(s1.p1, s1.p2, s2.p2) <= 0;
+		real a = weird_det(s1.p1, s1.p2, s2.p1) *
+				 weird_det(s1.p1, s1.p2, s2.p2);
+		real b = weird_det(s2.p1, s2.p2, s1.p1) *
+				 weird_det(s2.p1, s2.p2, s1.p2);
+		return a <=0 && b <= 0;
 	}
 
 	template<typename real>
@@ -36,19 +39,19 @@ namespace geometry
 	line_intersection(const Segment_2<real>& s1,
 					  const Segment_2<real>& s2)
 	{
-		Point_2<real> v1 = s1.p2() - s1.p1();
-		real a1 = v1.ord();
-		real b1 = -v1.abs();
-		real c1 = a1 * s1.p1().abs() + b1 * s1.p1().ord();
+		Point_2<real> v1 = s1.p2 - s1.p1;
+		real a1 = v1.y;
+		real b1 = -v1.x;
+		real c1 = a1 * s1.p1.x + b1 * s1.p1.y;
 
-		Point_2<real> v2 = s2.p2() - s2.p1();
-		real a2 = v2.ord();
-		real b2 = -v2.abs();
-		real c2 = a2 * s2.p1().abs() + b2 * s2.p1().ord();
+		Point_2<real> v2 = s2.p2 - s2.p1;
+		real a2 = v2.y;
+		real b2 = -v2.x;
+		real c2 = a2 * s2.p1.x + b2 * s2.p1.y;
 
 		real x = (b2 * c1 - b1 * c2) / (a1 * b2 - a2 * b1);
 		real y = (a2 * c1 - a1 * c2) / (a2 * b1 - a1 * b2);
-		return point_2<real>(x, y);
+		return Point_2<real>(x, y);
 	}
 
 	template<typename real>

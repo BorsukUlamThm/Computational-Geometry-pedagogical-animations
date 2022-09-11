@@ -97,7 +97,11 @@ namespace geometry
 				   const Point_2<real>& q,
 				   const Point_2<real>& r)
 	{
-		return det(q, r) - det(p, r) + det(p, q);
+		real a = det(q, r);
+		real b = det(p, r);
+		real c = det(p, q);
+		real d = a - b + c;
+		return d;
 	}
 
 	template<typename real>

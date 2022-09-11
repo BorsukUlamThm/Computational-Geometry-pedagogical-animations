@@ -10,7 +10,7 @@
 #include "geometry/utils/AVL.h"
 
 
-namespace segment_intersections_utils
+namespace segment_intersections
 {
 	namespace gr = graphics;
 	namespace geo = geometry;
@@ -29,26 +29,6 @@ namespace segment_intersections_utils
 	};
 
 
-
-	/// TREE
-
-	struct tree_cmp
-	{
-		rational y_line {};
-		bool just_above = true;
-		segment_set& S;
-
-		explicit tree_cmp(segment_set& S);
-
-		bool operator()(unsigned i, unsigned j) const;
-		bool are_equal(unsigned i, unsigned j) const;
-	};
-
-	typedef geo::AVL_tree<unsigned, tree_cmp> tree;
-
-
-	/// COMMAND LINE OPTIONS
-
 	enum Input_type
 	{
 		RANDOM,
@@ -58,10 +38,10 @@ namespace segment_intersections_utils
 
 	struct Options
 	{
-		Input_type input_type = FILE;
+		Input_type input_type = RANDOM;
 		unsigned nb_random_segments = 20;
 		unsigned long seed = time_seed;
-		std::string input_file;
+		std::string input_file {};
 	};
 
 	Options process_command_line(int argc,
