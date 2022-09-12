@@ -32,39 +32,34 @@ namespace segment_intersections
 	{
 		auto x = boost::rational_cast<gr::Coordinate>(p.x);
 		auto y = boost::rational_cast<gr::Coordinate>(p.y);
-		animation->get(EVENT).add_horizontal_line(y);
-		animation->get(EVENT).add_point(x, y, gr::GREEN);
-		animation->make_new_frame();
 		animation->get(EVENT).clear();
-
-		std::cout << x << " " << y << std::endl << "U :";
-		for (auto& i : U)
-			std::cout << " " << i;
-		std::cout << std::endl << "L :";
-		for (auto& i : L)
-			std::cout << " " << i;
-		std::cout << std::endl << "C :";
-		for (auto& i : C)
-			std::cout << " " << i;
-		std::cout << std::endl << std::endl;
+		animation->get(EVENT).add_horizontal_line(y);
+		animation->get(EVENT).add_point(x, y, gr::GREEN, 5);
+		animation->make_new_frame();
 
 		if (U.size() + L.size() + C.size() > 1)
 		{
 			animation->get(INTERSECTIONS).add_point(x, y, gr::YELLOW);
 		}
 
-		T->get_comp().y_line = p.y;
+		T->get_comp().p = p;
 		T->get_comp().just_above = true;
 		for (auto& i : L)
 		{ T->remove(i); }
 		for (auto& i : C)
 		{ T->remove(i); }
 
+		if (L.size() + C.size() > 0)
+		{ T->plot(animation); }
+
 		T->get_comp().just_above = false;
 		for (auto& i : U)
 		{ T->insert(i); }
 		for (auto& i : C)
 		{ T->insert(i); }
+
+		if (U.size() + C.size() > 0)
+		{ T->plot(animation); }
 
 		if (U.size() + C.size() == 0)
 		{
@@ -76,13 +71,13 @@ namespace segment_intersections
 		{
 			unsigned l = leftmost_segment();
 			auto left_node = T->find_left_neighbour(l);
-			if (left_node != nullptr)
-			{ find_new_event(left_node->root, l); }
+			unsigned ll = (left_node ? left_node->root : -1);
+			find_new_event(ll, l);
 
 			unsigned r = rightmost_segment();
 			auto right_node = T->find_right_neighbour(r);
-			if (right_node != nullptr)
-			{ find_new_event(r, right_node->root); }
+			unsigned rr = (right_node ? right_node->root : -1);
+			find_new_event(r, rr);
 		}
 	}
 
@@ -94,20 +89,40 @@ namespace segment_intersections
 
 		segment si = T->get_comp().S[i];
 		segment sj = T->get_comp().S[j];
+
+		auto xi1 = boost::rational_cast<gr::Coordinate>(si.p1.x);
+		auto yi1 = boost::rational_cast<gr::Coordinate>(si.p1.y);
+		auto xi2 = boost::rational_cast<gr::Coordinate>(si.p2.x);
+		auto yi2 = boost::rational_cast<gr::Coordinate>(si.p2.y);
+		auto xj1 = boost::rational_cast<gr::Coordinate>(sj.p1.x);
+		auto yj1 = boost::rational_cast<gr::Coordinate>(sj.p1.y);
+		auto xj2 = boost::rational_cast<gr::Coordinate>(sj.p2.x);
+		auto yj2 = boost::rational_cast<gr::Coordinate>(sj.p2.y);
+		animation->get(EVENT).add_segment(xi1, yi1, xi2, yi2, gr::PURPLE);
+		animation->get(EVENT).add_segment(xj1, yj1, xj2, yj2, gr::PURPLE);
+
 		if (!geo::segment_intersect(si, sj))
-		{ return; }
+		{
+			animation->make_new_frame();
+			animation->get(EVENT).erase_last_k_shapes(2);
+			return;
+		}
 
 		point inter = geo::line_intersection(si, sj);
-
-		std::cout << inter << std::endl << std::endl;
+		auto x = boost::rational_cast<gr::Coordinate>(inter.x);
+		auto y = boost::rational_cast<gr::Coordinate>(inter.y);
 
 		if (geo::point_below_point(inter, p))
 		{
+			animation->get(INTERSECTIONS).add_point(x, y, gr::YELLOW);
 			if (inter != T->get_comp().S[i].p2)
 			{ Q->insert_contained_point(inter, i, animation, T); }
 			if (inter != T->get_comp().S[j].p2)
 			{ Q->insert_contained_point(inter, j, animation, T); }
 		}
+
+		animation->make_new_frame();
+		animation->get(EVENT).erase_last_k_shapes(2);
 	}
 
 	unsigned event::leftmost_segment() const

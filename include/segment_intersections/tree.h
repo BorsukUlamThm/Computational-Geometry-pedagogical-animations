@@ -2,6 +2,7 @@
 
 #include "utils.h"
 #include "geometry/utils/AVL.h"
+#include "graphics/model/Animation.h"
 
 
 namespace segment_intersections
@@ -9,9 +10,11 @@ namespace segment_intersections
 	namespace gr = graphics;
 	namespace geo = geometry;
 
+	struct event;
+
 	struct tree_cmp
 	{
-		rational y_line {};
+		point p {};
 		bool just_above = true;
 		segment_set& S;
 
@@ -31,6 +34,8 @@ namespace segment_intersections
 		unsigned left_neighbour(const point& p);
 		unsigned right_neighbour(const point& p);
 
+		void plot(gr::Animation* animation);
+
 	private:
 		unsigned aux_left_neighbour(const point& p,
 									Node* node,
@@ -38,5 +43,8 @@ namespace segment_intersections
 		unsigned aux_right_neighbour(const point& p,
 									 Node* node,
 									 Node* candidate) const;
+		unsigned aux_plot(gr::Animation* animation,
+						  tree::Node* node,
+						  unsigned min);
 	};
 }

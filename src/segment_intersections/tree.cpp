@@ -15,11 +15,13 @@ namespace segment_intersections
 			return true;
 		}
 
-		rational xi = geo::x_intersection(S[i], y_line);
-		rational xj = geo::x_intersection(S[j], y_line);
+		rational xi = (S[i].p1.y == S[i].p2.y ?
+					   p.x : geo::x_intersection(S[i], p.y));
+		rational xj = (S[j].p1.y == S[j].p2.y ?
+					   p.x : geo::x_intersection(S[j], p.y));
 		if (xi == xj)
 		{
-			point center(xi, y_line);
+			point center(xi, p.y);
 
 			if (just_above)
 			{
@@ -86,5 +88,38 @@ namespace segment_intersections
 			return aux_right_neighbour(p, node->left, node);
 		}
 		return aux_right_neighbour(p, node->right, candidate);
+	}
+
+	void tree::plot(gr::Animation* animation)
+	{
+		if (root == nullptr)
+		{ return; }
+
+		animation->get(TREE).clear();
+		aux_plot(animation, root, 0);
+		animation->make_new_frame();
+	}
+
+	unsigned tree::aux_plot(gr::Animation* animation,
+							tree::Node* node,
+							unsigned min)
+	{
+		if (node == nullptr)
+		{ return min; }
+
+		unsigned max = aux_plot(animation, node->left, min);
+
+		segment s = comp.S[node->root];
+		auto x1 = boost::rational_cast<gr::Coordinate>(s.p1.x);
+		auto y1 = boost::rational_cast<gr::Coordinate>(s.p1.y);
+		auto x2 = boost::rational_cast<gr::Coordinate>(s.p2.x);
+		auto y2 = boost::rational_cast<gr::Coordinate>(s.p2.y);
+		gr::Point_shp p(x1, y1);
+
+		animation->get(TREE).add_segment(x1, y1, x2, y2, gr::RED);
+		std::string index = std::to_string(max);
+		animation->get(TREE).add_text(index, p, 16, gr::RED);
+
+		return aux_plot(animation, node->right, max + 1);
 	}
 }

@@ -23,6 +23,7 @@ namespace segment_intersections
 	enum Figures
 	{
 		SEGMENTS,
+		TREE,
 		EVENT,
 		INTERSECTIONS,
 		NB_FIGURES

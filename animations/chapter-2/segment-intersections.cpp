@@ -53,6 +53,7 @@ namespace chap2_segment_intersections
 		Q.handle_events();
 
 		animation[EVENT].clear();
+		animation[TREE].clear();
 		animation.make_new_frame();
 	}
 }
