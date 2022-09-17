@@ -13,7 +13,6 @@ file(MAKE_DIRECTORY ${data}/saved_inputs)
 
 # Libs setup
 include_directories(
-        ${CMAKE_SOURCE_DIR}/include
         ${CMAKE_SOURCE_DIR}/libs/geometry/include
         ${CMAKE_SOURCE_DIR}/libs/graphics/include
         ${CMAKE_SOURCE_DIR}/libs/utils/include
@@ -21,10 +20,6 @@ include_directories(
 add_subdirectory(libs/geometry)
 add_subdirectory(libs/graphics)
 add_subdirectory(libs/utils)
-
-# Includes and sources
-file(GLOB_RECURSE includes ${CMAKE_SOURCE_DIR}/include/*.h)
-file(GLOB_RECURSE sources ${CMAKE_SOURCE_DIR}/src/*.cpp)
 
 # Tests
 file(GLOB tests ${CMAKE_SOURCE_DIR}/tests/*.cpp)
@@ -60,6 +55,8 @@ foreach (chapter ${chapters})
     file(GLOB animations ${chapter}/*.cpp)
 
     foreach (animation ${animations})
+        file(GLOB_RECURSE sources
+                ${CMAKE_SOURCE_DIR}/animations/${chapter_name}/src/*.cpp)
         get_filename_component(animation_name ${animation} NAME_WE)
         add_executable(${animation_name} ${animation} ${sources})
         set_target_properties(${animation_name} PROPERTIES

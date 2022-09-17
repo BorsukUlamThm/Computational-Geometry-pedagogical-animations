@@ -1,4 +1,4 @@
-#include "segment_intersections/tree.h"
+#include "../include/tree.h"
 #include "geometry/utils/line_intersections.h"
 
 

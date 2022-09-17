@@ -1,9 +1,7 @@
-#include "segment_intersections/utils.h"
-#include "geometry/utils/point_comparisons.h"
-#include "geometry/utils/line_intersections.h"
+#include "../include/convex_hull_utils.h"
 
 
-namespace segment_intersections
+namespace convex_hull_utils
 {
 	Options process_command_line(int argc,
 								 char** argv)
@@ -51,7 +49,7 @@ namespace segment_intersections
 			{
 				std::cerr << "[options] "
 						  << "invalid --random -r parameter, "
-						  << "missing number of random segments"
+						  << "missing number of random points"
 						  << std::endl;
 			}
 			else
@@ -59,7 +57,7 @@ namespace segment_intersections
 				std::string nb = program_options[RANDOM_OPT].parameters[0];
 				try
 				{
-					opt.nb_random_segments = std::stoi(nb);
+					opt.nb_random_points = std::stoi(nb);
 				}
 				catch (const std::invalid_argument& ia)
 				{
@@ -67,7 +65,7 @@ namespace segment_intersections
 							  << "invalid --random -r parameter, "
 							  << " couldn't read "
 							  << nb
-							  << " as a number of random segments"
+							  << " as a number of random points"
 							  << std::endl;
 				}
 			}
@@ -114,8 +112,8 @@ namespace segment_intersections
 				break;
 			case RANDOM:
 				std::cout << "random ("
-						  << opt.nb_random_segments
-						  << " segments, with seed "
+						  << opt.nb_random_points
+						  << " points, with seed "
 						  << opt.seed
 						  << ")";
 				break;
@@ -125,54 +123,31 @@ namespace segment_intersections
 		return opt;
 	}
 
-	segment_set make_segment_set(const Options& opt)
+	point_set make_point_set(const Options& opt)
 	{
 		if (opt.input_type == RANDOM)
 		{
 			geo::Number_generator<int> ng(opt.seed);
-			auto vec = geo::random_segment_2_set<int>(opt.nb_random_segments,
-													  ng);
-			segment_set set;
-			for (auto& s : vec)
-			{
-				rational x1(s.p1.x);
-				rational y1(s.p1.y);
-				rational x2(s.p2.x);
-				rational y2(s.p2.y);
-				set.emplace_back(x1, y1, x2, y2);
-			}
-			return set;
+			return geo::random_point_2_set<int>(opt.nb_random_points, ng);
 		}
 
 		if (opt.input_type == ACQUISITION)
 		{
 			gr::Acquisition_canvas canvas;
-			canvas.set_title("Segment Intersection - acquisition");
-			canvas.add_segment_acquisition();
+			canvas.set_title("Convex Hull - acquisition");
+			canvas.add_point_acquisition();
 			gr::Acquisitions acquisitions = canvas.acquire_buffer();
 
-			segment_set S;
-			for (auto& s : acquisitions[0]->get_objects<gr::Segment_obj>())
+			point_set P;
+			for (auto& p : acquisitions[0]->get_objects<gr::Point_obj>())
 			{
-				S.emplace_back(rational(int(s.origin.abscissa)),
-							   rational(int(s.origin.ordinate)),
-							   rational(int(s.destination.abscissa)),
-							   rational(int(s.destination.ordinate)));
+				P.emplace_back(int(p.abscissa),
+							   int(p.ordinate));
 			}
 
-			return S;
+			return P;
 		}
 
-		auto vec = geo::load_segment_2_set<int>(opt.input_file);
-		segment_set set;
-		for (auto& s : vec)
-		{
-			rational x1(s.p1.x);
-			rational y1(s.p1.y);
-			rational x2(s.p2.x);
-			rational y2(s.p2.y);
-			set.emplace_back(x1, y1, x2, y2);
-		}
-		return set;
+		return geo::load_point_2_set<int>(opt.input_file);
 	}
 }

@@ -45,22 +45,11 @@ void test()
 
 int main(int argc, char** argv)
 {
-	//	while (true)
-	//	{
-	//		test();
-	//	}
 
-	std::cout << std::numeric_limits<long int>::min() << std::endl;
-
-	segment s0(1536, 238, 1575, 832);
-	segment s1(1037, 808, 1820, 977);
-	std::cout << geo::segment_intersect(s0, s1);
-
-	gr::Figure fig;
-	fig.add_segment(s0.p1.x, s0.p1.y, s0.p2.x, s0.p2.y);
-	fig.add_segment(s1.p1.x, s1.p1.y, s1.p2.x, s1.p2.y);
-	gr::Display_canvas canvas_;
-	canvas_.display_figure(fig);
+	std::cout << std::numeric_limits<long int>::min() << std::endl
+			  << std::numeric_limits<long int>::max() << std::endl << std::endl;
+	std::cout << std::numeric_limits<int>::min() << std::endl
+			  << std::numeric_limits<int>::max() << std::endl;
 
 	return 0;
 }
