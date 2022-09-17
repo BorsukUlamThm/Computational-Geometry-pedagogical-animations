@@ -9,7 +9,7 @@ namespace chap1_slow_convex_hull
 	namespace geo = geometry;
 
 	using namespace convex_hull_utils;
-	typedef geo::segment segment;
+	typedef geo::segment_2 segment;
 	typedef std::vector<segment> segment_set;
 
 	enum Figures

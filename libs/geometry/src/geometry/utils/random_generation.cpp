@@ -15,38 +15,36 @@ namespace geometry
 		return real(real::integer(inf + a * (sup - inf)));
 	}
 
-	point random_point_2(Number_generator& ng)
+	point_2 Number_generator::random_point_2()
 	{
-		real x = ng.next_number();
-		real y = ng.next_number();
+		real x = next_number();
+		real y = next_number();
 		return {x, y};
 	}
 
-	segment random_segment_2(Number_generator& ng)
+	segment_2 Number_generator::random_segment_2()
 	{
-		point p1 = random_point_2(ng);
-		point p2 = random_point_2(ng);
+		point_2 p1 = random_point_2();
+		point_2 p2 = random_point_2();
 		return {p1, p2};
 	}
 
-	std::vector<point> random_point_2_set(unsigned n,
-										  Number_generator& ng)
+	std::vector<point_2> Number_generator::random_point_2_set(unsigned n)
 	{
-		std::vector<point> points;
+		std::vector<point_2> points;
 		for (unsigned i = 0; i < n; ++i)
 		{
-			points.push_back(random_point_2(ng));
+			points.push_back(random_point_2());
 		}
 		return points;
 	}
 
-	std::vector<segment> random_segment_2_set(unsigned n,
-											  Number_generator& ng)
+	std::vector<segment_2> Number_generator::random_segment_2_set(unsigned n)
 	{
-		std::vector<segment> segments;
+		std::vector<segment_2> segments;
 		for (unsigned i = 0; i < n; ++i)
 		{
-			segments.push_back(random_segment_2(ng));
+			segments.push_back(random_segment_2());
 		}
 		return segments;
 	}

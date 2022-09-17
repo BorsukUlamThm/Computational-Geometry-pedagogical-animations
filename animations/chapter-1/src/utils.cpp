@@ -128,7 +128,7 @@ namespace convex_hull_utils
 		if (opt.input_type == RANDOM)
 		{
 			geo::Number_generator ng(opt.seed);
-			return geo::random_point_2_set(opt.nb_random_points, ng);
+			return ng.random_point_2_set(opt.nb_random_points);
 		}
 
 		if (opt.input_type == ACQUISITION)

@@ -6,8 +6,8 @@
 
 namespace geometry
 {
-	bool segment_intersect(const segment& s1,
-						   const segment& s2)
+	bool segment_intersect(const segment_2& s1,
+						   const segment_2& s2)
 	{
 		real a = orientation_det(s1.p1, s1.p2, s2.p1) *
 				 orientation_det(s1.p1, s1.p2, s2.p2);
@@ -16,15 +16,15 @@ namespace geometry
 		return a <= real(0) && b <= real(0);
 	}
 
-	point line_intersection(const segment& s1,
-							const segment& s2)
+	point_2 line_intersection(const segment_2& s1,
+							  const segment_2& s2)
 	{
-		point v1 = s1.p2 - s1.p1;
+		point_2 v1 = s1.p2 - s1.p1;
 		real a1 = v1.y;
 		real b1 = -v1.x;
 		real c1 = a1 * s1.p1.x + b1 * s1.p1.y;
 
-		point v2 = s2.p2 - s2.p1;
+		point_2 v2 = s2.p2 - s2.p1;
 		real a2 = v2.y;
 		real b2 = -v2.x;
 		real c2 = a2 * s2.p1.x + b2 * s2.p1.y;
@@ -34,7 +34,7 @@ namespace geometry
 		return {x, y};
 	}
 
-	real x_intersection(const segment& s,
+	real x_intersection(const segment_2& s,
 						const real& y)
 	{
 		if (s.p1.y == s.p2.y)

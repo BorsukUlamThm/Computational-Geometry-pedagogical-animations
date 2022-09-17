@@ -7,7 +7,7 @@
 
 namespace geometry::DCEL
 {
-	DCEL::DCEL(const std::vector<point>& P)
+	DCEL::DCEL(const std::vector<point_2>& P)
 	{
 		unsigned n = P.size();
 

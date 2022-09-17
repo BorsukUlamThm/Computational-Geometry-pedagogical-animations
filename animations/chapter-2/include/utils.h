@@ -2,7 +2,7 @@
 
 #include <boost/rational.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
-#include "geometry/model/segment.h"
+#include "geometry/model/segment_2.h"
 #include "geometry/model/serialization.h"
 #include "geometry/utils/random_generation.h"
 #include "graphics/view/Acquisition_canvas.h"
@@ -15,8 +15,8 @@ namespace segment_intersections
 	namespace gr = graphics;
 	namespace geo = geometry;
 
-	typedef geo::point point;
-	typedef geo::segment segment;
+	typedef geo::point_2 point;
+	typedef geo::segment_2 segment;
 	typedef std::vector<segment> segment_set;
 
 	enum Figures

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "geometry/DCEL/DCEL_components.h"
-#include "geometry/model/point.h"
-#include "geometry/model/segment.h"
+#include "geometry/model/point_2.h"
+#include "geometry/model/segment_2.h"
 #include <vector>
 #include <iostream>
 
@@ -18,8 +18,8 @@ namespace geometry::DCEL
 
 	public:
 		DCEL() = default;
-		explicit DCEL(const std::vector<point>& P);
-		explicit DCEL(const std::vector<segment>& S);
+		explicit DCEL(const std::vector<point_2>& P);
+		explicit DCEL(const std::vector<segment_2>& S);
 		~DCEL();
 
 		bool is_valid();

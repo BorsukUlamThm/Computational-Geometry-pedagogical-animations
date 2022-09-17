@@ -1,6 +1,6 @@
 #pragma once
 
-#include "geometry/model/point.h"
+#include "geometry/model/point_2.h"
 #include "geometry/utils/random_generation.h"
 #include "geometry/model/serialization.h"
 #include "graphics/view/Acquisition_canvas.h"
@@ -12,7 +12,7 @@ namespace convex_hull_utils
 	namespace gr = graphics;
 	namespace geo = geometry;
 
-	typedef geo::point point;
+	typedef geo::point_2 point;
 	typedef std::vector<point> point_set;
 	typedef std::vector<point> convex_hull;
 

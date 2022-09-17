@@ -1,4 +1,5 @@
 #include "geometry/model/serialization.h"
+#include "utils/file_management.h"
 
 
 namespace geometry
@@ -34,7 +35,7 @@ namespace geometry
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 point& p)
+							 point_2& p)
 	{
 		is >> p.x
 		   >> p.y;
@@ -42,7 +43,7 @@ namespace geometry
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 segment& s)
+							 segment_2& s)
 	{
 		is >> s.p1.x
 		   >> s.p1.y
@@ -52,7 +53,7 @@ namespace geometry
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 std::vector<point>& points)
+							 std::vector<point_2>& points)
 	{
 		points.clear();
 		unsigned n;
@@ -68,7 +69,7 @@ namespace geometry
 	}
 
 	std::istream& operator>>(std::istream& is,
-							 std::vector<segment>& segments)
+							 std::vector<segment_2>& segments)
 	{
 		segments.clear();
 		unsigned n;
@@ -83,23 +84,23 @@ namespace geometry
 		return is;
 	}
 
-	std::vector<point> load_point_2_set(const std::string& file)
+	std::vector<point_2> load_point_2_set(const std::string& file)
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ifstream ifs(data_dir / file);
 
-		std::vector<point> points;
+		std::vector<point_2> points;
 		ifs >> points;
 
 		return points;
 	}
 
-	std::vector<segment> load_segment_2_set(const std::string& file)
+	std::vector<segment_2> load_segment_2_set(const std::string& file)
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ifstream ifs(data_dir / file);
 
-		std::vector<segment> segments;
+		std::vector<segment_2> segments;
 		ifs >> segments;
 		return segments;
 	}
@@ -112,21 +113,21 @@ namespace geometry
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const point& p)
+							 const point_2& p)
 	{
 		os << p.x << " " << p.y;
 		return os;
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const segment& s)
+							 const segment_2& s)
 	{
 		os << s.p1 << " " << s.p2;
 		return os;
 	}
 
 	void save_point_2_set(const std::string& file,
-						  const std::vector<point>& points)
+						  const std::vector<point_2>& points)
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ofstream ofs(data_dir / file);
@@ -141,7 +142,7 @@ namespace geometry
 	}
 
 	void save_segment_2_set(const std::string& file,
-							const std::vector<segment>& segments)
+							const std::vector<segment_2>& segments)
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ofstream ofs(data_dir / file);

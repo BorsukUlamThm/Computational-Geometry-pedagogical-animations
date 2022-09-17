@@ -130,7 +130,7 @@ namespace segment_intersections
 		if (opt.input_type == RANDOM)
 		{
 			geo::Number_generator ng(opt.seed);
-			auto vec = geo::random_segment_2_set(opt.nb_random_segments, ng);
+			auto vec = ng.random_segment_2_set(opt.nb_random_segments);
 			segment_set set;
 			for (auto& s : vec)
 			{
