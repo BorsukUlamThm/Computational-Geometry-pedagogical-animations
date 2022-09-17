@@ -55,6 +55,15 @@ namespace graphics
 				state = (state == RUN ? PAUSE : RUN);
 				break;
 
+			case sf::Keyboard::Up:
+				frame_time = (frame_time > 1 ? frame_time / 2 : frame_time);
+				break;
+
+			case sf::Keyboard::Down:
+				frame_time = (frame_time < unsigned(-1) / 2 ?
+							  frame_time * 2 : frame_time);
+				break;
+
 			case sf::Keyboard::Right:
 				next_slide();
 				break;
@@ -66,58 +75,58 @@ namespace graphics
 			case sf::Keyboard::Enter:
 			case sf::Keyboard::Num0:
 			case sf::Keyboard::Numpad0:
-				slide_index = 0;
+				frame_index = 0;
 				break;
 
 			case sf::Keyboard::Num1:
 			case sf::Keyboard::Numpad1:
-				slide_index = unsigned(index_fraction);
+				frame_index = unsigned(index_fraction);
 				break;
 
 			case sf::Keyboard::Num2:
 			case sf::Keyboard::Numpad2:
-				slide_index = unsigned(2 * index_fraction);
+				frame_index = unsigned(2 * index_fraction);
 				break;
 
 			case sf::Keyboard::Num3:
 			case sf::Keyboard::Numpad3:
-				slide_index = unsigned(3 * index_fraction);
+				frame_index = unsigned(3 * index_fraction);
 				break;
 
 			case sf::Keyboard::Num4:
 			case sf::Keyboard::Numpad4:
 			case sf::Keyboard::Quote:
-				slide_index = unsigned(4 * index_fraction);
+				frame_index = unsigned(4 * index_fraction);
 				break;
 
 			case sf::Keyboard::Num5:
 			case sf::Keyboard::Numpad5:
-				slide_index = unsigned(5 * index_fraction);
+				frame_index = unsigned(5 * index_fraction);
 				break;
 
 			case sf::Keyboard::Num6:
 			case sf::Keyboard::Numpad6:
 			case sf::Keyboard::Hyphen:
-				slide_index = unsigned(6 * index_fraction);
+				frame_index = unsigned(6 * index_fraction);
 				break;
 
 			case sf::Keyboard::Num7:
 			case sf::Keyboard::Numpad7:
-				slide_index = unsigned(7 * index_fraction);
+				frame_index = unsigned(7 * index_fraction);
 				break;
 
 			case sf::Keyboard::Num8:
 			case sf::Keyboard::Numpad8:
-				slide_index = unsigned(8 * index_fraction);
+				frame_index = unsigned(8 * index_fraction);
 				break;
 
 			case sf::Keyboard::Num9:
 			case sf::Keyboard::Numpad9:
-				slide_index = unsigned(9 * index_fraction);
+				frame_index = unsigned(9 * index_fraction);
 				break;
 
 			case sf::Keyboard::BackSpace:
-				slide_index = nb_slides - 1;
+				frame_index = nb_slides - 1;
 				break;
 
 			case sf::Keyboard::Escape:

@@ -164,7 +164,6 @@ namespace graphics
 		shape.setCharacterSize(size);
 		shape.setString(content);
 
-		float text_width = shape.getLocalBounds().width;
 		float ratio = canvas.view.getSize().x / float(canvas.config.width);
 		shape.setScale(ratio, ratio);
 
@@ -172,6 +171,7 @@ namespace graphics
 		shape.setOutlineColor(canvas.config.colors[BACKGROUND_COLOR]);
 		shape.setOutlineThickness(2);
 
+		float text_width = shape.getLocalBounds().width;
 		float text_offset_x = offset_x * ratio;
 		float text_offset_y = offset_y * ratio;
 		shape.move(point.abscissa + text_offset_x - text_width * ratio / 2,
