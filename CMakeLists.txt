@@ -34,9 +34,9 @@ foreach (test ${tests})
     set_target_properties(${test_name} PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY ${bin}/tests)
     target_link_libraries(${test_name}
-            CGPA_utils
-            CGPA_graphics
-            CGPA_geometry)
+            CGPA-utils
+            CGPA-graphics
+            CGPA-geometry)
 endforeach ()
 
 # Examples
@@ -47,9 +47,9 @@ foreach (example ${examples})
     set_target_properties(${example_name} PROPERTIES
             RUNTIME_OUTPUT_DIRECTORY ${bin}/examples)
     target_link_libraries(${example_name}
-            CGPA_utils
-            CGPA_graphics
-            CGPA_geometry)
+            CGPA-utils
+            CGPA-graphics
+            CGPA-geometry)
 endforeach ()
 
 # All other executables
@@ -65,8 +65,8 @@ foreach (chapter ${chapters})
         set_target_properties(${animation_name} PROPERTIES
                 RUNTIME_OUTPUT_DIRECTORY ${bin}/${chapter_name})
         target_link_libraries(${animation_name}
-                CGPA_utils
-                CGPA_graphics
-                CGPA_geometry)
+                CGPA-utils
+                CGPA-graphics
+                CGPA-geometry)
     endforeach ()
 endforeach ()
