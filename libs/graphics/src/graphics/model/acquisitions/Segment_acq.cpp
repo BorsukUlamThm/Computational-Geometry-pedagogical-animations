@@ -7,6 +7,7 @@ namespace graphics
 							 Color line_col,
 							 Color endpoints_col)
 	{
+		name = "segment acquisition";
 		nb_acquisitions = nb_segments;
 		line_color = line_col;
 		endpoints_color = endpoints_col;

@@ -28,7 +28,7 @@ namespace graphics
 	{
 		animation.get_ith_frame(0).make_bounding_box();
 		bounding_box = animation.get_ith_frame(0).get_bounding_box();
-		nb_slides = animation.nb_frames();
+		nb_frames = animation.nb_frames();
 		reset_zoom_and_offsets();
 
 		open();
@@ -52,7 +52,7 @@ namespace graphics
 
 	void Display_canvas::next_slide()
 	{
-		if (frame_index < nb_slides - 1)
+		if (frame_index < nb_frames - 1)
 		{ frame_index++; }
 	}
 
@@ -71,7 +71,7 @@ namespace graphics
 		std::string str = "frame ";
 		str += std::to_string(frame_index + 1);
 		str += " / ";
-		str += std::to_string(nb_slides);
+		str += std::to_string(nb_frames);
 		text.setString(str);
 
 		float ratio = view.getSize().x / float(config.width);
@@ -84,7 +84,7 @@ namespace graphics
 		float offset = 150;
 		text.move(view.getCenter());
 		text.move(view.getSize().x / 2 - offset * ratio,
-				  view.getSize().y / 2 - get_margin() * ratio / 2);
+				  view.getSize().y / 2 - config.margin * ratio / 2);
 		window.draw(text);
 
 		return offset;
@@ -120,8 +120,8 @@ namespace graphics
 
 		offset += 100;
 		text.move(view.getCenter());
-				text.move(view.getSize().x / 2 - offset * ratio,
-						  view.getSize().y / 2 - get_margin() * ratio / 2);
+		text.move(view.getSize().x / 2 - offset * ratio,
+				  view.getSize().y / 2 - config.margin * ratio / 2);
 		window.draw(text);
 	}
 }

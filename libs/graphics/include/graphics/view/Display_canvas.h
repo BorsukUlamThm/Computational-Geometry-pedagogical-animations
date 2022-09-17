@@ -18,7 +18,7 @@ namespace graphics
 	class Display_canvas : public Canvas
 	{
 	private:
-		unsigned nb_slides = 0;
+		unsigned nb_frames = 0;
 		unsigned frame_index = 0;
 		State_dsp state = PAUSE;
 		unsigned frame_time = 64;

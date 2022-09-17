@@ -25,6 +25,7 @@ namespace graphics
 	class Acquisition
 	{
 	protected:
+		std::string name {};
 		unsigned nb_acquisitions = -1;
 		std::vector<Geometric_object_ptr> acquired_shapes;
 
@@ -39,6 +40,8 @@ namespace graphics
 
 		template<typename Object>
 		std::vector<Object> get_objects() const;
+
+		std::string get_name() const;
 	};
 
 	template<typename Object>

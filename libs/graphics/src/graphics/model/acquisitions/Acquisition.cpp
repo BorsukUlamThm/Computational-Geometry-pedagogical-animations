@@ -14,4 +14,7 @@ namespace graphics
 
 	Geometric_object_ptr& Acquisition::get(unsigned i)
 	{ return acquired_shapes[i]; }
+
+	std::string Acquisition::get_name() const
+	{ return name; }
 }

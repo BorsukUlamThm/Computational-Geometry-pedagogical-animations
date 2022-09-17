@@ -7,6 +7,7 @@ namespace graphics
 						 Color col,
 						 float rad)
 	{
+		name = "point acquisition";
 		nb_acquisitions = nb_points;
 		color = col;
 		radius = rad;

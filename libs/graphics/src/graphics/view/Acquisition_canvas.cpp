@@ -34,6 +34,7 @@ namespace graphics
 		{
 			handle_events();
 			draw_figure(current_shapes);
+			display_information();
 			window.display();
 		}
 
@@ -90,5 +91,52 @@ namespace graphics
 
 		x = x_min + ratio_x * view_size_x;
 		y = -y_min - ratio_y * view_size_y;
+	}
+
+	void Acquisition_canvas::display_information()
+	{
+		sf::Text text;
+		text.setFont(config.font);
+		text.setCharacterSize(16);
+
+		std::string str;
+		if (state == END_ACQ)
+		{
+			str = "acquisition complete, press ESC or close the window";
+		}
+		else
+		{
+			str = buffer[index]->get_name();
+			str += " ";
+			str += std::to_string(nb_acquired_shapes);
+			if (buffer[index]->get_nb_acquisitions() < -1)
+			{
+				str += " / ";
+				str += std::to_string(buffer[index]->get_nb_acquisitions());
+			}
+		}
+		text.setString(str);
+
+		float ratio = view.getSize().x / float(config.width);
+		text.setScale(ratio, ratio);
+
+		float offset;
+		if (state == END_ACQ)
+		{
+			offset = text.getLocalBounds().width + 20;
+		}
+		else
+		{
+			offset = 200;
+		}
+
+		text.setFillColor(get_color(DEFAULT_SHAPE_COLOR));
+		text.setOutlineColor(config.colors[BACKGROUND_COLOR]);
+		text.setOutlineThickness(2);
+
+		text.move(view.getCenter());
+		text.move(view.getSize().x / 2 - offset * ratio,
+				  view.getSize().y / 2 - Config().margin * ratio / 2);
+		window.draw(text);
 	}
 }

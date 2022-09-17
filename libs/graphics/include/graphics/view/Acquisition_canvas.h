@@ -46,6 +46,7 @@ namespace graphics
 						  Coordinate y);
 		void key_pressed_event(const sf::Event& event);
 
+		void display_information();
 		void display_help();
 	};
 }

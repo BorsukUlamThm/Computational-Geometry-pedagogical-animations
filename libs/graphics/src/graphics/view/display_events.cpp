@@ -48,7 +48,7 @@ namespace graphics
 
 	void Display_canvas::key_pressed_event(const sf::Event& event)
 	{
-		float index_fraction = float(nb_slides) / 10;
+		float index_fraction = float(nb_frames) / 10;
 		switch (event.key.code)
 		{
 			case sf::Keyboard::Space:
@@ -126,7 +126,7 @@ namespace graphics
 				break;
 
 			case sf::Keyboard::BackSpace:
-				frame_index = nb_slides - 1;
+				frame_index = nb_frames - 1;
 				break;
 
 			case sf::Keyboard::Escape:
