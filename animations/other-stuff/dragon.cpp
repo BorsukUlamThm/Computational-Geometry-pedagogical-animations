@@ -1,6 +1,4 @@
-/** @cond */
 #include <set>
-/** @endcond */
 #include "graphics/view/Display_canvas.h"
 
 
