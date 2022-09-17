@@ -127,8 +127,8 @@ namespace convex_hull_utils
 	{
 		if (opt.input_type == RANDOM)
 		{
-			geo::Number_generator<int> ng(opt.seed);
-			return geo::random_point_2_set<int>(opt.nb_random_points, ng);
+			geo::Number_generator ng(opt.seed);
+			return geo::random_point_2_set(opt.nb_random_points, ng);
 		}
 
 		if (opt.input_type == ACQUISITION)
@@ -141,13 +141,13 @@ namespace convex_hull_utils
 			point_set P;
 			for (auto& p : acquisitions[0]->get_objects<gr::Point_obj>())
 			{
-				P.emplace_back(int(p.abscissa),
-							   int(p.ordinate));
+				P.emplace_back(geo::real(p.abscissa),
+							   geo::real(p.ordinate));
 			}
 
 			return P;
 		}
 
-		return geo::load_point_2_set<int>(opt.input_file);
+		return geo::load_point_2_set(opt.input_file);
 	}
 }

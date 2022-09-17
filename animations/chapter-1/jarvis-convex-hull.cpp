@@ -38,33 +38,43 @@ namespace chap1_jarvis_convex_hull
 		point last = CH[CH.size() - 1];
 		unsigned i = 0;
 		point p = P[i];
+		gr::Coordinate last_x(last.x);
+		gr::Coordinate last_y(last.y);
+		gr::Coordinate p_x(p.x);
+		gr::Coordinate p_y(p.y);
+
 		while (p == last)
 		{
 			i++;
 			p = P[i];
 		}
-		animation[HULL].add_segment(last.x, last.y, p.x, p.y, gr::PURPLE);
+		animation[HULL].add_segment(last_x, last_y, p_x, p_y, gr::PURPLE);
 		animation.make_new_frame(POINTS, HULL);
 
 		for (unsigned j = i + 1; j < P.size(); ++j)
 		{
+			gr::Coordinate Pi_x(P[i].x);
+			gr::Coordinate Pi_y(P[i].y);
+			gr::Coordinate Pj_x(P[j].x);
+			gr::Coordinate Pj_y(P[j].y);
+
 			if (P[j] == last || P[j] == p)
 			{ continue; }
 
 			if (geo::point_left_line(P[j], last, p))
 			{
-				animation[POINTS].add_segment(last.x, last.y, P[j].x, P[j].y,
+				animation[POINTS].add_segment(last_x, last_y, Pj_x, Pj_y,
 											  gr::RED);
 				animation.make_new_frame(POINTS, HULL);
 				animation[HULL].erase_last_shape();
-				animation[HULL].add_segment(last.x, last.y, P[j].x, P[j].y,
+				animation[HULL].add_segment(last_x, last_y, Pj_x, Pj_y,
 											gr::PURPLE);
 
 				p = P[j];
 			}
 			else
 			{
-				animation[POINTS].add_segment(last.x, last.y, P[j].x, P[j].y,
+				animation[POINTS].add_segment(last_x, last_y, Pj_x, Pj_y,
 											  gr::GREEN);
 				animation.make_new_frame(POINTS, HULL);
 			}
@@ -79,31 +89,48 @@ namespace chap1_jarvis_convex_hull
 	{
 		for (auto p : P)
 		{
-			animation[POINTS].add_point(p.x, p.y);
+			gr::Coordinate x(p.x);
+			gr::Coordinate y(p.y);
+
+			animation[POINTS].add_point(x, y);
 		}
 		animation.make_new_frame(POINTS);
 
 		convex_hull CH;
 		CH.push_back(first_point(P));
 		CH.push_back(next_point(CH, P, animation));
-		animation[HULL].add_segment(CH[0].x, CH[0].y,
-									CH[1].x, CH[1].y, gr::YELLOW);
+
+		gr::Coordinate CH0_x(CH[0].x);
+		gr::Coordinate CH0_y(CH[0].y);
+		gr::Coordinate CH1_x(CH[1].x);
+		gr::Coordinate CH1_y(CH[1].y);
+		animation[HULL].add_segment(CH0_x, CH0_y,
+									CH1_x, CH1_y, gr::YELLOW);
 		animation.make_new_frame(POINTS, HULL);
 
 		while (CH[CH.size() - 1] != CH[0])
 		{
 			point p = next_point(CH, P, animation);
 			point q = CH[CH.size() - 1];
-			animation[HULL].add_segment(p.x, p.y, q.x, q.y, gr::YELLOW);
+
+			gr::Coordinate px(p.x);
+			gr::Coordinate py(p.y);
+			gr::Coordinate qx(q.x);
+			gr::Coordinate qy(q.y);
+
+			animation[HULL].add_segment(px, py, qx, qy, gr::YELLOW);
 			animation.make_new_frame(POINTS, HULL);
 			CH.push_back(p);
 		}
 		CH.pop_back();
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
-		for (auto& v : CH)
+		for (auto& p : CH)
 		{
-			plot_CH.add_vertex(v.x, v.y);
+			gr::Coordinate x(p.x);
+			gr::Coordinate y(p.y);
+
+			plot_CH.add_vertex(x, y);
 		}
 		animation[HULL].clear();
 		animation[HULL].add_polygon(plot_CH);

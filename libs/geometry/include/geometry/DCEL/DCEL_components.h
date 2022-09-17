@@ -1,27 +1,23 @@
 #pragma once
 
-#include <memory>
-#include <boost/rational.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
+#include "geometry/model/real.h"
 
 
 namespace geometry::DCEL
 {
-	typedef boost::rational<boost::multiprecision::cpp_int> rational;
-
 	struct Vertex;
 	struct Hedge;
 	struct Face;
 
 	struct Vertex
 	{
-		rational x;
-		rational y;
+		real x;
+		real y;
 		Hedge* inc_edge = nullptr;
 
 		Vertex() = default;
-		Vertex(rational x,
-			   rational y,
+		Vertex(real x,
+			   real y,
 			   Hedge* inc_edge = nullptr);
 		~Vertex() = default;
 	};

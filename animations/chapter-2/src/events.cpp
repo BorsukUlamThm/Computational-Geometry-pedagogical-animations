@@ -30,8 +30,8 @@ namespace segment_intersections
 
 	void event::handle() const
 	{
-		auto x = boost::rational_cast<gr::Coordinate>(p.x);
-		auto y = boost::rational_cast<gr::Coordinate>(p.y);
+		gr::Coordinate x(p.x);
+		gr::Coordinate y(p.y);
 		animation->get(EVENT).clear();
 		animation->get(EVENT).add_horizontal_line(y);
 		animation->get(EVENT).add_point(x, y, gr::GREEN, 5);
@@ -90,14 +90,14 @@ namespace segment_intersections
 		segment si = T->get_comp().S[i];
 		segment sj = T->get_comp().S[j];
 
-		auto xi1 = boost::rational_cast<gr::Coordinate>(si.p1.x);
-		auto yi1 = boost::rational_cast<gr::Coordinate>(si.p1.y);
-		auto xi2 = boost::rational_cast<gr::Coordinate>(si.p2.x);
-		auto yi2 = boost::rational_cast<gr::Coordinate>(si.p2.y);
-		auto xj1 = boost::rational_cast<gr::Coordinate>(sj.p1.x);
-		auto yj1 = boost::rational_cast<gr::Coordinate>(sj.p1.y);
-		auto xj2 = boost::rational_cast<gr::Coordinate>(sj.p2.x);
-		auto yj2 = boost::rational_cast<gr::Coordinate>(sj.p2.y);
+		gr::Coordinate xi1(si.p1.x);
+		gr::Coordinate yi1(si.p1.y);
+		gr::Coordinate xi2(si.p2.x);
+		gr::Coordinate yi2(si.p2.y);
+		gr::Coordinate xj1(sj.p1.x);
+		gr::Coordinate yj1(sj.p1.y);
+		gr::Coordinate xj2(sj.p2.x);
+		gr::Coordinate yj2(sj.p2.y);
 		animation->get(EVENT).add_segment(xi1, yi1, xi2, yi2, gr::PURPLE);
 		animation->get(EVENT).add_segment(xj1, yj1, xj2, yj2, gr::PURPLE);
 
@@ -109,8 +109,8 @@ namespace segment_intersections
 		}
 
 		point inter = geo::line_intersection(si, sj);
-		auto x = boost::rational_cast<gr::Coordinate>(inter.x);
-		auto y = boost::rational_cast<gr::Coordinate>(inter.y);
+		gr::Coordinate x(inter.x);
+		gr::Coordinate y(inter.y);
 
 		if (geo::point_below_point(inter, p))
 		{

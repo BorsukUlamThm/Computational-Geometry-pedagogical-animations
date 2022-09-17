@@ -129,16 +129,15 @@ namespace segment_intersections
 	{
 		if (opt.input_type == RANDOM)
 		{
-			geo::Number_generator<int> ng(opt.seed);
-			auto vec = geo::random_segment_2_set<int>(opt.nb_random_segments,
-													  ng);
+			geo::Number_generator ng(opt.seed);
+			auto vec = geo::random_segment_2_set(opt.nb_random_segments, ng);
 			segment_set set;
 			for (auto& s : vec)
 			{
-				rational x1(s.p1.x);
-				rational y1(s.p1.y);
-				rational x2(s.p2.x);
-				rational y2(s.p2.y);
+				geo::real x1(s.p1.x);
+				geo::real y1(s.p1.y);
+				geo::real x2(s.p2.x);
+				geo::real y2(s.p2.y);
 				set.emplace_back(x1, y1, x2, y2);
 			}
 			return set;
@@ -154,23 +153,23 @@ namespace segment_intersections
 			segment_set S;
 			for (auto& s : acquisitions[0]->get_objects<gr::Segment_obj>())
 			{
-				S.emplace_back(rational(int(s.origin.abscissa)),
-							   rational(int(s.origin.ordinate)),
-							   rational(int(s.destination.abscissa)),
-							   rational(int(s.destination.ordinate)));
+				S.emplace_back(geo::real(int(s.origin.abscissa)),
+							   geo::real(int(s.origin.ordinate)),
+							   geo::real(int(s.destination.abscissa)),
+							   geo::real(int(s.destination.ordinate)));
 			}
 
 			return S;
 		}
 
-		auto vec = geo::load_segment_2_set<int>(opt.input_file);
+		auto vec = geo::load_segment_2_set(opt.input_file);
 		segment_set set;
 		for (auto& s : vec)
 		{
-			rational x1(s.p1.x);
-			rational y1(s.p1.y);
-			rational x2(s.p2.x);
-			rational y2(s.p2.y);
+			geo::real x1(s.p1.x);
+			geo::real y1(s.p1.y);
+			geo::real x2(s.p2.x);
+			geo::real y2(s.p2.y);
 			set.emplace_back(x1, y1, x2, y2);
 		}
 		return set;

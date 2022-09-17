@@ -5,8 +5,8 @@
 
 namespace geometry::DCEL
 {
-	Vertex::Vertex(rational x,
-				   rational y,
+	Vertex::Vertex(real x,
+				   real y,
 				   Hedge* inc_edge) :
 			x(std::move(x)),
 			y(std::move(y)),

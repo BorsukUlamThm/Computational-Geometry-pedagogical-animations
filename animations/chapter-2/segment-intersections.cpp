@@ -29,10 +29,10 @@ namespace chap2_segment_intersections
 	{
 		for (auto& s : S)
 		{
-			auto x1 = boost::rational_cast<gr::Coordinate>(s.p1.x);
-			auto y1 = boost::rational_cast<gr::Coordinate>(s.p1.y);
-			auto x2 = boost::rational_cast<gr::Coordinate>(s.p2.x);
-			auto y2 = boost::rational_cast<gr::Coordinate>(s.p2.y);
+			gr::Coordinate x1(s.p1.x);
+			gr::Coordinate y1(s.p1.y);
+			gr::Coordinate x2(s.p2.x);
+			gr::Coordinate y2(s.p2.y);
 
 			animation[SEGMENTS].add_segment(x1, y1, x2, y2);
 		}
@@ -65,17 +65,7 @@ int main(int argc, char** argv)
 	Options opt = process_command_line(argc, argv);
 	segment_set S = make_segment_set(opt);
 
-	std::vector<geo::Segment_2<int>> tmp;
-	for (auto& s : S)
-	{
-		auto x1 = boost::rational_cast<int>(s.p1.x);
-		auto y1 = boost::rational_cast<int>(s.p1.y);
-		auto x2 = boost::rational_cast<int>(s.p2.x);
-		auto y2 = boost::rational_cast<int>(s.p2.y);
-		tmp.emplace_back(x1, y1, x2, y2);
-	}
-
-	geo::save_segment_2_set("log/chapter-2/segment_intersections", tmp);
+	geo::save_segment_2_set("log/chapter-2/segment_intersections", S);
 	gr::Animation animation(NB_FIGURES);
 	compute_intersections(S, animation);
 

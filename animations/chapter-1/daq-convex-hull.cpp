@@ -30,8 +30,8 @@ namespace chap1_daq_convex_hull
 	{
 		if (H.size() == 1)
 		{
-			int x = H.begin()->x;
-			int y = H.begin()->y;
+			gr::Coordinate x(H.begin()->x);
+			gr::Coordinate y(H.begin()->y);
 			animation[fig].add_point(x, y, color, 5);
 		}
 
@@ -41,10 +41,10 @@ namespace chap1_daq_convex_hull
 
 		for (; it != H.end(); ++it)
 		{
-			int x1 = (std::prev(it))->x;
-			int y1 = (std::prev(it))->y;
-			int x2 = it->x;
-			int y2 = it->y;
+			gr::Coordinate x1((std::prev(it))->x);
+			gr::Coordinate y1((std::prev(it))->y);
+			gr::Coordinate x2(it->x);
+			gr::Coordinate y2(it->y);
 			animation[fig].add_segment(x1, y1, x2, y2, color, color);
 		}
 	}
@@ -72,26 +72,38 @@ namespace chap1_daq_convex_hull
 		if (it == H.end())
 		{ return; }
 
+		gr::Coordinate H0_x(H.begin()->x);
+		gr::Coordinate H0_y(H.begin()->y);
+		gr::Coordinate H1_x(it->x);
+		gr::Coordinate H1_y(it->y);
+
 		plot_half_hull(H, gr::PURPLE, MERGE, animation);
-		animation[LINE].add_vertical_line(H.begin()->x);
+		animation[LINE].add_vertical_line(H0_x);
 		animation.make_new_frame();
 
-		animation[MERGE].add_segment(H.begin()->x, H.begin()->y,
-									 it->x, it->y, gr::YELLOW);
+		animation[MERGE].add_segment(H0_x, H0_y,
+									 H1_x, H1_y, gr::YELLOW);
 		animation[LINE].clear();
-		animation[LINE].add_vertical_line(it->x);
+		animation[LINE].add_vertical_line(H1_x);
 		animation.make_new_frame();
 
 		while (it != std::prev(H.end()))
 		{
+			gr::Coordinate x(std::next(it)->x);
+
 			animation[LINE].clear();
-			animation[LINE].add_vertical_line(std::next(it)->x);
+			animation[LINE].add_vertical_line(x);
 
 			while (left_turn(H, it))
 			{
-				animation[MERGE].add_segment(std::next(it)->x, std::next(it)->y,
-											 it->x, it->y, gr::RED);
-				gr::Point_shp point_shp(it->x, it->y);
+				gr::Coordinate it_x(it->x);
+				gr::Coordinate it_y(it->y);
+				gr::Coordinate next_it_x(std::next(it)->x);
+				gr::Coordinate next_it_y(std::next(it)->y);
+
+				animation[MERGE].add_segment(next_it_x, next_it_y,
+											 it_x, it_y, gr::RED);
+				gr::Point_shp point_shp(it_x, it_y);
 				animation[TEXT].add_text("deleted", point_shp, 16, gr::RED);
 				animation.make_new_frame();
 				animation[MERGE].erase_last_k_shapes(2);
@@ -99,9 +111,15 @@ namespace chap1_daq_convex_hull
 				it = H.erase(it);
 				--it;
 			}
-			animation[MERGE].add_segment(std::next(it)->x, std::next(it)->y,
-										 it->x, it->y, gr::GREEN);
-			gr::Point_shp point_shp(it->x, it->y);
+
+			gr::Coordinate it_x(it->x);
+			gr::Coordinate it_y(it->y);
+			gr::Coordinate next_it_x(std::next(it)->x);
+			gr::Coordinate next_it_y(std::next(it)->y);
+
+			animation[MERGE].add_segment(next_it_x, next_it_y,
+										 it_x, it_y, gr::GREEN);
+			gr::Point_shp point_shp(it_x, it_y);
 			animation[TEXT].add_text("ok", point_shp, 16, gr::GREEN);
 			animation.make_new_frame();
 			animation[TEXT].clear();
@@ -117,7 +135,7 @@ namespace chap1_daq_convex_hull
 						  half_hull& UH2,
 						  gr::Animation& animation)
 	{
-		UH1.merge(UH2, geo::point_left_point<int>);
+		UH1.merge(UH2, geo::point_left_point);
 		make_convex(UH1, animation);
 
 		return UH1;
@@ -127,7 +145,7 @@ namespace chap1_daq_convex_hull
 						  half_hull& LH2,
 						  gr::Animation& animation)
 	{
-		LH1.merge(LH2, geo::point_right_point<int>);
+		LH1.merge(LH2, geo::point_right_point);
 		make_convex(LH1, animation);
 
 		return LH1;
@@ -200,7 +218,9 @@ namespace chap1_daq_convex_hull
 	{
 		for (auto p : P)
 		{
-			animation[POINTS].add_point(p.x, p.y);
+			gr::Coordinate x(p.x);
+			gr::Coordinate y(p.y);
+			animation[POINTS].add_point(x, y);
 		}
 		animation.make_new_frame(POINTS);
 
@@ -214,9 +234,11 @@ namespace chap1_daq_convex_hull
 		UH.splice(UH.end(), LH);
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
-		for (auto& v : UH)
+		for (auto& p : UH)
 		{
-			plot_CH.add_vertex(v.x, v.y);
+			gr::Coordinate x(p.x);
+			gr::Coordinate y(p.y);
+			plot_CH.add_vertex(x, y);
 		}
 
 		animation[HULL].clear();

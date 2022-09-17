@@ -1,12 +1,13 @@
 #include "geometry/DCEL/DCEL.h"
 #include "geometry/utils/polygon_utils.h"
+#include "geometry/model/serialization.h"
 #include <iostream>
 #include <map>
 
 
 namespace geometry::DCEL
 {
-	DCEL::DCEL(const std::vector<Point_2<rational>>& P)
+	DCEL::DCEL(const std::vector<point>& P)
 	{
 		unsigned n = P.size();
 

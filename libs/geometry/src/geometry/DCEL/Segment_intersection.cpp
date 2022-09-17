@@ -5,7 +5,7 @@
 
 namespace geometry::DCEL
 {
-	DCEL::DCEL(const std::vector<Segment_2<rational>>& S)
+	DCEL::DCEL(const std::vector<segment>& S)
 	{
 
 	}

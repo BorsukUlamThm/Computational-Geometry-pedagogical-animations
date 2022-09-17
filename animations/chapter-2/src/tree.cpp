@@ -1,5 +1,6 @@
 #include "../include/tree.h"
 #include "geometry/utils/line_intersections.h"
+#include "geometry/utils/point_comparisons.h"
 
 
 namespace segment_intersections
@@ -15,10 +16,10 @@ namespace segment_intersections
 			return true;
 		}
 
-		rational xi = (S[i].p1.y == S[i].p2.y ?
-					   p.x : geo::x_intersection(S[i], p.y));
-		rational xj = (S[j].p1.y == S[j].p2.y ?
-					   p.x : geo::x_intersection(S[j], p.y));
+		geo::real xi = (S[i].p1.y == S[i].p2.y ?
+						p.x : geo::x_intersection(S[i], p.y));
+		geo::real xj = (S[j].p1.y == S[j].p2.y ?
+						p.x : geo::x_intersection(S[j], p.y));
 		if (xi == xj)
 		{
 			point center(xi, p.y);
@@ -67,7 +68,7 @@ namespace segment_intersections
 		if (node == nullptr)
 		{ return candidate == nullptr ? -1 : candidate->root; }
 
-		rational x = geo::x_intersection(comp.S[node->root], p.y);
+		geo::real x = geo::x_intersection(comp.S[node->root], p.y);
 		if (p.x < x)
 		{
 			return aux_left_neighbour(p, node->left, candidate);
@@ -82,7 +83,7 @@ namespace segment_intersections
 		if (node == nullptr)
 		{ return candidate == nullptr ? -1 : candidate->root; }
 
-		rational x = geo::x_intersection(comp.S[node->root], p.y);
+		geo::real x = geo::x_intersection(comp.S[node->root], p.y);
 		if (p.x < x)
 		{
 			return aux_right_neighbour(p, node->left, node);
@@ -110,10 +111,10 @@ namespace segment_intersections
 		unsigned max = aux_plot(animation, node->left, min);
 
 		segment s = comp.S[node->root];
-		auto x1 = boost::rational_cast<gr::Coordinate>(s.p1.x);
-		auto y1 = boost::rational_cast<gr::Coordinate>(s.p1.y);
-		auto x2 = boost::rational_cast<gr::Coordinate>(s.p2.x);
-		auto y2 = boost::rational_cast<gr::Coordinate>(s.p2.y);
+		float x1(s.p1.x);
+		float y1(s.p1.y);
+		float x2(s.p2.x);
+		float y2(s.p2.y);
 		gr::Point_shp p(x1, y1);
 
 		animation->get(TREE).add_segment(x1, y1, x2, y2, gr::RED);

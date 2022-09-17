@@ -9,7 +9,7 @@ namespace chap1_slow_convex_hull
 	namespace geo = geometry;
 
 	using namespace convex_hull_utils;
-	typedef geo::Segment_2<int> segment;
+	typedef geo::segment segment;
 	typedef std::vector<segment> segment_set;
 
 	enum Figures
@@ -33,20 +33,28 @@ namespace chap1_slow_convex_hull
 				if (i == j)
 					continue;
 
+				gr::Coordinate Pi_x(P[i].x);
+				gr::Coordinate Pi_y(P[i].y);
+				gr::Coordinate Pj_x(P[j].x);
+				gr::Coordinate Pj_y(P[j].y);
+
 				animation[OUTSIDE_SEGMENTS].add_vector(
-						P[i].x, P[i].y, P[j].x, P[j].y, gr::YELLOW);
+						Pi_x, Pi_y, Pj_x, Pj_y, gr::YELLOW);
 				animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 
 				bool is_ok = true;
 				for (unsigned k = 0; k < n; ++k)
 				{
+					gr::Coordinate Pk_x(P[k].x);
+					gr::Coordinate Pk_y(P[k].y);
+
 					if (geo::point_strictly_left_line(P[k], P[i], P[j]))
 					{
 						is_ok = false;
-						animation[POINTS].add_point(P[k].x, P[k].y, gr::RED,
+						animation[POINTS].add_point(Pk_x, Pk_y, gr::RED,
 													20);
 						animation[OUTSIDE_SEGMENTS].add_vector(
-								P[i].x, P[i].y, P[j].x, P[j].y, gr::RED);
+								Pi_x, Pi_y, Pj_x, Pj_y, gr::RED);
 						animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 						animation[POINTS].erase_last_shape();
 						animation[OUTSIDE_SEGMENTS].erase_last_shape();
@@ -54,7 +62,7 @@ namespace chap1_slow_convex_hull
 					}
 					else
 					{
-						animation[POINTS].add_point(P[k].x, P[k].y, gr::GREEN,
+						animation[POINTS].add_point(Pk_x, Pk_y, gr::GREEN,
 													7);
 						animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 						animation[POINTS].erase_last_shape();
@@ -65,7 +73,7 @@ namespace chap1_slow_convex_hull
 				{
 					E.emplace_back(P[i], P[j]);
 					animation[OUTSIDE_SEGMENTS].add_vector(
-							P[i].x, P[i].y, P[j].x, P[j].y, gr::GREEN);
+							Pi_x, Pi_y, Pj_x, Pj_y, gr::GREEN);
 					animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 				}
 			}
@@ -74,7 +82,12 @@ namespace chap1_slow_convex_hull
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 		for (unsigned i = 0; i < E.size(); ++i)
 		{
-			gr::Segment_obj s(E[i].p1.x, E[i].p1.y, E[i].p2.x, E[i].p2.y);
+			gr::Coordinate p1x(E[i].p1.x);
+			gr::Coordinate p1y(E[i].p1.y);
+			gr::Coordinate p2x(E[i].p2.x);
+			gr::Coordinate p2y(E[i].p2.y);
+
+			gr::Segment_obj s(p1x, p1y, p2x, p2y);
 			animation[OUTSIDE_SEGMENTS].add_text(std::to_string(i), s);
 		}
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
@@ -90,36 +103,51 @@ namespace chap1_slow_convex_hull
 		segment s = E[0];
 		CH.push_back(s.p1);
 
+		gr::Coordinate s1x(s.p1.x);
+		gr::Coordinate s1y(s.p1.y);
+		gr::Coordinate s2x(s.p2.x);
+		gr::Coordinate s2y(s.p2.y);
+
 		animation[OUTSIDE_SEGMENTS].clear();
-		animation[OUTSIDE_SEGMENTS].add_vector(
-				s.p1.x, s.p1.y, s.p2.x, s.p2.y, gr::YELLOW);
+		animation[OUTSIDE_SEGMENTS].add_vector(s1x, s1y, s2x, s2y, gr::YELLOW);
 		animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 
 		while (CH.size() < E.size())
 		{
 			for (auto& e : E)
 			{
+				gr::Coordinate e1x(e.p1.x);
+				gr::Coordinate e1y(e.p1.y);
+				gr::Coordinate e2x(e.p2.x);
+				gr::Coordinate e2y(e.p2.y);
+
 				if (e.p1 == s.p2)
 				{
 					CH.push_back(s.p2);
 					s = e;
 
-					animation[OUTSIDE_SEGMENTS].add_vector(
-							e.p1.x, e.p1.y, e.p2.x, e.p2.y, gr::GREEN);
+					animation[OUTSIDE_SEGMENTS].add_vector(e1x, e1y, e2x, e2y,
+														   gr::GREEN);
 					animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 					animation[OUTSIDE_SEGMENTS].erase_last_shape();
 					break;
 				}
 				else
 				{
-					animation[OUTSIDE_SEGMENTS].add_vector(
-							e.p1.x, e.p1.y, e.p2.x, e.p2.y, gr::RED);
+					animation[OUTSIDE_SEGMENTS].add_vector(e1x, e1y, e2x, e2y,
+														   gr::RED);
 					animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 					animation[OUTSIDE_SEGMENTS].erase_last_shape();
 				}
 			}
-			animation[OUTSIDE_SEGMENTS].add_vector(
-					s.p1.x, s.p1.y, s.p2.x, s.p2.y, gr::YELLOW);
+
+			s1x = gr::Coordinate(s.p1.x);
+			s1y = gr::Coordinate(s.p1.y);
+			s2x = gr::Coordinate(s.p2.x);
+			s2y = gr::Coordinate(s.p2.y);
+
+			animation[OUTSIDE_SEGMENTS].add_vector(s1x, s1y, s2x, s2y,
+												   gr::YELLOW);
 			animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
 		}
 
@@ -131,7 +159,10 @@ namespace chap1_slow_convex_hull
 	{
 		for (auto p : P)
 		{
-			animation[POINTS].add_point(p.x, p.y);
+			gr::Coordinate x(p.x);
+			gr::Coordinate y(p.y);
+
+			animation[POINTS].add_point(x, y);
 		}
 		animation.make_new_frame(POINTS);
 
@@ -139,9 +170,12 @@ namespace chap1_slow_convex_hull
 		convex_hull CH = sort_outside_segment(E, animation);
 
 		gr::Polygon_shp plot_CH(gr::YELLOW);
-		for (auto& v : CH)
+		for (auto& p : CH)
 		{
-			plot_CH.add_vertex(v.x, v.y);
+			gr::Coordinate x(p.x);
+			gr::Coordinate y(p.y);
+
+			plot_CH.add_vertex(x, y);
 		}
 		animation[CONVEX_HULL].add_polygon(plot_CH);
 		animation.make_new_frame(POINTS, CONVEX_HULL);
