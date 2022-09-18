@@ -7,7 +7,7 @@
 
 namespace geometry
 {
-	using Polygon = std::vector<point_2>;
+	using polygon = std::vector<point_2>;
 
-	bool clockwise_orientation(const Polygon& P);
+	bool clockwise_orientation(const polygon& P);
 }

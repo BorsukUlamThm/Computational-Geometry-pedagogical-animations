@@ -3,7 +3,7 @@
 
 namespace geometry
 {
-	bool clockwise_orientation(const Polygon& P)
+	bool clockwise_orientation(const polygon& P)
 	{
 		unsigned n = P.size();
 		unsigned i_max = 0;

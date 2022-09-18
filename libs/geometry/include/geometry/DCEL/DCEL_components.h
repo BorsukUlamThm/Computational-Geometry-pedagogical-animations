@@ -1,28 +1,24 @@
 #pragma once
 
-#include "geometry/model/real.h"
+#include "geometry/DCEL/DCEL.h"
 
 
-namespace geometry::DCEL
+namespace geometry
 {
-	struct Vertex;
-	struct Hedge;
-	struct Face;
-
-	struct Vertex
+	struct DCEL::Vertex
 	{
 		real x;
 		real y;
 		Hedge* inc_edge = nullptr;
 
 		Vertex() = default;
-		Vertex(real x,
-			   real y,
+		Vertex(const real& x,
+			   const real& y,
 			   Hedge* inc_edge = nullptr);
 		~Vertex() = default;
 	};
 
-	struct Hedge
+	struct DCEL::Hedge
 	{
 		Vertex* origin = nullptr;
 		Hedge* prev = nullptr;
@@ -39,7 +35,7 @@ namespace geometry::DCEL
 		~Hedge() = default;
 	};
 
-	struct Face
+	struct DCEL::Face
 	{
 		std::vector<Hedge*> inner_comp {};
 		Hedge* outer_comp = nullptr;

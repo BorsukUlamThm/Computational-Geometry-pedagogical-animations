@@ -13,8 +13,8 @@ namespace geometry
 		rational val {};
 
 		real() = default;
-		explicit real(const integer& n);
-		explicit real(const rational& x);
+		real(const integer& n);
+		real(const rational& x);
 
 		explicit operator float() const;
 	};

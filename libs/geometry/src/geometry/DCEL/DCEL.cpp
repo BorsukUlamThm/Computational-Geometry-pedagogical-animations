@@ -1,13 +1,14 @@
 #include "geometry/DCEL/DCEL.h"
+#include "geometry/DCEL/DCEL_components.h"
 #include "geometry/utils/polygon_utils.h"
 #include "geometry/model/serialization.h"
 #include <iostream>
 #include <map>
 
 
-namespace geometry::DCEL
+namespace geometry
 {
-	DCEL::DCEL(const std::vector<point_2>& P)
+	DCEL::DCEL(const polygon& P)
 	{
 		unsigned n = P.size();
 
@@ -160,6 +161,22 @@ namespace geometry::DCEL
 		}
 
 		return valid;
+	}
+
+	void DCEL::clear()
+	{
+		for (auto& ptr : vertices)
+		{ delete ptr; }
+
+		for (auto& ptr : half_edges)
+		{ delete ptr; }
+
+		for (auto& ptr : faces)
+		{ delete ptr; }
+
+		vertices.clear();
+		half_edges.clear();
+		faces.clear();
 	}
 
 	std::ostream& operator<<(std::ostream& os,
