@@ -4,38 +4,83 @@
 #include "geometry/DCEL/DCEL.h"
 #include "geometry/model/serialization.h"
 #include "geometry/utils/polygon_utils.h"
-#include "geometry/utils/Event_queue.h"
+#include "geometry/utils/event_queue.h"
+#include "geometry/utils/AVL.h"
 #include "geometry/utils/line_intersections.h"
 
 
 namespace gr = graphics;
 namespace geo = geometry;
 
+class tree : public geo::AVL_tree<int>
+{
+	bool compare(const int& i,
+				 const int& j) const override
+	{
+		return i <= j;
+	}
+
+	bool are_equal(const int& i,
+				   const int& j) const override
+	{
+		return i == j;
+	}
+};
+
+void print_and_clear_T(geo::AVL_tree<int>& T)
+{
+	while (!T.is_empty())
+	{
+		unsigned i = T.extract_min();
+		std::cout << i << " ";
+	}
+	std::cout << std::endl;
+}
+
+class tree1 : public geo::AVL_tree<int>
+{
+public:
+	std::vector<int> tab;
+
+	bool compare(const int& i,
+				 const int& j) const override
+	{
+		return tab[i] <= tab[j];
+	}
+
+	bool are_equal(const int& i,
+				   const int& j) const override
+	{
+		return tab[i] == tab[j];
+	}
+};
+
 int main(int argc, char** argv)
 {
-	geo::polygon P;
-	P.emplace_back(0, 0);
-	P.emplace_back(1, 0);
-	P.emplace_back(1, 1);
-	P.emplace_back(0, 1);
+	tree T;
+	for (int i = 0; i < 10; ++i)
+	{
+		T.insert(i);
+	}
 
-	geo::DCEL dcel(P);
+	print_and_clear_T(T);
 
-	std::cout << "dcel is "
-			  << (dcel.is_valid() ? "" : "NOT ")
-			  << "valid" << std::endl;
+	tree1 T1;
+	for (int i = 4; i >= 0; --i)
+	{
+		T1.tab.push_back(i);
+	}
+	for (int i = 5; i < 10; ++i)
+	{
+		T1.tab.push_back(i);
+	}
 
-	P.clear();
-	P.emplace_back(0, 1);
-	P.emplace_back(1, 1);
-	P.emplace_back(1, 0);
-	P.emplace_back(0, 0);
+	for (int i = 0; i < 10; ++i)
+	{
+		T1.insert(i);
+	}
 
-	geo::DCEL dcel1(P);
-
-	std::cout << "dcel is "
-			  << (dcel1.is_valid() ? "" : "NOT ")
-			  << "valid";
+	print_and_clear_T(T1);
 
 	return 0;
 }

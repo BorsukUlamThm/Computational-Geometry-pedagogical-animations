@@ -1,59 +1,60 @@
 #include <iostream>
-#include "geometry/utils/Event_queue.h"
+#include "geometry/utils/event_queue.h"
 
 
 namespace geo = geometry;
 
-struct Event;
+class Event_queue;
 
-struct Comp
-{
-	bool reverse = false;
-
-	bool operator()(const Event& e1, const Event& e2) const;
-};
-
-typedef geo::Event_queue<Event, Comp> Event_queue;
-
-struct Event
+struct event
 {
 	int a = 0;
 	Event_queue* queue;
 
-	explicit Event(int a, Event_queue* queue) : a(a), queue(queue) {}
+	explicit event(int a,
+				   Event_queue* queue) :
+			a(a),
+			queue(queue)
+	{}
 
-	void handle() const
+	void handle() const;
+};
+
+class Event_queue : public geo::event_queue<event>
+{
+	bool compare(const event& e1,
+				 const event& e2) const override
 	{
-		std::cout << a << std::endl;
-		if (a == 0)
-		{ return; }
+		return e1.a <= e2.a;
+	}
 
-		Event e1 (a - 1, queue);
-		Event e2 (a - 1, queue);
-		queue->push_event(e1);
-		queue->push_event(e2);
+	bool are_equal(const event& e1,
+				   const event& e2) const override
+	{
+		return e1.a == e2.a;
 	}
 };
 
-bool Comp::operator()(const Event& e1, const Event& e2) const
+
+void event::handle() const
 {
-	int epsilon = reverse ? -1 : 1;
-	return epsilon * e1.a < epsilon * e2.a;
+	std::cout << a << std::endl;
+	if (a == 0)
+	{ return; }
+
+	event e1(a - 1, queue);
+	event e2(a - 1, queue);
+	queue->push_event(e1);
+	queue->push_event(e2);
 }
+
 
 int main()
 {
-	Comp comp;
-	//	comp.reverse = true;
-	auto queue = Event_queue (comp);
+	auto queue = Event_queue();
 
-	Event e1 (1, &queue);
-	Event e2 (2, &queue);
-	Event e3 (3, &queue);
-
-	queue.push_event(e1);
-	queue.push_event(e2);
-	queue.push_event(e3);
+	event e0(3, &queue);
+	queue.push_event(e0);
 	queue.handle_events();
 
 	return 0;

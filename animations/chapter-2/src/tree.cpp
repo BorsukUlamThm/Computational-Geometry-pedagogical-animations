@@ -5,11 +5,30 @@
 
 namespace segment_intersections
 {
-	tree_cmp::tree_cmp(segment_set& S) :
+	tree::tree(segment_set& S) :
 			S(S)
 	{}
 
-	bool tree_cmp::operator()(unsigned i, unsigned j) const
+	void tree::set_comparison_just_above()
+	{ just_above = true; }
+
+	void tree::set_comparison_just_below()
+	{ just_above = false; }
+
+	void tree::set_event_p(const point& p)
+	{ event_p = p; }
+
+	segment tree::get_ith_segment(unsigned int i)
+	{ return S[i]; }
+
+	unsigned tree::left_neighbour(const point& p)
+	{ return aux_left_neighbour(p, root, nullptr); }
+
+	unsigned tree::right_neighbour(const point& p)
+	{ return aux_right_neighbour(p, root, nullptr); }
+
+	bool tree::compare(const unsigned& i,
+					   const unsigned& j) const
 	{
 		if (i == j)
 		{
@@ -17,12 +36,12 @@ namespace segment_intersections
 		}
 
 		geo::real xi = (S[i].p1.y == S[i].p2.y ?
-						p.x : geo::x_intersection(S[i], p.y));
+						event_p.x : geo::x_intersection(S[i], event_p.y));
 		geo::real xj = (S[j].p1.y == S[j].p2.y ?
-						p.x : geo::x_intersection(S[j], p.y));
+						event_p.x : geo::x_intersection(S[j], event_p.y));
 		if (xi == xj)
 		{
-			point center(xi, p.y);
+			point center(xi, event_p.y);
 
 			if (just_above)
 			{
@@ -48,18 +67,9 @@ namespace segment_intersections
 		return xi < xj;
 	}
 
-	bool tree_cmp::are_equal(unsigned int i, unsigned int j) const
+	bool tree::are_equal(const unsigned int& i,
+						 const unsigned int& j) const
 	{ return i == j; }
-
-	tree::tree(const tree_cmp& comp) :
-			super(comp)
-	{}
-
-	unsigned tree::left_neighbour(const point& p)
-	{ return aux_left_neighbour(p, root, nullptr); }
-
-	unsigned tree::right_neighbour(const point& p)
-	{ return aux_right_neighbour(p, root, nullptr); }
 
 	unsigned tree::aux_left_neighbour(const point& p,
 									  geo::AVL_node<unsigned>* node,
@@ -68,7 +78,7 @@ namespace segment_intersections
 		if (node == nullptr)
 		{ return candidate == nullptr ? -1 : candidate->root; }
 
-		geo::real x = geo::x_intersection(comp.S[node->root], p.y);
+		geo::real x = geo::x_intersection(S[node->root], p.y);
 		if (p.x < x)
 		{
 			return aux_left_neighbour(p, node->left, candidate);
@@ -83,7 +93,7 @@ namespace segment_intersections
 		if (node == nullptr)
 		{ return candidate == nullptr ? -1 : candidate->root; }
 
-		geo::real x = geo::x_intersection(comp.S[node->root], p.y);
+		geo::real x = geo::x_intersection(S[node->root], p.y);
 		if (p.x < x)
 		{
 			return aux_right_neighbour(p, node->left, node);
@@ -110,7 +120,7 @@ namespace segment_intersections
 
 		unsigned max = aux_plot(animation, node->left, min);
 
-		segment s = comp.S[node->root];
+		segment s = S[node->root];
 		float x1(s.p1.x);
 		float y1(s.p1.y);
 		float x2(s.p2.x);

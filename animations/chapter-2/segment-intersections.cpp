@@ -46,8 +46,7 @@ namespace chap2_segment_intersections
 		clean_segment_set(S);
 		make_first_frame(S, animation);
 
-		tree_cmp comp(S);
-		tree T(comp);
+		tree T(S);
 		queue Q(S, animation, T);
 
 		Q.handle_events();

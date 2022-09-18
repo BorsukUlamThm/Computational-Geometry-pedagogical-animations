@@ -2,23 +2,13 @@
 
 #include "tree.h"
 #include "graphics/view/Display_canvas.h"
-#include "geometry/utils/Event_queue.h"
+#include "geometry/utils/event_queue.h"
 
 
 namespace segment_intersections
 {
 	namespace gr = graphics;
 	namespace geo = geometry;
-
-	struct event;
-
-	struct queue_cmp
-	{
-		bool operator()(const event& evt1,
-						const event& evt2) const;
-		bool are_equal(const event& evt1,
-					   const event& evt2) const;
-	};
 
 	class queue;
 
@@ -48,7 +38,7 @@ namespace segment_intersections
 		unsigned rightmost_segment() const;
 	};
 
-	class queue : public geo::Event_queue<event, queue_cmp>
+	class queue : public geo::event_queue<event>
 	{
 	public:
 		queue(segment_set& S,
@@ -69,6 +59,11 @@ namespace segment_intersections
 									tree* T);
 
 	private:
+		bool compare(const event& evt1,
+					 const event& evt2) const override;
+		bool are_equal(const event& evt1,
+					   const event& evt2) const override;
+
 		void aux_insert_upper_point(const point& p,
 									unsigned i,
 									gr::Animation* animation,

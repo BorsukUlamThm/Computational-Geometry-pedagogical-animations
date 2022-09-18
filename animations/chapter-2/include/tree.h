@@ -10,31 +10,33 @@ namespace segment_intersections
 	namespace gr = graphics;
 	namespace geo = geometry;
 
-	struct event;
-
-	struct tree_cmp
+	class tree : public geo::AVL_tree<unsigned>
 	{
-		point p {};
+		typedef geo::AVL_tree<unsigned> super;
+
+	private:
+		point event_p {};
 		bool just_above = true;
 		segment_set& S;
 
-		explicit tree_cmp(segment_set& S);
-
-		bool operator()(unsigned i, unsigned j) const;
-		bool are_equal(unsigned i, unsigned j) const;
-	};
-
-	class tree : public geo::AVL_tree<unsigned, tree_cmp>
-	{
-		typedef geo::AVL_tree<unsigned, tree_cmp> super;
-
 	public:
-		explicit tree(const tree_cmp& comp);
+		explicit tree(segment_set& S);
+
+		void set_comparison_just_above();
+		void set_comparison_just_below();
+		void set_event_p(const point& p);
+
+		segment get_ith_segment(unsigned i);
 
 		unsigned left_neighbour(const point& p);
 		unsigned right_neighbour(const point& p);
 
 		void plot(gr::Animation* animation);
+
+		bool compare(const unsigned& i,
+					 const unsigned& j) const override;
+		bool are_equal(const unsigned& i,
+					   const unsigned& j) const override;
 
 	private:
 		unsigned aux_left_neighbour(const point& p,

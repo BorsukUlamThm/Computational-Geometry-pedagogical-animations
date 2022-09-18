@@ -6,18 +6,6 @@
 
 namespace segment_intersections
 {
-	bool queue_cmp::operator()(const event& evt1,
-							   const event& evt2) const
-	{
-		return geo::point_below_point(evt1.p, evt2.p);
-	}
-
-	bool queue_cmp::are_equal(const event& evt1,
-							  const event& evt2) const
-	{
-		return evt1.p == evt2.p;
-	}
-
 	event::event(const point& p,
 				 gr::Animation* animation,
 				 tree* T,
@@ -42,8 +30,8 @@ namespace segment_intersections
 			animation->get(INTERSECTIONS).add_point(x, y, gr::YELLOW);
 		}
 
-		T->get_comp().p = p;
-		T->get_comp().just_above = true;
+		T->set_event_p(p);
+		T->set_comparison_just_above();
 		for (auto& i : L)
 		{ T->remove(i); }
 		for (auto& i : C)
@@ -52,7 +40,7 @@ namespace segment_intersections
 		if (L.size() + C.size() > 0)
 		{ T->plot(animation); }
 
-		T->get_comp().just_above = false;
+		T->set_comparison_just_below();
 		for (auto& i : U)
 		{ T->insert(i); }
 		for (auto& i : C)
@@ -87,8 +75,8 @@ namespace segment_intersections
 		if (i == -1 || j == -1)
 		{ return; }
 
-		segment si = T->get_comp().S[i];
-		segment sj = T->get_comp().S[j];
+		segment si = T->get_ith_segment(i);
+		segment sj = T->get_ith_segment(j);
 
 		gr::Coordinate xi1(si.p1.x);
 		gr::Coordinate yi1(si.p1.y);
@@ -115,9 +103,9 @@ namespace segment_intersections
 		if (geo::point_below_point(inter, p))
 		{
 			animation->get(INTERSECTIONS).add_point(x, y, gr::YELLOW);
-			if (inter != T->get_comp().S[i].p2)
+			if (inter != T->get_ith_segment(i).p2)
 			{ Q->insert_contained_point(inter, i, animation, T); }
-			if (inter != T->get_comp().S[j].p2)
+			if (inter != T->get_ith_segment(j).p2)
 			{ Q->insert_contained_point(inter, j, animation, T); }
 		}
 
@@ -136,7 +124,7 @@ namespace segment_intersections
 		unsigned l = UC[0];
 		for (unsigned i : UC)
 		{
-			if (T->get_comp()(i, l))
+			if (T->compare(i, l))
 			{ l = i; }
 		}
 
@@ -154,7 +142,7 @@ namespace segment_intersections
 		unsigned r = UC[0];
 		for (unsigned i : UC)
 		{
-			if (T->get_comp()(r, i))
+			if (T->compare(r, i))
 			{ r = i; }
 		}
 
@@ -189,6 +177,18 @@ namespace segment_intersections
 									   gr::Animation* animation,
 									   tree* T)
 	{ aux_insert_contained_point(p, i, animation, T, root); }
+
+	bool queue::compare(const event& evt1,
+						const event& evt2) const
+	{
+		return geo::point_below_point(evt1.p, evt2.p);
+	}
+
+	bool queue::are_equal(const event& evt1,
+						  const event& evt2) const
+	{
+		return evt1.p == evt2.p;
+	}
 
 	void queue::aux_insert_upper_point(const point& p,
 									   unsigned i,

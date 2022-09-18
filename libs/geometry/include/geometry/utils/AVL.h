@@ -43,28 +43,23 @@ namespace geometry
 		{ depth = 1 + right_depth; }
 	}
 
-	template<typename T, typename Compare>
+	template<typename T>
 	class AVL_tree
 	{
-		// comp will compare instances of T (no shit)
-		// Compare class needs to have two methods
-		// bool operator(const T& t1, const T& t2) const that returns true iff
-		//     t1 is on the left of t2
-		// bool are_equal(const T& t1, const T& t2) const
-		// and a default constructor
 	public:
 		typedef AVL_node<T> Node;
 
 	protected:
 		Node* root = nullptr;
-		Compare comp = Compare();
 
 	public:
 		AVL_tree() = default;
-		explicit AVL_tree(const Compare& comp);
 		~AVL_tree();
 
-		Compare& get_comp();
+		virtual bool compare(const T& left,
+							 const T& right) const = 0;
+		virtual bool are_equal(const T& left,
+							   const T& right) const = 0;
 
 		bool is_empty() const;
 		unsigned depth() const;
@@ -77,6 +72,8 @@ namespace geometry
 		void insert(const T& val);
 		void remove(const T& val);
 		void remove(const T& val, bool& found);
+		T extract_min();
+		T extract_max();
 
 	protected:
 		unsigned aux_size(Node* node) const;
@@ -111,25 +108,16 @@ namespace geometry
 	// |                         TEMPLATE DEFINITIONS                          |
 	// +-----------------------------------------------------------------------+
 
-	template<typename T, typename Compare>
-	AVL_tree<T, Compare>::AVL_tree(const Compare& comp) :
-			comp(comp)
-	{}
-
-	template<typename T, typename Compare>
-	AVL_tree<T, Compare>::~AVL_tree()
+	template<typename T>
+	AVL_tree<T>::~AVL_tree()
 	{ delete_node(root); }
 
-	template<typename T, typename Compare>
-	Compare& AVL_tree<T, Compare>::get_comp()
-	{ return comp; }
-
-	template<typename T, typename Compare>
-	bool AVL_tree<T, Compare>::is_empty() const
+	template<typename T>
+	bool AVL_tree<T>::is_empty() const
 	{ return root == nullptr; }
 
-	template<typename T, typename Compare>
-	unsigned AVL_tree<T, Compare>::depth() const
+	template<typename T>
+	unsigned AVL_tree<T>::depth() const
 	{
 		if (root == nullptr)
 		{ return 0; }
@@ -137,8 +125,8 @@ namespace geometry
 		return root->depth;
 	}
 
-	template<typename T, typename Compare>
-	unsigned AVL_tree<T, Compare>::aux_size(AVL_node<T>* node) const
+	template<typename T>
+	unsigned AVL_tree<T>::aux_size(AVL_node<T>* node) const
 	{
 		if (node == nullptr)
 		{ return 0; }
@@ -146,72 +134,70 @@ namespace geometry
 		return 1 + aux_size(node->left) + aux_size(node->right);
 	}
 
-	template<typename T, typename Compare>
-	unsigned AVL_tree<T, Compare>::size() const
+	template<typename T>
+	unsigned AVL_tree<T>::size() const
 	{ return aux_size(root); }
 
-	template<typename T, typename Compare>
-	typename AVL_tree<T, Compare>::Node*
-	AVL_tree<T, Compare>::aux_find(const T& val,
-								   AVL_node<T>* node) const
+	template<typename T>
+	typename AVL_tree<T>::Node* AVL_tree<T>::aux_find(const T& val,
+													  AVL_node<T>* node) const
 	{
-		if (node == nullptr || comp.are_equal(node->root, val))
+		if (node == nullptr || are_equal(node->root, val))
 		{ return node; }
 
-		if (comp(val, node->root))
+		if (compare(val, node->root))
 		{ return aux_find(val, node->left); }
 
 		return aux_find(val, node->right);
 	}
 
-	template<typename T, typename Compare>
-	typename AVL_tree<T, Compare>::Node*
-	AVL_tree<T, Compare>::find(const T& val) const
+	template<typename T>
+	typename AVL_tree<T>::Node* AVL_tree<T>::find(const T& val) const
 	{ return aux_find(val, root); }
 
-	template<typename T, typename Compare>
-	typename AVL_tree<T, Compare>::Node*
-	AVL_tree<T, Compare>::aux_find_left_neighbour(const T& val,
-												  AVL_node<T>* node,
-												  AVL_node<T>* candidate) const
+	template<typename T>
+	typename AVL_tree<T>::Node*
+	AVL_tree<T>::aux_find_left_neighbour(const T& val,
+										 AVL_node<T>* node,
+										 AVL_node<T>* candidate) const
 	{
 		if (node == nullptr)
 		{ return candidate; }
 
-		if (comp(val, node->root))
+		if (compare(val, node->root))
 		{ return aux_find_left_neighbour(val, node->left, candidate); }
 
 		return aux_find_left_neighbour(val, node->right, node);
 	}
 
-	template<typename T, typename Compare>
-	typename AVL_tree<T, Compare>::Node*
-	AVL_tree<T, Compare>::find_left_neighbour(const T& val) const
+	template<typename T>
+	typename AVL_tree<T>::Node*
+	AVL_tree<T>::find_left_neighbour(const T& val) const
 	{ return aux_find_left_neighbour(val, root, nullptr); }
 
-	template<typename T, typename Compare>
-	typename AVL_tree<T, Compare>::Node*
-	AVL_tree<T, Compare>::aux_find_right_neighbour(const T& val,
-												   AVL_node<T>* node,
-												   AVL_node<T>* candidate) const
+	template<typename T>
+	typename AVL_tree<T>::Node*
+	AVL_tree<T>::aux_find_right_neighbour(const T& val,
+										  AVL_node<T>* node,
+										  AVL_node<T>* candidate) const
 	{
 		if (node == nullptr)
 		{ return candidate; }
 
-		if (comp(node->root, val))
+		if (compare(node->root, val))
 		{ return aux_find_right_neighbour(val, node->right, candidate); }
 
 		return aux_find_right_neighbour(val, node->left, node);
 	}
 
-	template<typename T, typename Compare>
-	typename AVL_tree<T, Compare>::Node*
-	AVL_tree<T, Compare>::find_right_neighbour(const T& val) const
+	template<typename T>
+	typename AVL_tree<T>::Node*
+	AVL_tree<T>::find_right_neighbour(const T& val) const
 	{ return aux_find_right_neighbour(val, root, nullptr); }
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::aux_insert(const T& val,
-										  Node*& node)
+	template<typename T>
+	void AVL_tree<T>::aux_insert(const T& val,
+								 Node*& node)
 	{
 		if (node == nullptr)
 		{
@@ -219,7 +205,7 @@ namespace geometry
 			return;
 		}
 
-		if (comp(val, node->root))
+		if (compare(val, node->root))
 		{
 			aux_insert(val, node->left);
 			node->update_depth();
@@ -232,15 +218,14 @@ namespace geometry
 		balance(node);
 	}
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::insert(const T& val)
+	template<typename T>
+	void AVL_tree<T>::insert(const T& val)
 	{ aux_insert(val, root); }
 
-	template<typename T, typename Compare>
-	void
-	AVL_tree<T, Compare>::aux_remove(const T& val,
-									 Node*& node,
-									 bool& found)
+	template<typename T>
+	void AVL_tree<T>::aux_remove(const T& val,
+								 Node*& node,
+								 bool& found)
 	{
 		if (node == nullptr)
 		{
@@ -255,7 +240,7 @@ namespace geometry
 			return;
 		}
 
-		if (comp(val, node->root))
+		if (compare(val, node->root))
 		{
 			aux_remove(val, node->left, found);
 			balance(node);
@@ -266,20 +251,28 @@ namespace geometry
 		balance(node);
 	}
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::remove(const T& val)
+	template<typename T>
+	void AVL_tree<T>::remove(const T& val)
 	{
 		bool dummy;
 		aux_remove(val, root, dummy);
 	}
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::remove(const T& val,
-									  bool& found)
+	template<typename T>
+	void AVL_tree<T>::remove(const T& val,
+							 bool& found)
 	{ aux_remove(val, root, found); }
 
-	template<typename T, typename Compare>
-	unsigned AVL_tree<T, Compare>::depth(AVL_tree::Node* node)
+	template<typename T>
+	T AVL_tree<T>::extract_min()
+	{ return extract_min(root); }
+
+	template<typename T>
+	T AVL_tree<T>::extract_max()
+	{ return extract_max(root); }
+
+	template<typename T>
+	unsigned AVL_tree<T>::depth(AVL_tree::Node* node)
 	{
 		if (node == nullptr)
 		{ return 0; }
@@ -287,8 +280,8 @@ namespace geometry
 		return node->depth;
 	}
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::delete_node(AVL_tree::Node* node)
+	template<typename T>
+	void AVL_tree<T>::delete_node(AVL_tree::Node* node)
 	{
 		if (node == nullptr)
 		{ return; }
@@ -298,8 +291,8 @@ namespace geometry
 		delete node;
 	}
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::right_rotation(AVL_tree::Node*& node)
+	template<typename T>
+	void AVL_tree<T>::right_rotation(AVL_tree::Node*& node)
 	{
 		T p = node->left->root;
 		T q = node->root;
@@ -314,8 +307,8 @@ namespace geometry
 		node = new Node(p, U, new Node(q, V, W));
 	}
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::left_rotation(AVL_tree::Node*& node)
+	template<typename T>
+	void AVL_tree<T>::left_rotation(AVL_tree::Node*& node)
 	{
 		T p = node->root;
 		T q = node->right->root;
@@ -330,8 +323,8 @@ namespace geometry
 		node = new Node(q, new Node(p, U, V), W);
 	}
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::balance(Node*& node)
+	template<typename T>
+	void AVL_tree<T>::balance(Node*& node)
 	{
 		if (node == nullptr)
 		{ return; }
@@ -369,8 +362,8 @@ namespace geometry
 		}
 	}
 
-	template<typename T, typename Compare>
-	T AVL_tree<T, Compare>::extract_min(AVL_tree::Node*& node)
+	template<typename T>
+	T AVL_tree<T>::extract_min(AVL_tree::Node*& node)
 	{
 		if (node->left == nullptr)
 		{
@@ -388,8 +381,8 @@ namespace geometry
 		return min;
 	}
 
-	template<typename T, typename Compare>
-	T AVL_tree<T, Compare>::extract_max(AVL_tree::Node*& node)
+	template<typename T>
+	T AVL_tree<T>::extract_max(AVL_tree::Node*& node)
 	{
 		if (node->right == nullptr)
 		{
@@ -407,8 +400,8 @@ namespace geometry
 		return max;
 	}
 
-	template<typename T, typename Compare>
-	void AVL_tree<T, Compare>::remove_node(AVL_tree::Node*& node)
+	template<typename T>
+	void AVL_tree<T>::remove_node(AVL_tree::Node*& node)
 	{
 		if (node->right != nullptr)
 		{
