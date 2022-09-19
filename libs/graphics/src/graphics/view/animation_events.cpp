@@ -1,9 +1,9 @@
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 
 
 namespace graphics
 {
-	void Display_canvas::handle_events()
+	void Animation_canvas::handle_events()
 	{
 		sf::Event event {};
 		while (window.pollEvent(event))
@@ -46,7 +46,7 @@ namespace graphics
 		}
 	}
 
-	void Display_canvas::key_pressed_event(const sf::Event& event)
+	void Animation_canvas::key_pressed_event(const sf::Event& event)
 	{
 		float index_fraction = float(nb_frames) / 10;
 		switch (event.key.code)

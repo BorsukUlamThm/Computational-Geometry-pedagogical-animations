@@ -68,7 +68,7 @@ int main(int argc, char** argv)
 	gr::Animation animation(NB_FIGURES);
 	compute_intersections(S, animation);
 
-	gr::Display_canvas canvas;
+	gr::Animation_canvas canvas;
 	canvas.set_title("Segment intersections - animation");
 	canvas.run_animation(animation);
 

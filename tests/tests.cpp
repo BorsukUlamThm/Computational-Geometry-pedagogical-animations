@@ -1,4 +1,4 @@
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 #include "graphics/view/Acquisition_canvas.h"
 #include "utils/Program_options.h"
 #include "geometry/DCEL/DCEL.h"

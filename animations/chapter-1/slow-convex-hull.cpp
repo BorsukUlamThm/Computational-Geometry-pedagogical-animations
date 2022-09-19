@@ -1,5 +1,5 @@
 #include "include/utils.h"
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 #include "geometry/utils/point_comparisons.h"
 
 
@@ -52,7 +52,7 @@ namespace chap1_slow_convex_hull
 					{
 						is_ok = false;
 						animation[POINTS].add_point(Pk_x, Pk_y, gr::RED,
-													20);
+													10);
 						animation[OUTSIDE_SEGMENTS].add_vector(
 								Pi_x, Pi_y, Pj_x, Pj_y, gr::RED);
 						animation.make_new_frame(POINTS, OUTSIDE_SEGMENTS);
@@ -194,7 +194,7 @@ int main(int argc, char** argv)
 	gr::Animation animation(NB_FIGURES);
 	slow_convex_hull(P, animation);
 
-	gr::Display_canvas canvas;
+	gr::Animation_canvas canvas;
 	canvas.set_title("Slow convex hull - animation");
 	canvas.run_animation(animation);
 

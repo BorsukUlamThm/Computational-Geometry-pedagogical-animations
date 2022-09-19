@@ -1,5 +1,5 @@
 #include <iostream>
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 
 
 namespace Other_stuff_phi
@@ -8,7 +8,8 @@ namespace Other_stuff_phi
 
 	typedef unsigned integer;
 
-	void plot_phi(integer n, float r)
+	void plot_phi(integer n,
+				  float r)
 	{
 		std::vector<integer> primes;
 		std::vector<double> phi_values;
@@ -55,7 +56,7 @@ namespace Other_stuff_phi
 		primes.clear();
 		phi_values.clear();
 
-		gr::Display_canvas canvas;
+		gr::Animation_canvas canvas;
 
 		std::vector<unsigned> numbers;
 		while (n >= 1000)
@@ -89,6 +90,18 @@ namespace Other_stuff_phi
 int main(int argc, char** argv)
 {
 	using namespace Other_stuff_phi;
+
+	if (argc < 3)
+	{
+		std::cerr << "Missing program options"
+				  << std::endl
+				  << "Usage : ./phi <n> <r> displays the graph of phi between "
+				  << "1 and n. r is the radius of the displayed points"
+				  << std::endl
+				  << "        You may not go higher tan 10^4 for n, and reduce "
+				  << "r when n is high in order to see something";
+		return 1;
+	}
 
 	integer n = std::stoi(std::string(argv[1]));
 	float r = std::stof(std::string(argv[2]));

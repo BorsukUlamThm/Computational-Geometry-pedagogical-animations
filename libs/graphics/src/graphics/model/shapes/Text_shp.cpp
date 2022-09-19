@@ -107,13 +107,13 @@ namespace graphics
 							 Text_shp& text)
 	{
 		text.content.clear();
-		is.get();
-		auto c = is.get();
+		std::string word;
 		do
 		{
-			text.content += std::to_string(c);
-			c = is.get();
-		} while (c != '"');
+			is >> word;
+			text.content += word + " ";
+		} while (word[word.size() - 1] != '"');
+		text.content = text.content.substr(1, text.content.size() - 3);
 
 		is >> text.point
 		   >> text.size

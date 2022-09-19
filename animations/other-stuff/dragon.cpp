@@ -1,5 +1,5 @@
 #include <set>
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 
 
 namespace Other_stuff_dragon
@@ -8,10 +8,11 @@ namespace Other_stuff_dragon
 
 	struct complex
 	{
-		double real = 0;
-		double imag = 0;
+		float real = 0;
+		float imag = 0;
 
-		complex(double x = 0, double y = 0)
+		complex(float x = 0,
+				float y = 0)
 		{
 			real = x;
 			imag = y;
@@ -36,7 +37,7 @@ namespace Other_stuff_dragon
 
 	complex operator-(const complex& z)
 	{
-		return complex(-z.real, -z.imag);
+		return {-z.real, -z.imag};
 	}
 
 	complex operator*(const complex& z1, const complex& z2)
@@ -47,12 +48,14 @@ namespace Other_stuff_dragon
 		return z;
 	}
 
-	complex operator*(double a, const complex& z)
+	complex operator*(float a,
+					  const complex& z)
 	{
-		return complex(a * z.real, a * z.imag);
+		return {a * z.real, a * z.imag};
 	}
 
-	bool operator<(const complex& z1, const complex& z2)
+	bool operator<(const complex& z1,
+				   const complex& z2)
 	{
 		if (z1.real == z2.real)
 		{
@@ -96,19 +99,20 @@ namespace Other_stuff_dragon
 		return S;
 	}
 
-	void plot_dragon(unsigned n, float r)
+	void plot_dragon(unsigned n,
+					 float r)
 	{
 		set S = iterations(n);
 		gr::Figure fig;
 
 		for (auto& z : S)
 		{
-			gr::Coordinate x = gr::Coordinate(z.real);
-			gr::Coordinate y = gr::Coordinate(z.imag);
+			gr::Coordinate x(z.real);
+			gr::Coordinate y(z.imag);
 			fig.add_point(x, y, gr::DEFAULT_SHAPE_COLOR, r);
 		}
 
-		gr::Display_canvas canvas;
+		gr::Animation_canvas canvas;
 		canvas.set_title("Dragon curve - " + std::to_string(n) + " iterations");
 		canvas.display_figure(fig);
 	}
@@ -117,6 +121,19 @@ namespace Other_stuff_dragon
 int main(int argc, char** argv)
 {
 	using namespace Other_stuff_dragon;
+
+	if (argc < 3)
+	{
+		std::cerr << "Missing program options"
+				  << std::endl
+				  << "Usage : ./dragon <n> <r> displays the dragon curve "
+				  << "generated with an iterated function system after n "
+				  << "iteration. r is the radius of the displayed points"
+				  << std::endl
+				  << "        You may not go higher tan 18 for n, and reduce r "
+				  << "when n is high in order to see something";
+		return 1;
+	}
 
 	unsigned n = std::stoi(std::string(argv[1]));
 	float r = std::stof(std::string(argv[2]));

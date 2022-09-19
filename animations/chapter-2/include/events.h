@@ -1,7 +1,7 @@
 #pragma once
 
 #include "tree.h"
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 #include "geometry/utils/event_queue.h"
 
 

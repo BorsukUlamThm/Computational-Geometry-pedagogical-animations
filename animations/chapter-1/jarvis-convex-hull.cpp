@@ -1,5 +1,5 @@
 #include "include/utils.h"
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 #include "geometry/utils/point_comparisons.h"
 
 
@@ -150,7 +150,7 @@ int main(int argc, char** argv)
 	gr::Animation animation(NB_FIGURES);
 	jarvis_convex_hull(P, animation);
 
-	gr::Display_canvas canvas;
+	gr::Animation_canvas canvas;
 	canvas.set_title("Jarvis convex hull - animation");
 	canvas.run_animation(animation);
 

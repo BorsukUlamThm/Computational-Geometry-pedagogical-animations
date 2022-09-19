@@ -1,5 +1,5 @@
 #include <cmath>
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 
 
 namespace Other_stuff_prime_spiral
@@ -8,7 +8,8 @@ namespace Other_stuff_prime_spiral
 
 	typedef unsigned integer;
 
-	void prime_spiral(integer n, float rad)
+	void prime_spiral(integer n,
+					  float rad)
 	{
 		std::vector<integer> P;
 		P.push_back(2);
@@ -38,7 +39,7 @@ namespace Other_stuff_prime_spiral
 		gr::Figure fig;
 		while (!P.empty())
 		{
-			gr::Coordinate p_ = gr::Coordinate(P.back());
+			gr::Coordinate p_(P.back());
 			P.pop_back();
 
 			gr::Coordinate x = p_ * std::cos(p_);
@@ -47,7 +48,7 @@ namespace Other_stuff_prime_spiral
 			fig.add_point(x, y, gr::DEFAULT_SHAPE_COLOR, rad);
 		}
 
-		gr::Display_canvas canvas;
+		gr::Animation_canvas canvas;
 
 		std::vector<unsigned> numbers;
 		while (n >= 1000)
@@ -82,6 +83,19 @@ namespace Other_stuff_prime_spiral
 int main(int argc, char** argv)
 {
 	using namespace Other_stuff_prime_spiral;
+
+	if (argc < 3)
+	{
+		std::cerr << "Missing program options"
+				  << std::endl
+				  << "Usage : ./prime-spiral <n> <r> displays the set of "
+				  << "complexes p exp(i p) for all primes p lower than n. r is "
+				  << "the radius of the displayed points"
+				  << std::endl
+				  << "        You may not go higher tan 10^5 for n, and reduce "
+				  << "r when n is high in order to see something";
+		return 1;
+	}
 
 	integer n = std::stoi(std::string(argv[1]));
 	float r = std::stof(std::string(argv[2]));

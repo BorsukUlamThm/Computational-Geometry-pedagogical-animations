@@ -28,9 +28,9 @@ int main()
 	std::vector<gr::Point_obj> points =
 			acquisitions[0]->get_objects<gr::Point_obj>();
 	std::vector<gr::Segment_obj> segments =
-			acquisitions[2]->get_objects<gr::Segment_obj>();
+			acquisitions[1]->get_objects<gr::Segment_obj>();
 	std::vector<gr::Point_obj> red_points =
-			acquisitions[1]->get_objects<gr::Point_obj>();
+			acquisitions[2]->get_objects<gr::Point_obj>();
 
 	std::cout << "first points acquired ("
 			  << points.size()

@@ -1,4 +1,4 @@
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 
 
 namespace gr = graphics;
@@ -16,7 +16,7 @@ int main()
 	polygon_shp.add_vertex(7.5, 1.5);
 	polygon_shp.add_vertex(7, 1);
 	gr::Line_shp line_shp(0, 1, -2, gr::BLUE);
-	gr::Text_shp text_shp("some random text", 0, -1, 30);
+	gr::Text_shp text_shp("some random text", 1, -1, 30);
 
 	gr::Figure fig;
 	fig.add_point(point_shp);
@@ -27,7 +27,7 @@ int main()
 	fig.add_line(line_shp);
 	fig.add_text(text_shp);
 
-	gr::Display_canvas canvas;
+	gr::Animation_canvas canvas;
 	canvas.display_figure(fig);
 
 	fig.save("test");

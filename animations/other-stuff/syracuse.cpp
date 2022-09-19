@@ -1,6 +1,6 @@
 #include <cmath>
 #include <boost/multiprecision/cpp_int.hpp>
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 
 
 namespace Other_stuff_syracuse
@@ -128,7 +128,7 @@ namespace Other_stuff_syracuse
 				  << number_to_string(i + 1) << std::endl;
 		std::cout << "Maximal term : " << number_to_string(M) << std::endl;
 
-		gr::Display_canvas canvas;
+		gr::Animation_canvas canvas;
 
 		std::string title = number_to_string(seed);
 

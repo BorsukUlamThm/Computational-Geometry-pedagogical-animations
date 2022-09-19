@@ -22,7 +22,7 @@ namespace segment_intersections
 		gr::Coordinate y(p.y);
 		animation->get(EVENT).clear();
 		animation->get(EVENT).add_horizontal_line(y);
-		animation->get(EVENT).add_point(x, y, gr::GREEN, 5);
+		animation->get(EVENT).add_point(x, y, gr::GREEN, 8);
 		animation->make_new_frame();
 
 		if (U.size() + L.size() + C.size() > 1)

@@ -1,4 +1,4 @@
-#include "graphics/view/Display_canvas.h"
+#include "graphics/view/Animation_canvas.h"
 #include <chrono>
 #include <thread>
 #include <cmath>
@@ -8,7 +8,7 @@
 
 namespace graphics
 {
-	void Display_canvas::display_figure(Figure& figure)
+	void Animation_canvas::display_figure(Figure& figure)
 	{
 		figure.make_bounding_box();
 		bounding_box = figure.get_bounding_box();
@@ -24,7 +24,7 @@ namespace graphics
 		}
 	}
 
-	void Display_canvas::run_animation(Animation& animation)
+	void Animation_canvas::run_animation(Animation& animation)
 	{
 		animation.get_ith_frame(0).make_bounding_box();
 		bounding_box = animation.get_ith_frame(0).get_bounding_box();
@@ -50,19 +50,19 @@ namespace graphics
 		}
 	}
 
-	void Display_canvas::next_slide()
+	void Animation_canvas::next_slide()
 	{
 		if (frame_index < nb_frames - 1)
 		{ frame_index++; }
 	}
 
-	void Display_canvas::prev_slide()
+	void Animation_canvas::prev_slide()
 	{
 		if (frame_index > 0)
 		{ frame_index--; }
 	}
 
-	float Display_canvas::display_frame_index()
+	float Animation_canvas::display_frame_index()
 	{
 		sf::Text text;
 		text.setFont(config.font);
@@ -90,7 +90,7 @@ namespace graphics
 		return offset;
 	}
 
-	void Display_canvas::display_speed(float offset)
+	void Animation_canvas::display_speed(float offset)
 	{
 		sf::Text text;
 		text.setFont(config.font);

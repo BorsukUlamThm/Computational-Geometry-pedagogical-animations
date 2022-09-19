@@ -107,12 +107,19 @@ namespace graphics
 		else
 		{
 			str = buffer[index]->get_name();
-			str += " ";
+			str += " (";
 			str += std::to_string(nb_acquired_shapes);
 			if (buffer[index]->get_nb_acquisitions() < -1)
 			{
 				str += " / ";
 				str += std::to_string(buffer[index]->get_nb_acquisitions());
+				str += ") press SPACE to make an acquisition";
+			}
+			else
+			{
+				str = "multiple " + str;
+				str += ") press SPACE to make an acquisition, then press ENTER";
+				str += " when you are done to go to next acquisition";
 			}
 		}
 		text.setString(str);
@@ -120,20 +127,11 @@ namespace graphics
 		float ratio = view.getSize().x / float(config.width);
 		text.setScale(ratio, ratio);
 
-		float offset;
-		if (state == END_ACQ)
-		{
-			offset = text.getLocalBounds().width + 20;
-		}
-		else
-		{
-			offset = 200;
-		}
-
 		text.setFillColor(get_color(DEFAULT_SHAPE_COLOR));
 		text.setOutlineColor(config.colors[BACKGROUND_COLOR]);
 		text.setOutlineThickness(2);
 
+		float offset = text.getLocalBounds().width + 20;
 		text.move(view.getCenter());
 		text.move(view.getSize().x / 2 - offset * ratio,
 				  view.getSize().y / 2 - Config().margin * ratio / 2);
