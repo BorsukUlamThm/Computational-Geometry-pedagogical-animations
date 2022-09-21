@@ -32,6 +32,13 @@ pacman -S boost
 pacman -S sfml
 ```
 
+### Fedora
+
+```bash
+dnf install boost-devel
+dnf install SFML-devel
+```
+
 ## Build
 
 The project is a [CMake](https://cmake.org/) project.
