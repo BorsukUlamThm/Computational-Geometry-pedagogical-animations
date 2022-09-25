@@ -1,10 +1,33 @@
 #pragma once
 
-#include "geometry/DCEL/DCEL.h"
+#include "geometry/model/point_2.h"
+#include "geometry/model/segment_2.h"
+#include <vector>
+#include <iostream>
 
 
 namespace geometry
 {
+	struct DCEL
+	{
+		struct Vertex;
+		struct Hedge;
+		struct Face;
+
+		std::vector<Vertex*> vertices {};
+		std::vector<Hedge*> half_edges {};
+		std::vector<Face*> faces {};
+
+		DCEL() = default;
+		~DCEL();
+
+		bool is_valid();
+		void clear();
+
+		friend std::ostream& operator<<(std::ostream& os,
+										const DCEL& dcel);
+	};
+
 	struct DCEL::Vertex
 	{
 		real x;
@@ -45,4 +68,7 @@ namespace geometry
 			 Hedge* outer_comp);
 		~Face() = default;
 	};
+
+	std::ostream& operator<<(std::ostream& os,
+							 const DCEL& dcel);
 }

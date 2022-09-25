@@ -1,6 +1,4 @@
-#include "geometry/DCEL/DCEL.h"
-#include "geometry/DCEL/DCEL_components.h"
-#include "geometry/utils/polygon_utils.h"
+#include "geometry/model/DCEL.h"
 #include "geometry/model/serialization.h"
 #include <iostream>
 #include <map>
@@ -8,68 +6,6 @@
 
 namespace geometry
 {
-	DCEL::DCEL(const polygon& P)
-	{
-		unsigned n = P.size();
-
-		for (auto& p : P)
-		{
-			auto* v = new Vertex(p.x, p.y);
-			auto* h1 = new Hedge();
-			auto* h2 = new Hedge();
-
-			vertices.push_back(v);
-			half_edges.push_back(h1);
-			half_edges.push_back(h2);
-		}
-
-		for (unsigned i = 0; i < n; ++i)
-		{
-			vertices[i]->inc_edge = half_edges[i];
-			half_edges[i]->origin = vertices[i];
-
-			half_edges[i]->prev = half_edges[(n + i - 1) % n];
-			half_edges[i]->next = half_edges[(i + 1) % n];
-			half_edges[n + i]->prev = half_edges[n + (i + 1) % n];
-			half_edges[n + i]->next = half_edges[n + (n + i - 1) % n];
-
-			half_edges[i]->twin = half_edges[n + i];
-			half_edges[n + i]->twin = half_edges[i];
-		}
-
-		for (unsigned i = 0; i < n; ++i)
-		{
-			half_edges[n + i]->origin = half_edges[i]->next->origin;
-		}
-
-		auto* bounded = new Face();
-		auto* unbounded = new Face();
-
-		if (clockwise_orientation(P))
-		{
-			bounded->outer_comp = half_edges[n];
-			unbounded->inner_comp.push_back(half_edges[0]);
-			for (unsigned i = 0; i < n; ++i)
-			{
-				half_edges[i]->inc_face = unbounded;
-				half_edges[n + i]->inc_face = bounded;
-			}
-		}
-		else
-		{
-			bounded->outer_comp = half_edges[0];
-			unbounded->inner_comp.push_back(half_edges[n]);
-			for (unsigned i = 0; i < n; ++i)
-			{
-				half_edges[i]->inc_face = bounded;
-				half_edges[n + i]->inc_face = unbounded;
-			}
-		}
-
-		faces.push_back(bounded);
-		faces.push_back(unbounded);
-	}
-
 	DCEL::~DCEL()
 	{
 		for (auto& ptr : vertices)
@@ -81,6 +17,32 @@ namespace geometry
 		for (auto& ptr : faces)
 		{ delete ptr; }
 	}
+
+	DCEL::Vertex::Vertex(const real& x,
+						 const real& y,
+						 Hedge* inc_edge) :
+			x(x),
+			y(y),
+			inc_edge(inc_edge)
+	{}
+
+	DCEL::Hedge::Hedge(Vertex* origin,
+					   Hedge* prev,
+					   Hedge* next,
+					   Hedge* twin,
+					   Face* inc_face) :
+			origin(origin),
+			prev(prev),
+			next(next),
+			twin(twin),
+			inc_face(inc_face)
+	{}
+
+	DCEL::Face::Face(std::vector<Hedge*> inner_comp,
+					 Hedge* outer_comp) :
+			inner_comp(std::move(inner_comp)),
+			outer_comp(outer_comp)
+	{}
 
 	bool DCEL::is_valid()
 	{

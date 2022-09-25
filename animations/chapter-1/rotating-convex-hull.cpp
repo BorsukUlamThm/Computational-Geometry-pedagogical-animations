@@ -19,11 +19,11 @@ namespace chap1_rotating_convex_hull
 	};
 
 
-	struct Rotation_order
+	struct rotation_order
 	{
 		point leftmost_point;
 
-		Rotation_order(const point_set& P)
+		explicit rotation_order(const point_set& P)
 		{
 			leftmost_point = P[0];
 			for (auto& p : P)
@@ -35,7 +35,8 @@ namespace chap1_rotating_convex_hull
 			}
 		}
 
-		bool operator()(const point& p, const point& q) const
+		bool operator()(const point& p,
+						const point& q) const
 		{
 			if (p == q)
 			{
@@ -55,8 +56,7 @@ namespace chap1_rotating_convex_hull
 	};
 
 	bool right_turn(const convex_hull& hull,
-					const point& p,
-					gr::Animation& animation)
+					const point& p)
 	{
 		if (hull.size() < 2)
 		{
@@ -105,7 +105,7 @@ namespace chap1_rotating_convex_hull
 			animation[LINE].clear();
 			animation[LINE].add_line(P0_x, P0_y, Pi_x, Pi_y);
 
-			while (right_turn(CH, P[i], animation))
+			while (right_turn(CH, P[i]))
 			{
 				gr::Coordinate back_x(CH.back().x);
 				gr::Coordinate back_y(CH.back().y);
@@ -153,7 +153,7 @@ namespace chap1_rotating_convex_hull
 			animation[POINTS].add_point(x, y);
 		}
 		animation.make_new_frame(POINTS, HULL);
-		Rotation_order order(P);
+		rotation_order order(P);
 		std::sort(P.begin(), P.end(), order);
 
 		convex_hull CH = make_hull(P, animation);

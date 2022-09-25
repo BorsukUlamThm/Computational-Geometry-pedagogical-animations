@@ -1,4 +1,4 @@
-#include "geometry/DCEL/DCEL.h"
+#include "geometry/model/DCEL.h"
 #include "geometry/utils/polygon_utils.h"
 
 
@@ -12,11 +12,12 @@ int main(int argc, char** argv)
 	P.emplace_back(1, 1);
 	P.emplace_back(0, 1);
 
-	geo::DCEL dcel(P);
+	geo::DCEL dcel = geo::DCEL_from_polygon(P);
 
 	std::cout << "dcel is "
 			  << (dcel.is_valid() ? "" : "NOT ")
-			  << "valid" << std::endl;
+			  << "valid"
+			  << std::endl;
 
 	P.clear();
 	P.emplace_back(0, 1);
@@ -24,11 +25,12 @@ int main(int argc, char** argv)
 	P.emplace_back(1, 0);
 	P.emplace_back(0, 0);
 
-	geo::DCEL dcel1(P);
+	geo::DCEL dcel1 = geo::DCEL_from_polygon(P);
 
 	std::cout << "dcel is "
 			  << (dcel1.is_valid() ? "" : "NOT ")
-			  << "valid";
+			  << "valid"
+			  << std::endl;
 
 	return 0;
 }
