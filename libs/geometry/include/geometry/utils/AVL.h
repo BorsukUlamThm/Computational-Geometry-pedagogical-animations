@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 
 namespace geometry
 {
@@ -37,10 +39,7 @@ namespace geometry
 		unsigned left_depth = (left == nullptr) ? 0 : left->depth;
 		unsigned right_depth = (right == nullptr) ? 0 : right->depth;
 
-		if (left > right)
-		{ depth = 1 + left_depth; }
-		else
-		{ depth = 1 + right_depth; }
+		depth = 1 + std::max(left_depth, right_depth);
 	}
 
 	template<typename T>
@@ -75,6 +74,8 @@ namespace geometry
 		T extract_min();
 		T extract_max();
 
+		unsigned nb_miss_depth();
+
 	protected:
 		unsigned aux_size(Node* node) const;
 		Node* aux_find(const T& val, Node* node) const;
@@ -101,6 +102,8 @@ namespace geometry
 		T extract_min(Node*& node);
 		T extract_max(Node*& node);
 		void remove_node(Node*& node);
+
+		unsigned aux_nb_miss_depth(Node* node);
 	};
 
 
@@ -270,6 +273,27 @@ namespace geometry
 	template<typename T>
 	T AVL_tree<T>::extract_max()
 	{ return extract_max(root); }
+
+	template<typename T>
+	unsigned AVL_tree<T>::nb_miss_depth()
+	{ return aux_nb_miss_depth(root); }
+
+	template<typename T>
+	unsigned AVL_tree<T>::aux_nb_miss_depth(AVL_tree::Node* node)
+	{
+		if (node == nullptr)
+		{ return 0; }
+
+		unsigned left_depth = depth(node->left);
+		unsigned right_depth = depth(node->right);
+		if (node->depth == 1 + std::max(left_depth, right_depth))
+		{
+			return aux_nb_miss_depth(node->left) +
+				   aux_nb_miss_depth(node->right);
+		}
+		return 1 + aux_nb_miss_depth(node->left) +
+			   aux_nb_miss_depth(node->right);
+	}
 
 	template<typename T>
 	unsigned AVL_tree<T>::depth(AVL_tree::Node* node)
