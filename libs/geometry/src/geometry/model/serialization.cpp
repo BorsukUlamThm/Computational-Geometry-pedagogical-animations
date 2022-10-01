@@ -89,6 +89,11 @@ namespace geometry
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ifstream ifs(data_dir / file);
 
+		if (!ifs.is_open())
+		{
+			std::cerr << "invalid file read" << std::endl;
+		}
+
 		std::vector<point_2> points;
 		ifs >> points;
 
@@ -99,6 +104,11 @@ namespace geometry
 	{
 		std::filesystem::path data_dir = utils::get_data_directory();
 		std::ifstream ifs(data_dir / file);
+
+		if (!ifs.is_open())
+		{
+			std::cerr << "invalid file read" << std::endl;
+		}
 
 		std::vector<segment_2> segments;
 		ifs >> segments;
