@@ -91,7 +91,7 @@ namespace geometry
 
 		if (!ifs.is_open())
 		{
-			std::cerr << "invalid file read" << std::endl;
+			std::cerr << "invalid file read " << file << std::endl;
 		}
 
 		std::vector<point_2> points;
@@ -107,7 +107,7 @@ namespace geometry
 
 		if (!ifs.is_open())
 		{
-			std::cerr << "invalid file read" << std::endl;
+			std::cerr << "invalid file read " << file << std::endl;
 		}
 
 		std::vector<segment_2> segments;
