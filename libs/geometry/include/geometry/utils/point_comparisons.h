@@ -36,9 +36,9 @@ namespace geometry
 	 * r is on the right side or the left side of the line (p, q) oriented from
 	 * p to q
 	 */
-	real orientation_det(const point_2& p,
-						 const point_2& q,
-						 const point_2& r);
+	multi_rational orientation_det(const point_2& p,
+								   const point_2& q,
+								   const point_2& r);
 	/*!
 	 * @return true if p lies on the line containing l1 and l2
 	 */

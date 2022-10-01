@@ -22,6 +22,8 @@ namespace geometry
 				  const real& p2_x,
 				  const real& p2_y);
 		~segment_2() = default;
+
+		real squared_norm() const;
 	};
 
 	bool operator==(const segment_2& s1,

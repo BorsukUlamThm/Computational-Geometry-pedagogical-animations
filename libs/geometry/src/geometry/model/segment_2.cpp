@@ -22,4 +22,9 @@ namespace geometry
 	{
 		return s1.p1 == s2.p1 && s1.p2 == s2.p2;
 	}
+
+	real segment_2::squared_norm() const
+	{
+		return (p1 - p2).squared_norm();
+	}
 }

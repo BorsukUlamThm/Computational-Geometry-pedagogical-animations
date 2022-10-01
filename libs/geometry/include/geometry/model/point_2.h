@@ -17,6 +17,8 @@ namespace geometry
 		point_2(const real& x,
 				const real& y);
 		~point_2() = default;
+
+		real squared_norm() const;
 	};
 
 	bool operator==(const point_2& p,

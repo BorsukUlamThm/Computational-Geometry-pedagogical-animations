@@ -9,6 +9,8 @@ namespace geometry
 {
 	bool segment_intersect(const segment_2& s1,
 						   const segment_2& s2);
+	bool segment_overlap(const segment_2& s1,
+						 const segment_2& s2);
 	point_2 line_intersection(const segment_2& s1,
 							  const segment_2& s2);
 	real x_intersection(const segment_2& s,

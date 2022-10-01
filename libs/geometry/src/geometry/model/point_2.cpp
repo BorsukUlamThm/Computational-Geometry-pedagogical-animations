@@ -9,6 +9,12 @@ namespace geometry
 			y(y)
 	{}
 
+	real point_2::squared_norm() const
+	{
+		return x * x + y * y;
+	}
+
+
 	bool operator==(const point_2& p,
 					const point_2& q)
 	{

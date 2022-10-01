@@ -153,7 +153,22 @@ namespace geometry
 
 				if (hedges_overlap(half_edges[i], half_edges[j]))
 				{
-					std::cerr << "Invalid DCEL " << i << "-th half edge and"
+					DCEL::hedge* hi = half_edges[i];
+					DCEL::hedge* hj = half_edges[j];
+					std::cout << hi->origin->x << ", "
+							  << hi->origin->y << ", "
+							  << hi->twin->origin->x << ", "
+							  << hi->twin->origin->y << " "
+							  << std::endl
+							  << hj->origin->x << ", "
+							  << hj->origin->y << ", "
+							  << hj->twin->origin->x << ", "
+							  << hj->twin->origin->y << " "
+							  << std::endl
+							  << std::endl;
+
+					std::cerr << "Invalid DCEL " << i
+							  << "-th half edge and"
 							  << j << "-th half edge overlap" << std::endl;
 					valid = false;
 				}

@@ -25,21 +25,22 @@ int main()
 	//
 	//	geo::save_segment_2_set("log/tests/segment_intersections_tests", S);
 
-	//	std::vector<geo::segment_2> S =
-	//			geo::load_segment_2_set("saved_inputs/si_goal");
+	std::vector<geo::segment_2> S =
+			geo::load_segment_2_set("saved_inputs/si_goal");
 
-	//	std::vector<geo::segment_2> S =
-	//			geo::load_segment_2_set("saved_inputs/si_bug");
+	//		std::vector<geo::segment_2> S =
+	//				geo::load_segment_2_set("saved_inputs/si_bug");
 
-	geo::Number_generator ng;
-	std::vector<geo::segment_2> S = ng.random_segment_2_set(50);
+	//	geo::Number_generator ng;
+	//	std::vector<geo::segment_2> S = ng.random_segment_2_set(50);
 
 	geo::DCEL D = segment_intersections(S);
 
 	std::cout << D << std::endl;
 
 	std::cout << D.is_valid(geo::DCEL::VERTICES_CHECK |
-							geo::DCEL::HEDGES_CHECK) << std::endl;
+							geo::DCEL::HEDGES_CHECK |
+							geo::DCEL::OVERLAP_CHECK) << std::endl;
 
 	gr::Figure fig;
 	for (auto& h : D.half_edges)
@@ -60,7 +61,7 @@ int main()
 	}
 
 	gr::Animation_canvas canvas_1;
-	//	canvas_1.display_figure(fig);
+	canvas_1.display_figure(fig);
 
 	return 0;
 }

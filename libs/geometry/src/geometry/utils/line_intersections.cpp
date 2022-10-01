@@ -1,6 +1,7 @@
 #include "geometry/utils/line_intersections.h"
 #include "geometry/utils/point_comparisons.h"
 #include "geometry/model/serialization.h"
+#include <cmath>
 #include <iostream>
 
 
@@ -9,11 +10,26 @@ namespace geometry
 	bool segment_intersect(const segment_2& s1,
 						   const segment_2& s2)
 	{
-		int a = orientation_det(s1.p1, s1.p2, s2.p1).sign() *
-				orientation_det(s1.p1, s1.p2, s2.p2).sign();
-		int b = orientation_det(s2.p1, s2.p2, s1.p1).sign() *
-				orientation_det(s2.p1, s2.p2, s1.p2).sign();
-		return a <= 0 && b <= 0;
+		multi_rational a = orientation_det(s1.p1, s1.p2, s2.p1) *
+						   orientation_det(s1.p1, s1.p2, s2.p2);
+		multi_rational b = orientation_det(s2.p1, s2.p2, s1.p1) *
+						   orientation_det(s2.p1, s2.p2, s1.p2);
+		return a <= multi_rational(0) && b <= multi_rational(0);
+	}
+
+	bool segment_overlap(const segment_2& s1,
+						 const segment_2& s2)
+	{
+		if (!point_on_line(s1.p1, s2.p1, s2.p2) ||
+			!point_on_line(s1.p2, s2.p1, s2.p2))
+		{ return false; }
+
+		point_2 p = {-(s1.p2 - s1.p1).y, (s1.p2 - s1.p1).x};
+		p = s1.p2 + p;
+
+		multi_rational a = orientation_det(s1.p2, p, s2.p1);
+		multi_rational b = orientation_det(s1.p2, p, s2.p2);
+		return a * b < multi_rational(0);
 	}
 
 	point_2 line_intersection(const segment_2& s1,
@@ -73,8 +89,7 @@ namespace geometry
 		point_2 c(h2->origin->x, h2->origin->y);
 		point_2 d(h2->twin->origin->x, h2->twin->origin->y);
 
-		return point_on_line(a, c, d) &&
-			   point_on_line(b, c, d);
+		return segment_overlap({a, b}, {c, d});
 	}
 
 	point_2 line_intersection(DCEL::hedge* h1,

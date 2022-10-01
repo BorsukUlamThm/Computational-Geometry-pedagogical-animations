@@ -1,10 +1,14 @@
 #pragma once
 
 #include <boost/rational.hpp>
+#include <boost/multiprecision/cpp_int.hpp>
 
 
 namespace geometry
 {
+	typedef boost::multiprecision::cpp_int cpp_int;
+	typedef boost::rational<cpp_int> multi_rational;
+
 	struct real
 	{
 		typedef long integer;
@@ -14,11 +18,13 @@ namespace geometry
 
 		real() = default;
 		real(const integer& n);
+		real(const integer& num, const integer& den);
 		real(const rational& x);
 
 		int sign() const;
 
 		explicit operator float() const;
+		explicit operator multi_rational() const;
 	};
 
 	bool operator==(const real& x,

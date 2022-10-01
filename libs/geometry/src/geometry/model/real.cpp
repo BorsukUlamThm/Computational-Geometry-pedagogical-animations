@@ -7,6 +7,10 @@ namespace geometry
 			val(n)
 	{}
 
+	real::real(const integer& num, const integer& den) :
+			val(rational(num, den))
+	{}
+
 	real::real(const rational& x) :
 			val(x)
 	{}
@@ -27,6 +31,13 @@ namespace geometry
 	real::operator float() const
 	{
 		return boost::rational_cast<float>(val);
+	}
+
+	real::operator multi_rational() const
+	{
+		cpp_int num(val.numerator());
+		cpp_int den(val.denominator());
+		return {num, den};
 	}
 
 	bool operator==(const real& x,
