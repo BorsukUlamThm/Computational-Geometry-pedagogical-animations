@@ -10,11 +10,11 @@ namespace geometry
 	bool segment_intersect(const segment_2& s1,
 						   const segment_2& s2)
 	{
-		multi_rational a = orientation_det(s1.p1, s1.p2, s2.p1) *
-						   orientation_det(s1.p1, s1.p2, s2.p2);
-		multi_rational b = orientation_det(s2.p1, s2.p2, s1.p1) *
-						   orientation_det(s2.p1, s2.p2, s1.p2);
-		return a <= multi_rational(0) && b <= multi_rational(0);
+		real a = orientation_det(s1.p1, s1.p2, s2.p1) *
+				 orientation_det(s1.p1, s1.p2, s2.p2);
+		real b = orientation_det(s2.p1, s2.p2, s1.p1) *
+				 orientation_det(s2.p1, s2.p2, s1.p2);
+		return a <= 0 && b <= 0;
 	}
 
 	bool segment_overlap(const segment_2& s1,
@@ -27,9 +27,9 @@ namespace geometry
 		point_2 p = {-(s1.p2 - s1.p1).y, (s1.p2 - s1.p1).x};
 		p = s1.p2 + p;
 
-		multi_rational a = orientation_det(s1.p2, p, s2.p1);
-		multi_rational b = orientation_det(s1.p2, p, s2.p2);
-		return a * b < multi_rational(0);
+		real a = orientation_det(s1.p2, p, s2.p1);
+		real b = orientation_det(s1.p2, p, s2.p2);
+		return a * b < 0;
 	}
 
 	point_2 line_intersection(const segment_2& s1,

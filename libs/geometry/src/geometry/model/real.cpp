@@ -1,19 +1,27 @@
 #include "geometry/model/real.h"
 
+#include <utility>
+
 
 namespace geometry
 {
-	real::real(const integer& n) :
+	real::real(int n) :
 			val(n)
-	{}
+	{
+		make_approx();
+	}
 
-	real::real(const integer& num, const integer& den) :
+	real::real(int num, int den) :
 			val(rational(num, den))
-	{}
+	{
+		make_approx();
+	}
 
-	real::real(const rational& x) :
-			val(x)
-	{}
+	real::real(rational x) :
+			val(std::move(x))
+	{
+		make_approx();
+	}
 
 	int real::sign() const
 	{
@@ -28,16 +36,14 @@ namespace geometry
 		return (val.denominator() > 0 ? -1 : 1);
 	}
 
-	real::operator float() const
+	void real::make_approx()
 	{
-		return boost::rational_cast<float>(val);
+		approx = boost::rational_cast<approx_t>(val);
 	}
 
-	real::operator multi_rational() const
+	real::operator gr::Coordinate() const
 	{
-		cpp_int num(val.numerator());
-		cpp_int den(val.denominator());
-		return {num, den};
+		return boost::rational_cast<gr::Coordinate>(val);
 	}
 
 	bool operator==(const real& x,
@@ -79,29 +85,29 @@ namespace geometry
 	real operator+(const real& x,
 				   const real& y)
 	{
-		return real(x.val + y.val);
+		return {x.val + y.val};
 	}
 
 	real operator-(const real& x,
 				   const real& y)
 	{
-		return real(x.val - y.val);
+		return {x.val - y.val};
 	}
 
 	real operator-(const real& x)
 	{
-		return real(-x.val);
+		return {-x.val};
 	}
 
 	real operator*(const real& x,
 				   const real& y)
 	{
-		return real(x.val * y.val);
+		return {x.val * y.val};
 	}
 
 	real operator/(const real& x,
 				   const real& y)
 	{
-		return real(x.val / y.val);
+		return {x.val / y.val};
 	}
 }

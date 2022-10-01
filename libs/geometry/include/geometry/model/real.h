@@ -2,29 +2,31 @@
 
 #include <boost/rational.hpp>
 #include <boost/multiprecision/cpp_int.hpp>
+#include "graphics/model/global_variables.h"
 
+
+namespace gr = graphics;
 
 namespace geometry
 {
-	typedef boost::multiprecision::cpp_int cpp_int;
-	typedef boost::rational<cpp_int> multi_rational;
-
 	struct real
 	{
-		typedef long integer;
+		typedef boost::multiprecision::cpp_int integer;
 		typedef boost::rational<integer> rational;
+		typedef float approx_t;
 
 		rational val {};
+		approx_t approx {};
 
 		real() = default;
-		real(const integer& n);
-		real(const integer& num, const integer& den);
-		real(const rational& x);
+		real(int n);
+		real(int num, int den);
+		real(rational  x);
 
 		int sign() const;
+		void make_approx();
 
-		explicit operator float() const;
-		explicit operator multi_rational() const;
+		explicit operator gr::Coordinate() const;
 	};
 
 	bool operator==(const real& x,

@@ -96,13 +96,9 @@ namespace geometry::segment_intersections_components
 		gr::Coordinate x(p.x);
 		gr::Coordinate y(p.y);
 
-		std::string coord = std::to_string(p.x.val.numerator());
-		coord += "/";
-		coord += std::to_string(p.x.val.denominator());
+		std::string coord = std::to_string(p.x.approx);
 		coord += " ";
-		coord += std::to_string(p.y.val.numerator());
-		coord += "/";
-		coord += std::to_string(p.y.val.denominator());
+		coord += std::to_string(p.y.approx);
 
 		gr::Point_shp pt(x, y);
 
