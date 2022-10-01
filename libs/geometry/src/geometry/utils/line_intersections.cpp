@@ -9,11 +9,11 @@ namespace geometry
 	bool segment_intersect(const segment_2& s1,
 						   const segment_2& s2)
 	{
-		real a = orientation_det(s1.p1, s1.p2, s2.p1) *
-				 orientation_det(s1.p1, s1.p2, s2.p2);
-		real b = orientation_det(s2.p1, s2.p2, s1.p1) *
-				 orientation_det(s2.p1, s2.p2, s1.p2);
-		return a <= real(0) && b <= real(0);
+		int a = orientation_det(s1.p1, s1.p2, s2.p1).sign() *
+				orientation_det(s1.p1, s1.p2, s2.p2).sign();
+		int b = orientation_det(s2.p1, s2.p2, s1.p1).sign() *
+				orientation_det(s2.p1, s2.p2, s1.p2).sign();
+		return a <= 0 && b <= 0;
 	}
 
 	point_2 line_intersection(const segment_2& s1,
@@ -43,7 +43,7 @@ namespace geometry
 			{
 				std::cerr << "Error : Line does not intersect the line y = "
 						  << y << std::endl;
-				return real(0);
+				return {0};
 			}
 			return std::min(s.p1.x, s.p2.x);
 		}
@@ -52,5 +52,48 @@ namespace geometry
 		real b = s.p1.x - s.p2.x;
 		real c = -(a * s.p1.x + b * s.p1.y);
 		return -(c + b * y) / a;
+	}
+
+	bool hedges_intersect(DCEL::hedge* h1,
+						  DCEL::hedge* h2)
+	{
+		segment_2 s1(h1->origin->x, h1->origin->y,
+					 h1->twin->origin->x, h1->twin->origin->y);
+		segment_2 s2(h2->origin->x, h2->origin->y,
+					 h2->twin->origin->x, h2->twin->origin->y);
+
+		return segment_intersect(s1, s2);
+	}
+
+	bool hedges_overlap(DCEL::hedge* h1,
+						DCEL::hedge* h2)
+	{
+		point_2 a(h1->origin->x, h1->origin->y);
+		point_2 b(h1->twin->origin->x, h1->twin->origin->y);
+		point_2 c(h2->origin->x, h2->origin->y);
+		point_2 d(h2->twin->origin->x, h2->twin->origin->y);
+
+		return point_on_line(a, c, d) &&
+			   point_on_line(b, c, d);
+	}
+
+	point_2 line_intersection(DCEL::hedge* h1,
+							  DCEL::hedge* h2)
+	{
+		segment_2 s1(h1->origin->x, h1->origin->y,
+					 h1->twin->origin->x, h1->twin->origin->y);
+		segment_2 s2(h2->origin->x, h2->origin->y,
+					 h2->twin->origin->x, h2->twin->origin->y);
+
+		return line_intersection(s1, s2);
+	}
+
+	real x_intersection(DCEL::hedge* h,
+						const real& y)
+	{
+		segment_2 s(h->origin->x, h->origin->y,
+					h->twin->origin->x, h->twin->origin->y);
+
+		return x_intersection(s, y);
 	}
 }

@@ -10,65 +10,85 @@ namespace geometry
 {
 	struct DCEL
 	{
-		struct Vertex;
-		struct Hedge;
-		struct Face;
+		struct vertex;
+		struct hedge;
+		struct face;
 
-		std::vector<Vertex*> vertices {};
-		std::vector<Hedge*> half_edges {};
-		std::vector<Face*> faces {};
+		std::vector<vertex*> vertices {};
+		std::vector<hedge*> half_edges {};
+		std::vector<face*> faces {};
 
 		DCEL() = default;
 		~DCEL();
 
-		bool is_valid();
+		enum is_valid_check
+		{
+			VERTICES_CHECK = 1,
+			HEDGES_CHECK   = 2,
+			FACES_CHECK    = 4,
+			OVERLAP_CHECK  = 8,
+			ALL_CHECK      = 15, // last one * 2 - 1
+		};
+
+		bool is_valid(unsigned mask = ALL_CHECK);
 		void clear();
 
+		void delete_vertex(vertex* v);
+		void delete_hedge(hedge* h);
+		void delete_face(face* f);
+
+	private:
+		bool vertices_check();
+		bool hedges_check();
+		bool faces_check();
+		bool overlap_check();
+
+	public:
 		friend std::ostream& operator<<(std::ostream& os,
-										const DCEL& dcel);
+										const DCEL& D);
 	};
 
-	struct DCEL::Vertex
+	struct DCEL::vertex
 	{
 		real x;
 		real y;
-		Hedge* inc_edge = nullptr;
+		hedge* inc_edge = nullptr;
 
-		Vertex() = default;
-		Vertex(const real& x,
+		vertex() = default;
+		vertex(const real& x,
 			   const real& y,
-			   Hedge* inc_edge = nullptr);
-		~Vertex() = default;
+			   hedge* inc_edge = nullptr);
+		~vertex() = default;
 	};
 
-	struct DCEL::Hedge
+	struct DCEL::hedge
 	{
-		Vertex* origin = nullptr;
-		Hedge* prev = nullptr;
-		Hedge* next = nullptr;
-		Hedge* twin = nullptr;
-		Face* inc_face = nullptr;
+		vertex* origin = nullptr;
+		hedge* prev = nullptr;
+		hedge* next = nullptr;
+		hedge* twin = nullptr;
+		face* inc_face = nullptr;
 
-		Hedge() = default;
-		Hedge(Vertex* origin,
-			  Hedge* prev,
-			  Hedge* next,
-			  Hedge* twin,
-			  Face* inc_face);
-		~Hedge() = default;
+		hedge() = default;
+		hedge(vertex* origin,
+			  hedge* prev,
+			  hedge* next,
+			  hedge* twin,
+			  face* inc_face);
+		~hedge() = default;
 	};
 
-	struct DCEL::Face
+	struct DCEL::face
 	{
-		std::vector<Hedge*> inner_comp {};
-		Hedge* outer_comp = nullptr;
+		std::vector<hedge*> inner_comp {};
+		hedge* outer_comp = nullptr;
 
-		Face() = default;
-		Face(std::vector<Hedge*> inner_comp,
-			 Hedge* outer_comp);
-		~Face() = default;
+		face() = default;
+		face(std::vector<hedge*> inner_comp,
+			 hedge* outer_comp);
+		~face() = default;
 	};
 
 	std::ostream& operator<<(std::ostream& os,
-							 const DCEL& dcel);
+							 const DCEL& D);
 }

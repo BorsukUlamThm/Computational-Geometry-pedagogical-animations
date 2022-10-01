@@ -16,6 +16,8 @@ namespace geometry
 		real(const integer& n);
 		real(const rational& x);
 
+		int sign() const;
+
 		explicit operator float() const;
 	};
 

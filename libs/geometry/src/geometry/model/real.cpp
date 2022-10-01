@@ -11,6 +11,19 @@ namespace geometry
 			val(x)
 	{}
 
+	int real::sign() const
+	{
+		if (val.numerator() == 0)
+		{
+			return 0;
+		}
+		if (val.numerator() > 0)
+		{
+			return (val.denominator() > 0 ? 1 : -1);
+		}
+		return (val.denominator() > 0 ? -1 : 1);
+	}
+
 	real::operator float() const
 	{
 		return boost::rational_cast<float>(val);

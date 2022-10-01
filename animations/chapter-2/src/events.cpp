@@ -155,22 +155,20 @@ namespace segment_intersections
 	{
 		for (unsigned i = 0; i < S.size(); ++i)
 		{
-			insert_upper_point(S[i].p1, i, &animation, &T);
-			insert_lower_point(S[i].p2, i, &animation, &T);
+			insert_upper_point(i, &animation, &T);
+			insert_lower_point(i, &animation, &T);
 		}
 	}
 
-	void queue::insert_upper_point(const point& p,
-								   unsigned i,
+	void queue::insert_upper_point(unsigned i,
 								   gr::Animation* animation,
 								   tree* T)
-	{ aux_insert_upper_point(p, i, animation, T, root); }
+	{ aux_insert_upper_point(i, animation, T, root); }
 
-	void queue::insert_lower_point(const point& p,
-								   unsigned i,
+	void queue::insert_lower_point(unsigned i,
 								   gr::Animation* animation,
 								   tree* T)
-	{ aux_insert_lower_point(p, i, animation, T, root); }
+	{ aux_insert_lower_point(i, animation, T, root); }
 
 	void queue::insert_contained_point(const point& p,
 									   unsigned i,
@@ -190,12 +188,13 @@ namespace segment_intersections
 		return evt1.p == evt2.p;
 	}
 
-	void queue::aux_insert_upper_point(const point& p,
-									   unsigned i,
+	void queue::aux_insert_upper_point(unsigned i,
 									   gr::Animation* animation,
 									   tree* T,
 									   geo::AVL_node<event>*& node)
 	{
+		point p = T->get_ith_segment(i).p1;
+
 		if (node == nullptr)
 		{
 			event evt(p, animation, T, this);
@@ -212,23 +211,24 @@ namespace segment_intersections
 
 		if (geo::point_below_point(p, node->root.p))
 		{
-			aux_insert_upper_point(p, i, animation, T, node->left);
+			aux_insert_upper_point(i, animation, T, node->left);
 			node->update_depth();
 			balance(node);
 			return;
 		}
 
-		aux_insert_upper_point(p, i, animation, T, node->right);
+		aux_insert_upper_point(i, animation, T, node->right);
 		node->update_depth();
 		balance(node);
 	}
 
-	void queue::aux_insert_lower_point(const point& p,
-									   unsigned i,
+	void queue::aux_insert_lower_point(unsigned i,
 									   gr::Animation* animation,
 									   tree* T,
 									   geo::AVL_node<event>*& node)
 	{
+		point p = T->get_ith_segment(i).p2;
+
 		if (node == nullptr)
 		{
 			event evt(p, animation, T, this);
@@ -245,13 +245,13 @@ namespace segment_intersections
 
 		if (geo::point_below_point(p, node->root.p))
 		{
-			aux_insert_lower_point(p, i, animation, T, node->left);
+			aux_insert_lower_point(i, animation, T, node->left);
 			node->update_depth();
 			balance(node);
 			return;
 		}
 
-		aux_insert_lower_point(p, i, animation, T, node->right);
+		aux_insert_lower_point(i, animation, T, node->right);
 		node->update_depth();
 		balance(node);
 	}

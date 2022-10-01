@@ -12,7 +12,8 @@ namespace segment_intersections
 
 	class tree : public geo::AVL_tree<unsigned>
 	{
-		typedef geo::AVL_tree<unsigned> super;
+	public:
+		typedef geo::AVL_node<unsigned> Node;
 
 	private:
 		point event_p {};

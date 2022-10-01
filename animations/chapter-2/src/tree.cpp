@@ -51,6 +51,7 @@ namespace segment_intersections
 				point pj = (S[j].p1 != center ? S[j].p1 : S[j].p2);
 				pj = (geo::point_above_point(pj, center) ?
 					  pj : center + center - pj);
+
 				return geo::point_left_line(pi, center, pj);
 			}
 
@@ -72,8 +73,8 @@ namespace segment_intersections
 	{ return i == j; }
 
 	unsigned tree::aux_left_neighbour(const point& p,
-									  geo::AVL_node<unsigned>* node,
-									  geo::AVL_node<unsigned>* candidate) const
+									  Node* node,
+									  Node* candidate) const
 	{
 		if (node == nullptr)
 		{ return candidate == nullptr ? -1 : candidate->root; }
@@ -87,8 +88,8 @@ namespace segment_intersections
 	}
 
 	unsigned tree::aux_right_neighbour(const point& p,
-									   geo::AVL_node<unsigned>* node,
-									   geo::AVL_node<unsigned>* candidate) const
+									   Node* node,
+									   Node* candidate) const
 	{
 		if (node == nullptr)
 		{ return candidate == nullptr ? -1 : candidate->root; }
@@ -112,7 +113,7 @@ namespace segment_intersections
 	}
 
 	unsigned tree::aux_plot(gr::Animation* animation,
-							tree::Node* node,
+							Node* node,
 							unsigned min)
 	{
 		if (node == nullptr)

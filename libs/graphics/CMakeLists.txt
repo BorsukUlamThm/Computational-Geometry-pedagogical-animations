@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 set(graphics ${CMAKE_SOURCE_DIR}/libs/graphics)
 set(utils ${CMAKE_SOURCE_DIR}/libs/utils)
 

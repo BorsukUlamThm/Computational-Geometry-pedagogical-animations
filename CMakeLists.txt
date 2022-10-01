@@ -8,6 +8,7 @@ set(data ${CMAKE_SOURCE_DIR}/data)
 set(log ${data}/log)
 file(MAKE_DIRECTORY ${bin})
 file(MAKE_DIRECTORY ${log})
+file(MAKE_DIRECTORY ${log}/tests)
 file(MAKE_DIRECTORY ${data}/saved_figures)
 file(MAKE_DIRECTORY ${data}/saved_inputs)
 

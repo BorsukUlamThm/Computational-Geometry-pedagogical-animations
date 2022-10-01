@@ -45,12 +45,10 @@ namespace segment_intersections
 			  gr::Animation& animation,
 			  tree& T);
 
-		void insert_upper_point(const point& p,
-								unsigned i,
+		void insert_upper_point(unsigned i,
 								gr::Animation* animation,
 								tree* T);
-		void insert_lower_point(const point& p,
-								unsigned i,
+		void insert_lower_point(unsigned i,
 								gr::Animation* animation,
 								tree* T);
 		void insert_contained_point(const point& p,
@@ -64,13 +62,11 @@ namespace segment_intersections
 		bool are_equal(const event& evt1,
 					   const event& evt2) const override;
 
-		void aux_insert_upper_point(const point& p,
-									unsigned i,
+		void aux_insert_upper_point(unsigned i,
 									gr::Animation* animation,
 									tree* T,
 									Node*& node);
-		void aux_insert_lower_point(const point& p,
-									unsigned i,
+		void aux_insert_lower_point(unsigned i,
 									gr::Animation* animation,
 									tree* T,
 									Node*& node);

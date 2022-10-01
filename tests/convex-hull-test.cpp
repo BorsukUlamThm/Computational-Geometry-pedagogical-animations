@@ -8,20 +8,20 @@ namespace gr = graphics;
 typedef geo::point_2 point;
 typedef std::vector<point> point_set;
 
-int main(int argc, char** argv)
+int main()
 {
 	geo::Number_generator ng;
-	std::vector<point> P = ng.random_point_2_set(50);
+	point_set P = ng.random_point_2_set(50);
 
-	geo::DCEL dcel = geo::convex_hull(P);
+	geo::DCEL D = geo::convex_hull(P);
 
-	std::cout << "dcel is "
-			  << (dcel.is_valid() ? "" : "NOT ")
+	std::cout << "D is "
+			  << (D.is_valid() ? "" : "NOT ")
 			  << "valid"
 			  << std::endl;
 
 	gr::Figure fig;
-	for (auto& h : dcel.half_edges)
+	for (auto& h : D.half_edges)
 	{
 		gr::Coordinate x1(h->origin->x);
 		gr::Coordinate y1(h->origin->y);

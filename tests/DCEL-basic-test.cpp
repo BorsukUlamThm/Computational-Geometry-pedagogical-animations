@@ -4,7 +4,7 @@
 
 namespace geo = geometry;
 
-int main(int argc, char** argv)
+int main()
 {
 	geo::polygon P;
 	P.emplace_back(0, 0);
@@ -12,10 +12,10 @@ int main(int argc, char** argv)
 	P.emplace_back(1, 1);
 	P.emplace_back(0, 1);
 
-	geo::DCEL dcel = geo::DCEL_from_polygon(P);
+	geo::DCEL D = geo::DCEL_from_polygon(P);
 
-	std::cout << "dcel is "
-			  << (dcel.is_valid() ? "" : "NOT ")
+	std::cout << "D is "
+			  << (D.is_valid() ? "" : "NOT ")
 			  << "valid"
 			  << std::endl;
 
@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 
 	geo::DCEL dcel1 = geo::DCEL_from_polygon(P);
 
-	std::cout << "dcel is "
+	std::cout << "D is "
 			  << (dcel1.is_valid() ? "" : "NOT ")
 			  << "valid"
 			  << std::endl;
