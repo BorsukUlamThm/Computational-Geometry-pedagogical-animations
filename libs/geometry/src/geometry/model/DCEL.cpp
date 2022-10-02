@@ -1,6 +1,5 @@
 #include "geometry/model/DCEL.h"
 #include "geometry/model/serialization.h"
-#include "geometry/utils/line_intersections.h"
 #include "geometry/algorithms/segment_intersections.h"
 #include <iostream>
 #include <map>
@@ -19,6 +18,15 @@ namespace geometry
 		for (auto& ptr : faces)
 		{ delete ptr; }
 	}
+
+	void DCEL::component::mark(mark_t m)
+	{ marks |= m; }
+
+	void DCEL::component::unmark(mark_t m)
+	{ marks &= ~m; }
+
+	bool DCEL::component::is_marked(mark_t m) const
+	{ return (marks & m) == m; }
 
 	DCEL::vertex::vertex(const real& x,
 						 const real& y,
@@ -141,7 +149,7 @@ namespace geometry
 		return valid;
 	}
 
-	bool DCEL::intersection_check()
+	bool DCEL::intersection_check() const
 	{
 		return !edge_intersections_test(*this);
 	}
@@ -179,6 +187,35 @@ namespace geometry
 		vertices.clear();
 		half_edges.clear();
 		faces.clear();
+	}
+
+	DCEL::mark_t DCEL::get_new_mark()
+	{
+		for (unsigned i = 0; i < MAX_MARKS; ++i)
+		{
+			mark_t m = 1 << i;
+
+			if ((used_marks & m) == m)
+			{ continue; }
+
+			used_marks |= m;
+			return m;
+		}
+
+		std::cerr << "DCEL error : no available marks left" << std::endl;
+		return 0;
+	}
+
+	void DCEL::free_mark(DCEL::mark_t m)
+	{
+		for (auto& v : vertices)
+		{ v->unmark(m); }
+		for (auto& h : half_edges)
+		{ h->unmark(m); }
+		for (auto& f : faces)
+		{ f->unmark(m); }
+
+		used_marks &= ~m;
 	}
 
 	void DCEL::delete_vertex(geometry::DCEL::vertex* v)

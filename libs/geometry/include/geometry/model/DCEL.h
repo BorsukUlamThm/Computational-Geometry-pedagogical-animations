@@ -10,13 +10,20 @@ namespace geometry
 {
 	struct DCEL
 	{
+		struct component;
 		struct vertex;
 		struct hedge;
 		struct face;
 
+		typedef unsigned mark_t;
+		static constexpr unsigned MAX_MARKS =
+				std::numeric_limits<mark_t>::digits;
+
 		std::vector<vertex*> vertices {};
 		std::vector<hedge*> half_edges {};
 		std::vector<face*> faces {};
+
+		mark_t used_marks = 0;
 
 		DCEL() = default;
 		~DCEL();
@@ -33,6 +40,9 @@ namespace geometry
 		bool is_valid(unsigned mask = ALL_CHECK);
 		void clear();
 
+		mark_t get_new_mark();
+		void free_mark(mark_t m);
+
 		void delete_vertex(vertex* v);
 		void delete_hedge(hedge* h);
 		void delete_face(face* f);
@@ -41,14 +51,23 @@ namespace geometry
 		bool vertices_check();
 		bool hedges_check();
 		bool faces_check();
-		bool intersection_check();
+		bool intersection_check() const;
 
 	public:
 		friend std::ostream& operator<<(std::ostream& os,
 										const DCEL& D);
 	};
 
-	struct DCEL::vertex
+	struct DCEL::component
+	{
+		mark_t marks = 0;
+
+		void mark(mark_t m);
+		void unmark(mark_t m);
+		bool is_marked(mark_t m) const;
+	};
+
+	struct DCEL::vertex : public DCEL::component
 	{
 		real x;
 		real y;
@@ -61,7 +80,7 @@ namespace geometry
 		~vertex() = default;
 	};
 
-	struct DCEL::hedge
+	struct DCEL::hedge : public DCEL::component
 	{
 		vertex* origin = nullptr;
 		hedge* prev = nullptr;
@@ -78,7 +97,7 @@ namespace geometry
 		~hedge() = default;
 	};
 
-	struct DCEL::face
+	struct DCEL::face : public DCEL::component
 	{
 		std::vector<hedge*> inner_comp {};
 		hedge* outer_comp = nullptr;
