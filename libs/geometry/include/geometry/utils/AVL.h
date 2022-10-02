@@ -93,6 +93,7 @@ namespace geometry
 						bool& found);
 
 		unsigned depth(Node* node);
+		void update_depth(Node*& node);
 		void delete_node(Node* node);
 
 		void right_rotation(Node*& node);
@@ -223,7 +224,10 @@ namespace geometry
 
 	template<typename T>
 	void AVL_tree<T>::insert(const T& val)
-	{ aux_insert(val, root); }
+	{
+		aux_insert(val, root);
+		update_depth(root);
+	}
 
 	template<typename T>
 	void AVL_tree<T>::aux_remove(const T& val,
@@ -259,12 +263,16 @@ namespace geometry
 	{
 		bool dummy;
 		aux_remove(val, root, dummy);
+		update_depth(root);
 	}
 
 	template<typename T>
 	void AVL_tree<T>::remove(const T& val,
 							 bool& found)
-	{ aux_remove(val, root, found); }
+	{
+		aux_remove(val, root, found);
+		update_depth(root);
+	}
 
 	template<typename T>
 	T AVL_tree<T>::extract_min()
@@ -302,6 +310,15 @@ namespace geometry
 		{ return 0; }
 
 		return node->depth;
+	}
+
+	template<typename T>
+	void AVL_tree<T>::update_depth(Node*& node)
+	{
+		if (node == nullptr)
+		{ return; }
+
+		node->update_depth();
 	}
 
 	template<typename T>

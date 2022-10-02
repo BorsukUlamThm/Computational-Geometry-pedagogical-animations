@@ -17,34 +17,34 @@ namespace geometry::segment_intersections_components
 
 	void event::handle() const
 	{
-		T->plot_point(p);
+//		T->plot_point(p);
 
 		T->set_event_p(p);
 		make_intersection();
 
-		T->plot();
+//		T->plot();
 
 		T->set_comparison_just_above();
-		for (auto& i : L)
-		{ T->remove(i); }
-		for (auto& i : C)
-		{ T->remove(i); }
+		for (auto& h : L)
+		{ T->remove(h); }
+		for (auto& h : C)
+		{ T->remove(h); }
 
-		T->plot();
+//		T->plot();
 
 		T->set_comparison_just_below();
-		for (auto& i : U)
-		{ T->insert(i); }
-		for (auto& i : C)
-		{ T->insert(i); }
+		for (auto& h : U)
+		{ T->insert(h); }
+		for (auto& h : C)
+		{ T->insert(h); }
 
-		T->plot();
+//		T->plot();
 
 		if (U.size() + C.size() == 0)
 		{
-			hedge* i = T->left_neighbour(p);
-			hedge* j = T->right_neighbour(p);
-			find_new_event(i, j);
+			hedge* l = T->left_neighbour(p);
+			hedge* r = T->right_neighbour(p);
+			find_new_event(l, r);
 		}
 		else
 		{
@@ -58,6 +58,8 @@ namespace geometry::segment_intersections_components
 			hedge* rr = (right_node ? right_node->root : nullptr);
 			find_new_event(r, rr);
 		}
+
+//		std::cout << (T ? T->depth() : -1) << std::endl;
 	}
 
 	void event::make_intersection() const
@@ -139,60 +141,60 @@ namespace geometry::segment_intersections_components
 		}
 	}
 
-	void event::find_new_event(hedge* i,
-							   hedge* j) const
+	void event::find_new_event(hedge* h1,
+							   hedge* h2) const
 	{
-		if (i == nullptr || j == nullptr)
+		if (h1 == nullptr || h2 == nullptr)
 		{ return; }
 
-		gr::Coordinate ix1(i->origin->x);
-		gr::Coordinate iy1(i->origin->y);
-		gr::Coordinate ix2(i->twin->origin->x);
-		gr::Coordinate iy2(i->twin->origin->y);
-		gr::Coordinate jx1(j->origin->x);
-		gr::Coordinate jy1(j->origin->y);
-		gr::Coordinate jx2(j->twin->origin->x);
-		gr::Coordinate jy2(j->twin->origin->y);
-		T->animation[3].add_segment(ix1, iy1, ix2, iy2, gr::PURPLE);
-		T->animation[3].add_segment(jx1, jy1, jx2, jy2, gr::PURPLE);
-		T->animation.make_new_frame();
-		T->animation[3].clear();
+//		gr::Coordinate ix1(i->origin->x);
+//		gr::Coordinate iy1(i->origin->y);
+//		gr::Coordinate ix2(i->twin->origin->x);
+//		gr::Coordinate iy2(i->twin->origin->y);
+//		gr::Coordinate jx1(j->origin->x);
+//		gr::Coordinate jy1(j->origin->y);
+//		gr::Coordinate jx2(j->twin->origin->x);
+//		gr::Coordinate jy2(j->twin->origin->y);
+//		T->animation[3].add_segment(ix1, iy1, ix2, iy2, gr::PURPLE);
+//		T->animation[3].add_segment(jx1, jy1, jx2, jy2, gr::PURPLE);
+//		T->animation.make_new_frame();
+//		T->animation[3].clear();
 
-		if (!hedges_intersect(i, j))
+		if (!hedges_intersect(h1, h2))
 		{ return; }
 
-		point_2 inter = line_intersection(i, j);
+		point_2 inter = line_intersection(h1, h2);
 
-		gr::Coordinate x(inter.x);
-		gr::Coordinate y(inter.y);
-		T->animation[0].add_point(x, y, gr::YELLOW);
-		T->animation.make_new_frame();
+//		gr::Coordinate x(inter.x);
+//		gr::Coordinate y(inter.y);
+//		T->animation[0].add_point(x, y, gr::YELLOW);
+//		T->animation.make_new_frame();
 
 		if (point_below_point(inter, p))
 		{
-			point_2 low_i(i->twin->origin->x, i->twin->origin->y);
-			point_2 low_j(j->twin->origin->x, j->twin->origin->y);
+			point_2 low_i(h1->twin->origin->x, h1->twin->origin->y);
+			point_2 low_j(h2->twin->origin->x, h2->twin->origin->y);
 
 			if (inter != low_i)
-			{ Q->insert_contained_point(inter, i, D, T); }
+			{ Q->insert_contained_point(inter, h1, D, T); }
 			if (inter != low_j)
-			{ Q->insert_contained_point(inter, j, D, T); }
+			{ Q->insert_contained_point(inter, h2, D, T); }
 		}
 	}
 
 	hedge* event::leftmost_segment() const
 	{
 		std::vector<hedge*> UC;
-		for (hedge* i : U)
-		{ UC.push_back(i); }
-		for (hedge* i : C)
-		{ UC.push_back(i); }
+		for (hedge* h : U)
+		{ UC.push_back(h); }
+		for (hedge* h : C)
+		{ UC.push_back(h); }
 
 		hedge* l = UC[0];
-		for (hedge* i : UC)
+		for (hedge* h : UC)
 		{
-			if (T->compare(i, l))
-			{ l = i; }
+			if (T->compare(h, l))
+			{ l = h; }
 		}
 
 		return l;
@@ -201,16 +203,16 @@ namespace geometry::segment_intersections_components
 	hedge* event::rightmost_segment() const
 	{
 		std::vector<hedge*> UC;
-		for (hedge* i : U)
-		{ UC.push_back(i); }
-		for (hedge* i : C)
-		{ UC.push_back(i); }
+		for (hedge* h : U)
+		{ UC.push_back(h); }
+		for (hedge* h : C)
+		{ UC.push_back(h); }
 
 		hedge* r = UC[0];
-		for (hedge* i : UC)
+		for (hedge* h : UC)
 		{
-			if (T->compare(r, i))
-			{ r = i; }
+			if (T->compare(r, h))
+			{ r = h; }
 		}
 
 		return r;
@@ -228,21 +230,21 @@ namespace geometry::segment_intersections_components
 		}
 	}
 
-	void queue::insert_upper_point(hedge* i,
+	void queue::insert_upper_point(hedge* h,
 								   DCEL* D,
 								   tree* T)
-	{ aux_insert_upper_point(i, D, T, root); }
+	{ aux_insert_upper_point(h, D, T, root); }
 
-	void queue::insert_lower_point(hedge* i,
+	void queue::insert_lower_point(hedge* h,
 								   DCEL* D,
 								   tree* T)
-	{ aux_insert_lower_point(i, D, T, root); }
+	{ aux_insert_lower_point(h, D, T, root); }
 
 	void queue::insert_contained_point(const point_2& p,
-									   hedge* i,
+									   hedge* h,
 									   DCEL* D,
 									   tree* T)
-	{ aux_insert_contained_point(p, i, D, T, root); }
+	{ aux_insert_contained_point(p, h, D, T, root); }
 
 	bool queue::compare(const event& evt1,
 						const event& evt2) const
@@ -256,76 +258,76 @@ namespace geometry::segment_intersections_components
 		return evt1.p == evt2.p;
 	}
 
-	void queue::aux_insert_upper_point(hedge* i,
+	void queue::aux_insert_upper_point(hedge* h,
 									   DCEL* D,
 									   tree* T,
 									   AVL_node<event>*& node)
 	{
-		point_2 p(i->origin->x, i->origin->y);
+		point_2 p(h->origin->x, h->origin->y);
 
 		if (node == nullptr)
 		{
 			event evt(p, D, T, this);
-			evt.U.push_back(i);
+			evt.U.push_back(h);
 			node = new Node(evt);
 			return;
 		}
 
 		if (p == node->root.p)
 		{
-			node->root.U.push_back(i);
+			node->root.U.push_back(h);
 			return;
 		}
 
 		if (point_below_point(p, node->root.p))
 		{
-			aux_insert_upper_point(i, D, T, node->left);
+			aux_insert_upper_point(h, D, T, node->left);
 			node->update_depth();
 			balance(node);
 			return;
 		}
 
-		aux_insert_upper_point(i, D, T, node->right);
+		aux_insert_upper_point(h, D, T, node->right);
 		node->update_depth();
 		balance(node);
 	}
 
-	void queue::aux_insert_lower_point(hedge* i,
+	void queue::aux_insert_lower_point(hedge* h,
 									   DCEL* D,
 									   tree* T,
 									   AVL_node<event>*& node)
 	{
-		point_2 p(i->twin->origin->x, i->twin->origin->y);
+		point_2 p(h->twin->origin->x, h->twin->origin->y);
 
 		if (node == nullptr)
 		{
 			event evt(p, D, T, this);
-			evt.L.push_back(i);
+			evt.L.push_back(h);
 			node = new Node(evt);
 			return;
 		}
 
 		if (p == node->root.p)
 		{
-			node->root.L.push_back(i);
+			node->root.L.push_back(h);
 			return;
 		}
 
 		if (point_below_point(p, node->root.p))
 		{
-			aux_insert_lower_point(i, D, T, node->left);
+			aux_insert_lower_point(h, D, T, node->left);
 			node->update_depth();
 			balance(node);
 			return;
 		}
 
-		aux_insert_lower_point(i, D, T, node->right);
+		aux_insert_lower_point(h, D, T, node->right);
 		node->update_depth();
 		balance(node);
 	}
 
 	void queue::aux_insert_contained_point(const point_2& p,
-										   hedge* i,
+										   hedge* h,
 										   DCEL* D,
 										   tree* T,
 										   AVL_node<event>*& node)
@@ -333,26 +335,26 @@ namespace geometry::segment_intersections_components
 		if (node == nullptr)
 		{
 			event evt(p, D, T, this);
-			evt.C.insert(i);
+			evt.C.insert(h);
 			node = new Node(evt);
 			return;
 		}
 
 		if (p == node->root.p)
 		{
-			node->root.C.insert(i);
+			node->root.C.insert(h);
 			return;
 		}
 
 		if (point_below_point(p, node->root.p))
 		{
-			aux_insert_contained_point(p, i, D, T, node->left);
+			aux_insert_contained_point(p, h, D, T, node->left);
 			node->update_depth();
 			balance(node);
 			return;
 		}
 
-		aux_insert_contained_point(p, i, D, T, node->right);
+		aux_insert_contained_point(p, h, D, T, node->right);
 		node->update_depth();
 		balance(node);
 	}

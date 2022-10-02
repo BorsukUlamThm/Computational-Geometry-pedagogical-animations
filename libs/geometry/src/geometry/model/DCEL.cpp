@@ -1,6 +1,7 @@
 #include "geometry/model/DCEL.h"
 #include "geometry/model/serialization.h"
 #include "geometry/utils/line_intersections.h"
+#include "geometry/algorithms/segment_intersections.h"
 #include <iostream>
 #include <map>
 
@@ -140,42 +141,9 @@ namespace geometry
 		return valid;
 	}
 
-	bool DCEL::overlap_check()
+	bool DCEL::intersection_check()
 	{
-		bool valid = true;
-
-		for (unsigned i = 0; i < half_edges.size(); ++i)
-		{
-			for (unsigned j = i + 1; j < half_edges.size(); ++j)
-			{
-				if (half_edges[i]->twin == half_edges[j])
-				{ continue; }
-
-				if (hedges_overlap(half_edges[i], half_edges[j]))
-				{
-					DCEL::hedge* hi = half_edges[i];
-					DCEL::hedge* hj = half_edges[j];
-					std::cout << hi->origin->x << ", "
-							  << hi->origin->y << ", "
-							  << hi->twin->origin->x << ", "
-							  << hi->twin->origin->y << " "
-							  << std::endl
-							  << hj->origin->x << ", "
-							  << hj->origin->y << ", "
-							  << hj->twin->origin->x << ", "
-							  << hj->twin->origin->y << " "
-							  << std::endl
-							  << std::endl;
-
-					std::cerr << "Invalid DCEL " << i
-							  << "-th half edge and"
-							  << j << "-th half edge overlap" << std::endl;
-					valid = false;
-				}
-			}
-		}
-
-		return valid;
+		return !edge_intersections_test(*this);
 	}
 
 	bool DCEL::is_valid(unsigned mask)
@@ -191,8 +159,8 @@ namespace geometry
 		if ((mask & FACES_CHECK) == FACES_CHECK)
 		{ valid = valid && faces_check(); }
 
-		if ((mask & OVERLAP_CHECK) == OVERLAP_CHECK)
-		{ valid = valid && overlap_check(); }
+		if ((mask & INTERSECTION_CHECK) == INTERSECTION_CHECK)
+		{ valid = valid && intersection_check(); }
 
 		return valid;
 	}

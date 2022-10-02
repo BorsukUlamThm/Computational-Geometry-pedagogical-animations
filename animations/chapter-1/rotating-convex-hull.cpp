@@ -146,7 +146,7 @@ namespace chap1_rotating_convex_hull
 	void make_convex_hull(point_set& P,
 						  gr::Animation& animation)
 	{
-		for (auto p : P)
+		for (auto& p : P)
 		{
 			gr::Coordinate x(p.x);
 			gr::Coordinate y(p.y);

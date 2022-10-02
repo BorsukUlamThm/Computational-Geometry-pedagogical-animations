@@ -24,10 +24,10 @@ namespace geometry
 		enum is_valid_check
 		{
 			VERTICES_CHECK = 1,
-			HEDGES_CHECK   = 2,
-			FACES_CHECK    = 4,
-			OVERLAP_CHECK  = 8,
-			ALL_CHECK      = 15, // last one * 2 - 1
+			HEDGES_CHECK = 2,
+			FACES_CHECK = 4,
+			INTERSECTION_CHECK = 8,
+			ALL_CHECK = 15, // last one * 2 - 1
 		};
 
 		bool is_valid(unsigned mask = ALL_CHECK);
@@ -41,7 +41,7 @@ namespace geometry
 		bool vertices_check();
 		bool hedges_check();
 		bool faces_check();
-		bool overlap_check();
+		bool intersection_check();
 
 	public:
 		friend std::ostream& operator<<(std::ostream& os,

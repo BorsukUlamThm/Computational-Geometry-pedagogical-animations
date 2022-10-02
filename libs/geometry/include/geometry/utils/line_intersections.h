@@ -20,6 +20,8 @@ namespace geometry
 						  DCEL::hedge* h2);
 	bool hedges_overlap(DCEL::hedge* h1,
 						DCEL::hedge* h2);
+	bool hedges_intersect_interior(DCEL::hedge* h1,
+								   DCEL::hedge* h2);
 	point_2 line_intersection(DCEL::hedge* h1,
 							  DCEL::hedge* h2);
 	real x_intersection(DCEL::hedge* h,

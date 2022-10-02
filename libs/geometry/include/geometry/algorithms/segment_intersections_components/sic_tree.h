@@ -18,7 +18,7 @@ namespace geometry::segment_intersections_components
 		point_2 event_p {};
 		bool just_above = true;
 
-		gr::Animation animation = gr::Animation(4);
+		//		gr::Animation animation = gr::Animation(4);
 
 	public:
 		tree() = default;
@@ -35,9 +35,9 @@ namespace geometry::segment_intersections_components
 		bool are_equal(hedge* const& h1,
 					   hedge* const& h2) const override;
 
-		void plot();
-		void plot_segments(const std::vector<segment_2>& S);
-		void plot_point(const point_2& p);
+		//		void plot();
+		//		void plot_segments(const std::vector<segment_2>& S);
+		//		void plot_point(const point_2& p);
 
 	private:
 		hedge* aux_left_neighbour(const point_2& p,
@@ -46,7 +46,7 @@ namespace geometry::segment_intersections_components
 		hedge* aux_right_neighbour(const point_2& p,
 								   Node* node,
 								   Node* candidate) const;
-		unsigned aux_plot(Node* node,
-						  unsigned min);
+		//		unsigned aux_plot(Node* node,
+		//						  unsigned min);
 	};
 }

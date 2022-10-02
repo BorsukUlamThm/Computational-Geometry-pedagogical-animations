@@ -9,4 +9,6 @@
 namespace geometry
 {
 	DCEL segment_intersections(const std::vector<segment_2>& S);
+
+	bool edge_intersections_test(const DCEL& D);
 }

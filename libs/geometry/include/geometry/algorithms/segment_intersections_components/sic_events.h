@@ -30,8 +30,8 @@ namespace geometry::segment_intersections_components
 	private:
 		void make_intersection() const;
 
-		void find_new_event(hedge* i,
-							hedge* j) const;
+		void find_new_event(hedge* h1,
+							hedge* h2) const;
 		hedge* leftmost_segment() const;
 		hedge* rightmost_segment() const;
 	};
@@ -42,14 +42,14 @@ namespace geometry::segment_intersections_components
 		queue(DCEL& D,
 			  tree& T);
 
-		void insert_upper_point(hedge* i,
+		void insert_upper_point(hedge* h,
 								DCEL* D,
 								tree* T);
-		void insert_lower_point(hedge* i,
+		void insert_lower_point(hedge* h,
 								DCEL* D,
 								tree* T);
 		void insert_contained_point(const point_2& p,
-									hedge* i,
+									hedge* h,
 									DCEL* D,
 									tree* T);
 
@@ -59,16 +59,16 @@ namespace geometry::segment_intersections_components
 		bool are_equal(const event& evt1,
 					   const event& evt2) const override;
 
-		void aux_insert_upper_point(hedge* i,
+		void aux_insert_upper_point(hedge* h,
 									DCEL* D,
 									tree* T,
 									Node*& node);
-		void aux_insert_lower_point(hedge* i,
+		void aux_insert_lower_point(hedge* h,
 									DCEL* D,
 									tree* T,
 									Node*& node);
 		void aux_insert_contained_point(const point_2& p,
-										hedge* i,
+										hedge* h,
 										DCEL* D,
 										tree* T,
 										Node*& node);

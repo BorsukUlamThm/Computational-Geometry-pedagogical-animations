@@ -92,6 +92,32 @@ namespace geometry
 		return segment_overlap({a, b}, {c, d});
 	}
 
+	bool hedges_intersect_interior(DCEL::hedge* h1,
+								   DCEL::hedge* h2)
+	{
+		point_2 p11(h1->origin->x, h1->origin->y);
+		point_2 p12(h1->twin->origin->x, h1->twin->origin->y);
+		point_2 p21(h2->origin->x, h2->origin->y);
+		point_2 p22(h2->twin->origin->x, h2->twin->origin->y);
+
+		if (point_on_line(p21, p11, p12) &&
+			point_on_line(p22, p11, p12))
+		{
+			return hedges_overlap(h1, h2);
+		}
+
+		if (hedges_intersect(h1, h2))
+		{
+			point_2 inter = line_intersection(h1, h2);
+			return inter != p11 &&
+				   inter != p12 &&
+				   inter != p21 &&
+				   inter != p22;
+		}
+
+		return false;
+	}
+
 	point_2 line_intersection(DCEL::hedge* h1,
 							  DCEL::hedge* h2)
 	{

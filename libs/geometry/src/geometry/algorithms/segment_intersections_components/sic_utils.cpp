@@ -39,6 +39,26 @@ namespace geometry::segment_intersections_components
 		point_2 v1(h->origin->x, h->origin->y);
 		point_2 v2(h->twin->origin->x, h->twin->origin->y);
 
-		return point_above_point(v2, v1);
+		return point_below_point(v1, v2);
+	}
+
+	bool hedge_below_hedge(hedge* h1, hedge* h2)
+	{
+		point_2 p1(h1->origin->x, h1->origin->y);
+		point_2 p2(h2->origin->x, h2->origin->y);
+
+		return point_below_point(p1, p2);
+	}
+
+	std::map<DCEL::hedge*, unsigned> make_index_map(const DCEL& D)
+	{
+		std::map<DCEL::hedge*, unsigned> map;
+
+		for (unsigned i = 0; i < D.half_edges.size(); ++i)
+		{
+			map[D.half_edges[i]] = i;
+		}
+
+		return map;
 	}
 }

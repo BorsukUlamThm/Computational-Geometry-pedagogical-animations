@@ -1,4 +1,5 @@
 #include "geometry/algorithms/segment_intersections.h"
+#include "geometry/algorithms/segment_intersections_components/sic_utils.h"
 #include "geometry/model/serialization.h"
 #include "geometry/utils/random_generation.h"
 #include "graphics/view/Acquisition_canvas.h"
@@ -6,6 +7,7 @@
 
 
 namespace geo = geometry;
+namespace sic = geo::segment_intersections_components;
 namespace gr = graphics;
 
 int main()
@@ -25,22 +27,22 @@ int main()
 	//
 	//	geo::save_segment_2_set("log/tests/segment_intersections_tests", S);
 
-	std::vector<geo::segment_2> S =
-			geo::load_segment_2_set("saved_inputs/si_goal");
+	//	std::vector<geo::segment_2> S =
+	//			geo::load_segment_2_set("saved_inputs/si_goal");
 
-	//		std::vector<geo::segment_2> S =
-	//				geo::load_segment_2_set("saved_inputs/si_bug");
+	//	std::vector<geo::segment_2> S =
+	//			geo::load_segment_2_set("saved_inputs/si_bug");
 
-	//	geo::Number_generator ng;
-	//	std::vector<geo::segment_2> S = ng.random_segment_2_set(50);
+	geo::Number_generator ng;
+	std::vector<geo::segment_2> S = ng.random_segment_2_set(50);
 
 	geo::DCEL D = segment_intersections(S);
 
-	std::cout << D << std::endl;
-
-	std::cout << D.is_valid(geo::DCEL::VERTICES_CHECK |
-							geo::DCEL::HEDGES_CHECK |
-							geo::DCEL::OVERLAP_CHECK) << std::endl;
+	std::cout << "D2 is " <<
+			  (D.is_valid(geo::DCEL::VERTICES_CHECK |
+						  geo::DCEL::HEDGES_CHECK |
+						  geo::DCEL::INTERSECTION_CHECK) ? "" : "NOT ")
+			  << "valid" << std::endl;
 
 	gr::Figure fig;
 	for (auto& h : D.half_edges)
