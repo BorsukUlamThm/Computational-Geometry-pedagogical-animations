@@ -1,7 +1,7 @@
 #include "geometry/algorithms/segment_intersections.h"
-#include "geometry/algorithms/segment_intersections/utils.h"
-#include "geometry/algorithms/segment_intersections/tree.h"
-#include "geometry/algorithms/segment_intersections/events.h"
+#include "geometry/algorithms/segment_intersections_components/sic_utils.h"
+#include "geometry/algorithms/segment_intersections_components/sic_tree.h"
+#include "geometry/algorithms/segment_intersections_components/sic_events.h"
 
 
 namespace geometry

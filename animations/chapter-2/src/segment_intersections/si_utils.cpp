@@ -1,4 +1,4 @@
-#include "../include/utils.h"
+#include "../../include/segment_intersections/si_utils.h"
 #include "geometry/utils/point_comparisons.h"
 #include "geometry/utils/line_intersections.h"
 

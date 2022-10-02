@@ -1,7 +1,5 @@
 #pragma once
 
-#include <boost/rational.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
 #include "geometry/model/segment_2.h"
 #include "geometry/model/serialization.h"
 #include "geometry/utils/random_generation.h"

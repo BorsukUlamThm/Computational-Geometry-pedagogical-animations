@@ -1,6 +1,6 @@
 #pragma once
 
-#include "tree.h"
+#include "sic_tree.h"
 #include "geometry/utils/event_queue.h"
 
 

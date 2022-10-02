@@ -1,4 +1,4 @@
-#include "geometry/algorithms/segment_intersections/utils.h"
+#include "geometry/algorithms/segment_intersections_components/sic_utils.h"
 #include "geometry/utils/point_comparisons.h"
 
 

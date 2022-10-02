@@ -1,5 +1,5 @@
 #include <map>
-#include "../include/events.h"
+#include "../../include/segment_intersections/si_events.h"
 #include "geometry/utils/point_comparisons.h"
 #include "geometry/utils/line_intersections.h"
 

@@ -1,6 +1,6 @@
-#include "include/events.h"
-#include "include/tree.h"
-#include "include/utils.h"
+#include "include/segment_intersections/si_events.h"
+#include "include/segment_intersections/si_tree.h"
+#include "include/segment_intersections/si_utils.h"
 #include "geometry/utils/point_comparisons.h"
 
 
