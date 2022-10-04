@@ -17,8 +17,19 @@ namespace Other_stuff_phi
 		primes.push_back(2);
 		phi_values.push_back(1);
 
+		std::cout << "computing phi ..." << std::endl;
+		std::vector<double> percents = {0.9, 0.8, 0.7, 0.6, 0.5,
+										0.4, 0.3, 0.2, 0.1};
+
 		for (unsigned i = 2; i <= n; ++i)
 		{
+			if (!percents.empty() &&
+				double(i) / double(n) > percents.back())
+			{
+				std::cout << percents.back() * 100 << "% done" << std::endl;
+				percents.pop_back();
+			}
+
 			double phi(1);
 			bool is_prime = true;
 
