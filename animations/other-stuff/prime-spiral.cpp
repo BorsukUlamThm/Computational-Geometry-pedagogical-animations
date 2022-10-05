@@ -8,13 +8,12 @@ namespace Other_stuff_prime_spiral
 
 	typedef unsigned integer;
 
-	void prime_spiral(integer n,
-					  float rad)
+	std::vector<integer> make_primes(integer n)
 	{
 		std::vector<integer> P;
 		P.push_back(2);
 		P.push_back(3);
-		for (integer k = 5; P.size() < n; k += 2 + 2 * ((k + 1) % 3) / 2)
+		for (integer k = 5; k <= n; k += 2 + 2 * ((k + 1) % 3) / 2)
 		{
 			bool is_prime = true;
 			for (auto& p : P)
@@ -36,7 +35,30 @@ namespace Other_stuff_prime_spiral
 			}
 		}
 
-		gr::Figure fig;
+		return P;
+	}
+
+	void prime_spiral(integer n,
+					  float rad)
+	{
+		std::vector<integer> P = make_primes(n);
+
+		gr::Animation animation(2);
+
+		animation[0].add_vertical_line(0);
+		animation[0].add_horizontal_line(0);
+
+		for (unsigned i = 1; i <= n; ++i)
+		{
+			gr::Coordinate i_(i);
+
+			gr::Coordinate x = i_ * std::cos(i_);
+			gr::Coordinate y = i_ * std::sin(i_);
+			animation[1].add_point(x, y, gr::YELLOW, rad);
+		}
+		animation.make_new_frame();
+		animation[1].clear();
+
 		while (!P.empty())
 		{
 			gr::Coordinate p_(P.back());
@@ -45,8 +67,9 @@ namespace Other_stuff_prime_spiral
 			gr::Coordinate x = p_ * std::cos(p_);
 			gr::Coordinate y = p_ * std::sin(p_);
 
-			fig.add_point(x, y, gr::DEFAULT_SHAPE_COLOR, rad);
+			animation[1].add_point(x, y, gr::YELLOW, rad);
 		}
+		animation.make_new_frame();
 
 		gr::Animation_canvas canvas;
 
@@ -58,7 +81,7 @@ namespace Other_stuff_prime_spiral
 		}
 		numbers.push_back(n);
 
-		std::string title = "p exp(i p) for the ";
+		std::string title = "p exp(i p) for the primes lower than ";
 		title += std::to_string(numbers[numbers.size() - 1]);
 		for (unsigned i = numbers.size() - 2; i != -1; --i)
 		{
@@ -73,10 +96,10 @@ namespace Other_stuff_prime_spiral
 			}
 			title += std::to_string(numbers[i]);
 		}
-		title += " first primes";
+//		title += " first primes";
 
 		canvas.set_title(title);
-		canvas.display_figure(fig);
+		canvas.run_animation(animation);
 	}
 }
 
