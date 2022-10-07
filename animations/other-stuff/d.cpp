@@ -4,7 +4,7 @@
 #include <map>
 
 
-namespace Other_stuff_d
+namespace Other_stuff_mu
 {
 	namespace gr = graphics;
 
@@ -13,10 +13,10 @@ namespace Other_stuff_d
 	std::vector<integer> make_d(integer n)
 	{
 		std::vector<integer> primes;
-		std::vector<integer> d_values;
+		std::vector<integer> tab_d;
 
 		primes.push_back(2);
-		d_values.push_back(1);
+		tab_d.push_back(1);
 
 		std::cout << "computing phi ..." << std::endl;
 		std::vector<double> percents = {0.9, 0.8, 0.7, 0.6, 0.5,
@@ -51,12 +51,12 @@ namespace Other_stuff_d
 				d = 2;
 				primes.push_back(i);
 			}
-			d_values.push_back(d);
+			tab_d.push_back(d);
 		}
 
 		std::cout << "d done" << std::endl;
 
-		return d_values;
+		return tab_d;
 	}
 
 	std::map<integer, unsigned> make_map(const std::vector<integer>& d_values)
@@ -78,13 +78,13 @@ namespace Other_stuff_d
 		return map;
 	}
 
-	std::map<unsigned, integer>
+	std::multimap<unsigned, integer>
 	make_reverse_map(const std::map<integer, unsigned>& map)
 	{
-		std::map<unsigned, integer> reverse_map;
+		std::multimap<unsigned, integer> reverse_map;
 		for (auto& key_val : map)
 		{
-			reverse_map[key_val.second] = key_val.first;
+			reverse_map.insert({key_val.second, key_val.first});
 		}
 
 		return reverse_map;
@@ -95,7 +95,7 @@ namespace Other_stuff_d
 	{
 		std::vector<integer> d_values = make_d(n);
 		std::map<integer, unsigned> map = make_map(d_values);
-		std::map<unsigned, integer> reverse_map = make_reverse_map(map);
+		std::multimap<unsigned, integer> reverse_map = make_reverse_map(map);
 
 		std::cout << std::endl;
 
@@ -131,10 +131,12 @@ namespace Other_stuff_d
 
 		integer max = *std::max_element(d_values.begin(), d_values.end());
 
-		gr::Figure fig;
+        gr::Figure fig;
+        fig.add_vertical_line(0);
+        fig.add_horizontal_line(0);
 		for (unsigned i = 0; i < d_values.size(); ++i)
 		{
-			fig.add_point(i, n * (d_values[i]) / max, gr::DEFAULT_SHAPE_COLOR,
+			fig.add_point(i, n * (d_values[i]) * 0.6 / double(max), gr::DEFAULT_SHAPE_COLOR,
 						  r);
 		}
 
@@ -173,7 +175,7 @@ namespace Other_stuff_d
 
 int main(int argc, char** argv)
 {
-	using namespace Other_stuff_d;
+	using namespace Other_stuff_mu;
 
 	if (argc < 3)
 	{
