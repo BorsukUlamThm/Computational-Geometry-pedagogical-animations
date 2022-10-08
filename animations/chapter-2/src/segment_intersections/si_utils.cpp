@@ -1,6 +1,4 @@
 #include "../../include/segment_intersections/si_utils.h"
-#include "geometry/utils/point_comparisons.h"
-#include "geometry/utils/line_intersections.h"
 
 
 namespace segment_intersections

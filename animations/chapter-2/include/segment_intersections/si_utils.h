@@ -26,7 +26,6 @@ namespace segment_intersections
 		NB_FIGURES
 	};
 
-
 	enum Input_type
 	{
 		RANDOM,

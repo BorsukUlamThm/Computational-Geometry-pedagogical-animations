@@ -52,10 +52,6 @@ namespace geometry
 		bool hedges_check();
 		bool faces_check();
 		bool intersection_check() const;
-
-	public:
-		friend std::ostream& operator<<(std::ostream& os,
-										const DCEL& D);
 	};
 
 	struct DCEL::component

@@ -30,15 +30,17 @@ int main()
 	//	std::vector<geo::segment_2> S =
 	//			geo::load_segment_2_set("saved_inputs/si_goal");
 
-	//	std::vector<geo::segment_2> S =
-	//			geo::load_segment_2_set("saved_inputs/si_bug");
+	std::vector<geo::segment_2> S =
+			geo::load_segment_2_set("saved_inputs/si_bug");
 
-	geo::Number_generator ng;
-	std::vector<geo::segment_2> S = ng.random_segment_2_set(50);
+	//	geo::Number_generator ng;
+	//	std::vector<geo::segment_2> S = ng.random_segment_2_set(50);
 
 	geo::DCEL D = segment_intersections(S);
 
-	std::cout << "D2 is " <<
+	std::cout << D << std::endl << std::endl;
+
+	std::cout << "D is " <<
 			  (D.is_valid(geo::DCEL::VERTICES_CHECK |
 						  geo::DCEL::HEDGES_CHECK |
 						  geo::DCEL::INTERSECTION_CHECK) ? "" : "NOT ")

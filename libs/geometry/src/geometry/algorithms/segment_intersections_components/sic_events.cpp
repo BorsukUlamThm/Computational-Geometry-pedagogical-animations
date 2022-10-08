@@ -113,22 +113,29 @@ namespace geometry::segment_intersections_components
 
 		unsigned na = IA.size();
 		unsigned nb = IB.size();
-		for (unsigned i = 0; i < na - 1; ++i)
+		for (unsigned i = 0; i + 1 < na; ++i)
 		{
 			IA[i]->next = IA[i + 1]->twin;
 			IA[i + 1]->twin->prev = IA[i];
 		}
-		for (unsigned i = 0; i < nb - 1; ++i)
+		for (unsigned i = 0; i + 1 < nb; ++i)
 		{
 			IB[i + 1]->twin->next = IB[i];
 			IB[i]->prev = IB[i + 1]->twin;
 		}
-		IA[0]->twin->prev = IB[0]->twin;
-		IB[0]->twin->next = IA[0]->twin;
-		IA[na - 1]->next = IB[nb - 1];
-		IB[nb - 1]->prev = IA[na - 1];
 
-		v->inc_edge = IB[0];
+		if (na > 0)
+		{
+			IA[0]->twin->prev = (nb > 0 ? IB[0]->twin : IA[na - 1]);
+			IA[na - 1]->next = (nb > 0 ? IB[nb - 1] : IA[0]->twin);
+		}
+		if (nb > 0)
+		{
+			IB[0]->twin->next = (na > 0 ? IA[0]->twin : IB[nb - 1]);
+			IB[nb - 1]->prev = (na > 0 ? IA[na - 1] : IB[0]->twin);
+		}
+
+		v->inc_edge = (na > 0 ? IA[0]->twin : IB[0]);
 		for (auto& h : L)
 		{
 			D->delete_vertex(h->twin->origin);
