@@ -54,15 +54,15 @@ int main()
 		gr::Coordinate x2(h->twin->origin->x);
 		gr::Coordinate y2(h->twin->origin->y);
 
-		fig.add_segment(x1, y1, x2, y2);
+		fig.add_half_edge(x1, y1, x2, y2);
 	}
-	for (auto& v : D.vertices)
-	{
-		gr::Coordinate x(v->x);
-		gr::Coordinate y(v->y);
-
-		fig.add_point(x, y, gr::RED);
-	}
+//	for (auto& v : D.vertices)
+//	{
+//		gr::Coordinate x(v->x);
+//		gr::Coordinate y(v->y);
+//
+//		fig.add_point(x, y, gr::RED);
+//	}
 
 	gr::Animation_canvas canvas_1;
 	canvas_1.display_figure(fig);
