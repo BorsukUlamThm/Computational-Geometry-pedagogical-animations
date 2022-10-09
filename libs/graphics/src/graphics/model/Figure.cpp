@@ -98,6 +98,37 @@ namespace graphics
 		add_vector(vector);
 	}
 
+	void Figure::add_double_edge(const Double_edge_shp& double_edge)
+	{
+		Shape_ptr shape = std::make_shared<Double_edge_shp>(double_edge);
+		shapes.push_back(shape);
+		bounding_box.extend(double_edge.get_bounding_box());
+	}
+
+	void Figure::add_double_edge(const Point_obj& ogn,
+								 const Point_obj& dst,
+								 Color arrow1_col,
+								 Color arrow2_col,
+								 Color vertices_col)
+	{
+		Double_edge_shp double_edge_shp(ogn, dst,
+										arrow1_col, arrow2_col, vertices_col);
+		add_double_edge(double_edge_shp);
+	}
+
+	void Figure::add_double_edge(const Coordinate& ogn_x,
+								 const Coordinate& ogn_y,
+								 const Coordinate& dst_x,
+								 const Coordinate& dst_y,
+								 Color arrow1_col,
+								 Color arrow2_col,
+								 Color vertices_col)
+	{
+		Double_edge_shp double_edge_shp(ogn_x, ogn_y, dst_x, dst_y,
+										arrow1_col, arrow2_col, vertices_col);
+		add_double_edge(double_edge_shp);
+	}
+
 	void Figure::add_polygon(const Polygon_shp& polygon)
 	{
 		Shape_ptr shape = std::make_shared<Polygon_shp>(polygon);
@@ -331,6 +362,12 @@ namespace graphics
 			Vector_shp vector;
 			ifs >> vector;
 			add_vector(vector);
+		}
+		if (shape_name == DOUBLE_EDGE_NAME)
+		{
+			Double_edge_shp double_edge_shp;
+			ifs >> double_edge_shp;
+			add_double_edge(double_edge_shp);
 		}
 		if (shape_name == TEXT_NAME)
 		{

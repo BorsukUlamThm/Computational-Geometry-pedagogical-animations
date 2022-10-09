@@ -8,6 +8,7 @@
 #include "shapes/Point_shp.h"
 #include "shapes/Segment_shp.h"
 #include "shapes/Vector_shp.h"
+#include "shapes/Double_edge_shp.h"
 #include "shapes/Polygon_shp.h"
 #include "shapes/Circle_shp.h"
 #include "shapes/Line_shp.h"
@@ -86,6 +87,23 @@ namespace graphics
 		template<typename... Vectors>
 		void add_vector(const Vector_shp& vector,
 						const Vectors& ... vectors);
+
+		void add_double_edge(const Double_edge_shp& double_edge);
+		void add_double_edge(const Point_obj& ogn,
+							 const Point_obj& dst,
+							 Color arrow1_col = DEFAULT_SHAPE_COLOR,
+							 Color arrow2_col = DEFAULT_SHAPE_COLOR,
+							 Color vertices_col = DEFAULT_SHAPE_COLOR);
+		void add_double_edge(const Coordinate& ogn_x,
+							 const Coordinate& ogn_y,
+							 const Coordinate& dst_x,
+							 const Coordinate& dst_y,
+							 Color arrow1_col = DEFAULT_SHAPE_COLOR,
+							 Color arrow2_col = DEFAULT_SHAPE_COLOR,
+							 Color vertices_col = DEFAULT_SHAPE_COLOR);
+		template<typename... Double_edges>
+		void add_double_edge(const Double_edge_shp& double_edge,
+							 const Double_edges& ... double_edges);
 
 		void add_polygon(const Polygon_shp& polygon);
 		void add_polygon(const Polygon_obj& vertices,
@@ -219,6 +237,14 @@ namespace graphics
 	{
 		add_vector(vector);
 		add_vector(vectors...);
+	}
+
+	template<typename... Double_edges>
+	void Figure::add_double_edge(const Double_edge_shp& double_edge,
+								 const Double_edges& ... double_edges)
+	{
+		add_double_edge(double_edge);
+		add_double_edge(double_edges...);
 	}
 
 	template<typename... Polygons>

@@ -123,5 +123,4 @@ namespace graphics
 		if (words[0] == "MARGIN")
 		{ margin = std::stoi(words[1]); }
 	}
-
 }

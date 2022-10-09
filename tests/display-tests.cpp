@@ -8,13 +8,15 @@ int main()
 	gr::Point_shp point_shp(0, 0, gr::BLUE, 20);
 	gr::Segment_shp segment_shp(1, 0, 2, 1, gr::RED, gr::GREEN);
 	gr::Vector_shp vector_shp(3, 0, 4, 1, gr::YELLOW);
-	gr::Circle_shp circle_shp(5.5, 0.5, 0.5, gr::GREEN);
+	gr::Double_edge_shp double_edge_shp(5, 0, 6, 1,
+										gr::RED, gr::BLUE, gr::YELLOW);
+	gr::Circle_shp circle_shp(7.5, 0.5, 0.5, gr::GREEN);
 	gr::Polygon_shp polygon_shp(gr::PURPLE, gr::RED);
-	polygon_shp.add_vertex(7, 0);
-	polygon_shp.add_vertex(8, 0);
-	polygon_shp.add_vertex(8, 1);
-	polygon_shp.add_vertex(7.5, 1.5);
-	polygon_shp.add_vertex(7, 1);
+	polygon_shp.add_vertex(9, 0);
+	polygon_shp.add_vertex(10, 0);
+	polygon_shp.add_vertex(10, 1);
+	polygon_shp.add_vertex(9.5, 1.5);
+	polygon_shp.add_vertex(9, 1);
 	gr::Line_shp line_shp(0, 1, -2, gr::BLUE);
 	gr::Text_shp text_shp("some random text", 1, -1, 30);
 
@@ -22,6 +24,7 @@ int main()
 	fig.add_point(point_shp);
 	fig.add_segment(segment_shp);
 	fig.add_vector(vector_shp);
+	fig.add_double_edge(double_edge_shp);
 	fig.add_circle(circle_shp);
 	fig.add_polygon(polygon_shp);
 	fig.add_line(line_shp);

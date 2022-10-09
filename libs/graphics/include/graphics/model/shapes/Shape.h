@@ -27,6 +27,9 @@ namespace graphics
 		Bounding_box bounding_box;
 
 	public:
+		Shape() = default;
+		Shape(const Shape& other) = default;
+
 		Bounding_box get_bounding_box() const;
 		virtual void draw(Canvas& canvas) const = 0;
 		virtual void write(std::ostream& os) const = 0;

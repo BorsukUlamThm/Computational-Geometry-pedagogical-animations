@@ -82,6 +82,7 @@ namespace graphics
 		friend void Polygon_shp::draw(Canvas& canvas) const;
 		friend void Circle_shp::draw(Canvas& canvas) const;
 		friend void Vector_shp::draw(Canvas& canvas) const;
+		friend void Double_edge_shp::draw(Canvas& canvas) const;
 		friend void Text_shp::draw(Canvas& canvas) const;
 	};
 }
