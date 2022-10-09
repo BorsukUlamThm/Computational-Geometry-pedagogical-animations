@@ -79,35 +79,35 @@ namespace graphics
 		canvas.window.draw(triangle);
 	}
 
-	void Double_edge_shp::draw(Canvas& canvas) const
+	void Half_edge_shp::draw(Canvas& canvas) const
 	{
 		float ratio = canvas.view.getSize().x / float(canvas.config.width);
 		float vertices_radius = 3.0f * ratio;
 		float tri_height = 12.0f * ratio;
 		float tri_width = 9.0f * ratio;
 
-		sf::Vector2f u(edge.destination.abscissa - edge.origin.abscissa,
-					   -edge.destination.ordinate + edge.origin.ordinate);
+		sf::Vector2f u(arrow.destination.abscissa - arrow.origin.abscissa,
+					   -arrow.destination.ordinate + arrow.origin.ordinate);
 		u *= 1.0f / std::sqrt(u.x * u.x + u.y * u.y);
 		sf::Vector2f v(-u.y, u.x);
 
 		sf::VertexArray arrow1(sf::LineStrip, 2);
-		arrow1[0].position = sf::Vector2f(edge.origin.abscissa,
-										  -edge.origin.ordinate);
-		arrow1[1].position = sf::Vector2f(edge.destination.abscissa,
-										  -edge.destination.ordinate);
+		arrow1[0].position = sf::Vector2f(arrow.origin.abscissa,
+										  -arrow.origin.ordinate);
+		arrow1[1].position = sf::Vector2f(arrow.destination.abscissa,
+										  -arrow.destination.ordinate);
 		arrow1[0].position += 2 * vertices_radius * u - vertices_radius * v;
 		arrow1[1].position += -2 * vertices_radius * u - vertices_radius * v;
-		arrow1[0].color = canvas.get_color(arrow1_color);
-		arrow1[1].color = canvas.get_color(arrow1_color);
+		arrow1[0].color = canvas.get_color(arrow_color);
+		arrow1[1].color = canvas.get_color(arrow_color);
 		canvas.window.draw(arrow1);
 
-		sf::VertexArray arrow2(arrow1);
-		arrow2[0].position += 2 * vertices_radius * v;
-		arrow2[1].position += 2 * vertices_radius * v;
-		arrow2[0].color = canvas.get_color(arrow2_color);
-		arrow2[1].color = canvas.get_color(arrow2_color);
-		canvas.window.draw(arrow2);
+//		sf::VertexArray arrow2(arrow1);
+//		arrow2[0].position += 2 * vertices_radius * v;
+//		arrow2[1].position += 2 * vertices_radius * v;
+//		arrow2[0].color = canvas.get_color(arrow2_color);
+//		arrow2[1].color = canvas.get_color(arrow2_color);
+//		canvas.window.draw(arrow2);
 
 		sf::ConvexShape triangle1;
 		sf::Vector2f pos1 = arrow1[1].position;
@@ -115,23 +115,23 @@ namespace graphics
 		triangle1.setPoint(0, pos1);
 		triangle1.setPoint(1, pos1 - tri_height * u + tri_width / 2 * v);
 		triangle1.setPoint(2, pos1 - tri_height * u - tri_width / 2 * v);
-		triangle1.setFillColor(canvas.get_color(arrow1_color));
+		triangle1.setFillColor(canvas.get_color(arrow_color));
 		canvas.window.draw(triangle1);
 
-		sf::ConvexShape triangle2;
-		sf::Vector2f pos2 = arrow2[0].position;
-		triangle2.setPointCount(3);
-		triangle2.setPoint(0, pos2);
-		triangle2.setPoint(1, pos2 + tri_height * u + tri_width / 2 * v);
-		triangle2.setPoint(2, pos2 + tri_height * u - tri_width / 2 * v);
-		triangle2.setFillColor(canvas.get_color(arrow2_color));
-		canvas.window.draw(triangle2);
+//		sf::ConvexShape triangle2;
+//		sf::Vector2f pos2 = arrow2[0].position;
+//		triangle2.setPointCount(3);
+//		triangle2.setPoint(0, pos2);
+//		triangle2.setPoint(1, pos2 + tri_height * u + tri_width / 2 * v);
+//		triangle2.setPoint(2, pos2 + tri_height * u - tri_width / 2 * v);
+//		triangle2.setFillColor(canvas.get_color(arrow2_color));
+//		canvas.window.draw(triangle2);
 
-		Point_shp origin(edge.origin.abscissa,
-						 edge.origin.ordinate,
+		Point_shp origin(arrow.origin.abscissa,
+						 arrow.origin.ordinate,
 						 vertices_color);
-		Point_shp destination(edge.destination.abscissa,
-							  edge.destination.ordinate,
+		Point_shp destination(arrow.destination.abscissa,
+							  arrow.destination.ordinate,
 							  vertices_color);
 		origin.draw(canvas);
 		destination.draw(canvas);

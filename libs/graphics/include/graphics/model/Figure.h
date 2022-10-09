@@ -8,7 +8,7 @@
 #include "shapes/Point_shp.h"
 #include "shapes/Segment_shp.h"
 #include "shapes/Vector_shp.h"
-#include "shapes/Double_edge_shp.h"
+#include "shapes/Half_edge_shp.h"
 #include "shapes/Polygon_shp.h"
 #include "shapes/Circle_shp.h"
 #include "shapes/Line_shp.h"
@@ -88,22 +88,20 @@ namespace graphics
 		void add_vector(const Vector_shp& vector,
 						const Vectors& ... vectors);
 
-		void add_double_edge(const Double_edge_shp& double_edge);
-		void add_double_edge(const Point_obj& ogn,
-							 const Point_obj& dst,
-							 Color arrow1_col = DEFAULT_SHAPE_COLOR,
-							 Color arrow2_col = DEFAULT_SHAPE_COLOR,
-							 Color vertices_col = DEFAULT_SHAPE_COLOR);
-		void add_double_edge(const Coordinate& ogn_x,
-							 const Coordinate& ogn_y,
-							 const Coordinate& dst_x,
-							 const Coordinate& dst_y,
-							 Color arrow1_col = DEFAULT_SHAPE_COLOR,
-							 Color arrow2_col = DEFAULT_SHAPE_COLOR,
-							 Color vertices_col = DEFAULT_SHAPE_COLOR);
-		template<typename... Double_edges>
-		void add_double_edge(const Double_edge_shp& double_edge,
-							 const Double_edges& ... double_edges);
+		void add_half_edge(const Half_edge_shp& half_edge);
+		void add_half_edge(const Point_obj& ogn,
+						   const Point_obj& dst,
+						   Color arrow_col = DEFAULT_SHAPE_COLOR,
+						   Color vertices_col = DEFAULT_SHAPE_COLOR);
+		void add_half_edge(const Coordinate& ogn_x,
+						   const Coordinate& ogn_y,
+						   const Coordinate& dst_x,
+						   const Coordinate& dst_y,
+						   Color arrow_col = DEFAULT_SHAPE_COLOR,
+						   Color vertices_col = DEFAULT_SHAPE_COLOR);
+		template<typename... Half_edges>
+		void add_half_edge(const Half_edge_shp& half_edge,
+						   const Half_edges& ... half_edges);
 
 		void add_polygon(const Polygon_shp& polygon);
 		void add_polygon(const Polygon_obj& vertices,
@@ -240,11 +238,11 @@ namespace graphics
 	}
 
 	template<typename... Double_edges>
-	void Figure::add_double_edge(const Double_edge_shp& double_edge,
-								 const Double_edges& ... double_edges)
+	void Figure::add_half_edge(const Half_edge_shp& half_edge,
+							   const Double_edges& ... half_edges)
 	{
-		add_double_edge(double_edge);
-		add_double_edge(double_edges...);
+		add_half_edge(half_edge);
+		add_half_edge(half_edges...);
 	}
 
 	template<typename... Polygons>

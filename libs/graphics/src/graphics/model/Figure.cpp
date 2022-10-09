@@ -98,35 +98,32 @@ namespace graphics
 		add_vector(vector);
 	}
 
-	void Figure::add_double_edge(const Double_edge_shp& double_edge)
+	void Figure::add_half_edge(const Half_edge_shp& half_edge)
 	{
-		Shape_ptr shape = std::make_shared<Double_edge_shp>(double_edge);
+		Shape_ptr shape = std::make_shared<Half_edge_shp>(half_edge);
 		shapes.push_back(shape);
-		bounding_box.extend(double_edge.get_bounding_box());
+		bounding_box.extend(half_edge.get_bounding_box());
 	}
 
-	void Figure::add_double_edge(const Point_obj& ogn,
-								 const Point_obj& dst,
-								 Color arrow1_col,
-								 Color arrow2_col,
-								 Color vertices_col)
+	void Figure::add_half_edge(const Point_obj& ogn,
+							   const Point_obj& dst,
+							   Color arrow_col,
+							   Color vertices_col)
 	{
-		Double_edge_shp double_edge_shp(ogn, dst,
-										arrow1_col, arrow2_col, vertices_col);
-		add_double_edge(double_edge_shp);
+		Half_edge_shp double_edge_shp(ogn, dst, arrow_col, vertices_col);
+		add_half_edge(double_edge_shp);
 	}
 
-	void Figure::add_double_edge(const Coordinate& ogn_x,
-								 const Coordinate& ogn_y,
-								 const Coordinate& dst_x,
-								 const Coordinate& dst_y,
-								 Color arrow1_col,
-								 Color arrow2_col,
-								 Color vertices_col)
+	void Figure::add_half_edge(const Coordinate& ogn_x,
+							   const Coordinate& ogn_y,
+							   const Coordinate& dst_x,
+							   const Coordinate& dst_y,
+							   Color arrow_col,
+							   Color vertices_col)
 	{
-		Double_edge_shp double_edge_shp(ogn_x, ogn_y, dst_x, dst_y,
-										arrow1_col, arrow2_col, vertices_col);
-		add_double_edge(double_edge_shp);
+		Half_edge_shp double_edge_shp(ogn_x, ogn_y, dst_x, dst_y,
+									  arrow_col, vertices_col);
+		add_half_edge(double_edge_shp);
 	}
 
 	void Figure::add_polygon(const Polygon_shp& polygon)
@@ -363,11 +360,11 @@ namespace graphics
 			ifs >> vector;
 			add_vector(vector);
 		}
-		if (shape_name == DOUBLE_EDGE_NAME)
+		if (shape_name == HALF_EDGE_NAME)
 		{
-			Double_edge_shp double_edge_shp;
+			Half_edge_shp double_edge_shp;
 			ifs >> double_edge_shp;
-			add_double_edge(double_edge_shp);
+			add_half_edge(double_edge_shp);
 		}
 		if (shape_name == TEXT_NAME)
 		{

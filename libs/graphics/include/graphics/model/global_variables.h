@@ -26,7 +26,7 @@ namespace graphics
 	constexpr char CIRCLE_NAME[] = "[Circle]";
 	constexpr char POLYGON_NAME[] = "[Polygon]";
 	constexpr char VECTOR_NAME[] = "[Vector]";
-	constexpr char DOUBLE_EDGE_NAME[] = "[Double_edge]";
+	constexpr char HALF_EDGE_NAME[] = "[Half_edge]";
 	constexpr char TEXT_NAME[] = "[Text]";
 
 	/*!
