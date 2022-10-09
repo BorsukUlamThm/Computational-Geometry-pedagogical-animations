@@ -179,6 +179,14 @@ namespace chap1_convex_hull
 		return L;
 	}
 
+	struct left_right_comp
+	{
+		bool operator()(const point& p, const point& q)
+		{
+			return geo::point_left_point(p, q);
+		}
+	};
+
 	void make_convex_hull(point_set& P,
 						  gr::Animation& animation)
 	{
@@ -191,7 +199,8 @@ namespace chap1_convex_hull
 		}
 		animation.make_new_frame();
 
-		std::sort(P.begin(), P.end(), geo::point_left_point);
+		left_right_comp cmp;
+		std::sort(P.begin(), P.end(), cmp);
 
 		convex_hull U = make_upper_hull(P, animation);
 		convex_hull L = make_lower_hull(P, animation);
