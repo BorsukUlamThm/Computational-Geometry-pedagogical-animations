@@ -40,7 +40,7 @@ namespace graphics
 
 		Point_obj get_origin() const;
 		Point_obj get_destination() const;
-		Color get_arrows_color() const;
+		Color get_arrow_color() const;
 		Color get_vertices_color() const;
 
 		void draw(Canvas& canvas) const override;

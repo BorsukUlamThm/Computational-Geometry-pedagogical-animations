@@ -102,12 +102,12 @@ namespace graphics
 		arrow1[1].color = canvas.get_color(arrow_color);
 		canvas.window.draw(arrow1);
 
-//		sf::VertexArray arrow2(arrow1);
-//		arrow2[0].position += 2 * vertices_radius * v;
-//		arrow2[1].position += 2 * vertices_radius * v;
-//		arrow2[0].color = canvas.get_color(arrow2_color);
-//		arrow2[1].color = canvas.get_color(arrow2_color);
-//		canvas.window.draw(arrow2);
+		//		sf::VertexArray arrow2(arrow1);
+		//		arrow2[0].position += 2 * vertices_radius * v;
+		//		arrow2[1].position += 2 * vertices_radius * v;
+		//		arrow2[0].color = canvas.get_color(arrow2_color);
+		//		arrow2[1].color = canvas.get_color(arrow2_color);
+		//		canvas.window.draw(arrow2);
 
 		sf::ConvexShape triangle1;
 		sf::Vector2f pos1 = arrow1[1].position;
@@ -118,14 +118,14 @@ namespace graphics
 		triangle1.setFillColor(canvas.get_color(arrow_color));
 		canvas.window.draw(triangle1);
 
-//		sf::ConvexShape triangle2;
-//		sf::Vector2f pos2 = arrow2[0].position;
-//		triangle2.setPointCount(3);
-//		triangle2.setPoint(0, pos2);
-//		triangle2.setPoint(1, pos2 + tri_height * u + tri_width / 2 * v);
-//		triangle2.setPoint(2, pos2 + tri_height * u - tri_width / 2 * v);
-//		triangle2.setFillColor(canvas.get_color(arrow2_color));
-//		canvas.window.draw(triangle2);
+		//		sf::ConvexShape triangle2;
+		//		sf::Vector2f pos2 = arrow2[0].position;
+		//		triangle2.setPointCount(3);
+		//		triangle2.setPoint(0, pos2);
+		//		triangle2.setPoint(1, pos2 + tri_height * u + tri_width / 2 * v);
+		//		triangle2.setPoint(2, pos2 + tri_height * u - tri_width / 2 * v);
+		//		triangle2.setFillColor(canvas.get_color(arrow2_color));
+		//		canvas.window.draw(triangle2);
 
 		Point_shp origin(arrow.origin.abscissa,
 						 arrow.origin.ordinate,

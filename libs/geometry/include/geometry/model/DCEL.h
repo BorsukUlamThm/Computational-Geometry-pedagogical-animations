@@ -2,6 +2,7 @@
 
 #include "geometry/model/point_2.h"
 #include "geometry/model/segment_2.h"
+#include "graphics/model/Figure.h"
 #include <vector>
 #include <iostream>
 
@@ -46,6 +47,8 @@ namespace geometry
 		void delete_vertex(vertex* v);
 		void delete_hedge(hedge* h);
 		void delete_face(face* f);
+
+		void add_to_figure(gr::Figure& fig);
 
 	private:
 		bool vertices_check();

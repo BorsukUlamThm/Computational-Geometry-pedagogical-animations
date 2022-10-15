@@ -46,7 +46,7 @@ namespace graphics
 	Point_obj Half_edge_shp::get_destination() const
 	{ return arrow.destination; }
 
-	Color Half_edge_shp::get_arrows_color() const
+	Color Half_edge_shp::get_arrow_color() const
 	{ return arrow_color; }
 
 	Color Half_edge_shp::get_vertices_color() const

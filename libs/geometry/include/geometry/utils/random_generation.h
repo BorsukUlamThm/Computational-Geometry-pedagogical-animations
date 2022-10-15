@@ -21,6 +21,9 @@ namespace geometry
 	{
 		typedef double dist_number;
 
+		std::default_random_engine generator;
+		std::normal_distribution<dist_number> distribution;
+
 	public:
 		explicit Number_generator(unsigned long seed = time_seed);
 
@@ -46,9 +49,5 @@ namespace geometry
 		 * @return a random segment vector
 		 */
 		std::vector<segment_2> random_segment_2_set(unsigned n);
-
-	private:
-		std::default_random_engine generator;
-		std::normal_distribution<dist_number> distribution;
 	};
 }

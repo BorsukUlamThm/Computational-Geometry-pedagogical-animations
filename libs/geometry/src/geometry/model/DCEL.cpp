@@ -263,6 +263,11 @@ namespace geometry
 		}
 	}
 
+	void DCEL::add_to_figure(gr::Figure& fig)
+	{
+
+	}
+
 	std::ostream& operator<<(std::ostream& os,
 							 const DCEL& D)
 	{

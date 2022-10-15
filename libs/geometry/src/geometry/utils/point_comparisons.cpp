@@ -40,6 +40,18 @@ namespace geometry
 		return p.x < q.x;
 	}
 
+	bool point_left_point(DCEL::vertex* v1,
+						  DCEL::vertex* v2)
+	{
+		if (v1->x == v2->x)
+		{ return v1->y >= v2->y; }
+		return v1->x < v2->x;
+	}
+
+	bool point_left_point(DCEL::hedge* h1,
+						  DCEL::hedge* h2)
+	{ return point_left_point(h1->origin, h2->origin); }
+
 	bool point_right_point(const point_2& p,
 						   const point_2& q)
 	{

@@ -2,6 +2,7 @@
 
 #include "geometry/model/point_2.h"
 #include "geometry/model/segment_2.h"
+#include "geometry/model/DCEL.h"
 
 
 namespace geometry
@@ -24,6 +25,18 @@ namespace geometry
 	 */
 	bool point_left_point(const point_2& p,
 						  const point_2& q);
+	/*!
+	 * @return true if v1 is on the left of v2. If they have the same x
+	 * coordinate, the upper point is considered to be on the left
+	 */
+	bool point_left_point(DCEL::vertex* v1,
+						  DCEL::vertex* v2);
+	/*!
+	 * @return true if h1's origin is on the left of v2's. If they have the same
+	 * x coordinate, the upper point is considered to be on the left
+	 */
+	bool point_left_point(DCEL::hedge* h1,
+						  DCEL::hedge* h2);
 	/*!
 	 * @return true if p is on the right of q. If they have the same x
 	 * coordinate, the lower point is considered to be on the right

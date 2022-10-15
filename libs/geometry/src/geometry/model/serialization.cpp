@@ -1,4 +1,5 @@
 #include "geometry/model/serialization.h"
+#include "geometry/algorithms/segment_intersections.h"
 #include "utils/file_management.h"
 
 
@@ -115,10 +116,31 @@ namespace geometry
 		return segments;
 	}
 
+	DCEL load_DCEL(const std::string& file)
+	{
+		std::filesystem::path data_dir = utils::get_data_directory();
+		std::ifstream ifs(data_dir / file);
+
+		if (!ifs.is_open())
+		{
+			std::cerr << "invalid file read " << file << std::endl;
+		}
+
+		std::vector<segment_2> edges = load_segment_2_set(file);
+		return segment_intersections(edges);
+	}
+
 	std::ostream& operator<<(std::ostream& os,
 							 const real& x)
 	{
-		os << x.val;
+		if (x.val.denominator() == 1)
+		{
+			os << x.val.numerator();
+		}
+		else
+		{
+			os << x.val;
+		}
 		return os;
 	}
 
@@ -164,5 +186,30 @@ namespace geometry
 		{
 			ofs << segments[i] << std::endl;
 		}
+	}
+
+	void save_DCEL(const std::string& file,
+				   DCEL& D)
+	{
+		std::filesystem::path data_dir = utils::get_data_directory();
+		std::ofstream ofs(data_dir / file);
+
+		unsigned n = D.half_edges.size() / 2;
+		ofs << n << std::endl;
+
+		DCEL::mark_t m = D.get_new_mark();
+		for (auto& h : D.half_edges)
+		{
+			if (h->twin->is_marked(m))
+			{ continue; }
+
+			ofs << h->origin->x << " " << h->origin->y << " "
+				<< h->twin->origin->x << " " << h->twin->origin->y
+				<< std::endl;
+
+			h->mark(m);
+		}
+
+		D.free_mark(m);
 	}
 }

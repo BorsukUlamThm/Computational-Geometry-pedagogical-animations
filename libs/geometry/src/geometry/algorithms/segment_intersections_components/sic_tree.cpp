@@ -117,7 +117,7 @@ namespace geometry::segment_intersections_components
 		{ return candidate == nullptr ? nullptr : candidate->root; }
 
 		real x = x_intersection(node->root, p.y);
-		if (p.x < x)
+		if (p.x <= x)
 		{
 			return aux_left_neighbour(p, node->left, candidate);
 		}

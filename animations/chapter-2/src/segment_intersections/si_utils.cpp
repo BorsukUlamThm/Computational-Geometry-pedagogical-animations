@@ -128,17 +128,7 @@ namespace segment_intersections
 		if (opt.input_type == RANDOM)
 		{
 			geo::Number_generator ng(opt.seed);
-			auto vec = ng.random_segment_2_set(opt.nb_random_segments);
-			segment_set set;
-			for (auto& s : vec)
-			{
-				geo::real x1(s.p1.x);
-				geo::real y1(s.p1.y);
-				geo::real x2(s.p2.x);
-				geo::real y2(s.p2.y);
-				set.emplace_back(x1, y1, x2, y2);
-			}
-			return set;
+			return ng.random_segment_2_set(opt.nb_random_segments);
 		}
 
 		if (opt.input_type == ACQUISITION)
@@ -160,16 +150,6 @@ namespace segment_intersections
 			return S;
 		}
 
-		auto vec = geo::load_segment_2_set(opt.input_file);
-		segment_set set;
-		for (auto& s : vec)
-		{
-			geo::real x1(s.p1.x);
-			geo::real y1(s.p1.y);
-			geo::real x2(s.p2.x);
-			geo::real y2(s.p2.y);
-			set.emplace_back(x1, y1, x2, y2);
-		}
-		return set;
+		return geo::load_segment_2_set(opt.input_file);
 	}
 }

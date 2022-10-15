@@ -4,6 +4,7 @@
 #include <vector>
 #include "point_2.h"
 #include "segment_2.h"
+#include "DCEL.h"
 
 
 namespace geometry
@@ -35,6 +36,14 @@ namespace geometry
 	 * segments
 	 */
 	std::vector<segment_2> load_segment_2_set(const std::string& file);
+	/*!
+	 * Construct a DCEL from a file\n
+	 * Format :\n
+	 * - first an integer n, the number of edges to read
+	 * - then n lists of four numbers (x1, y1, x2, y2) which represent the n
+	 * edges of D
+	 */
+	DCEL load_DCEL(const std::string& file);
 
 	std::ostream& operator<<(std::ostream& os,
 							 const real& x);
@@ -60,4 +69,13 @@ namespace geometry
 	 */
 	void save_segment_2_set(const std::string& file,
 							const std::vector<segment_2>& segments);
+	/*!
+	 * Saves the DCEL in a file\n
+	 * Format :\n
+	 * - first an integer n, the number of segments to save
+	 * - then n lists of four numbers (x1, y1, x2, y2) which represent the n
+	 * edges of D
+	 */
+	void save_DCEL(const std::string& file,
+				   DCEL& D);
 }

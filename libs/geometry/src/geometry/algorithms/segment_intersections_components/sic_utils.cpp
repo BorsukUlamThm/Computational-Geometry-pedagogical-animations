@@ -50,6 +50,36 @@ namespace geometry::segment_intersections_components
 		return point_below_point(p1, p2);
 	}
 
+	std::vector<DCEL::hedge*> make_up_events(const DCEL& D)
+	{
+		std::vector<DCEL::hedge*> events;
+
+		for (auto& h : D.half_edges)
+		{
+			if (up_edge(h))
+			{ events.push_back(h); }
+		}
+
+		std::sort(events.begin(), events.end(), hedge_below_hedge);
+
+		return events;
+	}
+
+	std::vector<DCEL::hedge*> make_down_events(const DCEL& D)
+	{
+		std::vector<DCEL::hedge*> events;
+
+		for (auto& h : D.half_edges)
+		{
+			if (!up_edge(h))
+			{ events.push_back(h); }
+		}
+
+		std::sort(events.begin(), events.end(), hedge_below_hedge);
+
+		return events;
+	}
+
 	std::map<DCEL::hedge*, unsigned> make_index_map(const DCEL& D)
 	{
 		std::map<DCEL::hedge*, unsigned> map;
