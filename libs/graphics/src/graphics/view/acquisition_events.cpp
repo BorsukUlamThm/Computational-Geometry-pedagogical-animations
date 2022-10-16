@@ -1,6 +1,7 @@
 #include "graphics/view/Acquisition_canvas.h"
 #include "graphics/model/acquisitions/Point_acq.h"
 #include "graphics/model/acquisitions/Segment_acq.h"
+#include "graphics/model/acquisitions/Polygon_acq.h"
 
 
 namespace graphics
@@ -89,12 +90,12 @@ namespace graphics
 				break;
 
 			case SEGMENT_ACQ2:
-				Point_shp p = *(std::dynamic_pointer_cast<Point_shp>
-						(current_shapes.get_last_shape()));
-
 				current_shapes.erase_last_shape();
 				current_shapes.add_segment
-						(p.get_abscissa(), p.get_ordinate(),
+						(std::dynamic_pointer_cast<Segment_acq>
+								 (buffer[index])->get_tmp_origin_x(),
+						 std::dynamic_pointer_cast<Segment_acq>
+								 (buffer[index])->get_tmp_origin_y(),
 						 x, y,
 						 std::dynamic_pointer_cast<Segment_acq>
 								 (buffer[index])->get_line_color(),
@@ -104,9 +105,36 @@ namespace graphics
 				std::dynamic_pointer_cast<Segment_acq>
 						(buffer[index])->add_destination(x, y);
 
-				state = SEGMENT_ACQ1;
 				nb_acquired_shapes++;
 				set_next_state();
+				break;
+
+			case POLYGON_ACQ1:
+				current_shapes.add_point
+						(x, y,
+						 std::dynamic_pointer_cast<Polygon_acq>
+								 (buffer[index])->get_vertices_color());
+
+				std::dynamic_pointer_cast<Polygon_acq>
+						(buffer[index])->add_vertex(x, y);
+
+				state = POLYGON_ACQ2;
+				break;
+
+			case POLYGON_ACQ2:
+				current_shapes.add_segment
+						(std::dynamic_pointer_cast<Polygon_acq>
+								 (buffer[index])->get_last_vertex_x(),
+						 std::dynamic_pointer_cast<Polygon_acq>
+								 (buffer[index])->get_last_vertex_y(),
+						 x, y,
+						 std::dynamic_pointer_cast<Polygon_acq>
+								 (buffer[index])->get_edges_color(),
+						 std::dynamic_pointer_cast<Polygon_acq>
+								 (buffer[index])->get_vertices_color());
+
+				std::dynamic_pointer_cast<Polygon_acq>
+						(buffer[index])->add_vertex(x, y);
 				break;
 		}
 	}
@@ -116,6 +144,29 @@ namespace graphics
 		switch (event.key.code)
 		{
 			case sf::Keyboard::Enter:
+				if (state == POLYGON_ACQ2)
+				{
+					current_shapes.add_segment
+							(std::dynamic_pointer_cast<Polygon_acq>
+									 (buffer[index])->get_first_vertex_x(),
+							 std::dynamic_pointer_cast<Polygon_acq>
+									 (buffer[index])->get_first_vertex_y(),
+							 std::dynamic_pointer_cast<Polygon_acq>
+									 (buffer[index])->get_last_vertex_x(),
+							 std::dynamic_pointer_cast<Polygon_acq>
+									 (buffer[index])->get_last_vertex_y(),
+							 std::dynamic_pointer_cast<Polygon_acq>
+									 (buffer[index])->get_edges_color(),
+							 std::dynamic_pointer_cast<Polygon_acq>
+									 (buffer[index])->get_vertices_color());
+
+					std::dynamic_pointer_cast<Polygon_acq>
+							(buffer[index])->add_buffer();
+					nb_acquired_shapes++;
+					set_next_state();
+					break;
+				}
+
 				if (index >= buffer.size())
 				{ break; }
 				if (buffer[index]->get_nb_acquisitions() < -1 &&

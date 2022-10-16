@@ -48,7 +48,35 @@ namespace graphics
 				   const Coordinate& rad);
 	};
 
-	typedef std::vector<Point_obj> Polygon_obj;
+	struct Polygon_obj : Geometric_object
+	{
+		typedef std::vector<Point_obj> Vertices;
+
+		Vertices vertices {};
+
+		Polygon_obj() = default;
+
+		const Point_obj& operator[](unsigned i) const
+		{ return vertices[i]; }
+		Point_obj& operator[](unsigned i)
+		{ return vertices[i]; }
+		unsigned size() const
+		{ return vertices.size(); }
+
+		void push_back(const Point_obj& point)
+		{ vertices.push_back(point); }
+		void emplace_back(const Coordinate& x,
+						  const Coordinate& y)
+		{ vertices.emplace_back(x, y); }
+		void clear()
+		{ vertices.clear(); }
+
+		Vertices::const_iterator begin() const
+		{ return vertices.begin(); }
+		Vertices::const_iterator end() const
+		{ return vertices.end(); }
+	};
+
 
 	struct Line_obj : Geometric_object
 	{

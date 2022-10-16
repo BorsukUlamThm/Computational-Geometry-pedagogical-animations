@@ -22,6 +22,12 @@ namespace graphics
 	Color Segment_acq::get_endpoints_color() const
 	{ return endpoints_color; }
 
+	Coordinate Segment_acq::get_tmp_origin_x() const
+	{ return tmp_origin_x; }
+
+	Coordinate Segment_acq::get_tmp_origin_y() const
+	{ return tmp_origin_y; }
+
 	void Segment_acq::add_segment(const Coordinate& ogn_x,
 								  const Coordinate& ogn_y,
 								  const Coordinate& dst_x,

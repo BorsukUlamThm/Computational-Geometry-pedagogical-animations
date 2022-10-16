@@ -32,6 +32,9 @@ namespace graphics
 		void add_segment_acquisition(unsigned nb_segments = -1,
 									 Color line_col = DEFAULT_SHAPE_COLOR,
 									 Color endpoints_col = DEFAULT_SHAPE_COLOR);
+		void add_polygon_acquisition(unsigned nb_polygons = -1,
+									 Color edges_col = DEFAULT_SHAPE_COLOR,
+									 Color vertices_col = DEFAULT_SHAPE_COLOR);
 
 		Acquisitions acquire_buffer();
 

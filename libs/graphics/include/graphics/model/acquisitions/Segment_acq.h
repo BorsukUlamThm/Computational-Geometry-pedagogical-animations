@@ -27,6 +27,9 @@ namespace graphics
 		Color get_line_color() const;
 		Color get_endpoints_color() const;
 
+		Coordinate get_tmp_origin_x() const;
+		Coordinate get_tmp_origin_y() const;
+
 		void add_segment(const Coordinate& ogn_x,
 						 const Coordinate& ogn_y,
 						 const Coordinate& dst_x,

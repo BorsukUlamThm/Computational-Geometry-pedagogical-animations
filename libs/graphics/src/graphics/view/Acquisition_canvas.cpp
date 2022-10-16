@@ -1,6 +1,7 @@
 #include "graphics/view/Acquisition_canvas.h"
 #include "graphics/model/acquisitions/Point_acq.h"
 #include "graphics/model/acquisitions/Segment_acq.h"
+#include "graphics/model/acquisitions/Polygon_acq.h"
 
 
 namespace graphics
@@ -9,9 +10,8 @@ namespace graphics
 												   Color col,
 												   float rad)
 	{
-		auto point_acq = std::make_shared<Point_acq>(nb_points,
-													 col,
-													 rad);
+		auto point_acq = std::make_shared<Point_acq>
+				(nb_points, col, rad);
 		buffer.push_back(point_acq);
 	}
 
@@ -19,10 +19,18 @@ namespace graphics
 													 Color line_col,
 													 Color endpoints_col)
 	{
-		auto segment_acq = std::make_shared<Segment_acq>(nb_segments,
-														 line_col,
-														 endpoints_col);
+		auto segment_acq = std::make_shared<Segment_acq>
+				(nb_segments, line_col, endpoints_col);
 		buffer.push_back(segment_acq);
+	}
+
+	void Acquisition_canvas::add_polygon_acquisition(unsigned nb_polygons,
+													 Color edges_col,
+													 Color vertices_col)
+	{
+		auto polygon_acq = std::make_shared<Polygon_acq>
+				(nb_polygons, edges_col, vertices_col);
+		buffer.push_back(polygon_acq);
 	}
 
 	Acquisitions Acquisition_canvas::acquire_buffer()

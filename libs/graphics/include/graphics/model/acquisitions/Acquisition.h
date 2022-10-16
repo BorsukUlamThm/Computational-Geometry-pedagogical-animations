@@ -12,6 +12,8 @@ namespace graphics
 		POINT_ACQ1,
 		SEGMENT_ACQ1,
 		SEGMENT_ACQ2,
+		POLYGON_ACQ1,
+		POLYGON_ACQ2,
 		END_ACQ
 	};
 
