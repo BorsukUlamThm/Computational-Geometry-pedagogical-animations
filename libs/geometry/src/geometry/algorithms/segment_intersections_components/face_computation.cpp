@@ -92,8 +92,6 @@ namespace geometry::segment_intersections_components
 	{
 		std::vector<link> links;
 
-		std::cout << D << std::endl;
-
 		std::vector<DCEL::hedge*> up_events = make_up_events(D);
 		std::vector<DCEL::hedge*> down_events = make_down_events(D);
 		tree T;
