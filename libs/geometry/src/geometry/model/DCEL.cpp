@@ -36,6 +36,21 @@ namespace geometry
 			inc_edge(inc_edge)
 	{}
 
+	unsigned DCEL::vertex::degree() const
+	{
+		unsigned d = 0;
+		hedge* h = inc_edge;
+
+		do
+		{
+			d++;
+			h = h->prev->twin;
+		}
+		while (h != inc_edge);
+
+		return d;
+	}
+
 	DCEL::hedge::hedge(vertex* origin,
 					   hedge* prev,
 					   hedge* next,
@@ -109,6 +124,7 @@ namespace geometry
 	bool DCEL::faces_check()
 	{
 		bool valid = true;
+		unsigned nb_unbounded_faces = 0;
 
 		for (unsigned i = 0; i < faces.size(); ++i)
 		{
@@ -128,6 +144,9 @@ namespace geometry
 				}
 				while (h != faces[i]->outer_comp);
 			}
+			else
+			{ nb_unbounded_faces++; }
+
 			for (hedge* it : faces[i]->inner_comp)
 			{
 				hedge* h = it;
@@ -144,6 +163,14 @@ namespace geometry
 				}
 				while (h != it);
 			}
+		}
+
+		if (nb_unbounded_faces != 1)
+		{
+			std::cerr << "Invalid DCEL found " << nb_unbounded_faces
+					  << " unbounded faces instead of only one"
+					  << std::endl;
+			valid = false;
 		}
 
 		return valid;
@@ -187,6 +214,19 @@ namespace geometry
 		vertices.clear();
 		half_edges.clear();
 		faces.clear();
+	}
+
+	DCEL::face* DCEL::get_unbounded_face() const
+	{
+		for (auto& f : faces)
+		{
+			if (f->outer_comp == nullptr)
+			{
+				return f;
+			}
+		}
+
+		return nullptr;
 	}
 
 	DCEL::mark_t DCEL::get_new_mark()

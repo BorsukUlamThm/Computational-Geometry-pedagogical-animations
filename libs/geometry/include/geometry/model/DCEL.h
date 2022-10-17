@@ -41,6 +41,8 @@ namespace geometry
 		bool is_valid(unsigned mask = ALL_CHECK);
 		void clear();
 
+		face* get_unbounded_face() const;
+
 		mark_t get_new_mark();
 		void free_mark(mark_t m);
 
@@ -77,6 +79,8 @@ namespace geometry
 			   const real& y,
 			   hedge* inc_edge = nullptr);
 		~vertex() = default;
+
+		unsigned degree() const;
 	};
 
 	struct DCEL::hedge : public DCEL::component

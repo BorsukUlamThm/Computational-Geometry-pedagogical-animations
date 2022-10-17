@@ -7,21 +7,19 @@ namespace geometry
 {
 	real::real(int n) :
 			val(n)
-	{
-		make_approx();
-	}
+	{ make_approx(); }
 
 	real::real(int num, int den) :
 			val(rational(num, den))
-	{
-		make_approx();
-	}
+	{ make_approx(); }
+
+	real::real(float x) :
+			val(int(x))
+	{ make_approx(); }
 
 	real::real(rational x) :
 			val(std::move(x))
-	{
-		make_approx();
-	}
+	{ make_approx(); }
 
 	int real::sign() const
 	{

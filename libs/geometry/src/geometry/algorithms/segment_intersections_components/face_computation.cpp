@@ -58,10 +58,10 @@ namespace geometry::segment_intersections_components
 
 		if (h->is_marked(leftmost))
 		{
-			point_2 p(t->origin->x, t->origin->y);
+			point_2 p(h->origin->x, h->origin->y);
 			hedge* helper = T.left_neighbour(p);
 
-			links.emplace_back(t, helper);
+			links.emplace_back(h, helper);
 		}
 
 		T.set_comparison_just_above();
@@ -91,6 +91,8 @@ namespace geometry::segment_intersections_components
 								 DCEL::mark_t leftmost)
 	{
 		std::vector<link> links;
+
+		std::cout << D << std::endl;
 
 		std::vector<DCEL::hedge*> up_events = make_up_events(D);
 		std::vector<DCEL::hedge*> down_events = make_down_events(D);

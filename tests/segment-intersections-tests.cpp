@@ -56,11 +56,11 @@ int main()
 	//					   s.destination.abscissa, s.destination.ordinate);
 	//	}
 
-	//	std::vector<geo::segment_2> S =
-	//			geo::load_segment_2_set("saved_inputs/si_test_2");
+	std::vector<geo::segment_2> S =
+			geo::load_segment_2_set("saved_inputs/si_bigbug");
 
-	geo::Number_generator ng;
-	std::vector<geo::segment_2> S = ng.random_segment_2_set(20);
+	//	geo::Number_generator ng;
+	//	std::vector<geo::segment_2> S = ng.random_segment_2_set(20);
 
 	geo::save_segment_2_set("log/tests/segment_intersections_tests", S);
 	geo::DCEL D = segment_intersections(S);
@@ -81,8 +81,19 @@ int main()
 
 		animation[0].add_half_edge(x1, y1, x2, y2);
 	}
-
 	animation.make_new_frame();
+
+	for (auto& f : D.faces)
+	{
+		animation[1].clear();
+		plot_face(animation[1], f);
+		animation.make_new_frame();
+	}
+	animation[1].clear();
+
+	gr::Animation_canvas canvas_1;
+	canvas_1.run_animation(animation);
+	return 0;
 
 	//	for (auto& v : D.vertices)
 	//	{
@@ -92,6 +103,8 @@ int main()
 	//		fig.add_point(x, y, gr::RED);
 	//	}
 
+	//	auto L = geo::segment_intersections_components::compute_faces(D);
+	//
 	//	for (auto& l : L)
 	//	{
 	//		gr::Coordinate xl(l.leftmost->origin->x);
@@ -102,23 +115,43 @@ int main()
 	//			gr::Coordinate xh(l.helper->origin->x);
 	//			gr::Coordinate yh(l.helper->origin->y);
 	//
-	//			fig.add_segment(xl, yl, xh, yh, gr::RED);
+	//			animation[0].add_segment(xl, yl, xh, yh, gr::RED);
 	//		}
 	//		else
 	//		{
-	//			fig.add_point(xl, yl, gr::RED);
+	//			animation[0].add_point(xl, yl, gr::RED);
 	//		}
 	//	}
-
-	for (auto& f : D.faces)
-	{
-		animation[1].clear();
-		plot_face(animation[1], f);
-		animation.make_new_frame();
-	}
-
-	gr::Animation_canvas canvas_1;
-	canvas_1.run_animation(animation);
-
-	return 0;
+	//	animation.make_new_frame();
+	//
+	//	for (auto& h : D.half_edges)
+	//	{
+	//		gr::Coordinate x1(h->origin->x);
+	//		gr::Coordinate y1(h->origin->y);
+	//		gr::Coordinate x2(h->twin->origin->x);
+	//		gr::Coordinate y2(h->twin->origin->y);
+	//
+	//		if (h->is_marked(1))
+	//		{
+	//			animation[0].add_half_edge(x1, y1, x2, y2, gr::BLUE);
+	//		}
+	//		if (h->is_marked(2))
+	//		{
+	//			animation[0].add_half_edge(x1, y1, x2, y2, gr::GREEN);
+	//		}
+	//		if (h->is_marked(4))
+	//		{
+	//			animation[0].add_half_edge(x1, y1, x2, y2, gr::RED);
+	//		}
+	//	}
+	//	animation.make_new_frame();
+	//
+	//	gr::Animation_canvas canvas_1;
+	//	canvas_1.run_animation(animation);
+	//
+	//	std::cout << "D is " <<
+	//			  (D.is_valid() ? "" : "NOT ")
+	//			  << "valid" << std::endl;
+	//
+	//	return 0;
 }

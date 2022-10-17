@@ -21,6 +21,7 @@ namespace geometry
 		real() = default;
 		real(int n);
 		real(int num, int den);
+		real(float x);
 		real(rational  x);
 
 		int sign() const;
