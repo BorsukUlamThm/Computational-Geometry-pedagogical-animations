@@ -37,8 +37,10 @@ namespace geometry
 			INTERSECTION_CHECK = 8,
 			ALL_CHECK = 15, // last one * 2 - 1
 		};
-
 		bool is_valid(unsigned mask = ALL_CHECK);
+
+		void add_diagonal(vertex* v1,
+						  vertex* v2); //doesn't handle the new created face !!
 		void clear();
 
 		face* get_unbounded_face() const;
@@ -81,6 +83,8 @@ namespace geometry
 		~vertex() = default;
 
 		unsigned degree() const;
+		void add_to_figure(gr::Figure& fig,
+						   gr::Color col = gr::DEFAULT_SHAPE_COLOR);
 	};
 
 	struct DCEL::hedge : public DCEL::component
@@ -98,6 +102,9 @@ namespace geometry
 			  hedge* twin,
 			  face* inc_face);
 		~hedge() = default;
+
+		void add_to_figure(gr::Figure& fig,
+						   gr::Color col = gr::DEFAULT_SHAPE_COLOR);
 	};
 
 	struct DCEL::face : public DCEL::component

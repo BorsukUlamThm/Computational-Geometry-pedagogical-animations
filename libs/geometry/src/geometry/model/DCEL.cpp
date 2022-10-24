@@ -1,6 +1,7 @@
 #include "geometry/model/DCEL.h"
 #include "geometry/model/serialization.h"
 #include "geometry/algorithms/segment_intersections.h"
+#include "geometry/utils/point_comparisons.h"
 #include <iostream>
 #include <map>
 
@@ -51,6 +52,15 @@ namespace geometry
 		return d;
 	}
 
+	void DCEL::vertex::add_to_figure(gr::Figure& fig,
+									 gr::Color col)
+	{
+		gr::Coordinate vx(x);
+		gr::Coordinate vy(y);
+
+		fig.add_point(vx, vy, col);
+	}
+
 	DCEL::hedge::hedge(vertex* origin,
 					   hedge* prev,
 					   hedge* next,
@@ -62,6 +72,16 @@ namespace geometry
 			twin(twin),
 			inc_face(inc_face)
 	{}
+
+	void DCEL::hedge::add_to_figure(gr::Figure& fig,
+									gr::Color col)
+	{
+		gr::Coordinate ogn_x(origin->x);
+		gr::Coordinate ogn_y(origin->y);
+		gr::Coordinate dst_x(twin->origin->x);
+		gr::Coordinate dst_y(twin->origin->y);
+		fig.add_half_edge(ogn_x, ogn_y, dst_x, dst_y, col);
+	}
 
 	DCEL::face::face(std::vector<hedge*> inner_comp,
 					 hedge* outer_comp) :
@@ -200,6 +220,84 @@ namespace geometry
 		return valid;
 	}
 
+	DCEL::hedge* left_neighbour(DCEL::vertex* ogn,
+								DCEL::vertex* dst,
+								DCEL::hedge* left_inc)
+	{
+		DCEL::hedge* it = left_inc;
+		DCEL::hedge* next = it->twin->next;
+
+		while (point_left_line(next->twin->origin, ogn, dst) &&
+			   point_right_line(next->twin->origin, it))
+		{
+			it = next;
+			next = next->twin->next;
+		}
+
+		return it;
+	}
+
+	DCEL::hedge* right_neighbour(DCEL::vertex* ogn,
+								 DCEL::vertex* dst,
+								 DCEL::hedge* right_inc)
+	{
+		DCEL::hedge* it = right_inc;
+		DCEL::hedge* next = it->prev->twin;
+
+		while (point_right_line(next->twin->origin, ogn, dst) &&
+			   point_left_line(next->twin->origin, it))
+		{
+			it = next;
+			next = next->prev->twin;
+		}
+
+		return it;
+	}
+
+	DCEL::hedge* right_neighbour(DCEL::vertex* ogn,
+								 DCEL::vertex* dst)
+	{
+		if(ogn->degree() == 1)
+		{
+			return ogn->inc_edge;
+		}
+
+		if (point_right_line(ogn->inc_edge->twin->origin, ogn, dst))
+		{
+			return right_neighbour(ogn, dst, ogn->inc_edge);
+		}
+		DCEL::hedge* left = left_neighbour(ogn, dst, ogn->inc_edge);
+		return left->twin->next;
+	}
+
+	void DCEL::add_diagonal(DCEL::vertex* v1,
+							DCEL::vertex* v2)
+	{
+		auto* h12 = new hedge();
+		auto* h21 = new hedge();
+
+		h12->origin = v1;
+		h21->origin = v2;
+		h12->twin = h21;
+		h21->twin = h12;
+
+		hedge* right1 = right_neighbour(v1, v2);
+		hedge* right2 = right_neighbour(v2, v1);
+
+		h12->prev = right1->prev;
+		h12->next = right2;
+		h21->prev = right2->prev;
+		h21->next = right1;
+
+		h12->prev->next = h12;
+		h12->next->prev = h12;
+		h21->prev->next = h21;
+		h21->next->prev = h21;
+
+		half_edges.push_back(h12);
+		half_edges.push_back(h21);
+	}
+
 	void DCEL::clear()
 	{
 		for (auto& ptr : vertices)
@@ -305,7 +403,14 @@ namespace geometry
 
 	void DCEL::add_to_figure(gr::Figure& fig)
 	{
-
+		for (auto& h : half_edges)
+		{
+			h->add_to_figure(fig);
+		}
+		for (auto& v : vertices)
+		{
+			v->add_to_figure(fig);
+		}
 	}
 
 	std::ostream& operator<<(std::ostream& os,

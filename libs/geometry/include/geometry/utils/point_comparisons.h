@@ -66,12 +66,36 @@ namespace geometry
 						 const point_2& l1,
 						 const point_2& l2);
 	/*!
+	 * @return true if v lies on the left of line containing l1 and l2, oriented
+	 * from l1 to l2
+	 */
+	bool point_left_line(DCEL::vertex* v,
+						 DCEL::vertex* l1,
+						 DCEL::vertex* l2);
+	/*!
+	 * @return true if v lies on the left of line containing h oriented by h
+	 */
+	bool point_left_line(DCEL::vertex* v,
+						 DCEL::hedge* h);
+	/*!
 	 * @return true if p lies on the right of line containing l1 and l2,
 	 * oriented from l1 to l2
 	 */
 	bool point_right_line(const point_2& p,
 						  const point_2& l1,
 						  const point_2& l2);
+	/*!
+	 * @return true if v lies on the right of line containing l1 and l2,
+	 * oriented from l1 to l2
+	 */
+	bool point_right_line(DCEL::vertex* v,
+						 DCEL::vertex* l1,
+						 DCEL::vertex* l2);
+	/*!
+	 * @return true if v lies on the right of line containing h oriented by h
+	 */
+	bool point_right_line(DCEL::vertex* v,
+						  DCEL::hedge* h);
 	/*!
 	 * @return true if p lies on the left of line containing l1 and l2, oriented
 	 * from l1 to l2, and does not lie on this line
