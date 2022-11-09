@@ -25,23 +25,23 @@ namespace Other_stuff_english_workshop
 
 	complex f1(complex z)
 	{
-		return z / 3.0f;
+		return z / 2.0f;
 	}
 
 	complex f2(complex z)
 	{
-		return z / 3.0f + 2.0f / 3.0f;
+		return z / 2.0f + 1.0f / 2.0f;
 	}
 
 	complex f3(complex z)
 	{
-		return z / 3.0f + std::exp(i * pi / 3.0f) * 2.0f / 3.0f;
+		return z / 2.0f + std::exp(i * pi / 3.0f) / 2.0f;
 	}
 
-	compact iterations(gr::Animation& animation)
+	compact iterations(gr::Animation& animation, bool colors)
 	{
-		std::random_device rd;  // Will be used to obtain a seed for the random number engine
-		std::mt19937 gen(rd()); // Standard mersenne_twister_engine seeded with rd()
+		std::random_device rd;
+		std::mt19937 gen(rd());
 		std::uniform_real_distribution<> dis(0., 1.0);
 		complex z0(dis(gen), dis(gen));
 
@@ -52,14 +52,25 @@ namespace Other_stuff_english_workshop
 		unsigned max_iter = 50;
 		for (unsigned k = 0; k < max_iter; ++k)
 		{
-			if (K.size() > 10000)
+			if (K.size() > 100000)
 			{ break; }
 
-			for (auto& z : K)
+			for (unsigned j = 0; j < K.size(); ++j)
 			{
-				auto x = gr::Coordinate(z.real());
-				auto y = gr::Coordinate(z.imag());
-				animation[SIERPINSKI].add_point(x, y);
+				auto col = gr::DEFAULT_SHAPE_COLOR;
+				if (colors)
+				{
+					if (j % 3 == 0)
+					{ col = gr::RED; }
+					else if (j % 3 == 1)
+					{ col = gr::BLUE; }
+					else
+					{ col = gr::YELLOW; }
+				}
+
+				auto x = gr::Coordinate(K[j].real());
+				auto y = gr::Coordinate(K[j].imag());
+				animation[SIERPINSKI].add_point(x, y, col);
 			}
 			animation.make_new_frame();
 			animation[SIERPINSKI].clear();
@@ -94,9 +105,9 @@ namespace Other_stuff_english_workshop
 		}
 	}
 
-	void ifs()
+	void ifs(bool colors)
 	{
-		while(true)
+		while (true)
 		{
 			gr::Animation animation(NB_FIGS);
 			animation[AXIS].add_point(0, 0, gr::BACKGROUND_COLOR);
@@ -104,7 +115,7 @@ namespace Other_stuff_english_workshop
 			animation[AXIS].add_vertical_line(0);
 			animation[AXIS].add_horizontal_line(0);
 
-			compact K = iterations(animation);
+			compact K = iterations(animation, colors);
 
 			gr::Animation_canvas canvas;
 			canvas.run_animation(animation);
@@ -117,7 +128,7 @@ int main(int argc, char** argv)
 	using namespace Other_stuff_english_workshop;
 
 	if (argc > 1 && argv[1] == std::string("???"))
-	{ ifs(); }
+	{ ifs(argc > 2 && argv[2] == std::string("-color")); }
 	else
 	{ iterated_f2(); }
 
