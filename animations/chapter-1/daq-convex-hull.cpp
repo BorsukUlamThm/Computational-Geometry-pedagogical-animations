@@ -139,6 +139,14 @@ namespace chap1_daq_convex_hull
 		}
 	};
 
+	struct right_left_comp
+	{
+		bool operator()(const point& p, const point& q)
+		{
+			return geo::point_right_point(p, q);
+		}
+	};
+
 	half_hull upper_merge(half_hull& UH1,
 						  half_hull& UH2,
 						  gr::Animation& animation)
@@ -154,7 +162,8 @@ namespace chap1_daq_convex_hull
 						  half_hull& LH2,
 						  gr::Animation& animation)
 	{
-		LH1.merge(LH2, geo::point_right_point);
+		right_left_comp cmp;
+		LH1.merge(LH2, cmp);
 		make_convex(LH1, animation);
 
 		return LH1;
