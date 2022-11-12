@@ -3,6 +3,7 @@
 #include "geometry/model/point_2.h"
 #include "geometry/model/segment_2.h"
 #include "graphics/model/Figure.h"
+#include "graphics/model/Animation.h"
 #include <vector>
 #include <iostream>
 
@@ -53,6 +54,7 @@ namespace geometry
 		void delete_face(face* f);
 
 		void add_to_figure(gr::Figure& fig);
+		gr::Animation display_faces();
 
 	private:
 		bool vertices_check();
@@ -116,6 +118,9 @@ namespace geometry
 		face(std::vector<hedge*> inner_comp,
 			 hedge* outer_comp);
 		~face() = default;
+
+		void add_to_figure(gr::Figure& fig,
+						   gr::Color col = gr::DEFAULT_SHAPE_COLOR);
 	};
 
 	std::ostream& operator<<(std::ostream& os,

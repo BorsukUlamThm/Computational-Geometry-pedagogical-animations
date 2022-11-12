@@ -59,6 +59,15 @@ void test(const std::string& file)
 	test(D2, D2.vertices[nb_vertices - 2], D2.vertices[nb_vertices - 1]);
 }
 
+void test4(const std::string& file)
+{
+	DCEL D1 = geo::load_DCEL(file);
+	unsigned nb_vertices = D1.vertices.size();
+	test(D1, D1.vertices[nb_vertices - 1], D1.vertices[nb_vertices - 2]);
+	test(D1, D1.vertices[nb_vertices - 1], D1.vertices[nb_vertices - 3]);
+
+}
+
 int main()
 {
 	std::cout << "test 1 ..." << std::endl;
@@ -71,5 +80,9 @@ int main()
 
 	std::cout << "test 3 ..." << std::endl;
 	test("unit_test_input/add_diagonal_test3");
+	std::cout << std::endl;
+
+	std::cout << "test 4 ..." << std::endl;
+	test4("unit_test_input/add_diagonal_test4");
 	std::cout << std::endl;
 }

@@ -89,6 +89,32 @@ namespace geometry
 			outer_comp(outer_comp)
 	{}
 
+	void DCEL::face::add_to_figure(gr::Figure& fig,
+								   gr::Color col)
+	{
+		if (outer_comp)
+		{
+			hedge* it = outer_comp;
+			do
+			{
+				it->add_to_figure(fig, col);
+				it = it->next;
+			}
+			while (it != outer_comp);
+		}
+
+		for (auto& h : inner_comp)
+		{
+			hedge* it = h;
+			do
+			{
+				it->add_to_figure(fig, col);
+				it = it->next;
+			}
+			while (it != h);
+		}
+	}
+
 	bool DCEL::vertices_check()
 	{
 		bool valid = true;
@@ -257,7 +283,7 @@ namespace geometry
 	DCEL::hedge* right_neighbour(DCEL::vertex* ogn,
 								 DCEL::vertex* dst)
 	{
-		if(ogn->degree() == 1)
+		if (ogn->degree() == 1)
 		{
 			return ogn->inc_edge;
 		}
@@ -367,6 +393,7 @@ namespace geometry
 			{
 				delete *it;
 				vertices.erase(it);
+				return;
 			}
 		}
 	}
@@ -382,6 +409,7 @@ namespace geometry
 			{
 				delete *it;
 				half_edges.erase(it);
+				return;
 			}
 		}
 	}
@@ -397,6 +425,7 @@ namespace geometry
 			{
 				delete *it;
 				faces.erase(it);
+				return;
 			}
 		}
 	}
@@ -411,6 +440,22 @@ namespace geometry
 		{
 			v->add_to_figure(fig);
 		}
+	}
+
+	gr::Animation DCEL::display_faces()
+	{
+		gr::Animation animation(2);
+		add_to_figure(animation[0]);
+		animation.make_new_frame();
+
+		for(auto& f : faces)
+		{
+			f->add_to_figure(animation[1], gr::RED);
+			animation.make_new_frame();
+			animation[1].clear();
+		}
+
+		return animation;
 	}
 
 	std::ostream& operator<<(std::ostream& os,

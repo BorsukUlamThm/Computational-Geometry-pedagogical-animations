@@ -24,12 +24,28 @@ namespace geometry
 		return p.y < q.y;
 	}
 
+	bool point_below_point(DCEL::vertex* v1,
+						   DCEL::vertex* v2)
+	{
+		if (v1->y == v2->y)
+		{ return v1->x >= v2->x; }
+		return v1->y < v2->y;
+	}
+
 	bool point_above_point(const point_2& p,
 						   const point_2& q)
 	{
 		if (p.y == q.y)
 		{ return p.x <= q.x; }
 		return p.y > q.y;
+	}
+
+	bool point_above_point(DCEL::vertex* v1,
+						   DCEL::vertex* v2)
+	{
+		if (v1->y == v2->y)
+		{ return v1->x <= v2->x; }
+		return v1->y > v2->y;
 	}
 
 	bool point_left_point(const point_2& p,
@@ -58,6 +74,14 @@ namespace geometry
 		if (p.x == q.x)
 		{ return p.y <= q.y; }
 		return p.x > q.x;
+	}
+
+	bool point_right_point(DCEL::vertex* v1,
+						   DCEL::vertex* v2)
+	{
+		if (v1->x == v2->x)
+		{ return v1->y <= v2->y; }
+		return v1->x > v2->x;
 	}
 
 	bool point_on_line(const point_2& p,

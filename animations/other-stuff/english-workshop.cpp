@@ -80,7 +80,6 @@ namespace Other_stuff_english_workshop
 
     complex p1(complex z)
     {
-        //return (z + std::exp((2.0f * i * pi) / 5.0f)) / 2.0f;
         return (z + std::exp((3.0f * i * pi) / 5.0f)) / 2.0f;
     }
 

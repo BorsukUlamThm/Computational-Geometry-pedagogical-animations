@@ -14,11 +14,23 @@ namespace geometry
 	bool point_below_point(const point_2& p,
 						   const point_2& q);
 	/*!
+	 * @return true if v1 is below v2. If they have the same y coordinate, the
+	 * right point is considered to be below
+	 */
+	bool point_below_point(DCEL::vertex* v1,
+						   DCEL::vertex* v2);
+	/*!
 	 * @return true if p is above q. If they have the same y coordinate, the
 	 * left point is considered to be below
 	 */
 	bool point_above_point(const point_2& p,
 						   const point_2& q);
+	/*!
+	 * @return true if v1 is above v2. If they have the same y coordinate, the
+	 * left point is considered to be below
+	 */
+	bool point_above_point(DCEL::vertex* v1,
+						   DCEL::vertex* v2);
 	/*!
 	 * @return true if p is on the left of q. If they have the same x
 	 * coordinate, the upper point is considered to be on the left
@@ -43,6 +55,12 @@ namespace geometry
 	 */
 	bool point_right_point(const point_2& p,
 						   const point_2& q);
+	/*!
+	 * @return true if v1 is on the right of v2. If they have the same x
+	 * coordinate, the lower point is considered to be on the right
+	 */
+	bool point_right_point(DCEL::vertex* v1,
+						   DCEL::vertex* v2);
 
 	/*!
 	 * A determinant whose sign allows to determine whether or not the point
