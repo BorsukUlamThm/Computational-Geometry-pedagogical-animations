@@ -63,32 +63,29 @@ namespace polygon_triangulation
 		return types;
 	}
 
-	void plot_types(const DCEL& D,
-					const type_marks& types,
-					gr::Animation& animation)
+	void plot_type(vertex* v,
+				   const type_marks& types,
+				   gr::Animation& animation)
 	{
-		for (auto& v : D.vertices)
-		{
-			gr::Coordinate x(v->x);
-			gr::Coordinate y(v->y);
-			gr::Point_shp p(x, y);
-			std::string name;
+		gr::Coordinate x(v->x);
+		gr::Coordinate y(v->y);
+		gr::Point_shp p(x, y);
+		std::string name;
 
-			if (v->is_marked(types.start))
-			{ name = "start"; }
-			else if (v->is_marked(types.end))
-			{ name = "end"; }
-			else if (v->is_marked(types.split))
-			{ name = "split"; }
-			else if (v->is_marked(types.merge))
-			{ name = "merge"; }
-			else if (v->is_marked(types.regular))
-			{ name = "regular"; }
-			else
-			{ name = "TYPE NOT FOUND !!!"; }
+		if (v->is_marked(types.start))
+		{ name = "start"; }
+		else if (v->is_marked(types.end))
+		{ name = "end"; }
+		else if (v->is_marked(types.split))
+		{ name = "split"; }
+		else if (v->is_marked(types.merge))
+		{ name = "merge"; }
+		else if (v->is_marked(types.regular))
+		{ name = "regular"; }
+		else
+		{ name = "TYPE NOT FOUND !!!"; }
 
-			animation[TYPES].add_text(name, p, 16, gr::YELLOW);
-		}
+		animation[TYPES].add_text(name, p, 16, gr::YELLOW);
 	}
 
 	bool tree::compare(hedge* const& h1,
@@ -289,7 +286,6 @@ namespace polygon_triangulation
 									 gr::Animation& animation)
 	{
 		type_marks types = make_type_map(D);
-		plot_types(D, types, animation);
 		animation.make_new_frame();
 
 		tree T;
@@ -302,6 +298,7 @@ namespace polygon_triangulation
 		{
 			animation[LINE].clear();
 			animation[LINE].add_horizontal_line(gr::Coordinate(v->y));
+			plot_type(v, types, animation);
 			animation.make_new_frame();
 
 			if (v->is_marked(types.start))
@@ -316,6 +313,9 @@ namespace polygon_triangulation
 			{ handle_regular_vertex(v, types, T, helpers, diags, animation); }
 			else
 			{ std::cerr << "TYPE NOT FOUND"; }
+
+			if (!v->is_marked(types.merge))
+			{ animation[TYPES].erase_last_shape(); }
 		}
 
 		animation[TYPES].clear();
