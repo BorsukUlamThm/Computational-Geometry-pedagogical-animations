@@ -26,8 +26,12 @@ namespace graphics
 
 	void Animation_canvas::run_animation(Animation& animation)
 	{
-		animation.get_ith_frame(0).make_bounding_box();
+		for (unsigned i = 0; i < animation.nb_frames(); ++i)
+		{ animation.get_ith_frame(i).make_bounding_box(); }
 		bounding_box = animation.get_ith_frame(0).get_bounding_box();
+		for (unsigned i = 0; i < animation.nb_frames(); ++i)
+		{ bounding_box.extend(animation.get_ith_frame(i).get_bounding_box()); }
+
 		nb_frames = animation.nb_frames();
 		reset_zoom_and_offsets();
 
