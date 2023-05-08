@@ -1,0 +1,13 @@
+# Format :
+# Chaque fonction peut se définir de deux manières
+
+# soit avec des paramètres r theta x y
+# qui donnent l'opération r exp(i theta) z + x + iy
+
+0.5 0 0 0
+0.5 0 0.5 0
+0.5 0 0.25 0.43301270189
+
+# soit avec une matrice carrée a b c d et un offset x y
+# qui donnent l'opération (a b) (ux) + (x)
+#                         (c d) (uy)   (y)
