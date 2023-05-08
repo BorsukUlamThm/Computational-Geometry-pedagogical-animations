@@ -56,12 +56,11 @@ namespace graphics
 				break;
 
 			case sf::Keyboard::Up:
-				frame_time = (frame_time > 1 ? frame_time / 2 : frame_time);
+				speed_up();
 				break;
 
 			case sf::Keyboard::Down:
-				frame_time = (frame_time < unsigned(-1) / 2 ?
-							  frame_time * 2 : frame_time);
+				slow_down();
 				break;
 
 			case sf::Keyboard::Right:

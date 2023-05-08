@@ -27,6 +27,8 @@ namespace graphics
 		Animation_canvas() = default;
 		~Animation_canvas() = default;
 
+		void speed_up();
+		void slow_down();
 		void display_figure(Figure& figure);
 		void run_animation(Animation& animation);
 

@@ -8,6 +8,17 @@
 
 namespace graphics
 {
+	void Animation_canvas::speed_up()
+	{
+		frame_time = (frame_time > 1 ? frame_time / 2 : frame_time);
+	}
+
+	void Animation_canvas::slow_down()
+	{
+		frame_time = (frame_time < unsigned(-1) / 2 ?
+					  frame_time * 2 : frame_time);
+	}
+
 	void Animation_canvas::display_figure(Figure& figure)
 	{
 		figure.make_bounding_box();
