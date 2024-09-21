@@ -5,6 +5,30 @@
 
 namespace geometry
 {
+	integer str_to_integer(const std::string& str)
+	{
+		integer n = 0;
+
+		unsigned i = 0;
+		integer sgn = 1;
+		if (str[0] == '-')
+		{
+			sgn = -1;
+			++i;
+		}
+
+
+		for (; i < str.size(); ++i)
+		{
+			integer digit = str[i] - '0';
+			n += digit;
+			n *= 10;
+		}
+		n /= 10;
+
+		return sgn * n;
+	}
+
 	std::istream& operator>>(std::istream& is,
 							 number& x)
 	{
@@ -28,8 +52,8 @@ namespace geometry
 			den = str.substr(i + 1, str.size() - i - 1);
 		}
 
-		number::integer p = std::stoi(num);
-		number::integer q = std::stoi(den);
+		integer p = str_to_integer(num);
+		integer q = str_to_integer(den);
 		x = number(p) / number(q);
 
 		return is;
@@ -62,7 +86,7 @@ namespace geometry
 
 		for (unsigned i = 0; i < n; ++i)
 		{
-			points.template emplace_back();
+			points.emplace_back();
 			is >> points.back();
 		}
 
@@ -78,7 +102,7 @@ namespace geometry
 
 		for (unsigned i = 0; i < n; ++i)
 		{
-			segments.template emplace_back();
+			segments.emplace_back();
 			is >> segments.back();
 		}
 

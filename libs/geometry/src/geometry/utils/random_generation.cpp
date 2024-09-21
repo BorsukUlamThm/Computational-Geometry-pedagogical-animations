@@ -12,7 +12,7 @@ namespace geometry
 										 const dist_number& sup)
 	{
 		dist_number a = distribution(generator);
-		return number(number::integer(inf + a * (sup - inf)));
+		return {integer(inf + a * (sup - inf))};
 	}
 
 	point_2 Number_generator::random_point_2()

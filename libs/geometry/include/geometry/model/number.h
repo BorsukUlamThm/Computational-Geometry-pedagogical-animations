@@ -1,7 +1,6 @@
 #pragma once
 
-#include <boost/rational.hpp>
-#include <boost/multiprecision/cpp_int.hpp>
+#include "geometry/utils/algebra.h"
 #include "graphics/model/global_variables.h"
 
 
@@ -13,10 +12,6 @@ namespace geometry
 	{
 		// Rational field for now
 		// We will try to make the field of constructible numbers
-
-		typedef boost::multiprecision::cpp_int integer;
-		typedef boost::rational<integer> rational;
-		typedef float approx_t;
 
 		rational val {};
 
