@@ -11,6 +11,9 @@ namespace geometry
 {
 	struct number
 	{
+		// Rational field for now
+		// We will try to make the field of constructible numbers
+
 		typedef boost::multiprecision::cpp_int integer;
 		typedef boost::rational<integer> rational;
 		typedef float approx_t;
