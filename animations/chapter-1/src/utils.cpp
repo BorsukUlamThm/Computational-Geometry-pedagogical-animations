@@ -141,8 +141,8 @@ namespace convex_hull_utils
 			point_set P;
 			for (auto& p : acquisitions[0]->get_objects<gr::Point_obj>())
 			{
-				P.emplace_back(geo::real(p.abscissa),
-							   geo::real(p.ordinate));
+				P.emplace_back(geo::number(p.abscissa),
+							   geo::number(p.ordinate));
 			}
 
 			return P;

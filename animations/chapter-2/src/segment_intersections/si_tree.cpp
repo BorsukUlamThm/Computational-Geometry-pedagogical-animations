@@ -35,10 +35,10 @@ namespace segment_intersections
 			return true;
 		}
 
-		geo::real xi = (S[i].p1.y == S[i].p2.y ?
-						event_p.x : geo::x_intersection(S[i], event_p.y));
-		geo::real xj = (S[j].p1.y == S[j].p2.y ?
-						event_p.x : geo::x_intersection(S[j], event_p.y));
+		geo::number xi = (S[i].p1.y == S[i].p2.y ?
+						  event_p.x : geo::x_intersection(S[i], event_p.y));
+		geo::number xj = (S[j].p1.y == S[j].p2.y ?
+						  event_p.x : geo::x_intersection(S[j], event_p.y));
 		if (xi == xj)
 		{
 			point center(xi, event_p.y);
@@ -79,7 +79,7 @@ namespace segment_intersections
 		if (node == nullptr)
 		{ return candidate == nullptr ? -1 : candidate->root; }
 
-		geo::real x = geo::x_intersection(S[node->root], p.y);
+		geo::number x = geo::x_intersection(S[node->root], p.y);
 		if (p.x < x)
 		{
 			return aux_left_neighbour(p, node->left, candidate);
@@ -94,7 +94,7 @@ namespace segment_intersections
 		if (node == nullptr)
 		{ return candidate == nullptr ? -1 : candidate->root; }
 
-		geo::real x = geo::x_intersection(S[node->root], p.y);
+		geo::number x = geo::x_intersection(S[node->root], p.y);
 		if (p.x < x)
 		{
 			return aux_right_neighbour(p, node->left, node);

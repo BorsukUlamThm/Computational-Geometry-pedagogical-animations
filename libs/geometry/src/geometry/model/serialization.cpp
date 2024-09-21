@@ -6,7 +6,7 @@
 namespace geometry
 {
 	std::istream& operator>>(std::istream& is,
-							 real& x)
+							 number& x)
 	{
 		std::string str;
 		is >> str;
@@ -28,9 +28,9 @@ namespace geometry
 			den = str.substr(i + 1, str.size() - i - 1);
 		}
 
-		real::integer p = std::stoi(num);
-		real::integer q = std::stoi(den);
-		x = real(p) / real(q);
+		number::integer p = std::stoi(num);
+		number::integer q = std::stoi(den);
+		x = number(p) / number(q);
 
 		return is;
 	}
@@ -131,7 +131,7 @@ namespace geometry
 	}
 
 	std::ostream& operator<<(std::ostream& os,
-							 const real& x)
+							 const number& x)
 	{
 		if (x.val.denominator() == 1)
 		{

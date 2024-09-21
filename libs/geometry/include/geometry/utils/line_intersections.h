@@ -13,8 +13,8 @@ namespace geometry
 						 const segment_2& s2);
 	point_2 line_intersection(const segment_2& s1,
 							  const segment_2& s2);
-	real x_intersection(const segment_2& s,
-						const real& y);
+	number x_intersection(const segment_2& s,
+						  const number& y);
 
 	bool hedges_intersect(DCEL::hedge* h1,
 						  DCEL::hedge* h2);
@@ -24,6 +24,6 @@ namespace geometry
 								   DCEL::hedge* h2);
 	point_2 line_intersection(DCEL::hedge* h1,
 							  DCEL::hedge* h2);
-	real x_intersection(DCEL::hedge* h,
-						const real& y);
+	number x_intersection(DCEL::hedge* h,
+						  const number& y);
 }

@@ -31,10 +31,10 @@ namespace geometry::segment_intersections_components
 		point_2 h2p1(h2->origin->x, h2->origin->y);
 		point_2 h2p2(h2->twin->origin->x, h2->twin->origin->y);
 
-		real x1 = (h1p1.y == h1p2.y ?
-				   event_p.x : x_intersection(h1, event_p.y));
-		real x2 = (h2p1.y == h2p2.y ?
-				   event_p.x : x_intersection(h2, event_p.y));
+		number x1 = (h1p1.y == h1p2.y ?
+					 event_p.x : x_intersection(h1, event_p.y));
+		number x2 = (h2p1.y == h2p2.y ?
+					 event_p.x : x_intersection(h2, event_p.y));
 		if (x1 == x2)
 		{
 			point_2 center(x1, event_p.y);
@@ -116,7 +116,7 @@ namespace geometry::segment_intersections_components
 		if (node == nullptr)
 		{ return candidate == nullptr ? nullptr : candidate->root; }
 
-		real x = x_intersection(node->root, p.y);
+		number x = x_intersection(node->root, p.y);
 		if (p.x <= x)
 		{
 			return aux_left_neighbour(p, node->left, candidate);
@@ -131,7 +131,7 @@ namespace geometry::segment_intersections_components
 		if (node == nullptr)
 		{ return candidate == nullptr ? nullptr : candidate->root; }
 
-		real x = x_intersection(node->root, p.y);
+		number x = x_intersection(node->root, p.y);
 		if (p.x < x)
 		{
 			return aux_right_neighbour(p, node->left, node);

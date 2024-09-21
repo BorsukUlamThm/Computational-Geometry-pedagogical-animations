@@ -10,10 +10,10 @@ namespace geometry
 	bool segment_intersect(const segment_2& s1,
 						   const segment_2& s2)
 	{
-		real a = orientation_det(s1.p1, s1.p2, s2.p1) *
-				 orientation_det(s1.p1, s1.p2, s2.p2);
-		real b = orientation_det(s2.p1, s2.p2, s1.p1) *
-				 orientation_det(s2.p1, s2.p2, s1.p2);
+		number a = orientation_det(s1.p1, s1.p2, s2.p1) *
+				   orientation_det(s1.p1, s1.p2, s2.p2);
+		number b = orientation_det(s2.p1, s2.p2, s1.p1) *
+				   orientation_det(s2.p1, s2.p2, s1.p2);
 		return a <= 0 && b <= 0;
 	}
 
@@ -27,8 +27,8 @@ namespace geometry
 		point_2 p = {-(s1.p2 - s1.p1).y, (s1.p2 - s1.p1).x};
 		p = s1.p2 + p;
 
-		real a = orientation_det(s1.p2, p, s2.p1);
-		real b = orientation_det(s1.p2, p, s2.p2);
+		number a = orientation_det(s1.p2, p, s2.p1);
+		number b = orientation_det(s1.p2, p, s2.p2);
 		return a * b < 0;
 	}
 
@@ -36,22 +36,22 @@ namespace geometry
 							  const segment_2& s2)
 	{
 		point_2 v1 = s1.p2 - s1.p1;
-		real a1 = v1.y;
-		real b1 = -v1.x;
-		real c1 = a1 * s1.p1.x + b1 * s1.p1.y;
+		number a1 = v1.y;
+		number b1 = -v1.x;
+		number c1 = a1 * s1.p1.x + b1 * s1.p1.y;
 
 		point_2 v2 = s2.p2 - s2.p1;
-		real a2 = v2.y;
-		real b2 = -v2.x;
-		real c2 = a2 * s2.p1.x + b2 * s2.p1.y;
+		number a2 = v2.y;
+		number b2 = -v2.x;
+		number c2 = a2 * s2.p1.x + b2 * s2.p1.y;
 
-		real x = (b2 * c1 - b1 * c2) / (a1 * b2 - a2 * b1);
-		real y = (a2 * c1 - a1 * c2) / (a2 * b1 - a1 * b2);
+		number x = (b2 * c1 - b1 * c2) / (a1 * b2 - a2 * b1);
+		number y = (a2 * c1 - a1 * c2) / (a2 * b1 - a1 * b2);
 		return {x, y};
 	}
 
-	real x_intersection(const segment_2& s,
-						const real& y)
+	number x_intersection(const segment_2& s,
+						  const number& y)
 	{
 		if (s.p1.y == s.p2.y)
 		{
@@ -64,9 +64,9 @@ namespace geometry
 			return std::min(s.p1.x, s.p2.x);
 		}
 
-		real a = s.p2.y - s.p1.y;
-		real b = s.p1.x - s.p2.x;
-		real c = -(a * s.p1.x + b * s.p1.y);
+		number a = s.p2.y - s.p1.y;
+		number b = s.p1.x - s.p2.x;
+		number c = -(a * s.p1.x + b * s.p1.y);
 		return -(c + b * y) / a;
 	}
 
@@ -129,8 +129,8 @@ namespace geometry
 		return line_intersection(s1, s2);
 	}
 
-	real x_intersection(DCEL::hedge* h,
-						const real& y)
+	number x_intersection(DCEL::hedge* h,
+						  const number& y)
 	{
 		segment_2 s(h->origin->x, h->origin->y,
 					h->twin->origin->x, h->twin->origin->y);

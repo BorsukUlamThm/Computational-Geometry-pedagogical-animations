@@ -74,13 +74,13 @@ namespace geometry
 
 	struct DCEL::vertex : public DCEL::component
 	{
-		real x;
-		real y;
+		number x;
+		number y;
 		hedge* inc_edge = nullptr;
 
 		vertex() = default;
-		vertex(const real& x,
-			   const real& y,
+		vertex(const number& x,
+			   const number& y,
 			   hedge* inc_edge = nullptr);
 		~vertex() = default;
 

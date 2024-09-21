@@ -30,8 +30,8 @@ namespace geometry
 		/**
 		 * @return a number following a normal distribution on [inf, sup]
 		 */
-		real next_number(const dist_number& inf = -50,
-						 const dist_number& sup = 50);
+		number next_number(const dist_number& inf = -50,
+						   const dist_number& sup = 50);
 
 		/*!
 		 * @return a random point

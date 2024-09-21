@@ -10,7 +10,7 @@
 namespace geometry
 {
 	std::istream& operator>>(std::istream& is,
-							 real& x);
+							 number& x);
 	std::istream& operator>>(std::istream& is,
 							 point_2& p);
 	std::istream& operator>>(std::istream& is,
@@ -46,7 +46,7 @@ namespace geometry
 	DCEL load_DCEL(const std::string& file);
 
 	std::ostream& operator<<(std::ostream& os,
-							 const real& x);
+							 const number& x);
 	std::ostream& operator<<(std::ostream& os,
 							 const point_2& p);
 	std::ostream& operator<<(std::ostream& os,

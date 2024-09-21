@@ -17,13 +17,13 @@ namespace geometry
 		segment_2() = default;
 		segment_2(const point_2& p1,
 				  const point_2& p2);
-		segment_2(const real& p1_x,
-				  const real& p1_y,
-				  const real& p2_x,
-				  const real& p2_y);
+		segment_2(const number& p1_x,
+				  const number& p1_y,
+				  const number& p2_x,
+				  const number& p2_y);
 		~segment_2() = default;
 
-		real squared_norm() const;
+		number squared_norm() const;
 	};
 
 	bool operator==(const segment_2& s1,

@@ -3,15 +3,15 @@
 
 namespace geometry
 {
-	real det(const point_2& p,
-			 const point_2& q)
+	number det(const point_2& p,
+			   const point_2& q)
 	{
 		return p.x * q.y - p.y * q.x;
 	}
 
-	real orientation_det(const point_2& p,
-						 const point_2& q,
-						 const point_2& r)
+	number orientation_det(const point_2& p,
+						   const point_2& q,
+						   const point_2& r)
 	{
 		return det(q, r) - det(p, r) + det(p, q);
 	}

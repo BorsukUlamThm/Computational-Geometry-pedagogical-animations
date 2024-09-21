@@ -3,13 +3,13 @@
 
 namespace geometry
 {
-	point_2::point_2(const real& x,
-					 const real& y) :
+	point_2::point_2(const number& x,
+					 const number& y) :
 			x(x),
 			y(y)
 	{}
 
-	real point_2::squared_norm() const
+	number point_2::squared_norm() const
 	{
 		return x * x + y * y;
 	}
@@ -44,7 +44,7 @@ namespace geometry
 		return {-p.x, -p.y};
 	}
 
-	point_2 operator*(real a,
+	point_2 operator*(const number& a,
 					  const point_2& p)
 	{
 		return {a * p.x, a * p.y};

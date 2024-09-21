@@ -141,10 +141,10 @@ namespace segment_intersections
 			segment_set S;
 			for (auto& s : acquisitions[0]->get_objects<gr::Segment_obj>())
 			{
-				S.emplace_back(geo::real(int(s.origin.abscissa)),
-							   geo::real(int(s.origin.ordinate)),
-							   geo::real(int(s.destination.abscissa)),
-							   geo::real(int(s.destination.ordinate)));
+				S.emplace_back(geo::number(int(s.origin.abscissa)),
+							   geo::number(int(s.origin.ordinate)),
+							   geo::number(int(s.destination.abscissa)),
+							   geo::number(int(s.destination.ordinate)));
 			}
 
 			return S;

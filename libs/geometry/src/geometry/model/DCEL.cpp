@@ -29,8 +29,8 @@ namespace geometry
 	bool DCEL::component::is_marked(mark_t m) const
 	{ return (marks & m) == m; }
 
-	DCEL::vertex::vertex(const real& x,
-						 const real& y,
+	DCEL::vertex::vertex(const number& x,
+						 const number& y,
 						 hedge* inc_edge) :
 			x(x),
 			y(y),

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "real.h"
+#include "number.h"
 
 
 namespace geometry
@@ -10,15 +10,15 @@ namespace geometry
 	 */
 	struct point_2
 	{
-		real x {};
-		real y {};
+		number x {};
+		number y {};
 
 		point_2() = default;
-		point_2(const real& x,
-				const real& y);
+		point_2(const number& x,
+				const number& y);
 		~point_2() = default;
 
-		real squared_norm() const;
+		number squared_norm() const;
 	};
 
 	bool operator==(const point_2& p,
@@ -31,6 +31,6 @@ namespace geometry
 	point_2 operator-(const point_2& p,
 					  const point_2& q);
 	point_2 operator-(const point_2& p);
-	point_2 operator*(real a,
+	point_2 operator*(const number& a,
 					  const point_2& p);
 }

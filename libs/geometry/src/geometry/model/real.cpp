@@ -1,27 +1,27 @@
-#include "geometry/model/real.h"
+#include "geometry/model/number.h"
 
 #include <utility>
 
 
 namespace geometry
 {
-	real::real(int n) :
+	number::number(int n) :
 			val(n)
-	{ make_approx(); }
+	{}
 
-	real::real(int num, int den) :
+	number::number(int num, int den) :
 			val(rational(num, den))
-	{ make_approx(); }
+	{}
 
-	real::real(float x) :
+	number::number(float x) :
 			val(int(x))
-	{ make_approx(); }
+	{}
 
-	real::real(rational x) :
+	number::number(rational x) :
 			val(std::move(x))
-	{ make_approx(); }
+	{}
 
-	int real::sign() const
+	int number::sign() const
 	{
 		if (val.numerator() == 0)
 		{
@@ -34,77 +34,72 @@ namespace geometry
 		return (val.denominator() > 0 ? -1 : 1);
 	}
 
-	void real::make_approx()
-	{
-		approx = boost::rational_cast<approx_t>(val);
-	}
-
-	real::operator gr::Coordinate() const
+	number::operator gr::Coordinate() const
 	{
 		return boost::rational_cast<gr::Coordinate>(val);
 	}
 
-	bool operator==(const real& x,
-					const real& y)
+	bool operator==(const number& x,
+					const number& y)
 	{
 		return x.val == y.val;
 	}
 
-	bool operator!=(const real& x,
-					const real& y)
+	bool operator!=(const number& x,
+					const number& y)
 	{
 		return x.val != y.val;
 	}
 
-	bool operator>=(const real& x,
-					const real& y)
+	bool operator>=(const number& x,
+					const number& y)
 	{
 		return x.val >= y.val;
 	}
 
-	bool operator<=(const real& x,
-					const real& y)
+	bool operator<=(const number& x,
+					const number& y)
 	{
 		return x.val <= y.val;
 	}
 
-	bool operator>(const real& x,
-				   const real& y)
+	bool operator>(const number& x,
+				   const number& y)
 	{
 		return x.val > y.val;
 	}
 
-	bool operator<(const real& x,
-				   const real& y)
+	bool operator<(const number& x,
+				   const number& y)
 	{
 		return x.val < y.val;
 	}
 
-	real operator+(const real& x,
-				   const real& y)
+	number operator+(const number& x,
+					 const number& y)
 	{
 		return {x.val + y.val};
 	}
 
-	real operator-(const real& x,
-				   const real& y)
+	number operator-(const number& x,
+					 const number& y)
 	{
 		return {x.val - y.val};
 	}
 
-	real operator-(const real& x)
+	number operator-(const number& x)
 	{
 		return {-x.val};
 	}
 
-	real operator*(const real& x,
-				   const real& y)
+	number operator*(const number& x,
+					 const number& y)
 	{
 		return {x.val * y.val};
 	}
 
-	real operator/(const real& x,
-				   const real& y)
+	number operator/(const number& x,
+					 const number& y)
 	{
 		return {x.val / y.val};
 	}

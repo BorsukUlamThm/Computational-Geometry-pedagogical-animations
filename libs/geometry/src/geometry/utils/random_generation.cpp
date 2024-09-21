@@ -8,17 +8,17 @@ namespace geometry
 			distribution(std::normal_distribution<dist_number>(0, 1))
 	{}
 
-	real Number_generator::next_number(const dist_number& inf,
-									   const dist_number& sup)
+	number Number_generator::next_number(const dist_number& inf,
+										 const dist_number& sup)
 	{
 		dist_number a = distribution(generator);
-		return real(real::integer(inf + a * (sup - inf)));
+		return number(number::integer(inf + a * (sup - inf)));
 	}
 
 	point_2 Number_generator::random_point_2()
 	{
-		real x = next_number();
-		real y = next_number();
+		number x = next_number();
+		number y = next_number();
 		return {x, y};
 	}
 
